@@ -12,7 +12,7 @@
 */
 
 /*Admin Routes*/
-	Route::get('admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
-	Route::post('admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
-	Route::get('dashboard', ['uses' => 'AdminController@getDashboard', 'middleware' => 'auth', 'as' => 'get-admin-dashboard']);
-	Route::get('logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
+Route::get('admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
+Route::post('admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
+Route::get('dashboard', ['uses' => 'AdminController@getDashboard', 'middleware' => 'auth', 'as' => 'get-admin-dashboard']);
+Route::get('logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
