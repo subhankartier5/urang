@@ -10,6 +10,7 @@ use Redirect;
 use App\Helper\NavBarHelper;
 use Hash;
 use App\Admin;
+use App\SiteConfig;
 
 class AdminController extends Controller
 {
@@ -80,7 +81,8 @@ class AdminController extends Controller
     public function getSettings() {
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
-        return view('admin.settings', compact('user_data'));
+        $site_details = SiteConfig::first();
+        return view('admin.settings', compact('user_data', 'site_details'));
     }
     public function postChangePassword(Request $request) {
         $id = Auth::user()->id;
@@ -108,5 +110,39 @@ class AdminController extends Controller
         {
             return redirect()->route('get-admin-settings')->with('error', 'Could not find your details try again later');
         }
+    }
+    public function postSiteSettings(Request $request) {
+        $site_config = SiteConfig::first();
+        if ($site_config) {
+            $site_config->site_title = $request->title;
+            $site_config->site_url = $request->url;
+            $site_config->site_email = $request->email;
+            $site_config->meta_keywords = rtrim($request->metakey);
+            $site_config->meta_description = rtrim($request->metades);
+            if ($site_config->save()) {
+               return redirect()->route('get-admin-settings')->with('success', 'site settings successfully updated');
+            }
+            else
+            {
+                return redirect()->route('get-admin-settings')->with('error', 'Could not set up site settings');
+            }
+        }
+        else
+        {
+            $site_config = new SiteConfig();
+            $site_config->site_title = $request->title;
+            $site_config->site_url = $request->url;
+            $site_config->site_email = $request->email;
+            $site_config->meta_keywords = rtrim($request->metakey);
+            $site_config->meta_description = rtrim($request->metades);
+            if ($site_config->save()) {
+                return redirect()->route('get-admin-settings')->with('success', 'site settings successfully updated');
+            }
+            else
+            {
+                return redirect()->route('get-admin-settings')->with('error', 'Could not set up site settings');
+            }
+        }
+        
     }
 }

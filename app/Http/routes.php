@@ -20,3 +20,4 @@ Route::get('profile-details', ['uses' => 'AdminController@getProfile', 'as' => '
 Route::post('profile-details', ['uses' => 'AdminController@postProfile', 'as' => 'post-admin-profile']);
 Route::get('settings', ['uses' => 'AdminController@getSettings', 'as' => 'get-admin-settings']);
 Route::post('change-password', ['uses' => 'AdminController@postChangePassword', 'as' => 'post-change-password']);
+Route::post('site-settings', ['uses' => 'AdminController@postSiteSettings', 'as' => 'post-site-settings']);

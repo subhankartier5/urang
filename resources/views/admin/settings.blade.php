@@ -67,26 +67,28 @@
 	                <div class="panel-body">
 	                    <div class="row">
 	                        <div class="col-lg-12">
-	                            <form role="form" method="post" action="#">
+	                            <form role="form" method="post" action="{{ route('post-site-settings') }}">
 	                                <div class="form-group">
 	                                    <label>Site Title:</label>
-	                                    <input class="form-control" type="text" name="title" value="#" />
+	                                    <input class="form-control" type="text" name="title" value="{{$site_details !=null && $site_details->site_title !=null ? $site_details->site_title : 'Website Title'}}" />
 	                                </div>
 	                                <div class="form-group">
 	                                    <label>Site URL:</label>
-	                                    <input class="form-control" type="text" name="url" value="#"/>
+	                                    <input class="form-control" type="text" name="url" value="{{$site_details !=null && $site_details->site_url !=null ? $site_details->site_url : 'Website url'}}"/>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label>Site Email:</label>
-	                                    <input class="form-control" type="email" name="email" required="" />
+	                                    <input class="form-control" type="email" name="email" required="" value="{{$site_details !=null && $site_details->site_email !=null ? $site_details->site_email : 'Website@domainname.com'}}" />
 	                                </div>
 	                               	<div class="form-group">
 	                                    <label>Meta Keywords:</label>
-	                                    <textarea class="form-control" name="meta-key"></textarea>
+	                                    <textarea class="form-control" name="metakey">{{$site_details !=null && $site_details->meta_keywords !=null ? $site_details->meta_keywords : 'meta keywords'}}
+	                                    </textarea>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label>Meta Description:</label>
-	                                    <textarea class="form-control" name="meta-des"></textarea>
+	                                    <textarea class="form-control" name="metades">{{$site_details !=null && $site_details->meta_description !=null ? $site_details->meta_description : 'meta description'}}
+	                                    </textarea>
 	                                </div>
 	                                <button type="submit" class="btn btn-outline btn-primary btn-lg btn-block">Change</button>
 	                                <input type="hidden" name="_token" value="{{ Session::token() }}"></input>
