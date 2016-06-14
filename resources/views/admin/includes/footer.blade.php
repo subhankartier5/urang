@@ -1,5 +1,32 @@
     <!-- jQuery -->
     <script src="{{url('/')}}/public/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#change_password').click(function(){
+                var password = $('#n_pass').val();
+                var conf_password = $('#confirm_password').val();
+                if (password && conf_password) 
+                {
+                    if (password == conf_password) 
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        $('#errorJs').show();
+                        $('#errorJs').html("<strong>"+"Error!"+"</strong>"+" Password and confirm password didnt match"+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+                        return false;
+                    }
+                }
+                else
+                {
+                    $('#errorJs').show();
+                    $('#errorJs').html("<strong>"+"Error!"+"</strong>"+" Password and confirm password could not be blank"+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+                    return false;
+                }
+            });
+        });
+    </script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{{url('/')}}/public/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

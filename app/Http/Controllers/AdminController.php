@@ -77,4 +77,36 @@ class AdminController extends Controller
             return redirect()->route('get-admin-profile')->with('error', 'Could not find your details try again later');
         }
     }
+    public function getSettings() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        return view('admin.settings', compact('user_data'));
+    }
+    public function postChangePassword(Request $request) {
+        $id = Auth::user()->id;
+        $password = $request->c_pass;
+        $updated_password = $request->confirm_password;
+        $search = Admin::find($id);
+        if ($search) {
+            if (Hash::check($password, $search->password)) {
+                //echo "do update";
+               $search->password = bcrypt($updated_password);
+               if ($search->save()) {
+                   return redirect()->route('get-admin-settings')->with('success', 'password successfully updated');
+                }
+                else
+                {
+                    return redirect()->route('get-admin-settings')->with('error', 'Cannot update your password right now tray again later');
+                }
+            }
+            else
+            {
+                return redirect()->route('get-admin-settings')->with('error', 'Password did not match with our record');
+            }
+        }
+        else
+        {
+            return redirect()->route('get-admin-settings')->with('error', 'Could not find your details try again later');
+        }
+    }
 }
