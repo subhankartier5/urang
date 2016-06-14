@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
+use App\Helper\NavBarHelper;
+use Hash;
+use App\Admin;
 
 class AdminController extends Controller
 {
@@ -34,11 +37,44 @@ class AdminController extends Controller
         }
     }
     public function getDashboard() {
-    	$user_data = Auth::user();
+    	$obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
     	return view('admin.dashboard', compact('user_data'));
     }
     public function logout() {
     	Auth::logout();
     	return redirect()->route('get-admin-login');
+    }
+    public function getProfile() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        return view('admin.admin-profile', compact('user_data'));
+    }
+    public function postProfile(Request $request) {
+        $id = Auth::user()->id;
+        $password = $request->password;
+        $search = Admin::find($id);
+        if ($search) {
+            if (Hash::check($request->user_password, $search->password)) {
+                $search->username = $request->user_name;
+                $search->email = $request->user_email;
+                if ($search->save()) {
+                   return redirect()->route('get-admin-profile')->with('success', 'records successfully updated');
+                }
+                else
+                {
+                    return redirect()->route('get-admin-profile')->with('error', 'Cannot update your details right now tray again later');
+                }
+
+            }
+            else
+            {
+                return redirect()->route('get-admin-profile')->with('error', 'Password did not match with our record');
+            }
+        }
+        else
+        {
+            return redirect()->route('get-admin-profile')->with('error', 'Could not find your details try again later');
+        }
     }
 }

@@ -41,7 +41,8 @@
                     <div class="panel-heading">
                         @if(Session::has('fail'))
                             <div class="alert alert-danger">
-                                <strong>Sorry!</strong> {{Session::get('fail')}}
+                                <strong><i class="icon-remove-sign"></i> Sorry!</strong> {{Session::get('fail')}}
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             </div>
                         @else
                         @endif

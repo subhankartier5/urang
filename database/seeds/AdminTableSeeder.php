@@ -13,6 +13,7 @@ class AdminTableSeeder extends Seeder
     public function run()
     {
         $admin =new Admin();
+        $admin->username = "Jon Vaughn";
         $admin->email = "jonvaughn@urang.com";
         $admin->password = bcrypt('123456');
         $admin->save();
