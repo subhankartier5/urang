@@ -83,7 +83,6 @@ class AdminController extends Controller
         return view('admin.settings', compact('user_data'));
     }
     public function postChangePassword(Request $request) {
-        hsdfgsdkfsgf
         $id = Auth::user()->id;
         $password = $request->c_pass;
         $updated_password = $request->confirm_password;
