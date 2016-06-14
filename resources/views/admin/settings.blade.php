@@ -11,7 +11,6 @@
 	        		</div>
 	        	@else
 	        	@endif
-
 	        	@if(Session::has('error'))
 	        		<div class="alert alert-danger">
 	        			<i class="fa fa-warning" aria-hidden="true"></i>

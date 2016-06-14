@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+/*landing page routes*/
+Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 
 /*Admin Routes*/
 Route::get('admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
