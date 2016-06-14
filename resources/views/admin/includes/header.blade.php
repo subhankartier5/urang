@@ -3,10 +3,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="{{ isset($site_details) && $site_details!=null && $site_details->meta_description!= null ? $site_details->meta_description : 'U-rang is the #1 dry cleaning services in New York'}}">
     <meta name="author" content="">
+    <meta name="keyword" content="{{ isset($site_details) && $site_details!=null && $site_details->meta_keywords!= null ? $site_details->meta_keywords : 'U-rang'}}">
 
-    <title>U-Rang</title>
+    <title>{{ isset($site_details) && $site_details!=null && $site_details->site_title!= null ? $site_details->site_title : 'U-rang'}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{url('/')}}/public/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

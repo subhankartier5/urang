@@ -40,7 +40,8 @@ class AdminController extends Controller
     public function getDashboard() {
     	$obj = new NavBarHelper();
         $user_data = $obj->getUserData();
-    	return view('admin.dashboard', compact('user_data'));
+        $site_details = $obj->siteData();
+    	return view('admin.dashboard', compact('user_data', 'site_details'));
     }
     public function logout() {
     	Auth::logout();
@@ -49,7 +50,8 @@ class AdminController extends Controller
     public function getProfile() {
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
-        return view('admin.admin-profile', compact('user_data'));
+        $site_details = $obj->siteData();
+        return view('admin.admin-profile', compact('user_data', 'site_details'));
     }
     public function postProfile(Request $request) {
         $id = Auth::user()->id;
