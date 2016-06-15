@@ -25,3 +25,5 @@ Route::post('change-password', ['uses' => 'AdminController@postChangePassword', 
 Route::post('site-settings', ['uses' => 'AdminController@postSiteSettings', 'as' => 'post-site-settings']);
 Route::get('neighborhood', ['uses' => 'AdminController@getNeighborhood', 'as' => 'get-neighborhood']);
 Route::post('neighborhood', ['uses' => 'AdminController@postNeighborhood', 'as' => 'postneighborhood' ]);
+Route::post('edit-neighborhood', ['uses' => 'AdminController@editNeighborhood', 'as' => 'editneighborhood']);
+Route::post('delete-neighborhood', ['uses' => 'AdminController@deleteNeighborhood', 'as' => 'postDeleteNeighborhood']);

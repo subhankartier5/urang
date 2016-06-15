@@ -152,10 +152,58 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $neighborhood = Neighborhood::with('admin')->paginate(10);
+        $neighborhood = Neighborhood::with('admin')->paginate(10);  
         return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
     }
     public function postNeighborhood(Request $request) {
-        echo 1;
+        $name = $request->name;
+        $description = $request->description;
+        $admin_id = Auth::user()->id;
+        $data = new Neighborhood();
+        $data->admin_id = $admin_id;
+        $data->name = $name;
+        $data->description = $description;
+        if ($data->save()) {
+           return $this->getNeighborhood();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function editNeighborhood(Request $request) {
+        $search = Neighborhood::find($request->id);
+        if ($search) {
+            $search->name = $request->name;
+            $search->description = $request->description;
+            if ($search->save()) {
+                return $this->getNeighborhood();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function deleteNeighborhood(Request $request) {
+        //return $request->id;
+        $search = Neighborhood::find($request->id);
+        if ($search) {
+            if ($search->delete()) {
+               return $this->getNeighborhood();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
