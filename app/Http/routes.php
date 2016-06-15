@@ -23,3 +23,5 @@ Route::post('profile-details', ['uses' => 'AdminController@postProfile', 'as' =>
 Route::get('settings', ['uses' => 'AdminController@getSettings', 'as' => 'get-admin-settings']);
 Route::post('change-password', ['uses' => 'AdminController@postChangePassword', 'as' => 'post-change-password']);
 Route::post('site-settings', ['uses' => 'AdminController@postSiteSettings', 'as' => 'post-site-settings']);
+Route::get('neighborhood', ['uses' => 'AdminController@getNeighborhood', 'as' => 'get-neighborhood']);
+Route::post('neighborhood', ['uses' => 'AdminController@postNeighborhood', 'as' => 'postneighborhood' ]);

@@ -50,7 +50,7 @@
                     <a href="#"><i class="fa fa-edit fa-fw"></i> Price List</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i> Neighborhood</a>
+                    <a href="{{ route('get-neighborhood') }}"><i class="fa fa-map-marker" aria-hidden="true"></i> Neighborhood</a>
                 </li>
             </ul>
         </div>

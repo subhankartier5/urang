@@ -11,6 +11,7 @@ use App\Helper\NavBarHelper;
 use Hash;
 use App\Admin;
 use App\SiteConfig;
+use App\Neighborhood;
 
 class AdminController extends Controller
 {
@@ -146,5 +147,15 @@ class AdminController extends Controller
             }
         }
         
+    }
+    public function getNeighborhood() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $neighborhood = Neighborhood::with('admin')->paginate(10);
+        return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
+    }
+    public function postNeighborhood(Request $request) {
+        echo 1;
     }
 }
