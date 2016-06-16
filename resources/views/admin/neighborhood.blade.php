@@ -35,9 +35,7 @@
 			                            		<td>{{$neighbor->id}}</td>
 			                            		<td>{{$neighbor->name}}</td>
 			                            		<td>{{$neighbor->description}}</td>
-			                            		@foreach($neighbor->admin as $admin)
-			                            			<td>{{$admin->username}}</td>
-			                            		@endforeach
+			                            		<td>{{$neighbor->admin->username}}</td>
 			                            		<td>{{ date("F jS Y",strtotime($neighbor->created_at->toDateString())) }}</td>
 			                            		<td><button type="button" id="edit_{{$neighbor->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
 			                            		<td><button type="button" id="del_{{$neighbor->id}}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>

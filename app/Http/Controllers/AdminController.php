@@ -12,6 +12,8 @@ use Hash;
 use App\Admin;
 use App\SiteConfig;
 use App\Neighborhood;
+use App\Categories;
+use App\PriceList;
 
 class AdminController extends Controller
 {
@@ -153,6 +155,7 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $neighborhood = Neighborhood::with('admin')->paginate(10);  
+        //dd($neighborhood);
         return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
     }
     public function postNeighborhood(Request $request) {
@@ -205,5 +208,14 @@ class AdminController extends Controller
         {
             return 0;
         }
+    }
+    public function getPriceList() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $priceList = PriceList::with('categories', 'admin')->paginate(10);
+        $categories = Categories::all();
+        //dd($);  
+        return view('admin.priceList', compact('user_data', 'site_details', 'priceList', 'categories'));
     }
 }

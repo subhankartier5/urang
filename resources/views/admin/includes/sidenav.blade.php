@@ -47,7 +47,7 @@
                     <a href="#"><i class="fa fa-table fa-fw"></i> Scheduled Pickup</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-edit fa-fw"></i> Price List</a>
+                    <a href="{{ route('getPriceList') }}"><i class="fa fa-edit fa-fw"></i> Price List</a>
                 </li>
                 <li>
                     <a href="{{ route('get-neighborhood') }}"><i class="fa fa-map-marker" aria-hidden="true"></i> Neighborhood</a>
