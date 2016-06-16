@@ -12,6 +12,10 @@
 	                <!-- /.panel-heading -->
 	                <div class="panel-body">
 	                    <div class="table-responsive table-bordered">
+	                    	<div style="background: transparent; display: none;" id="loaderBody" align="center">
+								<p>Please wait...</p>
+								<img src="{{url('/')}}/public/img/reload.gif">
+							</div>
 	                        <table class="table">
 	                            <thead>
 	                                <tr>
@@ -60,7 +64,6 @@
 	<!-- Modal for add  -->
 	<div id="myModal" class="modal fade" role="dialog">
 	  <div class="modal-dialog">
-
 	    <!-- Modal content-->
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -69,7 +72,11 @@
 	        <h4 class="modal-title">Add Neighborhood</h4>
 	      </div>
 	      <div class="modal-body">
-			<form role="form">
+	      	<div style="background: transparent; display: none;" id="loader" align="center">
+	      			<p>Please wait...</p>
+		        	<img src="{{url('/')}}/public/img/reload.gif">
+		    </div>
+			<form role="form" id="add-modal-form">
 			  <div class="form-group">
 			    <label for="name">Name</label>
 			    <input class="form-control" id="name" name="name" type="text" required="">
@@ -100,7 +107,11 @@
 	        <h4 class="modal-title">Edit Neighborhood</h4>
 	      </div>
 	      <div class="modal-body">
-			<form role="form">
+		      <div style="background: transparent; display: none;" id="loaderEdit" align="center">
+		      			<p>Please wait...</p>
+			        	<img src="{{url('/')}}/public/img/reload.gif">
+			  </div>
+			<form role="form" id="edit-modal-form">
 			  <div class="form-group">
 			    <label for="nameEdit">Name</label>
 			    <input class="form-control" id="nameEdit" name="nameEdit" type="text">
@@ -137,6 +148,8 @@
 				var name = $('#name').val();
 				var description = $('#description').val();
 				//console.log(name);
+				$('#add-modal-form').hide();
+				$('#loader').show();
 				$.ajax({
 					url: baseUrl+'/neighborhood',
 					type:"POST",
@@ -170,6 +183,8 @@
 				});
 				// delete neighborhood
 				$('#del_{{$neighbor->id}}').click(function(){
+					$('.table').hide();
+					$('#loaderBody').show();
 					$.ajax({
 						url: baseUrl+"/delete-neighborhood",
 						type: "POST",
@@ -201,6 +216,8 @@
 				var descriptionEdited = $('#descriptionEdit').val();
 				//console.log(descriptionEdited);
 				//console.log(baseUrl);
+				$('#edit-modal-form').hide();
+				$('#loaderEdit').show();
 				$.ajax({
 					url: baseUrl+'/edit-neighborhood',
 					type:"POST",
