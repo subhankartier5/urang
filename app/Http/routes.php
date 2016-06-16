@@ -28,3 +28,5 @@ Route::post('/neighborhood', ['uses' => 'AdminController@postNeighborhood', 'as'
 Route::post('/edit-neighborhood', ['uses' => 'AdminController@editNeighborhood', 'as' => 'editneighborhood']);
 Route::post('/delete-neighborhood', ['uses' => 'AdminController@deleteNeighborhood', 'as' => 'postDeleteNeighborhood']);
 Route::get('/price-list', ['uses' => 'AdminController@getPriceList' , 'as' => 'getPriceList']);
+Route::post('/price-list', ['uses' => 'AdminController@postPriceList', 'as' => 'postPriceList']);
+Route::post('/edit-price-list', ['uses' => 'AdminController@editPriceList', 'as' => 'PostEditPriceList']);

@@ -14,6 +14,7 @@ use App\SiteConfig;
 use App\Neighborhood;
 use App\Categories;
 use App\PriceList;
+use DB;
 
 class AdminController extends Controller
 {
@@ -215,7 +216,42 @@ class AdminController extends Controller
         $site_details = $obj->siteData();
         $priceList = PriceList::with('categories', 'admin')->paginate(10);
         $categories = Categories::all();
-        //dd($);  
         return view('admin.priceList', compact('user_data', 'site_details', 'priceList', 'categories'));
+    }
+    public function postPriceList(Request $request){
+        //return $request;
+        $item = new PriceList();
+        $item->admin_id = Auth::user()->id;
+        $item->category_id = $request->category;
+        $item->item = $request->item;
+        $item->price = $request->price;
+        if ($item->save()) {
+            $return = PriceList::with('categories', 'admin')->get();
+            return $return;
+        }
+        else
+        {
+            return 0;
+        }
+        
+    }
+    public function editPriceList(Request $request) {
+        $search = PriceList::find($request->id);
+        if ($search) {
+            $search->item = $request->name;
+            $search->price = $request->price;
+            if ($search->save()) {
+                //$return =  PriceList::with('categories', 'admin')->get();
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
