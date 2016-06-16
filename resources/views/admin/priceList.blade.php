@@ -178,6 +178,8 @@
 							if (data) 
 							{
 								location.reload();
+								$('#success').show();
+								$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Item successfully added! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
 							}
 							else
 							{
@@ -221,7 +223,7 @@
 							{
 								location.reload();
 								$('#success').show();
-								$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Item successfully added! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
+								$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Item successfully updated! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
 							}
 							else
 							{
