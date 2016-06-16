@@ -30,3 +30,4 @@ Route::post('/delete-neighborhood', ['uses' => 'AdminController@deleteNeighborho
 Route::get('/price-list', ['uses' => 'AdminController@getPriceList' , 'as' => 'getPriceList']);
 Route::post('/price-list', ['uses' => 'AdminController@postPriceList', 'as' => 'postPriceList']);
 Route::post('/edit-price-list', ['uses' => 'AdminController@editPriceList', 'as' => 'PostEditPriceList']);
+Route::post('/delete-price-item', ['uses' => 'AdminController@postDeleteItem', 'as' => 'postDeleteItem']);

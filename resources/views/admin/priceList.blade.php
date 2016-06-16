@@ -6,6 +6,7 @@
 	            <div class="panel panel-default">
 	                <div class="panel-heading">
 	                	<div class="alert alert-success" id="success" style="display: none;"></div>
+	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 	                   View Price List
 	                   <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_items"><i class="fa fa-plus" aria-hidden="true"></i> Add Items</button>
 	                </div>
@@ -176,12 +177,7 @@
 						success : function(data){
 							if (data) 
 							{
-								setTimeout(function(){
-        							$('#tablePriceList').append('<tr><td>'+data[0].id+'</td><td>'+data[0]['categories']['name']+'</td><td>'+data[0].item+'</td><td>'+data[0].price+'</td><td>'+data[0]['admin']['username']+'</td><td>'+data[0].created_at+'</td><td>'+'<button type="button" id="edit_'+data[0].id+'" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>'+'</td><td>'+'<button type="button" id="del_'+data[0].id+'" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>'+'</td></tr>')
-        							$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Item successfully added! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
-									$('#success').show();
-									$('#myModal').modal('hide');
-								}, 200);
+								location.reload();
 							}
 							else
 							{
@@ -239,6 +235,29 @@
 					$('#errorEdit').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Please fill out all the fields correctly');
 				}
 			});
+			//delete function
+			@foreach($priceList as $item)
+				$('#del_{{$item->id}}').click(function(){
+					var id = '{{$item->id}}';
+					$('.table').hide();
+					$('#loaderBody').show();
+					$.ajax({
+						url : baseUrl+'/delete-price-item',
+						type: "POST",
+						data: {id: id, _token:'{!! csrf_token() !!}'},
+						success: function(data) {
+							if (data) 
+							{
+								location.reload();
+							}
+							else
+							{
+								$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Could not be able to update your details now try again later');
+							}
+						}
+					});
+				});
+			@endforeach
 		});
 	</script>
 @endsection

@@ -254,4 +254,20 @@ class AdminController extends Controller
             return 0;
         }
     }
+    public function postDeleteItem(Request $request) {
+        $search = PriceList::find($request->id);
+        if ($search) {
+            if ($search->delete()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
