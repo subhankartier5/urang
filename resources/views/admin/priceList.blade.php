@@ -9,6 +9,7 @@
 	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 	                   View Price List
 	                   <button type="button" class="btn btn-primary btn-xs marginClass" id="add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</button>
+	                   <button type="button" class="btn btn-danger btn-xs marginClass" id="del_category" data-toggle="modal" data-target="#myModalDelCat"><i class="fa fa-trash" aria-hidden="true"></i> Delete Category</button>
 	                   <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_items"><i class="fa fa-plus" aria-hidden="true"></i> Add Items</button>
 	                </div>
 	                <!-- /.panel-heading -->
@@ -66,6 +67,56 @@
 	        </div>
 	        <!-- /.col-lg-6 -->
 	    </div>
+	</div>
+	<div id="myModalDelCat" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 style="color: red;" id="errorDelete"></h4>
+	        <h4 class="modal-title">Categories</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div style="background: transparent; display: none;" id="loaderCatDel" align="center">
+	      			<p>Please wait...</p>
+		        	<img src="{{url('/')}}/public/img/reload.gif">
+		    </div>
+			<table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category Name</th>
+                        <th>Image</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="tablePriceList">
+	                @if(count($categories) > 0)
+	                	@foreach($categories as $cat)
+	                		<tr>
+	                   			<td>{{$cat->id}}</td>
+	                   			<td>{{$cat->name}}</td>
+	                   			<td>{{$cat->image}}</td>
+	                   			<td><button type="button" id="delCat_{{$cat->id}}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
+                   			</tr>
+	                	@endforeach
+	                @else
+	                	<tr>
+	                		<td>
+	                			No Categories
+	                		</td>
+	                	</tr>
+	                @endif
+                </tbody>
+	        </table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+
+	  </div>
 	</div>
 	<!-- Modal for add  -->
 	<div id="myModal" class="modal fade" role="dialog">
@@ -231,14 +282,29 @@
 			});
 			//edit price item in database
 			@foreach($priceList as $item)
-				$('#edit_{{$item->id}}').click(function(){
-					//showing modal
-					$('#id').val('{{$item->id}}');
-					$('#categoryEdit').val('{{$item->categories->name}}');
-					$('#nameEdit').val('{{$item->item}}');
-					$('#priceEdit').val('{{$item->price}}');
-					$('#myModalEdit').modal('show');
-				});
+				@if (isset($item->categories) && $item->categories!=null) 
+				{
+					$('#edit_{{$item->id}}').click(function(){
+						//showing modal
+						$('#id').val('{{$item->id}}');
+						$('#categoryEdit').val('{{$item->categories->name}}');
+						$('#nameEdit').val('{{$item->item}}');
+						$('#priceEdit').val('{{$item->price}}');
+						$('#myModalEdit').modal('show');
+					});
+				}
+				@else 
+				{
+					$('#edit_{{$item->id}}').click(function(){
+						//showing modal
+						$('#id').val('{{$item->id}}');
+						$('#categoryEdit').val('No Categories');
+						$('#nameEdit').val('{{$item->item}}');
+						$('#priceEdit').val('{{$item->price}}');
+						$('#myModalEdit').modal('show');
+					});
+				}
+				@endif
 			@endforeach
 			//post Edit item in databse
 			$('#postEditItem').click(function(){
@@ -332,6 +398,36 @@
 					$('#errorCat').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' All fileds are mandetory ');
 				}
 			});
+			//del category
+			if ({{  count($categories) }} > 0) 
+			{
+				@foreach($categories as $cats)
+					$('#delCat_{{$cats->id}}').click(function(){
+						$('.table').hide();
+						$('#loaderCatDel').show();
+						$.ajax({
+							url: baseUrl+'/delete-category',
+							type: "POST",
+							data: {id: '{{$cats->id}}', _token: '{!!csrf_token()!!}'},
+							success: function(data){
+								if (data!=0) 
+								{
+									location.reload();
+								}
+								else
+								{
+									$('#errorDelete').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Cannot Delete this record try again later');
+								}
+							}
+						});
+					});
+				@endforeach
+			}
+			else
+			{
+				console.log('No categories');
+			}
+
 		});
 	</script>
 @endsection

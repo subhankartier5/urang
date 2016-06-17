@@ -216,6 +216,7 @@ class AdminController extends Controller
         $site_details = $obj->siteData();
         $priceList = PriceList::with('categories', 'admin')->paginate(10);
         $categories = Categories::all();
+        //dd(count($categories));
         return view('admin.priceList', compact('user_data', 'site_details', 'priceList', 'categories'));
     }
     public function postPriceList(Request $request){
@@ -275,6 +276,23 @@ class AdminController extends Controller
         $category->name = $request->name;
         if ($category->save()) {
             return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function postDeleteCategory(Request $request) {
+        $search = Categories::find($request->id);
+        if ($search) {
+            if ($search->delete()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
         else
         {
