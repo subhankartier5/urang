@@ -14,4 +14,9 @@ class MainController extends Controller
     	$site_details = $obj->siteData();
     	return view('pages.index', compact('site_details'));
     }
+    public function getLogin() {
+    	$obj = new NavBarHelper();
+    	$site_details = $obj->siteData();
+    	return view('pages.login', compact('site_details'));
+    }
 }
