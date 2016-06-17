@@ -153,13 +153,9 @@
 					type:"POST",
 					data: {name:name, description:description, _token: '{!! csrf_token() !!}'},
 					success: function(data) {
-						if (data) 
+						if (data!=0) 
 						{
-							window.setTimeout(function(){
-        						$('body').html(data);
-        						$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Neighborhood successfully added! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
-								$('#success').show();
-							}, 200);
+							location.reload();
 						}
 						else
 						{
@@ -188,13 +184,9 @@
 						type: "POST",
 						data: {id: '{{$neighbor->id}}', _token: '{!!csrf_token()!!}'},
 						success: function(data) {
-							if (data) 
+							if (data!=0) 
 							{
-								window.setTimeout(function(){
-	        						$('body').html(data);
-	        						$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Neighborhood successfully Deleted! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
-									$('#success').show();
-								}, 200);
+								location.reload();
 							}
 							else
 							{
@@ -221,13 +213,9 @@
 					type:"POST",
 					data: {id: id, name:nameEdited, description:descriptionEdited, _token: '{!! csrf_token() !!}'},
 					success: function(data) { 
-						if (data) 
+						if (data!=0) 
 						{
-							window.setTimeout(function(){
-        						$('body').html(data);
-        						$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Neighborhood successfully Updated! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
-								$('#success').show();
-							}, 200);
+							location.reload();
 						}
 						else
 						{

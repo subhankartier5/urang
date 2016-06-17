@@ -168,7 +168,7 @@ class AdminController extends Controller
         $data->name = $name;
         $data->description = $description;
         if ($data->save()) {
-           return $this->getNeighborhood();
+           return 1;
         }
         else
         {
@@ -181,7 +181,7 @@ class AdminController extends Controller
             $search->name = $request->name;
             $search->description = $request->description;
             if ($search->save()) {
-                return $this->getNeighborhood();
+                return 1;
             }
             else
             {
@@ -198,7 +198,7 @@ class AdminController extends Controller
         $search = Neighborhood::find($request->id);
         if ($search) {
             if ($search->delete()) {
-               return $this->getNeighborhood();
+               return 1;
             }
             else
             {
@@ -219,7 +219,6 @@ class AdminController extends Controller
         return view('admin.priceList', compact('user_data', 'site_details', 'priceList', 'categories'));
     }
     public function postPriceList(Request $request){
-        //return $request;
         $item = new PriceList();
         $item->admin_id = Auth::user()->id;
         $item->category_id = $request->category;
@@ -236,6 +235,7 @@ class AdminController extends Controller
         
     }
     public function editPriceList(Request $request) {
+        //return 0;
         $search = PriceList::find($request->id);
         if ($search) {
             $search->item = $request->name;
@@ -264,6 +264,17 @@ class AdminController extends Controller
             {
                 return 0;
             }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function postCategory(Request $request) {
+        $category = new Categories();
+        $category->name = $request->name;
+        if ($category->save()) {
+            return 1;
         }
         else
         {

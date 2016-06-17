@@ -8,6 +8,7 @@
 	                	<div class="alert alert-success" id="success" style="display: none;"></div>
 	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 	                   View Price List
+	                   <button type="button" class="btn btn-primary btn-xs marginClass" id="add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</button>
 	                   <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_items"><i class="fa fa-plus" aria-hidden="true"></i> Add Items</button>
 	                </div>
 	                <!-- /.panel-heading -->
@@ -152,6 +153,36 @@
 
 	  </div>
 	</div>
+	<!-- Modal for add catgory -->
+	<div id="myModalCat" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 style="color: red;" id="errorCat"></h4>
+	        <h4 class="modal-title">Add Category</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div style="background: transparent; display: none;" id="loaderCat" align="center">
+	      			<p>Please wait...</p>
+		        	<img src="{{url('/')}}/public/img/reload.gif">
+		    </div>
+			<form role="form" id="cat-modal-form">
+			  <div class="form-group">
+			    <label for="Catname">Category Name:</label>
+			    <input class="form-control" id="Catname" name="name" type="text" required="">
+			  </div>
+			  <div class="form-group">
+			  	<button type="button" class="btn btn-primary btn-lg btn-block" id="postCategory">Add Category</button>
+			  </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
@@ -175,7 +206,7 @@
 						type: "POST",
 						data: {category: category, item: item, price:price, _token: "{!! csrf_token() !!}"},
 						success : function(data){
-							if (data) 
+							if (data!=0) 
 							{
 								location.reload();
 								$('#success').show();
@@ -183,6 +214,9 @@
 							}
 							else
 							{
+								$('#loader').hide();
+								$('#add-modal-form').show();
+								$('#error').show();
 								$('#error').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Could not be able to save your details now try again later');
 							}
 						}
@@ -191,6 +225,7 @@
 				}
 				else
 				{
+					$('error').show();
 					$('#error').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Please fill out all the fields correctly');
 				}
 			});
@@ -219,7 +254,7 @@
 						type:"POST",
 						data: {id: id, name: name, price: price, _token:'{!!csrf_token()!!}'},
 						success: function(data) {
-							if (data) 
+							if (data!=0) 
 							{
 								location.reload();
 								$('#success').show();
@@ -227,6 +262,8 @@
 							}
 							else
 							{
+								$('#loaderEdit').hide();
+								$('#edit-modal-form').show();
 								$('#errorEdit').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Could not be able to update your details now try again later');
 							}
 						}
@@ -248,7 +285,7 @@
 						type: "POST",
 						data: {id: id, _token:'{!! csrf_token() !!}'},
 						success: function(data) {
-							if (data) 
+							if (data != 0) 
 							{
 								location.reload();
 							}
@@ -260,6 +297,41 @@
 					});
 				});
 			@endforeach
+			$('#add_category').click(function(){
+				$('#myModalCat').modal('show');
+			});
+			//save category in databse
+			$('#postCategory').click(function(){
+				var name = $('#Catname').val();
+				if ($.trim(name)) 
+				{
+					//console.log(name);
+					$('#loaderCat').show();
+					$('#cat-modal-form').hide();
+					$.ajax({
+						url: baseUrl+'/add-category',
+						type: "POST",
+						data: {name: name, _token: '{!! csrf_token() !!}'},
+						success: function(data) {
+							if (data != 0) 
+							{
+								//console.log(data)
+								location.reload();
+							}
+							else
+							{
+								$('#loaderCat').hide();
+								$('#cat-modal-form').show();
+								$('#errorCat').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Could not be able to save category');
+							}
+						}
+					});
+				}
+				else
+				{
+					$('#errorCat').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' All fileds are mandetory ');
+				}
+			});
 		});
 	</script>
 @endsection
