@@ -23,8 +23,8 @@
 	                            <thead>
 	                                <tr>
 	                                    <th>ID</th>
-	                                    <th>Name</th>
 	                                    <th>Email</th>
+	                                    <th>Name</th>
 	                                    <th>Phone</th>
 	                                    <th>Address</th>
 	                                    <th>Payment Status</th>
@@ -38,9 +38,9 @@
 		                            	@foreach($customers as $customer)
 			                            	<tr>
 			                            		<td>{{$customer->id}}</td>
+			                            		<td>{{$customer->email}}</td>
 			                            		@if($customer->user_details != null)
 			                            			<td>{{$customer->user_details->name}}</td>
-				                            		<td>{{$customer->email}}</td>
 				                            		<td>{{$customer->user_details->personal_ph}}</td>
 				                            		<td>{{$customer->user_details->address}}</td>
 				                            		<td>{{$customer->user_details->payment_status == 0 ? 'pending' : 'paid'}}</td>
