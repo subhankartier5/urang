@@ -38,7 +38,7 @@
                     <a href="{{ route('get-admin-dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
-                     <a href="#"><i class="fa fa-list" aria-hidden="true"></i> Customer Lists</a>
+                     <a href="{{route('getAllCustomers')}}"><i class="fa fa-list" aria-hidden="true"></i> Customer Lists</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-group" aria-hidden="true"></i> Customer Orders</a>

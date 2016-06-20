@@ -34,3 +34,4 @@ Route::post('/edit-price-list', ['uses' => 'AdminController@editPriceList', 'as'
 Route::post('/delete-price-item', ['uses' => 'AdminController@postDeleteItem', 'as' => 'postDeleteItem']);
 Route::post('/add-category', ['uses' => 'AdminController@postCategory', 'as' => 'postCategory']);
 Route::post('/delete-category', ['uses' => 'AdminController@postDeleteCategory', 'as' => 'postDeleteCategory']);
+Route::get('/customers', ['uses' => 'AdminController@getCustomers', 'as' => 'getAllCustomers']);

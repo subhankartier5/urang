@@ -15,6 +15,8 @@ use App\Neighborhood;
 use App\Categories;
 use App\PriceList;
 use DB;
+use App\User;
+use App\UserDetails;
 
 class AdminController extends Controller
 {
@@ -298,5 +300,12 @@ class AdminController extends Controller
         {
             return 0;
         }
+    }
+    public function getCustomers(){
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $customers = User::with('user_details')->paginate(10);
+        return view('admin.customers', compact('user_data', 'site_details', 'customers'));
     }
 }
