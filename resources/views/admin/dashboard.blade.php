@@ -18,7 +18,11 @@
                                 <i class="fa fa-comments fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
+                                @if(count($customers) > 0)
+                                    <div class="huge">{{count($customers)}}</div>
+                                @else
+                                    <div class="huge">0</div>
+                                @endif
                                 <div>Customers!</div>
                             </div>
                         </div>

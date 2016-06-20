@@ -35,3 +35,6 @@ Route::post('/delete-price-item', ['uses' => 'AdminController@postDeleteItem', '
 Route::post('/add-category', ['uses' => 'AdminController@postCategory', 'as' => 'postCategory']);
 Route::post('/delete-category', ['uses' => 'AdminController@postDeleteCategory', 'as' => 'postDeleteCategory']);
 Route::get('/customers', ['uses' => 'AdminController@getCustomers', 'as' => 'getAllCustomers']);
+Route::get('/add-customer', ['uses' => 'AdminController@getAddCustomer', 'as' => 'getAddCustomer']);
+Route::post('/block-user', ['uses' => 'AdminController@postBlockCustomer', 'as' => 'postBlockCustomer']);
+Route::post('/delete-user', ['uses' => 'AdminController@DeleteCustomer', 'as'=> 'postDeleteCustomer']);

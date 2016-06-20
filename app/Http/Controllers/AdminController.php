@@ -47,7 +47,8 @@ class AdminController extends Controller
     	$obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-    	return view('admin.dashboard', compact('user_data', 'site_details'));
+        $customers = User::with('user_details')->paginate(10);
+    	return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
     }
     public function logout() {
     	Auth::logout();
@@ -307,5 +308,59 @@ class AdminController extends Controller
         $site_details = $obj->siteData();
         $customers = User::with('user_details')->paginate(10);
         return view('admin.customers', compact('user_data', 'site_details', 'customers'));
+    }
+    public function getAddCustomer() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        return view('admin.addCustomers', compact('user_data', 'site_details'));
+    }
+    public function postBlockCustomer(Request $request) {
+        $id = $request->id;
+        $user = User::find($id);
+        if ($user && $user->block_status == 0) {
+            $user->block_status = 1;
+            if ($user->save()) {
+               return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        elseif($user && $user->block_status == 1)
+        {
+            $user->block_status = 0;
+            if ($user->save()) {
+               return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function DeleteCustomer(Request $request) {
+        $id = $request->id;
+        $user = User::find($id);
+        if ($user) {
+            if ($user->delete()) {
+                $user_details = UserDetails::where('user_id', $id)->first();
+                $user_details->delete();
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
