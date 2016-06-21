@@ -21,7 +21,7 @@
 								</div>
 								<div class="form-group">
 								    <label for="name">Customer Email</label>
-								    <input class="form-control" id="email" name="email" type="text" required="" value="{{$user->email}}">
+								    <input class="form-control" id="email" name="email" type="email" required="" value="{{$user->email}}">
 								</div>
 								<div class="form-group">
 								    <label for="name">Customer Address</label>
@@ -29,22 +29,22 @@
 								</div>
 								<div class="form-group">
 								    <label for="name">Personal Phone Number</label>
-								    <input class="form-control" id="pph_no" name="pph_no" type="text" required="" value="{{$user->user_details != null ? $user->user_details->personal_ph : 'No data Exist '}}">
+								    <input class="form-control" id="pph_no" name="pph_no" type="number" required="" value="{{$user->user_details != null ? $user->user_details->personal_ph : 'No data Exist '}}">
 								</div>
 								<div class="form-group">
-								    <label for="name">Cell Phone Number</label>
-								    <input class="form-control" id="cph_no" name="cph_no" type="text" value="{{$user->user_details != null ? $user->user_details->cell_phone : 'No data Exist '}}">
+								    <label for="name">Cell Phone Number (optional)</label>
+								    <input class="form-control" id="cph_no" name="cph_no" type="number" value="{{$user->user_details != null ? $user->user_details->cell_phone : 'No data Exist '}}">
 								</div>
 								<div class="form-group">
-								    <label for="name">Office Phone Number</label>
-								    <input class="form-control" id="oph_no" name="oph_no" type="text" value="{{$user->user_details != null ? $user->user_details->off_phone : 'No data Exist '}}">
+								    <label for="name">Office Phone Number (optional)</label>
+								    <input class="form-control" id="oph_no" name="oph_no" type="number" value="{{$user->user_details != null ? $user->user_details->off_phone : 'No data Exist '}}">
 								</div>
 								<div class="form-group">
-								    <label for="name">Special Instructions</label>
+								    <label for="name">Special Instructions (optional)</label>
 								    <textarea class="form-control" id="spcl_instruction" name="spcl_instruction">{{$user->user_details != null ? $user->user_details->spcl_instructions : 'No data Exist '}}</textarea>
 								</div>
 								<div class="form-group">
-								    <label for="name">Driving Instructions</label>
+								    <label for="name">Driving Instructions (optional)</label>
 								    <textarea class="form-control" id="driving_instructions" name="driving_instructions">{{$user->user_details != null ? $user->user_details->driving_instructions : 'No data Exist '}}</textarea>
 								</div>
 								<label style="color: red;">*Customer Credit Card Details</label>
@@ -66,7 +66,7 @@
 								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? $user->card_details->card_no : 'No data exist' }}" /></input>
 								</div>
 								<div class="form-group">
-								    <label for="name">Cvv</label>
+								    <label for="name">Cvv (optional)</label>
 								    <input type="text" class="form-control" id="cvv" name="cvv" value="{{$user->card_details != null ? $user->card_details->cvv : 'No data exist' }}" />
 								</div>
 								<div class="form-group">

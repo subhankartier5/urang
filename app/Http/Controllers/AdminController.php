@@ -377,16 +377,16 @@ class AdminController extends Controller
                     $searchUserDetails->name = $request->name;
                     $searchUserDetails->address = $request->address;
                     $searchUserDetails->personal_ph = $request->pph_no;
-                    $searchUserDetails->cell_phone = $request->cph_no;
-                    $searchUserDetails->off_phone = $request->oph_no;
-                    $searchUserDetails->spcl_instructions = $request->spcl_instruction;
-                    $searchUserDetails->driving_instructions = $request->driving_instructions;
+                    $searchUserDetails->cell_phone = isset($request->cph_no) ? $request->cph_no : NULL;
+                    $searchUserDetails->off_phone = isset($request->oph_no) ? $request->oph_no : NULL;
+                    $searchUserDetails->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
+                    $searchUserDetails->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
                     if ($searchUserDetails->save()) {
                        $credit_info = CustomerCreditCardInfo::where('user_id', $request->id)->first();
                        if ($credit_info) {
                           $credit_info->name = $request->card_name;
                           $credit_info->card_no = $request->card_no;
-                          $credit_info->cvv = $request->cvv;
+                          $credit_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
                           $credit_info->card_type = $request->cardType;
                           $credit_info->exp_month = $request->SelectMonth;
                           $credit_info->exp_year = $request->selectYear;
@@ -421,6 +421,57 @@ class AdminController extends Controller
         else
         {
             return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+        }
+    }
+    public function getAddNewCustomer(){
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        return view('admin.addnewcustomer', compact('user_data', 'site_details'));
+    }
+    public function postAddNewCustomer(Request $request) {
+        //dd($request);
+        $user = new User();
+        $user->email = $request->email;
+        $user->password = bcrypt($request->conf_password);
+        $user->block_status = 0;
+        if ($user->save()) {
+            $user_details = new UserDetails();
+            $user_details->user_id = $user->id;
+            $user_details->name = $request->name;
+            $user_details->address = $request->address;
+            $user_details->personal_ph = $request->personal_ph;
+            $user_details->cell_phone = isset($request->cellph_no) ? $request->cellph_no : NULL;
+            $user_details->off_phone = isset($request->officeph_no) ? $request->officeph_no : NULL;
+            $user_details->off_phone = isset($request->officeph_no) ? $request->officeph_no : NULL;
+            $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
+            $user_details->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
+            $user_details->payment_status = 0;
+            if ($user_details->save()) {
+                $credit_info = new CustomerCreditCardInfo();
+                $credit_info->user_id = $user_details->user_id;
+                $credit_info->name = $request->card_name;
+                $credit_info->card_no = $request->card_no;
+                $credit_info->card_type = $request->cardType;
+                $credit_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
+                $credit_info->exp_month = $request->SelectMonth;
+                $credit_info->exp_year = $request->selectYear;
+                if ($credit_info->save()) {
+                    return redirect()->route('getAddNewCustomers')->with('success', 'Records saved successfully');
+                }
+                else
+                {
+                    return redirect()->route('getAddNewCustomers')->with('fail', 'Could Not save your details');
+                }
+            }
+            else
+            {
+               return redirect()->route('getAddNewCustomers')->with('fail', 'Could Not save your details');
+            }
+        }
+        else
+        {
+            return redirect()->route('getAddNewCustomers')->with('fail', 'Could Not save your details');
         }
     }
 }

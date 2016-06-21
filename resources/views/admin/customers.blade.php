@@ -20,7 +20,7 @@
 	                	<div class="alert alert-success" id="success" style="display: none;"></div>
 	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 	                   Customers
-	                   <a href="#">
+	                   <a href="{{route('getAddNewCustomers')}}">
 	                   	<button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_cus"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
 						</a>
 	                </div>
