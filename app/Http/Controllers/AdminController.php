@@ -17,6 +17,7 @@ use App\PriceList;
 use DB;
 use App\User;
 use App\UserDetails;
+use App\CustomerCreditCardInfo;
 
 class AdminController extends Controller
 {
@@ -309,11 +310,13 @@ class AdminController extends Controller
         $customers = User::with('user_details')->paginate(10);
         return view('admin.customers', compact('user_data', 'site_details', 'customers'));
     }
-    public function getAddCustomer() {
+    public function getEditCustomer($id) {
+        $id = base64_decode($id);
+        $user = User::where('id', $id)->with('user_details', 'card_details')->first();
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        return view('admin.addCustomers', compact('user_data', 'site_details'));
+        return view('admin.EditCustomers', compact('user_data', 'site_details', 'user'));
     }
     public function postBlockCustomer(Request $request) {
         $id = $request->id;
@@ -361,6 +364,63 @@ class AdminController extends Controller
         else
         {
             return 0;
+        }
+    }
+    public function postEditCustomer(Request $request) {
+        //dd($request);
+        $search = User::find($request->id);
+        if ($search) {
+            $search->email = $request->email;
+            if ($search->save()) {
+                $searchUserDetails = UserDetails::where('user_id', $request->id)->first();
+                if ($searchUserDetails) {
+                    $searchUserDetails->name = $request->name;
+                    $searchUserDetails->address = $request->address;
+                    $searchUserDetails->personal_ph = $request->pph_no;
+                    $searchUserDetails->cell_phone = $request->cph_no;
+                    $searchUserDetails->off_phone = $request->oph_no;
+                    $searchUserDetails->spcl_instructions = $request->spcl_instruction;
+                    $searchUserDetails->driving_instructions = $request->driving_instructions;
+                    if ($searchUserDetails->save()) {
+                       $credit_info = CustomerCreditCardInfo::where('user_id', $request->id)->first();
+                       if ($credit_info) {
+                          $credit_info->name = $request->card_name;
+                          $credit_info->card_no = $request->card_no;
+                          $credit_info->cvv = $request->cvv;
+                          $credit_info->card_type = $request->cardType;
+                          $credit_info->exp_month = $request->SelectMonth;
+                          $credit_info->exp_year = $request->selectYear;
+                          if ($credit_info->save()) {
+                             return redirect()->route('getAllCustomers')->with('successUpdate', 'Records Updated Successfully!');
+                          }
+                          else
+                          {
+                            return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                          }
+                       }
+                       else
+                       {
+                        return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                       }
+                    }
+                    else
+                    {
+                        return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                    }
+                }
+                else
+                {
+                    return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+                }
+            }
+            else
+            {
+                return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
+            }
+        }
+        else
+        {
+            return redirect()->route('getAllCustomers')->with('fail', 'Could Not find a customer to update details');
         }
     }
 }

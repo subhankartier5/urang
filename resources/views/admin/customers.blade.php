@@ -5,10 +5,22 @@
 	        <div class="col-lg-12">
 	            <div class="panel panel-default">
 	                <div class="panel-heading">
+	                	@if(Session::has('fail'))
+	                		<div class="alert alert-danger">{{Session::get('fail')}}
+	                			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	                		</div>
+	                	@else
+	                	@endif
+	                	@if(Session::has('successUpdate'))
+	                		<div class="alert alert-success">	                             	{{Session::get('successUpdate')}}
+	                			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	                		</div>
+	                	@else
+	                	@endif
 	                	<div class="alert alert-success" id="success" style="display: none;"></div>
 	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 	                   Customers
-	                   <a href="{{route('getAddCustomer')}}">
+	                   <a href="#">
 	                   	<button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_cus"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
 						</a>
 	                </div>
@@ -45,7 +57,7 @@
 				                            		<td>{{$customer->user_details->address}}</td>
 				                            		<td>{{$customer->user_details->payment_status == 0 ? 'pending' : 'paid'}}</td>
 				                            		<td><button type="submit" id="block_{{$customer->id}}" class="btn btn-primary btn-xs"><i class="fa fa-ban" aria-hidden="true"></i> {{$customer->block_status == 0 ? 'Block' : 'Unblock'}}</button></td>
-				                            		<td><button type="submit" id="edit_{{$customer->id}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
+				                            		<td><a href="{{route('getEditCustomer', ['id' => base64_encode($customer->id)])}}"><button type="submit" id="edit_{{$customer->id}}" data-toggle="modal" data-target="#myModal" class="btn btn-warning btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></a></td>
 				                            		<td><button type="submit" id="del_{{$customer->id}}" class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
 			                            		@else
 			                            			<td>No Data</td>
@@ -69,8 +81,8 @@
 	        </div>
 	        <!-- /.col-lg-6 -->
 	    </div>
-	</div>
-	<script type="text/javascript">
+</div>
+<script type="text/javascript">
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
 			@if (count($customers) > 0) 
@@ -117,7 +129,6 @@
 							}
 						});
 					});
-					//edit functionality
 				@endforeach
 			@else
 			console.log('No Customers');
@@ -125,5 +136,5 @@
 
 			
 		});
-	</script>
+</script>
 @endsection
