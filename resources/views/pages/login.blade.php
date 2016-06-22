@@ -7,6 +7,18 @@
       <h2>Login</h2>
       <div class="col-md-2"></div>
       <div class="col-md-8">
+        @if(Session::has('fail'))
+          <div class="alert alert-danger">{{Session::get('fail')}}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          </div>
+        @else
+        @endif
+        @if(Session::has('success'))
+          <div class="alert alert-success">                               {{Session::get('success')}}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          </div>
+        @else
+        @endif
         <form>
           <div class="form-group">
             <label for="exampleInputEmail1">Email</label>
@@ -19,7 +31,7 @@
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <p class="forgot-password"><a href="#">Forgotten Password?</a></p>
-        <p class="signup-link">Don't Have an account ?<a href="signup.html"> Sign Up</a></p>
+        <p class="signup-link">Don't Have an account ?<a href="{{route('getSignUp')}}"> Sign Up</a></p>
       </div>
       <div class="col-md-2"></div>
     </div>

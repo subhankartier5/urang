@@ -7,7 +7,9 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="{{url('/')}}/public/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/vendor/bootstrap/dist/css/style.css">
+<link href="{{url('/')}}/public/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <!-- Latest compiled and minified JavaScript -->
 <script type="text/javascript" src="{{url('/')}}/public/bower_components/jquery/dist/jquery.js"></script>
 <script src="{{url('/')}}/public/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/main.js"></script>
+<script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>

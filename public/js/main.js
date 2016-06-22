@@ -1,5 +1,5 @@
 $(document).ready(function() {
-var stickyNavTop = $('.top-header').offset().top;
+//var stickyNavTop = $('.top-header').offset().top;
 
  
 var stickyNav = function(){

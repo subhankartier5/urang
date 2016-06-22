@@ -13,6 +13,8 @@
 /*landing page routes*/
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
+Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
+Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);
 
 /*Admin Routes*/
 Route::get('/admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);

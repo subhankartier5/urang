@@ -15,7 +15,7 @@
                 <li><a href="{{route('index')}}">Home</a></li>
                 <li><a href="">about us</a></li>
                 <li><a href="{{route('getLogin')}}">login</a></li>
-                <li><a href="">sign-up</a></li>
+                <li><a href="{{route('getSignUp')}}">sign-up</a></li>
                 <li><a href="">Neighborhoods</a></li>
                 <li><a href="">Prices</a></li>
                 <li><a href="">FAQ's</a></li>
