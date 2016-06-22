@@ -9,6 +9,7 @@ use App\Helper\NavBarHelper;
 use App\User;
 use App\UserDetails;
 use App\CustomerCreditCardInfo;
+use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
@@ -18,6 +19,7 @@ class MainController extends Controller
     	return view('pages.index', compact('site_details'));
     }
     public function getLogin() {
+        $user = auth()->guard('users');
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
     	return view('pages.login', compact('site_details'));
@@ -75,6 +77,20 @@ class MainController extends Controller
         else
         {
             return redirect()->route('getSignUp')->with('fail', 'Password and confirm password did not match');
+        }
+    }
+    public function postCustomerLogin(Request $request) {
+        $email = $request->email;
+        $password = $request->password;
+        $remember_me = isset($request->remember)? true : false;
+        $user = auth()->guard('users');
+        if ($user->attempt(['email' => $email, 'password' => $password], $remember_me)) {
+            echo "<pre>";
+            print_r($user->user());
+        }
+        else
+        {
+           echo "failed";
         }
     }
 }

@@ -32,6 +32,7 @@ class AdminController extends Controller
     }
     public function LoginAttempt(Request $request) {
     	//dd($request);
+        //protected $guard = {'admin'};
     	$email = $request->email;
     	$password = $request->password;
     	$remember_me = isset($request->remember)? true : false;
