@@ -3,10 +3,9 @@
 <head>
     @include('pages.includes.header')
 </head>
-<body data-scrolling-animations="true">
+<body>
 	@include('pages.includes.navbar')
 	@yield('content')
-	@include('pages.includes.foot')
     @include('pages.includes.footer')
 </body>
 </html>

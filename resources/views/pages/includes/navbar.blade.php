@@ -1,59 +1,43 @@
-<header class="body fixed-header scrolling-header navbar">
-    <nav id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container relative-nav-container">
-            <a class="toggle-button visible-xs-block" data-toggle="collapse" data-target="#navbar-collapse">
-                <i class="fa fa-navicon"></i>
-            </a>
-            <a class="navbar-brand scroll" href="{{route('index')}}">
-                <img class="normal-logo hidden-xs" src="{{url('/')}}/public/img/logo-white.png" alt="logo" />
-                <img class="scroll-logo hidden-xs" src="{{url('/')}}/public/img/logo.png" alt="logo" />
-                <img class="scroll-logo visible-xs-block" src="{{url('/')}}/public/img/logo-white.png" alt="logo" />
-            </a>
-            <div class="navbar-collapse collapse floated" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
-                    <li class="active">
-                        <a href="{{route('index')}}">Home</a>
-                    </li>
-                    <li>
-                        <a href="{{route('getLogin')}}">Login</a>
-                    </li>
-                    <li>
-                        <a href="sign-up.html">Sign-Up</a>
-                    </li>
-                    <li><a href="price-list.html">Prices</a></li>
-                    <li>
-                        <a href="faqs.html">FAQs</a>
-                    </li>
-                    <li>
-                        <a href="neighborhoods.html">Neighborhoods</a>
-                        <!--<div class=" wrap-inside-nav">
-                            <div class="inside-col">
-                                <ul class="inside-nav">
-                                    <li><a href="contact.html">Contacts 1 </a></li>
-                                    <li><a href="contact-2.html">Contacts 2 </a></li>
-                                </ul>
-                            </div>
-                        </div>-->
-                    </li>
-                    <li>
-                        <a href="schools.html">School Donations</a>
-                        <!--<div class=" wrap-inside-nav">
-                            <div class="inside-col">
-                                <ul class="inside-nav">
-                                    <li><a href="contact.html">Contacts 1 </a></li>
-                                    <li><a href="contact-2.html">Contacts 2 </a></li>
-                                </ul>
-                            </div>
-                        </div>-->
-                    </li>
-                    <li>
-                       <a href="contact-us.html">Contact</a>
-                   </li>
-                   <li>
-                       <a href="tel:8009595785">(800) 959-5785</a>
-                   </li>
-                </ul>
+<header class="top-header">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 header-bar">
+            <div class="logo">
+              <a href="{{route('index')}}">
+                <img src="{{url('/')}}/public/images/logo.png" class="img-responsive">
+              </a>
             </div>
+            <div class="navigation">
+              <nav class="navbar navbar-default nav-tabs">
+                <div class="container-fluid">
+                  <!-- Brand and toggle get grouped for better mobile display -->
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                  </div>
+                  <!-- Collect the nav links, forms, and other content for toggling -->
+                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                      <li role="presentation" class="active"><a href="{{route('index')}}">Home</a></li>
+                      <li role="presentation"><a href="{{route('getLogin')}}">Login</a></li>
+                      <li role="presentation"><a href="#">Sign Up</a></li>
+                      <li role="presentation"><a href="#">Prices</a></li>
+                      <li role="presentation"><a href="#">FAQs</a></li>
+                      <li role="presentation"><a href="#">Neighborhoods</a></li>
+                      <li role="presentation"><a href="#">School Donations</a></li>
+                      <li role="presentation"><a href="#">Contact</a></li>
+                      <li><a href="tel:8009595785">(800) 959-5785</a></li>
+                    </ul>
+                
+                  </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+              </nav>
+            </div>
+          </div>
         </div>
-     </nav>
-</header><!--./navigation -->
+    </div>
+  </header>
