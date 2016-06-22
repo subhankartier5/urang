@@ -354,7 +354,15 @@ class AdminController extends Controller
             if ($user->delete()) {
                 $user_details = UserDetails::where('user_id', $id)->first();
                 $user_details->delete();
-                return 1;
+                $card_details = CustomerCreditCardInfo::where('user_id', $id)->first();
+                if ($card_details) {
+                    $card_details->delete();
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             else
             {
