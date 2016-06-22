@@ -63,8 +63,9 @@
 								</div>
 								<div class="form-group">
 								    <label for="name">Card No</label>
-								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? $user->card_details->card_no : 'No data exist' }}" /></input>
+								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? $user->card_details->card_no : 'No data exist' }}" onkeyup="return creditCardValidate();" /></input>
 								</div>
+								<p class="log"></p>
 								<div class="form-group">
 								    <label for="name">Cvv (optional)</label>
 								    <input type="text" class="form-control" id="cvv" name="cvv" value="{{$user->card_details != null ? $user->card_details->cvv : 'No data exist' }}" />
@@ -137,5 +138,25 @@
 			$('#SelectMonth').val("");
 		}
 	});
+	function creditCardValidate(){
+			$('#card_no').validateCreditCard(function(result) {
+				err=0
+				if (result.valid && result.length_valid && result.luhn_valid) 
+				{
+					err=0;
+					$('.log').html('<div style="color: green;"><i class="fa fa-check" aria-hidden="true"></i> vaild credit card number</div>');
+					
+					//return err;
+				}
+				else
+				{
+					err=1;
+					$('.log').html('<div style="color: red;"><i class="fa fa-times" aria-hidden="true"></i> This is not a valid credit card number</div>');
+					//return err;
+					
+				}
+				
+        	});
+		}
 </script>
 @endsection
