@@ -7,8 +7,15 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AdminTableSeeder' => $baseDir . '/database/seeds/AdminTableSeeder.php',
+    'CategoryTableSeeder' => $baseDir . '/database/seeds/CategoryTableSeeder.php',
     'CreateAdminsTable' => $baseDir . '/database/migrations/2016_06_13_110322_create_admins_table.php',
+    'CreateCategoriesTable' => $baseDir . '/database/migrations/2016_06_16_074954_create_categories_table.php',
+    'CreateCustomerCreditCardInfosTable' => $baseDir . '/database/migrations/2016_06_21_064801_create_customer_credit_card_infos_table.php',
+    'CreateNeighborhoodsTable' => $baseDir . '/database/migrations/2016_06_15_063007_create_neighborhoods_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreatePriceListsTable' => $baseDir . '/database/migrations/2016_06_16_072127_create_price_lists_table.php',
+    'CreateSiteConfigsTable' => $baseDir . '/database/migrations/2016_06_14_102234_create_site_configs_table.php',
+    'CreateUserDetailsTable' => $baseDir . '/database/migrations/2016_06_20_085355_create_user_details_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
@@ -516,4 +523,5 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'UserTableSeeder' => $baseDir . '/database/seeds/UserTableSeeder.php',
 );
