@@ -17,9 +17,17 @@ Route::post('/login-attempt', ['uses' => 'MainController@postCustomerLogin', 'as
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);
 
+/*after login user functionality in middleware*/
+
+Route::group(['middleware' => ['user']], function () {
+    Route::get('/user-dashboard', ['uses' => 'MainController@getDashboard','as' => 'getCustomerDahsboard']);
+});
+Route::get('/user-logout', ['uses' => 'MainController@getLogout', 'as' => 'getLogout']);
 /*Admin Routes*/
 Route::get('/admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
 Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
+
+
 Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'middleware' => 'auth', 'as' => 'get-admin-dashboard']);
 Route::get('/logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
 Route::get('/profile-details', ['uses' => 'AdminController@getProfile', 'as' => 'get-admin-profile']);

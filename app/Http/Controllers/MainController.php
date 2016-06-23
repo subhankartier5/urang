@@ -23,7 +23,14 @@ class MainController extends Controller
         $user = auth()->guard('users');
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
-    	return view('pages.login', compact('site_details'));
+        if ($user->user()) {
+            //return view('pages.userdashboard', compact('site_details'));
+            return redirect()->route('getCustomerDahsboard');
+        }
+        else
+        {
+            return view('pages.login', compact('site_details'));
+        }
     }
     public function getSignUp(){
         $obj = new NavBarHelper();
@@ -92,12 +99,21 @@ class MainController extends Controller
         $remember_me = isset($request->remember)? true : false;
         $user = auth()->guard('users');
         if ($user->attempt(['email' => $email, 'password' => $password], $remember_me)) {
-            echo "<pre>";
-            print_r($user->user());
+            return redirect()->route('getCustomerDahsboard');
         }
         else
         {
-           echo "failed";
+           return redirect()->route('getLogin')->with('fail', 'Wrong Username or Password');
         }
+    }
+    public function getDashboard() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        return view('pages.userdashboard', compact('site_details'));
+    } 
+    public function getLogout() {
+        $user = auth()->guard('users');
+        $user->logout();
+        return redirect()->route('getLogin');
     }
 }
