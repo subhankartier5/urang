@@ -109,11 +109,20 @@ class MainController extends Controller
     public function getDashboard() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        return view('pages.userdashboard', compact('site_details'));
+        //$user = auth()->guard('users');
+        $logged_user = $obj->getCustomerData();
+        //dd($logged_user);
+        return view('pages.userdashboard', compact('site_details', 'logged_user'));
     } 
     public function getLogout() {
         $user = auth()->guard('users');
         $user->logout();
         return redirect()->route('getLogin');
+    }
+    public function getProfile() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $logged_user = $obj->getCustomerData();
+        return view('pages.profile', compact('site_details', 'logged_user'));
     }
 }
