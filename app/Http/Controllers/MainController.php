@@ -59,9 +59,9 @@ class MainController extends Controller
                     if ($card_info->save()) {
                        //mail should be send from here
                         Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
-                        function($message) use ($request)
+                        function($message)
                         {
-                            $message->from('noreply@u-rang.com');
+                            //$message->from('noreply@u-rang.com');
                             $message->to($request->email, $request->name)->subject('U-rang Details');
                         });
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
