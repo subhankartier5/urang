@@ -8,7 +8,7 @@
 <hr>
 <label>Your Account Details</label>
 Login Id :- {{$email}}
-password :- {{password}}
+password :- {{$password}}
 
 </body>
 </html>
