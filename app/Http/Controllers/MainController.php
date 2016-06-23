@@ -10,6 +10,7 @@ use App\User;
 use App\UserDetails;
 use App\CustomerCreditCardInfo;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class MainController extends Controller
 {
@@ -56,8 +57,14 @@ class MainController extends Controller
                     $card_info->exp_month = $request->select_month;
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
-                       return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                        //mail should be send from here
+                        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
+                        function($message) use ($request)
+                        {
+                            $message->from('noreply@u-rang.com');
+                            $message->to($request->email, $request->name)->subject('U-rang Details');
+                        });
+                         return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
                     {

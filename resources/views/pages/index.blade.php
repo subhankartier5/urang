@@ -1,5 +1,6 @@
 @extends('pages.layouts.master')
 @section('content')
+<a href="#" class="scrollToTop"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
 <div class="main-content">
 <div class="container-fluid">
   <div class="row banner">

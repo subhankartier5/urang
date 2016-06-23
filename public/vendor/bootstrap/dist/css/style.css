@@ -27,10 +27,20 @@ body{
 	font-family: 'Montserrat-Light';
 }
 
-.login-signup{
+/*.login-signup{
 	color: #333;
 	background: url("../../../../../public/images/background-learner.jpg") no-repeat top center;
     background-size: 100% 100%;
+}
+*/
+.login-signup{
+	color: #333;
+    background: #eeffe0;
+    background: -moz-linear-gradient(top, #eeffe0 0%, #97ba77 100%);
+    background: -webkit-linear-gradient(top, #eeffe0 0%,#97ba77 100%);
+    background: linear-gradient(to bottom, #eeffe0 0%,#97ba77 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeffe0', endColorstr='#97ba77',GradientType=0 );
+    padding: 50px 0;
 }
 
 .clear{
@@ -87,7 +97,8 @@ body{
 }
 
 .header-bar{
-	z-index: 0
+	z-index: 0;
+	box-shadow: 0 0 10px #ccc;
 }
 
 .fixed{
@@ -112,7 +123,7 @@ body{
 */
 
 .login h2{
-    color: #fff;
+    color: #333;
     padding: 100px;
     margin-bottom: 0;
     text-align: center;
@@ -121,7 +132,7 @@ body{
 }
 
 .login h4{
-	color: #68a832;
+	color: #fff;
     font-size: 20px;
     border-bottom: 1px solid;
     padding-bottom: 20px;
@@ -163,12 +174,20 @@ body{
 }
 
 .login form .btn-default{
-	background: #68a832;
-	color: #fff;
-	text-transform: uppercase;
-	border: 1px solid #68a832;
     padding: 10px 20px;
     display: inline-block;
+
+border: 1px solid #fff;
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    background: rgba(104,168,50,0.5);
+    font-family: 'Montserrat-Bold';
+    text-shadow: 1px 1px 1px #333;
+    box-shadow: 1px 2px 5px 0 #333;
+
+
   vertical-align: middle;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -215,10 +234,11 @@ body{
 }
 
 .forgot-password, .forgot-password a, .signup-link, .signup-link a, .offer{
-	color: #fff;
-	font-size: 12px;
-	text-align: right;
-	text-transform: capitalize;
+    color: #333;
+    font-size: 14px;
+    text-align: right;
+    text-transform: capitalize;
+    font-weight: bold;
 }
 
 .login form .form-control#date{
@@ -226,6 +246,7 @@ body{
     background: none;
     color: #fff;
     font-style: italic;
+    box-shadow: none;
 }
 
 .signup form label {
@@ -243,7 +264,7 @@ body{
 }
 
 .individual-form p, .login h3{
-	color: #fff;
+	color: #333;
 	text-align: justify;
 }
 
@@ -704,6 +725,111 @@ body{
     padding: 20px 0;
     font-weight: bold;
 }
+
+.scrollToTop{
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    position: fixed;
+    bottom: 70px;
+    right: 40px;
+    display: none;
+    font-size: 20px;
+    border-radius: 50%;
+    background:rgba(104, 168, 50, 0.5);
+    z-index: 1;
+    border: 1px solid #fff;
+
+}
+.scrollToTop:hover, .scrollToTop:focus{
+	text-decoration:none;
+	cursor: pointer;
+	background: none;
+	color: #fff;
+}
+/*
+========================================
+    Price
+========================================
+*/
+
+.price-table{
+    border: 1px solid #68a832;
+    display: inline-block;
+    margin-top: 30px;
+    padding: 20px 0;
+    background: #f5f5f5;
+}
+
+.price-table .table>tbody>tr>td,.price-table .table>tbody>tr>th,.price-table .table>tfoot>tr>td,.price-table .table>tfoot>tr>th, .price-table .table>thead>tr>td, .price-table .table>thead>tr>th {
+    padding: 5px 0;
+    border-top: 0;
+}
+
+.price-table .table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #68a832;
+}
+
+/*
+========================================
+    Faqs
+========================================
+*/
+#accordion{
+    margin-top: 30px;
+}
+.faq h3{
+    background: #f5f5f5 url("../images/pinpoint.png") no-repeat left top;
+    background-size: contain;
+}
+
+.faq h3:focus{
+    outline: none;
+}
+.faq.ui-accordion .ui-accordion-header {
+    padding: 14px;
+    color: #333;
+    font-family: 'Signika';
+    font-size: 16px;
+    border: 1px solid #68a832;
+}
+
+.faq.ui-accordion .ui-accordion-icons {
+    padding-left: 50px;
+}
+
+.ui-accordion .ui-accordion-content {
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.5);
+    border: none;
+    box-shadow: 0 3px 3px 0 #40673C;
+}
+
+p.schedule-pick{
+    margin-top: 20px;
+}
+
+p.schedule-pick a{
+    color: #325912;
+    font-weight: bold;
+}
+
+/*
+========================================
+    Contact Us
+========================================
+*/
+
+.contact h2{
+}
+/*
+========================================
+	Responsive
+========================================
+*/
+
 @media only screen and ( max-width: 1250px ){
 	.logo {
 	    width: 100%;
@@ -732,6 +858,29 @@ body{
 	    line-height: 20px;
 	    margin-top: 15px;
 	}
+    #tabs.ui-tabs .ui-tabs-nav li {
+        width: 32.9%;
+    }
+
+    #tabs.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+        font-size: 14px;
+    }
+
+}
+
+@media only screen and ( min-width: 768px ) and ( max-width: 991px ){
+    #tabs.ui-tabs .ui-tabs-nav li {
+        width: 32.9%;
+    }
+
+    #tabs.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+        font-size: 14px;
+    }
+
+    .right-sidebar {
+        background-size: 100%;
+        margin-top: 40px;
+    }
 }
 
 @media only screen and ( max-width: 991px ){
@@ -771,10 +920,19 @@ body{
 	    font-size: 14px;
 	    line-height: 22px;
 	}
+
+    #tabs.ui-tabs .ui-tabs-nav li {
+        width: 100%;
+    }
+
 }
 
 @media only screen and ( max-width: 480px ){
-	
+	.subscribe-buttons a {
+        width: 90%;
+        display: block;
+        margin: 10px auto;
+    }
 
 	.third-content h1 {
 	    font-size: 25px;
