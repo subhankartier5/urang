@@ -40,14 +40,23 @@
                   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                       <li role="presentation"><a href="home.html">Home</a></li>
-                      <li role="presentation"><a href="login.html">Login</a></li>
-                      <li role="presentation"><a href="signup.html">Sign Up</a></li>
-                      <li role="presentation" class="active"><a href="#">Prices</a></li>
-                      <li role="presentation"><a href="faq.html">FAQs</a></li>
+                      <li role="presentation"><a href="#">Edit Information</a></li>
+                      <li role="presentation"><a href="#">NYC Pick-UP </a></li>
+                      <li role="presentation"><a href="#">My Pick-UP </a></li>
+                      <li role="presentation"><a href="#">Prices</a></li>
                       <li role="presentation"><a href="neighbour.html">Neighborhoods</a></li>
-                      <li role="presentation"><a href="#">School Donations</a></li>
-                      <li role="presentation"><a href="contact.html">Contact</a></li>
+                      <li role="presentation"><a href="faq.html">FAQs</a></li>
+                      <li role="presentation"><a href="#">Contact</a></li>
+
                       <li><a href="tel:8009595785">(800) 959-5785</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                      <li role="presentation" class="welcome-user"><a href="#">Welcome <span>mitchell clerk</span></a>
+                        <ul>
+                          <li role="presentation"><a href="">My Profile</a></li>
+                        </ul>
+                      </li>
+                      <li><span class="glyphicon glyphicon-off logout" aria-hidden="true" title="Logout"></span></li>
                     </ul>
                 
                   </div><!-- /.navbar-collapse -->
@@ -61,126 +70,17 @@
   <div class="main-content neighbour">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-        <h2>Dry Cleaning Price List</h2>
-        <p>Our Master Craftsmen can do miracles--you will be amazed! We offer full service Dry Cleaning & shirt Laundry, We also professionally clean Leather & Suede</p>
-
-          <div class="price-table">
-            <div class="col-md-6">
-              <table class="table table-responsive">
-                <thead>
-                  <th>Residential Service</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="2">&nbsp</td>
-                  </tr>
-                  <tr>
-                    <td>Pants</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Skirts</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Sweaters</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Wedding Dress (Cleaning Only Base Price)</td>
-                    <td>$175.00</td>
-                  </tr>
-                  <tr>
-                    <td>Wedding Dress Preservation (Museum Quality Box)</td>
-                    <td>$100.00</td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="col-md-8 dashboard">
+            <h2> Dashboard </h2>
+            <div class="dash-section">
+              <h3>New Pick-Up</h3>
+              <p><a href="#"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Schedule Pick-Up </a></p>
             </div>
-            <div class="col-md-6">
-              <table class="table table-responsive">
-                <thead>
-                  <th>Residential Service</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="2">&nbsp</td>
-                  </tr>
-                  <tr>
-                    <td>Pants</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Skirts</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Sweaters</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Wedding Dress (Cleaning Only Base Price)</td>
-                    <td>$175.00</td>
-                  </tr>
-                  <tr>
-                    <td>Wedding Dress Preservation (Museum Quality Box)</td>
-                    <td>$100.00</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="clear50"></div>
-              <table class="table table-responsive">
-                <thead>
-                  <th>Household Items: Dry Clean</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="2">&nbsp</td>
-                  </tr>
-                  <tr>
-                    <td>Pants</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Skirts</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Sweaters</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Wedding Dress (Cleaning Only Base Price)</td>
-                    <td>$175.00</td>
-                  </tr>
-                  <tr>
-                    <td>Wedding Dress Preservation (Museum Quality Box)</td>
-                    <td>$100.00</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="clear50"></div>
-              <table class="table table-responsive">
-                <thead>
-                  <th>Bedding</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="2">&nbsp</td>
-                  </tr>
-                  <tr>
-                    <td>Pants</td>
-                    <td>$7.25</td>
-                  </tr>
-                  <tr>
-                    <td>Skirts</td>
-                    <td>$7.25</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="clear50"></div>
+            <div class="dash-section">
+              <h3>Current Pick-Ups</h3>
+              <p>You currently have no scheduled pick-ups.</p>
             </div>
-          </div>
         </div>
         <div class="col-md-4">
             <div class="right-sidebar">
@@ -283,4 +183,9 @@
   </div>
 </footer>
 </body>
+<script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+</script>
 </html>

@@ -56,8 +56,13 @@ body{
 }
 
 .navigation{
-	float: right;
-	margin-top: 35px;
+    float: right;
+    margin-top: 20px;
+    width: 82%;
+}
+
+.navigation .navbar-nav{
+    float: right;
 }
 
 .navigation .nav-tabs{
@@ -71,6 +76,7 @@ body{
 	text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .navigation .navbar-default .navbar-nav>.active>a,.navigation .navbar-default .navbar-nav>.open>a{
@@ -110,6 +116,43 @@ body{
 	color: #fff;
 }
 
+.navigation .nav-tabs li ul{
+    display: none;
+    list-style-type: none;
+    position: absolute;
+    width: 100%;
+    right: 0;
+    left: 0;
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0 1px 5px 0 #CCC;
+}
+
+.navigation .nav-tabs li:hover ul{
+    display: block;
+}
+
+.navigation .nav-tabs li ul li:hover a{
+    color: #68a832;
+    text-decoration: none;
+}
+
+.navigation .nav-tabs li span.logout{
+    font-size: 20px;
+    position: relative;
+    top: 15px;
+    color: #A56666;
+    cursor: pointer;
+}
+
+
+.navigation .nav-tabs li.welcome-user span{
+    font-family: 'Signika';
+    font-size: 20px;
+    text-transform: capitalize;
+    color: #325912;
+    text-decoration: underline;
+}
 /*
 ================================
 	Login Signup
@@ -972,6 +1015,73 @@ p.schedule-pick a{
 
 .contact h2{
 }
+
+.contact p{
+    font-size: 16px;
+}
+
+.contact p span{
+    padding-right: 10px;
+}
+
+.contact a{
+    color: #325912;
+}
+
+.contact a:hover{
+    color: #333;
+    text-decoration: none;
+}
+
+.contact form{
+    padding: 20px 200px 0 0;
+    margin-top: 20px;
+}
+
+
+.contact .form-horizontal .control-label {
+    text-align: left;
+}
+
+.contact .form-control{
+    border: none;
+    border-radius: 0;
+    height: 45px;
+    box-shadow: 1px 1px 1px #000;
+}
+
+/*
+========================================
+    Dashboard
+========================================
+*/
+
+.dashboard h2{
+    background: url("../images/divider-dash.png") no-repeat center;
+    background-size: 100% 100%;
+    text-align: center;
+    padding-bottom: 60px;
+}
+
+.dashboard h3{
+    margin-bottom: 20px;
+}
+
+.dashboard p a{
+    color: #68a832;
+    background: #333;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 3px;
+}
+
+.dashboard p a:hover{
+    text-decoration: none;
+    color: #333;
+    background: #68a832;
+}
+
+
 /*
 ========================================
 	Responsive
@@ -985,7 +1095,14 @@ p.schedule-pick a{
 
 	.navigation {
 	    float: none;
+        margin-top: 0;
+        width: 100%;
 	}
+
+    .navigation .navbar-nav{
+        float: left;
+        width: 100%;
+    }
 }
 
 @media only screen and ( min-width: 992px ) and ( max-width: 1199px ){
@@ -1071,6 +1188,14 @@ p.schedule-pick a{
 
     #tabs.ui-tabs .ui-tabs-nav li {
         width: 100%;
+    }
+    .navigation .nav-tabs li span.logout {
+        top: -30px;
+        float: right;
+    }
+
+    .dashboard{
+        margin-bottom: 40px;
     }
 
 }
