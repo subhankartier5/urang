@@ -7,8 +7,8 @@
 <h1>Thank you , {{$name}} for registering with <a href="http://162.243.64.194/">u-rang</a></h1>
 <hr>
 <label>Your Account Details</label>
-Login Id :- {{$email}}
-password :- {{$password}}
+<div>Login Id :- {{$email}}</div><br>
+<div>password :- {{$password}}</div>
 
 </body>
 </html>
