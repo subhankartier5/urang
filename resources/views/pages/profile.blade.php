@@ -17,7 +17,7 @@
 	          </div>
 	        @else
 	        @endif
-            <form class="form-inline" action="{{route('postSignUp')}}" method="post" onsubmit="return PassWordCheck();">
+            <form class="form-inline" action="{{route('post-user-profile')}}" method="post" onsubmit="return PassWordCheck();">
                <div class="col-md-6 individual-form">
                   <h4>Login Info:</h4>
                   <div class="form-group">
@@ -26,18 +26,6 @@
                      <em>[ Email is being used for login username ]</em>
                   </div>
                   <div class="form-group">
-                     <label for="password">New Password</label>
-                     <input type="password" class="form-control" id="password" name="password" onkeyup="return PassWordCheck();">
-                  </div>
-                  <div class="form-group">
-                     <label for="conf_password">Confirm New Password</label>
-                     <input type="password" class="form-control" id="conf_password" name="conf_password" onkeyup="return PassWordCheck();">
-                  </div>
-                  <div id="passcheck"></div>
-               </div>
-               <div class="col-md-6 individual-form">
-                  <h4>Personal Info:</h4>
-                  <div class="form-group">
                      <label for="name">Name</label>
                      <input type="text" class="form-control" id="name" name="name" required="" value="{{$logged_user->user_details->name}}">
                   </div>
@@ -45,6 +33,9 @@
                      <label for="address">Address</label>
                      <textarea class="form-control" rows="10" name="address" required="">{{$logged_user->user_details->address}}</textarea>
                   </div>
+               </div>
+               <div class="col-md-6 individual-form">
+                  <h4>Personal Info:</h4>
                   <div class="form-group">
                      <label for="phone">Phone</label>
                      <input type="number" class="form-control" id="Phone" placeholder="Format: 5555555555" name="personal_phone" required="" value="{{$logged_user->user_details->personal_ph}}">
@@ -81,8 +72,8 @@
                      <select class="form-control" id="cardtype" name="cardtype" required="">
                         <option>Select Card Type</option>
                         <option value="Visa">Visa</option>
-                        <option value="AmericanExpress">Master Card</option>
-                        <option value="Mastercard">American Express</option>
+                        <option value="Mastercard">Master Card</option>
+                        <option value="AmericanExpress">American Express</option>
                      </select>
                   </div>
                   <div class="form-group">
@@ -132,7 +123,7 @@
                   </div>
                </div>
                <div class="clear50"></div>
-               <button type="submit" class="btn btn-default">Create Free Account</button>
+               <button type="submit" class="btn btn-default">Save Details</button>
                <input type="hidden" name="_token" value="{{Session::token()}}"></input>
                <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
             </form>
@@ -143,42 +134,13 @@
 <script type="text/javascript">
 	var err;
 	function PassWordCheck() {
-		//password and confirm password match function
-		var password = $('#password').val();
-		var status='';
-		var conf_password = $('#conf_password').val();
-		if (password && password.length >= 6) 
+		creditCardValidate();
+		if(err==0)
 		{
-			if (password && conf_password) 
-			{
-				if (password == conf_password) 
-				{
-					$('#passcheck').html('<br><div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> password and confirm password matched! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-					creditCardValidate();
-					if(err==0)
-					{
-					return true;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					$('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password did not match! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-					return false;
-				}
-			}
-			else
-			{
-				$('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password should be same. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-				return false;
-			}
+		return true;
 		}
 		else
 		{
-			$('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password should atleast be 6 charecters. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
 			return false;
 		}
 	}

@@ -35,7 +35,8 @@
                     <ul class="nav navbar-nav">
                       <li role="presentation" class="welcome-user"><a href="#">Welcome <span>{{$logged_user->user_details->name}}</span></a>
                         <ul>
-                          <li role="presentation"><a href="{{route('get-user-profile')}}">My Profile</a></li>
+                          <li role="presentation"><a href="{{route('get-user-profile')}}"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a></li>
+                          <li role="presentation"><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> Change Password</a></li>
                         </ul>
                       </li>
                       <li><a href="{{route('getLogout')}}"><span class="glyphicon glyphicon-off logout" aria-hidden="true" title="Logout"></span></a></li>

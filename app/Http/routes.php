@@ -23,6 +23,7 @@ Route::get('/user-logout', ['uses' => 'MainController@getLogout', 'as' => 'getLo
 Route::group(['middleware' => ['user']], function () {
     Route::get('/user-dashboard', ['uses' => 'MainController@getDashboard','as' => 'getCustomerDahsboard']);
     Route::get('/profile', ['uses' => 'MainController@getProfile', 'as' => 'get-user-profile']);
+    Route::post('/profile', ['uses' => 'MainController@postProfile', 'as' => 'post-user-profile']);
 });
 
 

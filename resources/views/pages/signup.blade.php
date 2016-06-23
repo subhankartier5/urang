@@ -85,8 +85,8 @@
                      <select class="form-control" id="cardtype" name="cardtype" required="">
                         <option>Select Card Type</option>
                         <option value="Visa">Visa</option>
-                        <option value="AmericanExpress">Master Card</option>
-                        <option value="Mastercard">American Express</option>
+                        <option value="Mastercard">Master Card</option>
+                        <option value="AmericanExpress">American Express</option>
                      </select>
                   </div>
                   <div class="form-group">
