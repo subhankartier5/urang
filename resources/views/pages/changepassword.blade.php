@@ -24,24 +24,24 @@
 	          </div>
 	        @else
 	        @endif
-            <form class="form-inline" action="#" method="post" onsubmit="return checkValidPassword();">
+            <form class="form-inline" action="{{route('postchangePassword')}}" method="post" onsubmit="return checkValidPassword();">
                <div class="col-md-12 individual-form">
                   <h4>Change Password:</h4>
                   <div class="form-group">
                      <label for="old_password">Old Password</label>
-                     <input type="text" class="form-control" id="old_password" name="old_password" required="">
+                     <input type="password" class="form-control" id="old_password" name="old_password" required="">
                   </div>
                   <div class="form-group">
                      <label for="new_password">New Password</label>
-                     <input type="text" class="form-control" id="new_password" name="new_password" required="" onkeyup="return checkValidPassword();">
+                     <input type="password" class="form-control" id="new_password" name="new_password" required="" onkeyup="return checkValidPassword();">
                   </div>
                   <div class="form-group">
                      <label for="conf_password">Confirm New Password</label>
-                     <input type="text" class="form-control" id="conf_password" name="conf_password" required="" onkeyup="return checkValidPassword();">
+                     <input type="password" class="form-control" id="conf_password" name="conf_password" required="" onkeyup="return checkValidPassword();">
                   </div>
                   <div class="alert alert-danger alert_manage" id="danger" style="display: none;"></div>
                   <div class="alert alert-success alert_manage" id="success" style="display: none;"></div>
-                  <button type="submit" name="btn_change_password" class="btn btn-default">Change Password</button>
+                  <button type="submit" class="btn btn-default">Change Password</button>
                   <input type="hidden" name="_token" value="{{Session::token()}}" />
                </div>
             </form>

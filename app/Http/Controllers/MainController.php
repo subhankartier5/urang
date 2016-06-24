@@ -11,6 +11,7 @@ use App\UserDetails;
 use App\CustomerCreditCardInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
+use Hash;
 
 class MainController extends Controller
 {
@@ -191,5 +192,32 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
         return view('pages.changepassword', compact('site_details', 'logged_user'));
+    }
+    public function postChangePassword(Request $request) {
+        //dd($request);
+        if ($request->new_password == $request->conf_password) {
+            $id = auth()->guard('users')->user()->id;
+            $old_password = $request->old_password;
+            $new_password = $request->new_password;
+            $user = User::find($id);
+            if (Hash::check($old_password, $user->password)) {
+                $user->password = bcrypt($new_password);
+                if ($user->save()) {
+                    return redirect()->route('getChangePassword')->with('success', "Password updated successfully!"); 
+                }
+                else
+                {
+                   return redirect()->route('getChangePassword')->with('fail', "Can't update your password right now please try again later"); 
+                }
+            }
+            else
+            {
+                return redirect()->route('getChangePassword')->with('fail', 'old password did not match with our record');
+            }
+        }
+        else
+        {
+            return redirect()->route('getChangePassword')->with('fail', 'Password and confirm password did not match!');
+        }
     }
 }

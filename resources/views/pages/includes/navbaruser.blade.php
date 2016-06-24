@@ -3,7 +3,7 @@
         <div class="row">
           <div class="col-md-12 header-bar">
             <div class="logo">
-              <a href="{{route('getCustomerDahsboard')}}">
+              <a href="{{route('index')}}">
                 <img src="{{url('/')}}/public/images/logo.png" class="img-responsive">
               </a>
             </div>

@@ -25,6 +25,7 @@ Route::group(['middleware' => ['user']], function () {
     Route::get('/profile', ['uses' => 'MainController@getProfile', 'as' => 'get-user-profile']);
     Route::post('/profile', ['uses' => 'MainController@postProfile', 'as' => 'post-user-profile']);
     Route::get('/changepassword', ['uses' => 'MainController@getChangePassword', 'as' => 'getChangePassword']);
+    Route::post('/attempt-changepassword', ['uses' => 'MainController@postChangePassword', 'as' => 'postchangePassword']);
 });
 
 
