@@ -346,7 +346,7 @@ border: 1px solid #fff;
 }
 
 #slide1{
-	background:url('../../../../../public/images/home-slider.jpg') 50% 0 no-repeat fixed;
+	background:url('../images/home-slider.jpg') 50% 0 no-repeat fixed;
 	color: #fff;
 	height: 1000px;
 	margin: 0;
@@ -362,7 +362,7 @@ border: 1px solid #fff;
 }
 
 #slide3{
-    background: url('../../../../../public/images/bg-thirdsection.png') 50% 0 no-repeat fixed;
+    background: url('../images/bg-thirdsection.png') 50% 0 no-repeat fixed;
     color: #fff;
     height: 900px;
     margin: 0;
@@ -397,7 +397,7 @@ border: 1px solid #fff;
 }
 
 #slide1 #christmas_tree { 
-	background: url('../../../../../public/images/christmas-tree.png')no-repeat; 
+	background: url('../images/christmas-tree.png')no-repeat; 
 	width: 48px; 
 	height: 77px; 
 	margin: 0 auto; 
@@ -405,7 +405,7 @@ border: 1px solid #fff;
 	bottom: -35px;
 }
 #slide1 #divider { 
-	background: url('../../../../../public/images/divider.png')no-repeat; 
+	background: url('../images/divider.png')no-repeat; 
 	width: 300px; 
 	height: 35px; 
 	margin: 20px auto 10px; 
@@ -415,7 +415,7 @@ border: 1px solid #fff;
 }
 
 #slide1 #snowflakes1 { 
-	background: url('../../../../../public/images/snowflakes.png')no-repeat; 
+	background: url('../images/snowflakes.png')no-repeat; 
 	width: 24px; 
 	height: 21px; 
 	margin: 0 auto; 
@@ -426,7 +426,7 @@ border: 1px solid #fff;
 }
 
 #slide1 #snowflakes2 { 
-	background: url('../../../../../public/images/snowflakes.png')no-repeat; 
+	background: url('../images/snowflakes.png')no-repeat; 
 	width: 24px; 
 	height: 21px; 
 	margin: 0 auto; 
@@ -474,7 +474,7 @@ border: 1px solid #fff;
 #slide1 .clear { clear: both; }
 
 #slide2 h2{
-    background: url("../../../../../public/images/line-divider.png") no-repeat bottom;
+    background: url("../images/line-divider.png") no-repeat bottom;
     text-align: center;
     padding-bottom: 40px;
     font-size: 40px;
@@ -612,7 +612,7 @@ border: 1px solid #fff;
 }
 
 #slide4 h2{
-    background: url("../../../../../public/images/line-divider.png") no-repeat bottom;
+    background: url("../images/line-divider.png") no-repeat bottom;
     text-align: center;
     padding-bottom: 40px;
     font-size: 40px;
@@ -798,7 +798,7 @@ border: 1px solid #fff;
     display: inline-block;
     width: 100%;
     padding: 5px;
-    background: url("../../../../../public/images/greenbg.png") no-repeat top center;
+    background: url("../images/greenbg.png") no-repeat top center;
     background-size: 100% 100%;
 }
 
@@ -975,7 +975,7 @@ border: 1px solid #fff;
     margin-top: 30px;
 }
 .faq h3{
-    background: #f5f5f5 url("../../../../../public/images/pinpoint.png") no-repeat left top;
+    background: #f5f5f5 url("../images/pinpoint.png") no-repeat left top;
     background-size: contain;
 }
 
@@ -1058,7 +1058,7 @@ p.schedule-pick a{
 */
 
 .dashboard h2{
-    background: url("../../../../../public/images/divider-dash.png") no-repeat center;
+    background: url("../images/divider-dash.png") no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     padding-bottom: 60px;
