@@ -99,18 +99,24 @@ class MainController extends Controller
         $remember_me = isset($request->remember)? true : false;
         $user = auth()->guard('users');
         $block_status = User::where('email', $email)->first();
-        if ($block_status->block_status == 0) {
-            if ($user->attempt(['email' => $email, 'password' => $password], $remember_me)) {
-                return redirect()->route('getCustomerDahsboard');
+        if ($block_status!=null) {
+            if ($block_status->block_status == 0) {
+                if ($user->attempt(['email' => $email, 'password' => $password], $remember_me)) {
+                    return redirect()->route('getCustomerDahsboard');
+                }
+                else
+                {
+                   return redirect()->route('getLogin')->with('fail', 'Wrong Username or Password');
+                }
             }
             else
             {
-               return redirect()->route('getLogin')->with('fail', 'Wrong Username or Password');
+                return redirect()->route('getLogin')->with('fail', 'Sorry you are blocked by the system admin!');
             }
         }
         else
         {
-            return redirect()->route('getLogin')->with('fail', 'Sorry you are blocked by the system admin!');
+             return redirect()->route('getLogin')->with('fail', 'Sorry! you have entered a wrong username');
         }
     }
     public function getDashboard() {
@@ -179,5 +185,11 @@ class MainController extends Controller
         {
             return redirect()->route('get-user-profile')->with('fail', 'Could not save user details!');
         }
+    }
+    public function getChangePassword(){
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $logged_user = $obj->getCustomerData();
+        return view('pages.changepassword', compact('site_details', 'logged_user'));
     }
 }
