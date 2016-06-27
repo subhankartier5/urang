@@ -4,7 +4,6 @@ var stickyNavTop = $('.top-header').offset().top;
  
 var stickyNav = function(){
 var scrollTop = $(window).scrollTop();
-console.log(scrollTop);
       
 // if (scrollTop > stickyNavTop) { 
 //     $('.top-header').addClass('fixed');
