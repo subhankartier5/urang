@@ -6,6 +6,7 @@ use App\SiteConfig;
 use App\User;
 use App\CustomerCreditCardInfo;
 use App\UserDetails;
+use App\Neighborhood;
 class NavBarHelper 
 {
 	public function getUserData() {
@@ -27,5 +28,9 @@ class NavBarHelper
 			$customer_details = null;
 			return $customer_details;
 		}
+	}
+	public function getNeighborhood() {
+		$neighborhood = Neighborhood::all();
+		return $neighborhood;
 	}
 }

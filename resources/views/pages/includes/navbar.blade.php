@@ -27,7 +27,14 @@
                       <li role="presentation"><a href="{{route('getSignUp')}}">Sign Up</a></li>
                       <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
                       <li role="presentation"><a href="#">FAQs</a></li>
-                      <li role="presentation"><a href="#">Neighborhoods</a></li>
+                      <li role="presentation">
+                      <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                        <ul>
+                          @foreach($neighborhood as $hood)
+                            <li> <a href="#">{{$hood->name}}</a></li>
+                          @endforeach
+                        </ul>
+                      </li>
                       <li role="presentation"><a href="#">School Donations</a></li>
                       <li role="presentation"><a href="#">Contact</a></li>
                       <li><a href="tel:8009595785">(800) 959-5785</a></li>

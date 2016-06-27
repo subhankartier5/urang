@@ -13,13 +13,16 @@ use App\CustomerCreditCardInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
 use Hash;
-
+use App\Neighborhood;
 class MainController extends Controller
 {
     public function getIndex() {
+        //dd(1);
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
-    	return view('pages.index', compact('site_details'));
+        $neighborhood = $obj->getNeighborhood();
+        //dd($neighborhood);
+    	return view('pages.index', compact('site_details', 'neighborhood'));
     }
     public function getLogin() {
         $user = auth()->guard('users');
