@@ -52,6 +52,9 @@
                 <li>
                     <a href="{{ route('get-neighborhood') }}"><i class="fa fa-map-marker" aria-hidden="true"></i> Neighborhood</a>
                 </li>
+                <li>
+                    <a href="{{route('getFaq')}}"<i class="fa fa-question-circle" aria-hidden="true"></i> Faq Management</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

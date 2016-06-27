@@ -18,6 +18,7 @@ use DB;
 use App\User;
 use App\UserDetails;
 use App\CustomerCreditCardInfo;
+use App\Faq;
 
 class AdminController extends Controller
 {
@@ -482,5 +483,13 @@ class AdminController extends Controller
         {
             return redirect()->route('getAddNewCustomers')->with('fail', 'Could Not save your details');
         }
+    }
+    public function getFaq() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $faq = Faq::with('admin_details')->paginate(10);
+        //dd($faq);
+        return view('admin.faq', compact('user_data', 'site_details', 'faq'));
     }
 }
