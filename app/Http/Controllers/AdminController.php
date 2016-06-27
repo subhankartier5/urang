@@ -492,4 +492,21 @@ class AdminController extends Controller
         //dd($faq);
         return view('admin.faq', compact('user_data', 'site_details', 'faq'));
     }
+    public function postAddFaq(Request $request) {
+        //return $request;
+        $admin_id = Auth::user()->id;
+        $question = $request->question;
+        $answer = $request->answer;
+        $faq = new Faq();
+        $faq->question = $question;
+        $faq->answer = $answer;
+        $faq->admin_id = $admin_id;
+        if ($faq->save()) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

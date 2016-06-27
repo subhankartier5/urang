@@ -17,8 +17,6 @@
 	                		</div>
 	                	@else
 	                	@endif
-	                	<div class="alert alert-success" id="success" style="display: none;"></div>
-	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 	                   Frequently asked questions
 	                   <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_faq" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add faq</button>
 	                </div>
@@ -77,8 +75,14 @@
 	        <h4 class="modal-title">Add Faq</h4>
 	      </div>
 	      <div class="modal-body">
+	      <div style="background: transparent; display: none;" id="loaderBodyAdd" align="center">
+			<p>Please wait...</p>
+			<img src="{{url('/')}}/public/img/reload.gif">
+		 </div>
 	        <form role="form" id="add-faq-form">
 			  <div class="form-group">
+				 <div class="alert alert-success" id="success" style="display: none;"></div>
+		         <div class="alert alert-danger" id="errordiv" style="display: none;"></div>
 			    <label for="question">Question ?</label>
 			    <input class="form-control" id="question" name="question" type="text" required="">
 			  </div>
@@ -96,4 +100,44 @@
 
 	  </div>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			//alert('hi')
+			$('#addFaq').click(function(){
+				var question = $('#question').val();
+				var answer = $('#answer').val();
+				//console.log(question);
+				//console.log(answer);
+				if ($.trim(question) && $.trim(answer)) 
+				{
+					$('#loaderBodyAdd').show();
+					$('#add-faq-form').hide();
+
+					$.ajax({
+						type: "POST",
+						url: "{{route('postAddFaq')}}",
+						data: {question: question, answer: answer, _token: "{{Session::token()}}"},
+						success: function(data) {
+							if (data != 0) 
+							{
+								location.reload();
+							}
+							else
+							{
+								$('#errordiv').show();
+								$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i> Could Not Save Your Details Please Try Again Later! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+								return false;
+							}
+						}
+					});
+				}
+				else
+				{
+					$('#errordiv').show();
+					$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i> All The Fields Are Mandetory <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+					return false;
+				}
+			});
+		});
+	</script>
 @endsection

@@ -61,3 +61,4 @@ Route::post('/edit-customer', ['uses' => 'AdminController@postEditCustomer', 'as
 Route::get('/add-new-customer', ['uses' => 'AdminController@getAddNewCustomer', 'as' => 'getAddNewCustomers']);
 Route::post('/add-new-customer', ['uses' => 'AdminController@postAddNewCustomer', 'as' => 'postAddNewCustomer']);
 Route::get('/faq' , ['uses' => 'AdminController@getFaq', 'as' => 'getFaq']);
+Route::post('/atempt-add-faq', ['uses' => 'AdminController@postAddFaq', 'as' => 'postAddFaq']);
