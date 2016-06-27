@@ -17,8 +17,15 @@ class NavBarHelper
 		return $site_details;
 	}
 	public function getCustomerData() {
-		$logged_id = auth()->guard('users')->user()->id;
-		$customer_details = User::with('user_details', 'card_details')->where('id' , $logged_id)->first();
-		return $customer_details;
+		if (auth()->guard('users')->user() != null) {
+			$logged_id = auth()->guard('users')->user()->id;
+			$customer_details = User::with('user_details', 'card_details')->where('id' , $logged_id)->first();
+			return $customer_details;
+		}
+		else
+		{
+			$customer_details = null;
+			return $customer_details;
+		}
 	}
 }

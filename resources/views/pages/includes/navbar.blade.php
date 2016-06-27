@@ -25,7 +25,7 @@
                       <li role="presentation" class="active"><a href="{{route('index')}}">Home</a></li>
                       <li role="presentation"><a href="{{route('getLogin')}}">Login</a></li>
                       <li role="presentation"><a href="{{route('getSignUp')}}">Sign Up</a></li>
-                      <li role="presentation"><a href="#">Prices</a></li>
+                      <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
                       <li role="presentation"><a href="#">FAQs</a></li>
                       <li role="presentation"><a href="#">Neighborhoods</a></li>
                       <li role="presentation"><a href="#">School Donations</a></li>

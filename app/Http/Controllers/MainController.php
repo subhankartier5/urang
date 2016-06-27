@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Helper\NavBarHelper;
 use App\User;
 use App\UserDetails;
+use App\PriceList;
 use App\CustomerCreditCardInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -219,5 +220,22 @@ class MainController extends Controller
         {
             return redirect()->route('getChangePassword')->with('fail', 'Password and confirm password did not match!');
         }
+    }
+    public function getPrices() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        //dd($login_check);
+        $price_list = PriceList::with('categories')->get();
+        if ($login_check != null) {
+            //dd('i m here');
+           $logged_user= $obj->getCustomerData();
+           return view('pages.price', compact('site_details', 'login_check', 'logged_user' , 'price_list'));
+        }
+        else
+        {
+            return view('pages.price', compact('site_details', 'login_check' , 'price_list'));
+        }
+        
     }
 }

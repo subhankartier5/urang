@@ -18,6 +18,7 @@ Route::post('/login-attempt', ['uses' => 'MainController@postCustomerLogin', 'as
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);
 Route::get('/user-logout', ['uses' => 'MainController@getLogout', 'as' => 'getLogout']);
+Route::get('/prices', ['uses' => 'MainController@getPrices', 'as' => 'getPrices']);
 
 /*after login user functionality in middleware*/
 Route::group(['middleware' => ['user']], function () {

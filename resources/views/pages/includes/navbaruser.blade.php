@@ -25,7 +25,7 @@
                       <li role="presentation"><a href="{{route('getCustomerDahsboard')}}">Home</a></li>
                       <li role="presentation"><a href="#">NYC Pick-UP </a></li>
                       <li role="presentation"><a href="#">My Pick-UP </a></li>
-                      <li role="presentation"><a href="#">Prices</a></li>
+                      <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
                       <li role="presentation"><a href="neighbour.html">Neighborhoods</a></li>
                       <li role="presentation"><a href="faq.html">FAQs</a></li>
                       <li role="presentation"><a href="#">Contact</a></li>
