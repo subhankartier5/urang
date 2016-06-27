@@ -31,7 +31,7 @@
                       <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul>
                           @foreach($neighborhood as $hood)
-                            <li> <a href="#">{{$hood->name}}</a></li>
+                            <li> <a href="{{route('getNeiborhoodPage')}}">{{$hood->name}}</a></li>
                           @endforeach
                         </ul>
                       </li>

@@ -28,19 +28,21 @@ class MainController extends Controller
         $user = auth()->guard('users');
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
+        $neighborhood = $obj->getNeighborhood();
         if ($user->user()) {
             //return view('pages.userdashboard', compact('site_details'));
             return redirect()->route('getCustomerDahsboard');
         }
         else
         {
-            return view('pages.login', compact('site_details'));
+            return view('pages.login', compact('site_details', 'neighborhood'));
         }
     }
     public function getSignUp(){
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        return view('pages.signup', compact('site_details'));
+        $neighborhood = $obj->getNeighborhood();
+        return view('pages.signup', compact('site_details', 'neighborhood'));
     }
     public function postSignUp(Request $request) {
         //dd($request);
@@ -129,8 +131,9 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         //$user = auth()->guard('users');
         $logged_user = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
         //dd($logged_user);
-        return view('pages.userdashboard', compact('site_details', 'logged_user'));
+        return view('pages.userdashboard', compact('site_details', 'logged_user', 'neighborhood'));
     } 
     public function getLogout() {
         $user = auth()->guard('users');
@@ -141,7 +144,8 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
-        return view('pages.profile', compact('site_details', 'logged_user'));
+        $neighborhood = $obj->getNeighborhood();
+        return view('pages.profile', compact('site_details', 'logged_user', 'neighborhood'));
     }
     public function postProfile(Request $request) {
         $obj = new NavBarHelper();
@@ -195,7 +199,8 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
-        return view('pages.changepassword', compact('site_details', 'logged_user'));
+        $neighborhood = $obj->getNeighborhood();
+        return view('pages.changepassword', compact('site_details', 'logged_user', 'neighborhood'));
     }
     public function postChangePassword(Request $request) {
         //dd($request);
@@ -228,17 +233,30 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
         //dd($login_check);
         $price_list = PriceList::with('categories')->get();
         if ($login_check != null) {
             //dd('i m here');
            $logged_user= $obj->getCustomerData();
-           return view('pages.price', compact('site_details', 'login_check', 'logged_user' , 'price_list'));
+           return view('pages.price', compact('site_details', 'login_check', 'logged_user' , 'price_list', 'neighborhood'));
         }
         else
         {
-            return view('pages.price', compact('site_details', 'login_check' , 'price_list'));
+            return view('pages.price', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
         }
         
+    }
+    public function getNeiborhoodPage() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'logged_user'));
+        } else {
+            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+        }
     }
 }

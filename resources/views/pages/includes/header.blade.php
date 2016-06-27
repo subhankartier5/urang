@@ -13,3 +13,5 @@
 <script src="{{url('/')}}/public/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/main.js"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
+<script type="text/javascript" src="{{url('/')}}/public/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/jquery-ui.css">
