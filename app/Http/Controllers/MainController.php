@@ -11,6 +11,7 @@ use App\UserDetails;
 use App\CustomerCreditCardInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
+use Hash;
 
 class MainController extends Controller
 {
@@ -23,7 +24,14 @@ class MainController extends Controller
         $user = auth()->guard('users');
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
-    	return view('pages.login', compact('site_details'));
+        if ($user->user()) {
+            //return view('pages.userdashboard', compact('site_details'));
+            return redirect()->route('getCustomerDahsboard');
+        }
+        else
+        {
+            return view('pages.login', compact('site_details'));
+        }
     }
     public function getSignUp(){
         $obj = new NavBarHelper();
@@ -91,13 +99,125 @@ class MainController extends Controller
         $password = $request->password;
         $remember_me = isset($request->remember)? true : false;
         $user = auth()->guard('users');
-        if ($user->attempt(['email' => $email, 'password' => $password], $remember_me)) {
-            echo "<pre>";
-            print_r($user->user());
+        $block_status = User::where('email', $email)->first();
+        if ($block_status!=null) {
+            if ($block_status->block_status == 0) {
+                if ($user->attempt(['email' => $email, 'password' => $password], $remember_me)) {
+                    return redirect()->route('getCustomerDahsboard');
+                }
+                else
+                {
+                   return redirect()->route('getLogin')->with('fail', 'Wrong Username or Password');
+                }
+            }
+            else
+            {
+                return redirect()->route('getLogin')->with('fail', 'Sorry you are blocked by the system admin!');
+            }
         }
         else
         {
-           echo "failed";
+             return redirect()->route('getLogin')->with('fail', 'Sorry! you have entered a wrong username');
+        }
+    }
+    public function getDashboard() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        //$user = auth()->guard('users');
+        $logged_user = $obj->getCustomerData();
+        //dd($logged_user);
+        return view('pages.userdashboard', compact('site_details', 'logged_user'));
+    } 
+    public function getLogout() {
+        $user = auth()->guard('users');
+        $user->logout();
+        return redirect()->route('getLogin');
+    }
+    public function getProfile() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $logged_user = $obj->getCustomerData();
+        return view('pages.profile', compact('site_details', 'logged_user'));
+    }
+    public function postProfile(Request $request) {
+        $obj = new NavBarHelper();
+        $logged_user = $obj->getCustomerData();
+        $update_id = $logged_user->id;
+        //dd($update_id);
+        $user = User::find($update_id);
+        //dd($user);
+        $user->email = $request->email;
+        if ($user->save()) {
+            $user_details = UserDetails::where('user_id', $update_id)->first();
+            //dd($user_details);
+            $user_details->user_id = $update_id;
+            $user_details->name = $request->name;
+            $user_details->address = $request->address;
+            $user_details->personal_ph = $request->personal_phone;
+            $user_details->cell_phone = $request->cell_phone != null ? $request->cell_phone : '';
+            $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
+            $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
+            $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
+            if ($user_details->save()) {
+                $card_info = CustomerCreditCardInfo::where('user_id' , $update_id)->first();
+                //dd($card_info);
+                $card_info->user_id = $update_id;
+                $card_info->name = $request->cardholder_name;
+                $card_info->card_no = $request->card_no;
+                $card_info->card_type = $request->cardtype;
+                $card_info->cvv = $request->cvv;
+                $card_info->exp_month = $request->select_month;
+                $card_info->exp_year = $request->select_year;
+                if ($card_info->save()) {
+
+                    return redirect()->route('get-user-profile')->with('success', 'Details successfully updated!');
+                }
+                else
+                {
+                   return redirect()->route('get-user-profile')->with('fail', 'Could not save your card details!'); 
+                }
+            }
+            else
+            {
+                return redirect()->route('get-user-profile')->with('fail', 'Could not save user details!');
+            }
+        }
+        else
+        {
+            return redirect()->route('get-user-profile')->with('fail', 'Could not save user details!');
+        }
+    }
+    public function getChangePassword(){
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $logged_user = $obj->getCustomerData();
+        return view('pages.changepassword', compact('site_details', 'logged_user'));
+    }
+    public function postChangePassword(Request $request) {
+        //dd($request);
+        if ($request->new_password == $request->conf_password) {
+            $id = auth()->guard('users')->user()->id;
+            $old_password = $request->old_password;
+            $new_password = $request->new_password;
+            $user = User::find($id);
+            if (Hash::check($old_password, $user->password)) {
+                $user->password = bcrypt($new_password);
+                if ($user->save()) {
+                    return redirect()->route('getChangePassword')->with('success', "Password updated successfully!"); 
+                }
+                else
+                {
+                   return redirect()->route('getChangePassword')->with('fail', "Can't update your password right now please try again later"); 
+                }
+            }
+            else
+            {
+                return redirect()->route('getChangePassword')->with('fail', 'old password did not match with our record');
+            }
+        }
+        else
+        {
+            return redirect()->route('getChangePassword')->with('fail', 'Password and confirm password did not match!');
         }
     }
 }

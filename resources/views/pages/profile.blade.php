@@ -1,84 +1,71 @@
-@extends('pages.layouts.master')
+@extends('pages.layouts.user-master')
 @section('content')
 <div class="main-content login-signup">
    <div class="container">
       <div class="row signup login">
          <div class="col-md-12">
-            <h2>Customer Registration</h2>
-            	@if(Session::has('fail'))
-		        <div class="alert alert-danger">{{Session::get('fail')}}
-		            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		        </div>
-		        @else
-		        @endif
-		        @if(Session::has('success'))
-		          <div class="alert alert-success">                               {{Session::get('success')}}
-		            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		          </div>
-		        @else
-		        @endif
-            <h3>Individual Clients</h3>
-            <p class="reg-heading">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery.</p>
-            <p class="signup-link">NOTE: If you already have an account with us, please login at the <a href="{{route('getLogin')}}">login page</a>.</p>
-            <form class="form-inline" action="{{route('postSignUp')}}" method="post" onsubmit="return PassWordCheck();">
+            <h2>Edit Details</h2>
+        	@if(Session::has('fail'))
+	        <div class="alert alert-danger">{{Session::get('fail')}}
+	            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	        </div>
+	        @else
+	        @endif
+	        @if(Session::has('success'))
+	          <div class="alert alert-success">                               {{Session::get('success')}}
+	            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	          </div>
+	        @else
+	        @endif
+            <form class="form-inline" action="{{route('post-user-profile')}}" method="post" onsubmit="return PassWordCheck();">
                <div class="col-md-6 individual-form">
                   <h4>Login Info:</h4>
                   <div class="form-group">
                      <label for="exampleInputuname1">Email</label>
-                     <input type="email" class="form-control" id="exampleInputuname1" name="email" required="">
+                     <input type="email" class="form-control" id="email" name="email" required="" value="{{$logged_user->email}}">
+                     <em>[ Email is being used for login username ]</em>
                   </div>
                   <div class="form-group">
-                     <label for="password">Password</label>
-                     <input type="password" class="form-control" id="password" name="password" required="" onkeyup="return PassWordCheck();">
+                     <label for="name">Name</label>
+                     <input type="text" class="form-control" id="name" name="name" required="" value="{{$logged_user->user_details->name}}">
                   </div>
                   <div class="form-group">
-                     <label for="conf_password">Confirm Password</label>
-                     <input type="password" class="form-control" id="conf_password" name="conf_password" required="" onkeyup="return PassWordCheck();">
+                     <label for="address">Address</label>
+                     <textarea class="form-control" rows="10" name="address" required="">{{$logged_user->user_details->address}}</textarea>
                   </div>
-                  <div id="passcheck"></div>
                </div>
                <div class="col-md-6 individual-form">
                   <h4>Personal Info:</h4>
                   <div class="form-group">
-                     <label for="name">Name</label>
-                     <input type="text" class="form-control" id="name" name="name" required="" >
-                  </div>
-                  <div class="form-group">
-                     <label for="address">Address</label>
-                     <textarea class="form-control" rows="10" name="address" required=""></textarea>
-                  </div>
-                  <div class="form-group">
                      <label for="phone">Phone</label>
-                     <input type="number" class="form-control" id="Phone" placeholder="Format: 5555555555" name="personal_phone" required="">
+                     <input type="number" class="form-control" id="Phone" placeholder="Format: 5555555555" name="personal_phone" required="" value="{{$logged_user->user_details->personal_ph}}">
                   </div>
                   <div class="form-group">
                      <label for="cellphone">Cell Phone (optional)</label>
-                     <input type="number" class="form-control" id="cellphone" placeholder="Format: 5555555555" name="cell_phone">
+                     <input type="number" class="form-control" id="cellphone" placeholder="Format: 5555555555" name="cell_phone" value="{{$logged_user->user_details->cell_phone ==0 ? '' : $logged_user->user_details->cell_phone}}">
                   </div>
                   <div class="form-group">
                      <label for="officephone">Office Phone (optional)</label>
-                     <input type="number" class="form-control" id="officephone" placeholder="Format: 5555555555" name="office_phone">
+                     <input type="number" class="form-control" id="officephone" placeholder="Format: 5555555555" name="office_phone" value="{{$logged_user->user_details->off_phone ==0 ? '' : $logged_user->user_details->off_phone}}">
                   </div>
                </div>
                <div class="clear50"></div>
                <div class="col-md-6 individual-form">
                   <h4>Special Instructions:</h4>
-                  <p>We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions. Unless otherwise noted pick-up will be at addressed listed above.</p>
                   <div class="form-group">
                      <label for="address">Default Special Instructions (optional)</label>
-                     <textarea class="form-control" rows="10" name="spcl_instruction"></textarea>
+                     <textarea class="form-control" rows="10" name="spcl_instruction">{{$logged_user->user_details->spcl_instructions != null ?  $logged_user->user_details->spcl_instructions : ''}}</textarea>
                   </div>
                   <div class="form-group">
                      <label for="address">Default Driving Instructions (optional)</label>
-                     <textarea class="form-control" rows="10" name="driving_instruction"></textarea>
+                     <textarea class="form-control" rows="10" name="driving_instruction">{{$logged_user->user_details->driving_instructions != null ?  $logged_user->user_details->driving_instructions : ''}}</textarea>
                   </div>
                </div>
                <div class="col-md-6 individual-form">
                   <h4>Credit Card Info:</h4>
-                  <p>It is corporate policy to use our services we must have a credit card on file. You may choose another form of payment but for security purposes we need your credit info. Your credit card is NOT being charged at this time and is only being kept on file for security purposes.</p>
                   <div class="form-group">
                      <label for="cardholder">Card Holder Name</label>
-                     <input type="text" class="form-control" id="cardholder" name="cardholder_name" required="">
+                     <input type="text" class="form-control" id="cardholder" name="cardholder_name" required="" value="{{$logged_user->card_details->name}}">
                   </div>
                   <div class="form-group">
                      <label for="cardholder">Card Type</label>
@@ -91,13 +78,13 @@
                   </div>
                   <div class="form-group">
                      <label for="cardnumber">Credit Card Number</label>
-                     <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();">
+                     <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" value="{{$logged_user->card_details->card_no}}">
                       <p class="log"></p>
                      <em>[ Please do not enter spaces or hyphens (-) ]</em>
                   </div>
                   <div class="form-group">
                      <label for="cvv">CVV2 (optional)</label>
-                     <input type="text" class="form-control" id="cvv" name="cvv">
+                     <input type="text" class="form-control" id="cvv" name="cvv" value="{{$logged_user->card_details->cvv != null ? $logged_user->card_details->cvv: ''}}">
                      <em>[ CVV2 is a 3-digit value at the end of your account number printed on the back of your credit card. On American Express cards, CVV2 number consists of 3-4 digits located on the front of the card.]</em>
                   </div>
                   <div class="form-group">
@@ -136,7 +123,7 @@
                   </div>
                </div>
                <div class="clear50"></div>
-               <button type="submit" class="btn btn-default">Create Free Account</button>
+               <button type="submit" class="btn btn-default">Save Details</button>
                <input type="hidden" name="_token" value="{{Session::token()}}"></input>
                <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
             </form>
@@ -147,42 +134,13 @@
 <script type="text/javascript">
 	var err;
 	function PassWordCheck() {
-		//password and confirm password match function
-		var password = $('#password').val();
-		var status='';
-		var conf_password = $('#conf_password').val();
-		if (password && password.length >= 6) 
+		creditCardValidate();
+		if(err==0)
 		{
-			if (password && conf_password) 
-			{
-				if (password == conf_password) 
-				{
-					$('#passcheck').html('<br><div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> password and confirm password matched! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-					creditCardValidate();
-					if(err==0)
-					{
-					return true;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					$('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password did not match! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-					return false;
-				}
-			}
-			else
-			{
-				$('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password should be same. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-				return false;
-			}
+		return true;
 		}
 		else
 		{
-			$('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password should atleast be 6 charecters. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
 			return false;
 		}
 	}
@@ -206,5 +164,13 @@
 			
     	});
 	}
+	$(document).ready(function(){
+		var SelectCardType = $.trim('{{$logged_user->card_details->card_type}}');
+		var SelectMonth = $.trim('{{$logged_user->card_details->exp_month}}');
+		var SelectYear = $.trim('{{$logged_user->card_details->exp_year}}');
+		$('#cardtype').val(SelectCardType);
+		$('#select_year').val(SelectYear);
+		$('#select_month').val(SelectMonth);
+	});
 </script>
 @endsection

@@ -10,16 +10,30 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
 /*landing page routes*/
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
 Route::post('/login-attempt', ['uses' => 'MainController@postCustomerLogin', 'as' => 'postCustomerLogin']);
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);
+Route::get('/user-logout', ['uses' => 'MainController@getLogout', 'as' => 'getLogout']);
+
+/*after login user functionality in middleware*/
+Route::group(['middleware' => ['user']], function () {
+    Route::get('/user-dashboard', ['uses' => 'MainController@getDashboard','as' => 'getCustomerDahsboard']);
+    Route::get('/profile', ['uses' => 'MainController@getProfile', 'as' => 'get-user-profile']);
+    Route::post('/profile', ['uses' => 'MainController@postProfile', 'as' => 'post-user-profile']);
+    Route::get('/changepassword', ['uses' => 'MainController@getChangePassword', 'as' => 'getChangePassword']);
+    Route::post('/attempt-changepassword', ['uses' => 'MainController@postChangePassword', 'as' => 'postchangePassword']);
+});
+
 
 /*Admin Routes*/
 Route::get('/admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
 Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
+
+
 Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'middleware' => 'auth', 'as' => 'get-admin-dashboard']);
 Route::get('/logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
 Route::get('/profile-details', ['uses' => 'AdminController@getProfile', 'as' => 'get-admin-profile']);
