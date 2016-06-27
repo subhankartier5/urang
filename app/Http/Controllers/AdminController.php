@@ -509,4 +509,44 @@ class AdminController extends Controller
             return 0;
         }
     }
+    public function UpdateFaq(Request $request) {
+        //return $request;
+        $id = $request->id;
+        $question =$request->questionEdit;
+        $answer = $request->answerEdit;
+        $faq = Faq::find($id);
+        if ($faq) {
+            $faq->question = $question;
+            $faq->answer = $answer;
+            $faq->admin_id = Auth::user()->id;
+            if ($faq->save()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function DeleteFaq(Request $request) {
+        $id = $request->id;
+        $faq = Faq::find($id);
+        if ($faq) {
+           if ($faq->delete()) {
+               return 1;
+           }
+           else
+           {
+                return 0;
+           }
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
