@@ -1,0 +1,259 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script type="text/javascript" src="js/jquery-1.12.3.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.js"></script>
+</head>
+<body class="login-signup">
+  <header class="top-header">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 header-bar">
+            <div class="logo">
+              <img src="images/logo.png" class="img-responsive">
+            </div>
+            <div class="navigation">
+              <nav class="navbar navbar-default nav-tabs">
+                <div class="container-fluid">
+                  <!-- Brand and toggle get grouped for better mobile display -->
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                  </div>
+                  <!-- Collect the nav links, forms, and other content for toggling -->
+                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                      <li role="presentation"><a href="home.html">Home</a></li>
+                      <li role="presentation" class="active"><a href="pickup.html">NYC Pick-UP </a></li>
+                      <li role="presentation"><a href="dashboard.html">My Pick-UP </a></li>
+                      <li role="presentation"><a href="price.html">Prices</a></li>
+                      <li role="presentation"><a href="neighbour.html">Neighborhoods</a></li>
+                      <li role="presentation"><a href="faq.html">FAQs</a></li>
+                      <li role="presentation"><a href="contact.html">Contact</a></li>
+                      <li><a href="tel:8009595785">(800) 959-5785</a></li>
+                    </ul>
+                    <div class="clear50"></div>
+                    <ul class="nav navbar-nav">
+                      <li role="presentation" class="welcome-user"><a href="#">Welcome <span>mitchell clerk</span></a>
+                        <ul>
+                          <li role="presentation"><a href="dashboard.html">My Profile</a></li>
+                        </ul>
+                      </li>
+                      <li><span class="glyphicon glyphicon-off logout" aria-hidden="true" title="Logout"></span></li>
+                    </ul>
+                
+                  </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+              </nav>
+            </div>
+          </div>
+        </div>
+    </div>
+  </header>
+  <div class="main-content">
+    <div class="container">
+      <div class="row signup login">
+        <div class="col-md-12">
+        <h2>NYC Pick-up</h2>
+        <h3>Individual Clients</h3>
+        <p class="reg-heading">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery.</p>
+          <form class="form-inline">
+              <h4>Schedule Pick-up - Regular Customer</h4>
+              <div class="form-group">
+                <label for="exampleInputuname1">Username</label>
+                <input type="text" class="form-control" id="exampleInputuname1" value="Clerk" disabled>
+              </div>
+              <div class="form-group">
+                <label for="examplename">Name</label>
+                <input type="text" class="form-control" id="examplename" value="Mitchell Clerk" disabled>
+              </div>
+              <div class="form-group">
+                <label for="address">Pick-Up Address</label>
+                <textarea class="form-control" rows="3">Mitchell's home </textarea>
+              </div>
+              <div class="form-group">
+                <label for="address">Pick-Up Date</label>
+                <div class='input-group date'>
+                    <input type='text' class="form-control" id='datepicker'/>
+                    <span class="input-group-addon">
+                        <a href="#" class="calendar"><span class="glyphicon glyphicon-calendar "></span></a>
+                    </span>
+                </div>
+              </div>
+            <div class="form-group schedule">
+              <label for="schedule">Schedule</label>
+              <div class="schedule-radio">
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> For the time specified only.
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Daily at this time except weekends.
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">  Daily at this time including weekends.
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">  Weekly on this day of the week.
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">  Monthly on this day of the month.
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>How Would You Like Your Shirts</label>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="inlineCheckbox1" value="option1"> Boxed
+              </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="inlineCheckbox2" value="option2"> Hung
+                </label>
+              </div>
+              <select>
+                <option>No Strach</option>
+                <option>Very Light Starch</option>
+                <option>Light Starch</option>
+                <option>Medium Starch</option>
+                <option>Heavy Starch</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Doorman</label>
+              <select>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+             <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"> Please tick this box if you need U-Rang bag.
+                  </label>
+              </div>
+            </div>
+            <p>We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions.</p>
+            <div class="clear50"></div>
+            <div class="form-group">
+                <label>Special Instructions</label>
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Driving Instructions</label>
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group schedule">
+              <label for="schedule">How to pay </label>
+              <div class="schedule-radio">
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio6" value="option1"> Charge my credit card this time for amount $ 
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio7" value="option2" checked>Pre-Authorization - Charge my card on ongoing basis for amounts I owe (recommended for regular customers) 
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio8" value="option3"> COD
+                </label>
+                <br>
+                <label class="radio">
+                  <input type="radio" name="inlineRadioOptions" id="inlineRadio9" value="option4"> Check
+                </label>
+              </div>
+            </div>
+            <p class="notice">To see total and specify items, please complete online form.</p>
+            <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"> I want to use the online order form
+                  </label>
+              </div>
+            </div>
+            <div class="clear50"></div>
+            <button type="submit" class="btn btn-default">Schedule Pick up</button>
+            <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<footer>
+  <div class="footer">
+     <div class="container-fluid">
+        <div class="row footer-top">
+          <div class="col-md-12">
+            <div class="col-md-3">
+              <h2>About us</h2>
+              <p>
+                U-Rang has been servicing the many affluent neigborhoods of New York City for more than 10 years. Our goals are simple, provide the best service while giving back to the community.
+              </p>
+            </div>
+            <div class="col-md-3">
+              <h2>Sitemap</h2>
+              <ul>
+                <li><a href="">Home</a></li>
+                <li><a href="">about us</a></li>
+                <li><a href="">login</a></li>
+                <li><a href="">sign-up</a></li>
+                <li><a href="">Neighborhoods</a></li>
+                <li><a href="">Prices</a></li>
+                <li><a href="">FAQ's</a></li>
+                <li><a href="">Contact us</a></li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <h2>Contact info</h2>
+              <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>150 Broad Street New York, NY 10005</p>
+              <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>(800)959-5785</p>
+              <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:support@u-rang.com">support@u-rang.com</a></p>
+            </div>
+            <div class="col-md-3">
+              <h2>Contact info</h2>
+              <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>355 E 23rd Street New York, NY 10010</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="copyright">
+            <p>©2016 U-RANG, INC.. ALL RIGHTS RESERVED</p>
+          </div>
+        </div>
+      </div>
+  </div>
+</footer>
+
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $( "#datepicker" ).datepicker();
+    $( ".calendar" ).click(function(e) {
+      e.preventDefault();
+      $( "#datepicker" ).focus();
+    });
+});
+</script>
+</html>
