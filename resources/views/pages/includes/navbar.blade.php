@@ -26,7 +26,7 @@
                       <li role="presentation"><a href="{{route('getLogin')}}">Login</a></li>
                       <li role="presentation"><a href="{{route('getSignUp')}}">Sign Up</a></li>
                       <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
-                      <li role="presentation"><a href="#">FAQs</a></li>
+                      <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>
                       <li role="presentation">
                       <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul>

@@ -36,7 +36,7 @@
                         </ul>
 
                       </li>
-                      <li role="presentation"><a href="faq.html">FAQs</a></li>
+                      <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>
                       <li role="presentation"><a href="#">Contact</a></li>
 
                       <li><a href="tel:8009595785">(800) 959-5785</a></li>

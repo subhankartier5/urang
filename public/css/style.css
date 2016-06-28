@@ -1,40 +1,38 @@
 @font-face {
-	font-family:'Montserrat-Light';
-	src:url('fonts/Montserrat-Light.otf') format('truetype');
-	unicode-range: U+0020-2265;
+    font-family:'Montserrat-Light';
+    src:url('fonts/Montserrat-Light.otf') format('truetype');
+    unicode-range: U+0020-2265;
 }
 
 @font-face {
-	font-family:'Montserrat-Bold';
-	src:url('fonts/Montserrat-Bold.otf') format('truetype');
-	unicode-range: U+0020-2265;
+    font-family:'Montserrat-Bold';
+    src:url('fonts/Montserrat-Bold.otf') format('truetype');
+    unicode-range: U+0020-2265;
 }
 
 @font-face {
-	font-family:'Pacifico';
-	src:url('fonts/Pacifico.ttf') format('truetype');
-	unicode-range: U+0020-2265;
+    font-family:'Pacifico';
+    src:url('fonts/Pacifico.ttf') format('truetype');
+    unicode-range: U+0020-2265;
 }
 
 @font-face {
-	font-family:'Signika';
-	src:url('fonts/signika.negative-semibold.ttf') format('truetype');
-	unicode-range: U+0020-2265;
+    font-family:'Signika';
+    src:url('fonts/signika.negative-semibold.ttf') format('truetype');
+    unicode-range: U+0020-2265;
 }
 
 body{
 
-	font-family: 'Montserrat-Light';
+    font-family: 'Montserrat-Light';
 }
 
-/*.login-signup{
-	color: #333;
-	background: url("../../../../../public/images/background-learner.jpg") no-repeat top center;
-    background-size: 100% 100%;
+h2{
+    margin-top: 0;
 }
-*/
-.login-signup{
-	color: #333;
+
+.login-signup .main-content{
+    color: #333;
     background: #eeffe0;
     background: -moz-linear-gradient(top, #eeffe0 0%, #97ba77 100%);
     background: -webkit-linear-gradient(top, #eeffe0 0%,#97ba77 100%);
@@ -44,19 +42,19 @@ body{
 }
 
 .clear{
-	clear: both;
+    clear: both;
 }
 
 .clear50{
-	clear: both;
-	margin: 50px 0;
+    clear: both;
+    margin: 50px 0;
 }
 .top-header{
-	background: #fff;
+    background: #fff;
 }
 
 .logo{
-	display: inline-block;
+    display: inline-block;
     width: 18%;
     padding-top: 20px;
 }
@@ -161,7 +159,7 @@ body{
 }
 /*
 ================================
-	Login Signup
+    Login Signup
 ================================
 */
 
@@ -175,7 +173,7 @@ body{
 }
 
 .login h4{
-	color: #fff;
+    color: #fff;
     font-size: 20px;
     border-bottom: 1px solid;
     padding-bottom: 20px;
@@ -187,10 +185,10 @@ body{
 }
 
 .login form{
-	border: 1px solid #68a832;
-	padding: 30px 50px;
-	background: rgba(0,0,0,0.5);
-	display: inline-block;
+    border: 1px solid #68a832;
+    padding: 30px 50px;
+    background: rgba(0,0,0,0.5);
+    display: inline-block;
     width: 100%;
 }
 
@@ -205,11 +203,21 @@ body{
 }
 
 .login form .form-control{
-	height: 45px;
+    height: 47px;
 }
 
 .signup form .form-control {
     width: 52%;
+}
+
+.signup form .form-control:disabled{
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+    font-size: 16px;
+    text-transform: capitalize;
+    padding: 0;
 }
 
 .signup form .form-control.expiration {
@@ -219,8 +227,7 @@ body{
 .login form .btn-default{
     padding: 10px 20px;
     display: inline-block;
-
-border: 1px solid #fff;
+    border: 1px solid #fff;
     color: #fff;
     font-size: 16px;
     text-transform: uppercase;
@@ -229,17 +236,15 @@ border: 1px solid #fff;
     font-family: 'Montserrat-Bold';
     text-shadow: 1px 1px 1px #333;
     box-shadow: 1px 2px 5px 0 #333;
-
-
-  vertical-align: middle;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow: hidden;
+    vertical-align: middle;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow: hidden;
 }
 
 .login form .btn-default:before {
@@ -285,7 +290,7 @@ border: 1px solid #fff;
 }
 
 .login form .form-control#date{
-	border: none;
+    border: none;
     background: none;
     color: #fff;
     font-style: italic;
@@ -293,37 +298,96 @@ border: 1px solid #fff;
 }
 
 .signup form label {
-	width: 230px;
+    width: 230px;
 }
 
 .signup form em{
-	display: block;
-    color: whitesmoke;
+    display: block;
+    color: #fff;
 }
 
 .offer{
-	text-align: center;
-	margin-top: 10px;
+    text-align: center;
+    margin-top: 10px;
 }
 
 .individual-form p, .login h3{
-	color: #333;
-	text-align: justify;
+    color: #68a832;
+    text-align: justify;
 }
 
- .reg-heading{
- 	color: #000;
- 	text-align: justify;
- }
+.reg-heading{
+    color: #000;
+    text-align: justify;
+}
 
+.calendar span{
+    font-size: 20px;
+}
+
+.calendar{
+    color: #68a832;
+}
+
+.calendar:hover{
+    color: #333;
+}
+
+.ui-datepicker .ui-state-active,.ui-datepicker.ui-widget-content .ui-state-active,.ui-datepicker .ui-widget-header .ui-state-active {
+    border: 1px solid #68a832;
+    background: #68a832;
+}
+
+.ui-datepicker.ui-widget{
+    font-family: 'Montserrat-Light';
+    font-size: 16px;
+}
+
+.date{
+    width: 52%;
+}
+
+.schedule-radio{
+    display: inline-block;
+    width: 52%;
+}
+
+.signup form p{
+    color: #fff;
+}
+
+.signup form .schedule label{
+    vertical-align: top;
+}
+
+.signup form .schedule label.radio{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.signup form select{
+    padding: 10px;
+    font-size: 16px;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.signup form .checkbox label{
+    width: 100%;
+    margin-right: 30px;
+}
+
+p.notice{
+    text-transform: uppercase;
+}
 /*
 ================================
-	Home Page
+    Home Page
 ================================
 */
 .subscribe-buttons{
-	text-align: center;
-	margin-top: 50px;
+    text-align: center;
+    margin-top: 50px;
 }
 
 .subscribe-buttons a{
@@ -346,19 +410,19 @@ border: 1px solid #fff;
 }
 
 #slide1{
-	background:url('../images/home-slider.jpg') 50% 0 no-repeat fixed;
-	color: #fff;
-	height: 1000px;
-	margin: 0;
-	padding: 200px 0 260px 0;
-	background-size: cover;
+    background:url('../images/home-slider.jpg') 50% 0 no-repeat fixed;
+    color: #fff;
+    height: 1000px;
+    margin: 0;
+    padding: 200px 0 260px 0;
+    background-size: cover;
 }
 
 #slide2{
-	background-color: #fff;
-	color: #333333;
-	margin: 0 auto;
-	padding: 58px 0 235px;
+    background-color: #fff;
+    color: #333333;
+    margin: 0 auto;
+    padding: 58px 0 235px;
 }
 
 #slide3{
@@ -371,89 +435,90 @@ border: 1px solid #fff;
 }
 
 #slide1 .quotes {
-	font-family: 'Goudy Bookletter 1911', serif;
-	font-weight: normal;
-	font-size: 30px;
-	text-align: left;
-	margin: 15px auto;
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: normal;
+    font-size: 30px;
+    text-align: left;
+    margin: 15px auto;
 }
 
 #slide1 .author_name_white { 
-	font-family:"Wellfleet"; 
-	margin: 70px 0 0 75px; 
-	color: #fff; 
-	font-size: 20px; 
+    font-family:"Wellfleet"; 
+    margin: 70px 0 0 75px; 
+    color: #fff; 
+    font-size: 20px; 
 } 
 
 #slide1 .author_name_gray { 
-	font-family:"Wellfleet"; 
-	margin: 70px 0 0 75px; 
-	color: #94a4a4; 
-	font-size: 20px; 
+    font-family:"Wellfleet"; 
+    margin: 70px 0 0 75px; 
+    color: #94a4a4; 
+    font-size: 20px; 
 } 
 #slide1 .quotes_container { 
-	width: 800px; 
-	margin: 0 auto; 
+    width: 800px; 
+    margin: 0 auto; 
 }
 
 #slide1 #christmas_tree { 
-	background: url('../images/christmas-tree.png')no-repeat; 
-	width: 48px; 
-	height: 77px; 
-	margin: 0 auto; 
-	position: relative; 
-	bottom: -35px;
+    background: url('../images/christmas-tree.png')no-repeat; 
+    width: 48px; 
+    height: 77px; 
+    margin: 0 auto; 
+    position: relative; 
+    bottom: -35px;
 }
+
 #slide1 #divider { 
-	background: url('../images/divider.png')no-repeat; 
-	width: 300px; 
-	height: 35px; 
-	margin: 20px auto 10px; 
+    background: url('../images/divider.png')no-repeat; 
+    width: 300px; 
+    height: 35px; 
+    margin: 20px auto 10px; 
 }
 
 #slide1 #ribbon { 
 }
 
 #slide1 #snowflakes1 { 
-	background: url('../images/snowflakes.png')no-repeat; 
-	width: 24px; 
-	height: 21px; 
-	margin: 0 auto; 
-	display: block; 
-	position: relative; 
-	bottom: -55px; 
-	left: -175px; 
+    background: url('../images/snowflakes.png')no-repeat; 
+    width: 24px; 
+    height: 21px; 
+    margin: 0 auto; 
+    display: block; 
+    position: relative; 
+    bottom: -55px; 
+    left: -175px; 
 }
 
 #slide1 #snowflakes2 { 
-	background: url('../images/snowflakes.png')no-repeat; 
-	width: 24px; 
-	height: 21px; 
-	margin: 0 auto; 
-	display: block; 
-	position: relative; 
-	bottom: -40px; 
-	right: -175px; 
+    background: url('../images/snowflakes.png')no-repeat; 
+    width: 24px; 
+    height: 21px; 
+    margin: 0 auto; 
+    display: block; 
+    position: relative; 
+    bottom: -40px; 
+    right: -175px; 
 }
 
 #slide1 h1 {
-	font-weight:normal;
-	font-size: 50px;
-	text-align: center;
-	color: #68a832;
-	margin: 0;
-	padding: 0;
-	font-family:'Signika';
+    font-weight:normal;
+    font-size: 50px;
+    text-align: center;
+    color: #68a832;
+    margin: 0;
+    padding: 0;
+    font-family:'Signika';
 }
 
 #slide1 h2 {
-	font-weight: normal;
-	font-size: 40px;
-	text-align: center;
-	color: #fff;
-	margin: 0;
-	padding: 0;
-	font-family:'Pacifico';
+    font-weight: normal;
+    font-size: 40px;
+    text-align: center;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-family:'Pacifico';
 }
 
 #slide1 h3 {
@@ -484,7 +549,7 @@ border: 1px solid #fff;
 }
 
 .section-first{
-	text-align: center;
+    text-align: center;
 }
 
 .icon-section {
@@ -529,11 +594,11 @@ border: 1px solid #fff;
 }
 
 .icon-section:hover .icon-img{
-	background: #9CE85B;
+    background: #9CE85B;
 }
 
 .icon-img span{
-	margin: 0 28%;
+    margin: 0 28%;
     line-height: 88px;
     font-size: 32px;
     color: #666666;
@@ -545,7 +610,7 @@ border: 1px solid #fff;
 }
 
 .section-first h3{
-	font-weight: bold;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: 18px;
 }
@@ -554,17 +619,17 @@ border: 1px solid #fff;
 }
 
 .urang-img img{
-	margin: 0 auto;
+    margin: 0 auto;
 }
 
 .third-content{
-	text-align: right;
+    text-align: right;
     background: rgba(0,0,0,0.5);
     padding: 20px;
 }
 
 .third-content.move{
-	transition:1s;
+    transition:1s;
   -webkit-transition:1s;
   -moz-transition:1s;
   position:absolute;
@@ -573,21 +638,21 @@ border: 1px solid #fff;
 
 
 .third-content.third-content-image{
-	background: none;
+    background: none;
 }
 
 .third-content span.glyphicon{
-	font-size: 40px;
+    font-size: 40px;
 }
 
 .third-content h1{
-	font-family: 'Signika';
-	font-size: 50px;
-	margin-top: 36px;
+    font-family: 'Signika';
+    font-size: 50px;
+    margin-top: 36px;
 }
 
 .third-content h4{
-	font-style: italic;
+    font-style: italic;
     font-family: 'Pacifico';
     letter-spacing: 2px;
     font-size: 18px;
@@ -595,16 +660,16 @@ border: 1px solid #fff;
 }
 
 .third-content p{
-	margin: 40px 0 10px;
+    margin: 40px 0 10px;
 }
 
 .section-content p{
-	margin: 0;
+    margin: 0;
 }
 
 .third-content h5{
-	font-family:'Montserrat-Bold';
-	text-transform: uppercase;
+    font-family:'Montserrat-Bold';
+    text-transform: uppercase;
     font-size: 18px;
     line-height: 30px;
     margin-top: 30px;
@@ -629,16 +694,16 @@ border: 1px solid #fff;
 }
 
 #slide4 h4{
-	text-align: center;
+    text-align: center;
     margin: 0 0 40px;
 }
 
 .section-quick{
-	text-align: center;
+    text-align: center;
 }
 
 .section-quick img{
-	margin: 0 auto;
+    margin: 0 auto;
     display: block;
     width: 40%;
 }
@@ -650,15 +715,16 @@ border: 1px solid #fff;
     border: 2px solid #68A832;
     padding: 20px 0;
     border-radius: 5px;
+    text-transform: capitalize;
 }
 
 .arrowimg{
-	position: absolute;
+    position: absolute;
     top: 130px;
 }
 
 .slide5{
-	background-color: #68A832;
+    background-color: #68A832;
 }
 
 #slide5{
@@ -672,27 +738,27 @@ border: 1px solid #fff;
 }
 
 .thumpsup span{
-	font-size: 80px;
+    font-size: 80px;
     color: #fff;
     display: block;
     text-align: right;
 }
 
 #slide5 h2{
-	font-family: 'Montserrat-Bold';
+    font-family: 'Montserrat-Bold';
     color: #fff;
     text-shadow: 1px 1px 1px #333;
 }
 
 #slide5 h3{
-	font-size: 20px;
+    font-size: 20px;
     font-style: italic;
     font-family: 'Pacifico';
     letter-spacing: 1px;
 }
 
 #slide5 .btn-primary{
-	background: #94CA67;
+    background: #94CA67;
     border: none;
     color: #fff;
     text-transform: uppercase;
@@ -704,7 +770,7 @@ border: 1px solid #fff;
 }
 
 #slide5 .btn-primary:hover{
-	background: #000;
+    background: #000;
     border: none;
     color: #94CA67;
 }
@@ -754,7 +820,7 @@ border: 1px solid #fff;
     border-left: 0;
     border-right: 0;
     text-align: center;
-    width: 32.98%;
+    width: 32.88%;
     display: inline-block;
     float: none;
     vertical-align: top;
@@ -861,8 +927,8 @@ border: 1px solid #fff;
 
 
 .footer-top{
-	background: #1a1a1a;
-	padding: 40px 0;
+    background: #1a1a1a;
+    padding: 40px 0;
 }
 
 .footer-top p{
@@ -872,7 +938,7 @@ border: 1px solid #fff;
 }
 
 .footer-top h2{
-	font-family: 'Montserrat-Bold';
+    font-family: 'Montserrat-Bold';
     color: #fff;
     text-shadow: 1px 1px 1px #333;
     font-size: 14px;
@@ -882,7 +948,7 @@ border: 1px solid #fff;
 }
 
 .footer-top h2:after{
-	content: "";
+    content: "";
     display: block;
     margin-top: 20px;
     width: 25px;
@@ -891,7 +957,7 @@ border: 1px solid #fff;
 }
 
 .footer-top ul{
-	padding: 0;
+    padding: 0;
     list-style-type: none;
 }
 
@@ -900,7 +966,7 @@ border: 1px solid #fff;
 
 
 .footer-top p span{
-	padding-right: 10px;
+    padding-right: 10px;
 }
 
 .footer-top a{
@@ -937,11 +1003,12 @@ border: 1px solid #fff;
 
 }
 .scrollToTop:hover, .scrollToTop:focus{
-	text-decoration:none;
-	cursor: pointer;
-	background: none;
-	color: #fff;
+    text-decoration:none;
+    cursor: pointer;
+    background: none;
+    color: #fff;
 }
+
 /*
 ========================================
     Price
@@ -1010,13 +1077,15 @@ p.schedule-pick a{
     font-weight: bold;
 }
 
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon{
+    background: none !important;
+}
+
 /*
 ========================================
     Contact Us
 ========================================
 */
-.contact h2{
-}
 
 .contact p{
     font-size: 16px;
@@ -1043,6 +1112,8 @@ p.schedule-pick a{
 
 .contact .form-horizontal .control-label {
     text-align: left;
+    font-weight: normal;
+    font-size: 16px;
 }
 
 .contact .form-control{
@@ -1050,6 +1121,65 @@ p.schedule-pick a{
     border-radius: 0;
     height: 45px;
     box-shadow: 1px 1px 1px #000;
+}
+
+.contact textarea.form-control{
+    height: 100px;
+} 
+
+.contact .form-control:focus{
+    box-shadow: inset 1px 1px 5px #666;
+}
+
+.contact form .btn-default {
+    padding: 10px 20px;
+    display: inline-block;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    background: #68a832;
+    font-family: 'Montserrat-Bold';
+    text-shadow: 1px 1px 1px #333;
+    box-shadow: 1px 2px 5px 0 #333;
+    vertical-align: middle;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact form .btn-default:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: #68a832;
+    height: 4px;
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.contact form .btn-default:hover {
+    background: none;
+}
+
+.contact form .btn-default:hover:before {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
 }
 /*
 ========================================
@@ -1085,6 +1215,55 @@ p.schedule-pick a{
 
 /*
 ========================================
+    Dry CLeaning
+========================================
+*/
+
+.dryclean p{
+    font-size: 16px;
+}
+
+.dryclean a{
+    color: #325912;
+}
+
+.dryclean h2{
+    margin-bottom: 40px;
+    border-bottom: 4px double #666;
+    padding-bottom: 10px;
+}
+
+.dryclean h2 span{
+    color: #68a832;
+    padding-right: 10px;
+}
+
+.dryclean.dryclean #tabs.ui-tabs .ui-tabs-nav li {
+    width: 49.6%;
+}
+
+.dryclean #tabs{
+    margin-top: 50px;
+}
+
+.dryclean h4{
+    font-weight: bold;
+}
+
+.dryclean ul{
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.dryclean li {
+    background: url("../images/yes.png") no-repeat left;
+    font-size: 16px;
+    padding-left: 25px;
+    margin-top: 20px;
+}
+
+/*
+========================================
     Responsive
 ========================================
 */
@@ -1092,6 +1271,8 @@ p.schedule-pick a{
 @media only screen and ( max-width: 1250px ){
     .logo {
         width: 100%;
+        padding-left: 40px;
+        padding-bottom: 20px;
     }
 
     .navigation {
@@ -1104,6 +1285,8 @@ p.schedule-pick a{
         float: left;
         width: 100%;
     }
+
+
 }
 
 @media only screen and ( min-width: 992px ) and ( max-width: 1199px ){
@@ -1130,6 +1313,10 @@ p.schedule-pick a{
 
     #tabs.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
         font-size: 14px;
+    }
+
+    .dryclean.dryclean #tabs.ui-tabs .ui-tabs-nav li {
+        width: 49.6%;
     }
 
 }
@@ -1187,7 +1374,7 @@ p.schedule-pick a{
         line-height: 22px;
     }
 
-    #tabs.ui-tabs .ui-tabs-nav li {
+    #tabs.ui-tabs .ui-tabs-nav li, .dryclean.dryclean #tabs.ui-tabs .ui-tabs-nav li{
         width: 100%;
     }
     .navigation .nav-tabs li span.logout {
@@ -1195,8 +1382,44 @@ p.schedule-pick a{
         float: right;
     }
 
-    .dashboard{
-        margin-bottom: 40px;
+    .right-sidebar {
+        margin-top: 40px;
+    }
+
+    .price-table .table-responsive {
+        border: none;
+    }
+
+    .signup form .date .form-control {
+        width: 100%;
+    }
+
+    .signup form label {
+        width: 100%;
+    }
+
+    .signup form .form-control.expiration {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .schedule-radio {
+        padding-left: 20px;
+    }
+
+    .signup form .form-control, .date, .schedule-radio, .signup form select, .signup form .btn-default{
+        width: 100%;
+    }
+
+    
+    .signup h2, .login h2{
+        padding: 0;
+        font-size: 30px;
+    }
+
+    .logo {
+        padding-left: 0;
+        padding-bottom: 0;
     }
 
 }
@@ -1246,6 +1469,10 @@ p.schedule-pick a{
     #slide5 h2 {
         font-size: 20px;
         line-height: 25px;
+    }
+
+    .login form .btn-default{
+        font-size: 12px;
     }
     
 }

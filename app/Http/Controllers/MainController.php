@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Mail;
 use Hash;
 use App\Neighborhood;
+use App\Faq;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -257,6 +258,19 @@ class MainController extends Controller
             return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'logged_user'));
         } else {
             return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+        }
+    }
+    public function getFaqList() {
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
+        $faq = Faq::all();
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.faquser', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'logged_user', 'faq'));
+        } else {
+            return view('pages.faquser', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'faq'));
         }
     }
 }

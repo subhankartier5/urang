@@ -20,6 +20,7 @@ Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 
 Route::get('/user-logout', ['uses' => 'MainController@getLogout', 'as' => 'getLogout']);
 Route::get('/prices', ['uses' => 'MainController@getPrices', 'as' => 'getPrices']);
 Route::get('/neighborhoods', ['uses' => 'MainController@getNeiborhoodPage', 'as' => 'getNeiborhoodPage']);
+Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList']);
 
 /*after login user functionality in middleware*/
 Route::group(['middleware' => ['user']], function () {
