@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>U-Rang 2016 | New York City's #1 Domestic Concierge Service</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+        <!-- Styles -->
+        <link href='vendor/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400,700,300' rel='stylesheet' type='text/css'>
+        <link href="fonts/Stroke-Gap-Icons-Webfont/style.css" rel="stylesheet" type="text/css" />
+
+        <!-- components -->
+        <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="vendor/owl-carousel/owl-carousel/owl.carousel.css" rel="stylesheet" type="text/css" /> 
+        <link href="vendor/slider-pro/dist/css/slider-pro.min.css" rel="stylesheet" type="text/css" /> 
+        <link href="vendor/slick-carousel/slick/slick.css" rel="stylesheet" type="text/css" /> 
+        <link href="vendor/animate.css/animate.min.css" rel="stylesheet" type="text/css" /> 
+
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+        <link href="css/datePicker.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body data-scrolling-animations="true" style="background: #1a1a1a;">
+        
+        
+        <!-- ========================== -->
+        <!-- Navigation -->
+        <!-- ========================== -->
+        <header class="header scrolling-header">
+            <nav id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container relative-nav-container">
+                    <a class="toggle-button visible-xs-block" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                    <a class="navbar-brand scroll" href="home.html">
+                        <img class="normal-logo hidden-xs" src="img/logo-white.png" alt="logo" />
+                        <img class="scroll-logo hidden-xs" src="img/logo.png" alt="logo" />
+                        <img class="scroll-logo visible-xs-block" src="img/logo-white.png" alt="logo" />
+                    </a>
+                    <div class="navbar-collapse collapse floated" id="navbar-collapse">
+                        <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
+                            <li class="active">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="login.html">Login</a>
+                            </li>
+                            <li>
+                                <a href="register.html">Sign-Up</a>
+                            </li>
+                            <li><a href="price-list.html">Prices</a></li>
+                            <li>
+                                <a href="qa_info.html">FAQs</a>
+                            </li>
+                            <li>
+                                <a href="neighborhoods.html">Neighborhoods</a>
+                                
+                            </li>
+                            <li>
+                                <a href="schools.html">School Donations</a>
+                              
+                            </li>
+                            <li>
+                               <a href="contactus.html">Contact</a>
+                           </li>
+                           <li>
+                               <a href="tel:8009595785">(800) 959-5785</a>
+                           </li>
+                        </ul>
+                    </div>
+                </div>
+             </nav>
+        </header><!--./navigation -->
+
+        
+       <!-- ========================== -->
+        <!-- FORM -->
+        <!-- ========================== -->
+        
+       <div class="register-page">
+          <div class="form2">
+            <!--<form class="register-form" role="form" method="post" action="register.php">
+              <input type="text" placeholder="name"/>
+              <input type="password" placeholder="password"/>
+              <input type="text" placeholder="email address"/>
+              <button>create</button>
+              <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>-->
+            <form class="login-form" role="form2" method="post" action="register.php">
+                <h2>Customer Registration</h2>
+                <h3>Individual Clients</h3>
+                <p class="message">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery. </p>
+                <span class="required">NOTE:</span> If you already have an account with us, please login at the <a href="login.php">login page.</a><? if($message != "") { ?>
+                <span class="warning" style="padding-left:18px;" align="left"><? if($message != "") { ?></span>
+                <span class="warning" style="padding-left:18px;" align="left"><? } else { ?></span>
+                <span class="warning" style="padding-left:18px;" align="left"><? } ?></span>
+                <div style="height: 40px;"></div>
+                <table>
+                    <tr>
+                        <td>
+                        <tr>
+                            <td width="169">Today's Date:</td>
+                            <td width="443"><?= date('l,');?>&nbsp;<?= date('F d, Y');?></td>
+                        </tr>
+                         <div style="height: 40px;"></div>
+                        <tr>
+                            <td>Username:</td>
+                            <td>
+                                <input type="text" name="txtUsername" id="txtUsername" style="width:270px;" value="<?=$username?>" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Password:</td>
+                            <td>
+                                <input type="password" name="txtPassword" id="txtPassword" style="width:270px;" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password:</td>
+                            <td>
+                                <input type="password" name="txtConfirm" id="txtConfirm" style="width:270px;" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Personal Info:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Name:
+                            </td>
+                            <td>
+                                <input type="text" name="txtName" id="txtName" value="<?=$customername?>" style="width:270px;" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                E-mail:
+                            </td>
+                            <td>
+                                <input type="text" name="txtEmail" id="txtEmail" value="<?=$email?>" style="width:270px;" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Address:
+                            </td>
+                            <td>
+                                <textarea id="txtAddress" name="txtAddress" cols="30" rows="3"><?=$address?></textarea> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Phone:</td>
+                            <td>
+                                <input type="text" id="txtPhone" name="txtPhone" onFocus="javascript:emptyformat(document.getElementById('txtPhone'));" onBlur="javascript:resetformat(document.getElementById('txtPhone'));" size="20" value="<? if($phone==""){ ?>Format: 5555555555<? } else{ echo $phone; }?>" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cell phone:</td>
+                            <td>
+                                <input type="text" id="txtCell" name="txtCell" onFocus="javascript:emptyformat(document.getElementById('txtCell'));" onBlur="javascript:resetformat(document.getElementById('txtCell'));" size="20" value="<? if($cell==""){ ?>Format: 5555555555<? }else{ echo $cell; } ?>"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Office phone:</td>
+                            <td>
+                                <input type="text" id="txtOfficephone" name="txtOfficephone" onFocus="javascript:emptyformat(document.getElementById('txtOfficephone'));" onBlur="javascript:resetformat(document.getElementById('txtOfficephone'));" size="20" value="<? if($officephone=="") { ?>Format: 5555555555<? }else{ echo $officephone;} ?>" />
+                            </td>
+                        </tr>
+                        <tr><td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Special Instructions:</td></tr>
+                        <tr>
+                            <td colspan="2">
+                                We will pick-up and deliver on the designated date but not at a specific time unless specified under specific instructions.  Unless otherwise noted pick-up will be at addressed listed above.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Default Special Instructions:
+                            </td>
+                            <td>
+                                <textarea id="txtSpecialInstruction" name="txtSpecialInstruction" cols="30" rows="3"><?=$special_ins?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Default Driving Instructions:
+                            </td>
+                            <td>
+                                <textarea id="txtDrivingInstruction" name="txtDrivingInstruction" cols="30" rows="3"><?=$driving_ins?></textarea>
+                            </td>
+                        </tr>
+                        <tr><td colspan="2" class="page_sub_heading" style="height:50px;" valign="bottom">Credit Card Info:</td></tr>
+                        <tr>
+                            <td colspan="2">
+                                It is corporate policy to use our services we must have a credit card on file. You may choose another form of payment but for security purposes we need your credit info. <strong>Your credit card is NOT being charged at this time and is only being kept on file for security purposes.</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Card Holder Name:</td>
+                            <td>
+                                <input type="text" name="txtCardHolderName" id="txtCardHolderName" value="<?=$cardholdername?>" style="width:270px;" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Card Type</td>
+                            <td>
+                                <select name="ddlCardType" id="ddlCardType">
+                                    <option value="" selected="selected">--Select Card Type--</option>
+                                    <option value="Visa" <? if($cardtype=="Visa") {?> selected="selected" <? } ?>>Visa</option>
+                                    <option value="Master Card"<? if($cardtype=="Master Card") {?> selected="selected" <? } ?>>Master Card</option>
+                                    <option value="American Express"<? if($cardtype=="American Express") {?> selected="selected" <? } ?>>American Express</option>
+                                </select> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Credit Card No:</td>
+                            <td>
+                                <input type="text" name="txtCreditCard" id="txtCreditCard" value="<?=$credit_card?>" style="width:270px;" /> <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="required">
+                                [ Please do not enter spaces or hyphens (-) ] 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CVV2:</td>
+                            <td>
+                                <input type="text" name="txtCVV2" id="txtCVV2" value="<?=$cvv2?>" maxlength="4" size="10" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="required">
+                                [ CVV2 is a 3-digit value at the end of your account number printed on the back of your credit card. On American Express cards, CVV2 number consists of 3-4 digits located on the front of the card.] 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Expiration Date:</td>
+                            <td>
+                                <? $lang = "January, February, March, April, May, June, July, August, September, October, November, December ";
+                                $lang = explode(",", $lang);
+                                ?>
+                                <?  monthPullDown($lang,""); monthPullYear(date('Y'),""); ?>  <span class="required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height:50px;">
+                                <!--<input type="submit" name="btnSubmit" id="btnSubmit" value="Create Free Account" />-->
+                                <?=formButton("submit","submit","Create Free Account","onclick='return registration_valid(1);'");?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-weight:bold;">
+                                Referrals - 10 percent discount on your next order if you refer a friend.
+                            </td>
+                        </tr>
+                </table>
+            </form>
+          </div>
+        </div>
+    
+	    <!-- ========================== -->
+        <!-- FOOTER -->
+        <!-- ========================== -->
+        <footer>
+            <!-- ========================== -->
+            <!-- SECTION -->
+            <!-- ========================== -->
+            <section class="buy-section with-icon">
+                <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-1 col-sm-9 wow fadeInLeft">
+                            <div class="section-text">
+                                <div class=" vcenter like">
+                                    <span class="icon icon-Like"></span> 
+                                </div>
+                                <div class="buy-text vcenter">
+                                    <div class="top-text">U-Rang is New York City's #1 Concierge Service</div>
+                                    <div class="bottom-text">With more than 10+ years in Business, we are the Best.</div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-md-3 col-sm-3  wow fadeInRight">
+                            <a href="register.html" class="btn btn-info ">Sign-Up Now</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ========================== -->
+            <!-- FOOTER - FOOTER -->
+            <!-- ========================== -->
+            <section class="footer-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <h5>about us</h5>
+                            <p>U-Rang has been servicing the many affluent neigborhoods of New York City for more than 10 years. Our goals are simple, provide the best service while giving back to the community.</p>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <h5>Sitemap</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="footer-nav">
+                                    	<li><a href="index.html">Home</a></li>
+                                        <li><a href="about-us.html">About Us</a></li>
+                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="register.html">Sign-Up</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="footer-nav">
+                                        <li><a href="neighborhoods.html">Neighborhoods</a></li>
+                                        <li><a href="prices.html">Prices</a></li>
+                                        <li><a href="qa_info.html">FAQ's</a></li>
+                                        <li><a href="contact-us.html">Contact us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <h5>Contact info</h5>
+                            <ul class="contacts-list">
+                                <li>
+                                    <p><i class="icon icon-House"></i>150 Broad Street<br/>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10005</p>
+                                </li>
+                                <li>
+                                    <p><i class="icon icon-Phone2"></i>(800)959-5785</p>
+                                </li>
+                                <li>
+                                    <p><i class="icon icon-Mail"></i><a href="mailto:support@oscend.com">support@u-rang.com</a> </p>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <h5>Contact info</h5>
+                            <ul class="contacts-list">
+                                <li>
+                                    <p><i class="icon icon-House"></i>355 E 23rd Street<br/>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10010</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="copyright-section">
+                <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
+            </section>
+        </footer>
+
+
+
+        <!-- Scripts -->
+        
+        <!-- components -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="vendor/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="vendor/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="vendor/owl-carousel/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
+        <script src="vendor/waypoints/lib/jquery.waypoints.min.js" type="text/javascript"></script>
+        <script src="vendor/slider-pro/dist/js/jquery.sliderPro.min.js" type="text/javascript"></script>
+        <script src="vendor/slick-carousel/slick/slick.min.js" type="text/javascript"></script>
+        <script src="vendor/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js" type="text/javascript"></script>
+        <script src="vendor/smooth-scroll/smooth-scroll.min.js" type="text/javascript"></script>
+        <script src="vendor/wow/dist/wow.min.js" type="text/javascript"></script>
+        <script src="js/modernizr.js" type="text/javascript"></script>
+        <script src="js/form.js" type="text/javascript"></script>
+        <script src="js/validation.js" type="text/javascript" language="javascript"></script>
+        <script src="js/datePicker.js" type="text/javascript" language="javascript"></script>
+
+        <!-- custom scripts -->
+        <script src="js/contact.js" type="text/javascript"></script>
+        <script src="js/custom.js" type="text/javascript"></script>
+        <script src="js/map.js" type="text/javascript"></script>
+
+    </body>
+</html>

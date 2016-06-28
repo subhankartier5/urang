@@ -1,44 +1,89 @@
 <footer>
-  <div class="footer">
-     <div class="container-fluid">
-        <div class="row footer-top">
-          <div class="col-md-12">
-            <div class="col-md-3">
-              <h2>About us</h2>
-              <p>
-                U-Rang has been servicing the many affluent neigborhoods of New York City for more than 10 years. Our goals are simple, provide the best service while giving back to the community.
-              </p>
-            </div>
-            <div class="col-md-3">
-              <h2>Sitemap</h2>
-              <ul>
-                <li><a href="{{route('index')}}">Home</a></li>
-                <li><a href="">about us</a></li>
-                <li><a href="{{route('getLogin')}}">login</a></li>
-                <li><a href="{{route('getSignUp')}}">sign-up</a></li>
-                <li><a href="">Neighborhoods</a></li>
-                <li><a href="">Prices</a></li>
-                <li><a href="">FAQ's</a></li>
-                <li><a href="">Contact us</a></li>
-              </ul>
-            </div>
-            <div class="col-md-3">
-              <h2>Contact info</h2>
-              <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>150 Broad Street New York, NY 10005</p>
-              <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>(800)959-5785</p>
-              <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:support@u-rang.com">support@u-rang.com</a></p>
-            </div>
-            <div class="col-md-3">
-              <h2>Contact info</h2>
-              <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>355 E 23rd Street New York, NY 10010</p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="copyright">
-            <p>©2016 U-RANG, INC.. ALL RIGHTS RESERVED</p>
-          </div>
-        </div>
-      </div>
-  </div>
-</footer>
+            <!-- ========================== -->
+            <!-- SECTION -->
+            <!-- ========================== -->
+            <section class="buy-section with-icon">
+                <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-1 col-sm-9 wow fadeInLeft">
+                            <div class="section-text">
+                                <div class=" vcenter like">
+                                    <span class="icon icon-Like"></span> 
+                                </div>
+                                <div class="buy-text vcenter">
+                                    <div class="top-text">U-Rang is New York City's #1 Concierge Service</div>
+                                    <div class="bottom-text">With more than 10+ years in Business, we are the Best.</div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-md-3 col-sm-3  wow fadeInRight">
+                            <a href="register.html" class="btn btn-info ">Sign-Up Now</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ========================== -->
+            <!-- FOOTER - FOOTER -->
+            <!-- ========================== -->
+            <section class="footer-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <h5>about us</h5>
+                            <p>U-Rang has been servicing the many affluent neigborhoods of New York City for more than 10 years. Our goals are simple, provide the best service while giving back to the community.</p>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <h5>Sitemap</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="footer-nav">
+                                      <li><a href="#">Home</a></li>
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Login</a></li>
+                                        <li><a href="#">Sign-Up</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="footer-nav">
+                                        <li><a href="#">Neighborhoods</a></li>
+                                        <li><a href="#">Prices</a></li>
+                                        <li><a href="#">FAQ's</a></li>
+                                        <li><a href="#">Contact us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <h5>Contact info</h5>
+                            <ul class="contacts-list">
+                                <li>
+                                    <p><i class="icon icon-House"></i>150 Broad Street<br/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10005</p>
+                                </li>
+                                <li>
+                                    <p><i class="icon icon-Phone2"></i>(800)959-5785</p>
+                                </li>
+                                <li>
+                                    <p><i class="icon icon-Mail"></i><a href="mailto:support@oscend.com">support@u-rang.com</a> </p>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <h5>Contact info</h5>
+                            <ul class="contacts-list">
+                                <li>
+                                    <p><i class="icon icon-House"></i>355 E 23rd Street<br/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10010</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="copyright-section">
+                <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
+            </section>
+        </footer>

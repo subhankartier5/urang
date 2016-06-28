@@ -1,0 +1,52 @@
+<?php
+// error reporting
+error_reporting(1);
+
+// session management
+if(!session_id()){
+	session_start();
+}
+
+//prefix
+define("PREFIX", "fproof_");
+
+if ($_SERVER['SERVER_NAME']=="localhost")
+{
+	/* Local */
+	$user = "root"; //Database Username here
+	$pass = ""; //Database Password here
+	$db = "freeroof_fsd"; //Database Name here
+	$localhost="localhost"; //Database Server
+}
+else
+{
+	$localhost="localhost"; //Database Server
+	$user = "freeroof_fsd"; //Database Username here
+	$pass = "fsd123!"; //Database Password here
+    $db = "freeroof_fsd"; //Database Name here
+
+	$cwd=getcwd(); ///var/www/domains/fsdqa.com/docs/free-roof/dev2/admin
+	if(stristr($cwd, '/admin'))
+	include_once('../../../config/config.php');
+	else
+	include_once('../../config/config.php');
+
+/*	
+	$localhost= DB_HOST;
+	$user =  DB_USER;
+	$pass = DB_PASSWORD;
+
+	$db = "fsdqa_com"; //Database Name here
+*/
+}
+
+
+$link = mysql_connect($localhost, $user, $pass);
+if ( ! $link )
+	die( "Couldn't connect to MySQL" );
+mysql_select_db( $db)
+	or die ( "Couldn't open $db: ".mysql_error() );
+
+//other necessary includes
+require("functions.php");
+?>
