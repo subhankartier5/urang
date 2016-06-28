@@ -171,8 +171,8 @@
 					$('#myModalEdit').modal({
 						show: 'true'
 					});
-					$('#nameEdit').val('{{$neighbor->name}}');
-					$('#descriptionEdit').val('{{$neighbor->description}}');
+					$('#nameEdit').val("{{$neighbor->name}}");
+					$('#descriptionEdit').val("{{$neighbor->description}}");
 					$('#id').val('{{$neighbor->id}}');
 				});
 				// delete neighborhood

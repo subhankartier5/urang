@@ -287,9 +287,9 @@
 					$('#edit_{{$item->id}}').click(function(){
 						//showing modal
 						$('#id').val('{{$item->id}}');
-						$('#categoryEdit').val('{{$item->categories->name}}');
-						$('#nameEdit').val('{{$item->item}}');
-						$('#priceEdit').val('{{$item->price}}');
+						$('#categoryEdit').val("{{$item->categories->name}}");
+						$('#nameEdit').val("{{$item->item}}");
+						$('#priceEdit').val("{{$item->price}}");
 						$('#myModalEdit').modal('show');
 					});
 				}

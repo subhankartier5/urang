@@ -146,6 +146,7 @@
 			$('#addFaq').click(function(){
 				var question = $('#question').val();
 				var answer = $('#answer').val();
+				//alert('hi')
 				//console.log(question);
 				//console.log(answer);
 				if ($.trim(question) && $.trim(answer)) 
@@ -175,7 +176,7 @@
 				else
 				{
 					$('#errordiv').show();
-					$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i> All The Fields Are Mandetory <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+					$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i> All The Fields Are Mandetory and Make Sure You haven"t use a semicolon ";" <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
 					return false;
 				}
 			});
@@ -183,8 +184,8 @@
 				$('#edit_{{$faq_details->id}}').click(function(){
 					$('#myModalEdit').modal('show');
 					$('#faq_id').val('{{$faq_details->id}}');
-					$('#questionEdit').val('{{$faq_details->question}}');
-					$('#answerEdit').val('{{$faq_details->answer}}');
+					$('#questionEdit').val("{{$faq_details->question}}");
+					$('#answerEdit').val("{{$faq_details->answer}}");
 				});
 				$('#del_{{$faq_details->id}}').click(function(){
 					$.ajax({
