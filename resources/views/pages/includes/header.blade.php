@@ -12,6 +12,7 @@
 <link href='https://fonts.googleapis.com/css?family=Raleway:400,700,300' rel='stylesheet' type='text/css'>
 <link href="{{url('/')}}/public/new/fonts/Stroke-Gap-Icons-Webfont/style.css" rel="stylesheet" type="text/css" />
 
+
 <!-- components -->
 <link href="{{url('/')}}/public/new/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{url('/')}}/public/new/vendor/owl-carousel/owl-carousel/owl.carousel.css" rel="stylesheet" type="text/css" /> 
@@ -39,3 +40,4 @@
 <script src="{{url('/')}}/public/new/js/contact.js" type="text/javascript"></script>
 <script src="{{url('/')}}/public/new/js/custom.js" type="text/javascript"></script>
 <script src="{{url('/')}}/public/new/js/map.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>

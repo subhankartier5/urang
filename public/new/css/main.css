@@ -277,6 +277,17 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 .top-header .wrap-section-slider .slide-item .slide-content { padding-top: 250px; }
 
 /******************************/
+
+#select_month{
+    margin: 20px 0;
+}
+
+#select_year{
+    position: relative;
+    right: 290px;
+}
+
+
 /**** FEATURES SECTION ****/
 /******************************/
 .features-section { padding: 0 0 40px; }
@@ -1098,16 +1109,21 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form2 input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 1px solid #333;
+    margin: 14px 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
+
+.form2 textarea {
+    border: 1px solid #333;
+}
+
 .form2 button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;

@@ -18,7 +18,7 @@
                   <a href="{{route('getLogin')}}">Login</a>
               </li>
               <li>
-                  <a href="#">Sign-Up</a>
+                  <a href="{{route('getSignUp')}}">Sign-Up</a>
               </li>
               <li><a href="#">Prices</a></li>
               <li>
