@@ -1,6 +1,6 @@
 @extends('pages.layouts.master')
 @section('content')
-<section class="top-header home-header with-bottom-effect transparent-effect dark">
+      <section class="top-header home-header with-bottom-effect transparent-effect dark">
   <div class="bottom-effect"></div>
   <div class="header-container">  
       <div class="wrap-section-slider" id="topSlider">

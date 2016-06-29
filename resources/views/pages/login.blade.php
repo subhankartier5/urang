@@ -1,14 +1,8 @@
-@extends('pages.layouts.master')
+@extends('pages.layouts.master-black')
 @section('content')
-<div class="login-signup">
-  <div class="main-content">
-  <div class="container">
-    <div class="row login">
-      <h2>Login</h2>
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
+       <div class="login-page">
         @if(Session::has('fail'))
-          <div class="alert alert-danger">{{Session::get('fail')}}
+          <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
           </div>
         @else
@@ -19,27 +13,54 @@
           </div>
         @else
         @endif
-        <form action="{{route('postCustomerLogin')}}" method="post">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Email" required="">
+          <div class="form">
+            <!--<form class="register-form" role="form" method="post" action="register.php">
+              <input type="text" placeholder="name"/>
+              <input type="password" placeholder="password"/>
+              <input type="text" placeholder="email address"/>
+              <button>create</button>
+              <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>-->
+            <form class="login-form" role="form" action="{{route('postCustomerLogin')}}" method="post">
+               <input type="email"  id="exampleInputEmail1" name="email" placeholder="Email" required="">
+               <input type="password"  id="exampleInputPassword1" name="password" placeholder="Password" required="">
+               <div style="float: left;">
+                 <input name="remember" type="checkbox" value="1" style="display: inline-block; width: auto; margin: 0; position: relative; top: 2px;">
+                 <p style="display: inline;"> Remember Me</p>
+               </div>
+              <button type="submit">Login</button>
+              <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+              <p class="message">Not registered? <a href="{{route('getSignUp')}}">Create an account</a></p>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required="">
-          </div>
-          <div class="form-group">
-             <p style="color: whitesmoke;"><input name="remember" type="checkbox" value="1"> Remember Me</p>
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-          <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-        </form>
-        <p class="forgot-password"><a href="#">Forgotten Password?</a></p>
-        <p class="signup-link">Don't Have an account ?<a href="{{route('getSignUp')}}"> Sign Up</a></p>
+        </div>
       </div>
-      <div class="col-md-2"></div>
-    </div>
-  </div>
-</div>
-</div>
+
+         <!-- Scripts -->
+        
+            <script language="javascipt" type="text/javascript">
+                function check(form)
+                {
+                     form.message.value='';
+                     if(form.username.value == "")
+                     {
+                        form.message.value='Please enter your username';
+                        form.username.focus();
+                        return false;
+                     }
+                     else if(form.password.value == "")
+                     {
+                        form.message.value='Please enter your password';
+                        form.password.focus();
+                        return false;
+                     }
+                     else
+                     {
+                        return true;
+                     }
+                }
+                </script>
+        
+         <!-- /Scripts -->
 @endsection
+
