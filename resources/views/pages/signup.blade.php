@@ -21,7 +21,7 @@
               <button>create</button>
               <p class="message">Already registered? <a href="#">Sign In</a></p>
             </form>-->
-            <form class="login-form" role="form2" method="post" action="{{route('postSignUp')}}" onsubmit="return PassWordCheck();">
+            <form class="login-form" role="form2" method="post" action="{{route('postSignUp')}}">
                 <h2>Customer Registration</h2>
                 <h3>Individual Clients</h3>
                 <p class="message">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery. </p>
@@ -41,7 +41,8 @@
                         <tr>
                             <td>Email:</td>
                             <td>
-                                <input type="email" id="exampleInputuname1" name="email" required="" style="width:270px;">
+                                <input type="email" id="email" name="email" required="" style="width:270px;" onkeyup="return IsValidEmail();">
+                                <div id="emailExist"></div>
                             </td>
                         </tr>
                         <tr>
@@ -219,72 +220,142 @@
                             </td>
                         </tr>
                 </table>
-                <button type="submit" style="margin-top: 10px">Sign Up</button>
+                <button type="submit" style="margin-top: 10px" onclick="IsValid(event);">Sign Up</button>
                 <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+                <input type="hidden" id="email_checker"></input>
             </form>
           </div>
         </div>
-        <script type="text/javascript">
-   var err;
-   function PassWordCheck() {
-      //password and confirm password match function
-      var password = $('#password').val();
-      var status='';
-      var conf_password = $('#conf_password').val();
-      if (password && password.length >= 6) 
-      {
-         if (password && conf_password) 
+<script>
+   // $(document).ready(function(){
+      var err;
+      function PassWordCheck() {
+         //password and confirm password match function
+         var password = $('#password').val();
+         var status='';
+         var conf_password = $('#conf_password').val();
+         if (password && password.length >= 6) 
          {
-            if (password == conf_password) 
+            if (password && conf_password) 
             {
-               $('#passcheck').html('<br><div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> password and confirm password matched! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-               creditCardValidate();
-               if(err==0)
+               if (password === conf_password) 
                {
-               return true;
+                  $('#passcheck').html('<br><div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> password and confirm password matched! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
+                     return true;
+                  creditCardValidate();
+                  if(err==0)
+                  {
+                  return true;
+                  }
+                  else
+                  {
+                     return false;
+                  }
                }
                else
                {
+                  $('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password did not match! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
                   return false;
                }
             }
             else
             {
-               $('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password did not match! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
+               $('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password should be same. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
                return false;
             }
          }
          else
          {
-            $('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password and confirm password should be same. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
+            $('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password should atleast be 6 charecters. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
             return false;
          }
       }
-      else
-      {
-         $('#passcheck').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> password should atleast be 6 charecters. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-         return false;
-      }
-   }
-   function creditCardValidate(){
-      $('#card_no').validateCreditCard(function(result) {
-         err=0
-         if (result.valid && result.length_valid && result.luhn_valid) 
-         {
-            err=0;
-            $('.log').html('<br><div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> vaild credit card number <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> </div>');
+      function creditCardValidate(){
+         $('#card_no').validateCreditCard(function(result) {
+            //err=0;
+            if (result.valid && result.length_valid && result.luhn_valid) 
+            {
+               err=0;
+               $('.log').html('<br><div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> vaild credit card number <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> </div>');
+               
+               //return err;
+            }
+            else
+            {
+               err=1;
+               $('.log').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> This is not a valid credit card number <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
+               //return err;
+               
+            }
             
-            //return err;
+         });
+      }
+      function IsValidEmail() {
+         //return true;
+         var email = $('#email').val();
+         var isValidEmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+         if ($.trim(email)) 
+         {
+            //return isValidEmail.test(email);
+            if (isValidEmail.test(email)) 
+            {
+               //$('#emailExist').html('');
+               $.ajax({
+                  url : "{{route('postEmailChecker')}}",
+                  type: "POST",
+                  data: {email: email, _token: "{{Session::token()}}"},
+                  success : function(data){
+                     //$('#email_checker').val(data);
+                     //console.log(data);
+                     //alert(data)
+                     //return data;
+                     //$('#emailExist').html(data);
+                     //console.log("data :: "+data);
+                     if (data == 1) 
+                     {
+                        $('#emailExist').html("<div class='alert alert-success'><i class='fa fa-check' aria-hidden='true'></i> Email address is available ! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+                        $('#email_checker').val(data);
+                        return true;
+
+                     }
+                     else
+                     {
+                        $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-times-circle' aria-hidden='true'></i> Hold on! email already exists! try another one. <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+                        return false;
+                     }
+                     //return data;
+                  }
+               });
+            }
+            else
+            {
+               $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-times-circle' aria-hidden='true'></i> Not A Valid Email Address! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+               return false;
+            }
          }
          else
          {
-            err=1;
-            $('.log').html('<br><div class="alert alert-danger"><i class="fa fa-times" aria-hidden="true"></i> This is not a valid credit card number <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
-            //return err;
-            
+            $('#emailExist').html("<div class='alert alert-danger'><i class='fa fa-times-circle' aria-hidden='true'></i> Please Enter an Email Address! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div></div>");
+            return false;
          }
-         
-      });
-   }
+      }
+      function IsValid(event) {
+         event.preventDefault();
+         //alert( );
+         var pass_check=PassWordCheck();
+         var email_check = $('#email_checker').val();
+         if(pass_check && email_check!=0)
+         {
+            //event.submit();
+            //console.log(pass_check)
+            $('.login-form').submit();
+            //return true;
+         }
+         else
+         {
+            alert('some error occured form cannot be submitted');
+            return false;
+         }
+      } 
 </script>
 @endsection

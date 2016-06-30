@@ -46,7 +46,7 @@ class MainController extends Controller
         return view('pages.signup', compact('site_details', 'neighborhood'));
     }
     public function postSignUp(Request $request) {
-        //dd($request);
+        dd($request);
         if ($request->password == $request->conf_password) {
             $user = new User();
             $user->email = $request->email;
@@ -271,6 +271,19 @@ class MainController extends Controller
             return view('pages.faquser', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'logged_user', 'faq'));
         } else {
             return view('pages.faquser', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'faq'));
+        }
+    }
+    public function emailChecker(Request $request) {
+        //return $request->email;
+        $email = $request->email;
+        $find_email = User::where('email', $email)->first();
+        //return $find_email;
+        if ($find_email != null) {
+           return 0;
+        }
+        else
+        {
+            return 1;
         }
     }
 }
