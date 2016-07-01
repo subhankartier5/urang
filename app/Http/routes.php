@@ -23,6 +23,7 @@ Route::get('/neighborhoods', ['uses' => 'MainController@getNeiborhoodPage', 'as'
 Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList']);
 Route::post('/email-checker', ['uses' => 'MainController@emailChecker', 'as' => 'postEmailChecker']);
 Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getContactUs']);
+Route::post('/postContactForm',['uses' => 'MainController@postContactForm', 'as' => 'postContactForm']);
 
 /*after login user functionality in middleware*/
 Route::group(['middleware' => ['user']], function () {
