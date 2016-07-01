@@ -303,7 +303,6 @@ class MainController extends Controller
 
     public function postContactForm(Request $request)
     {
-
             $flag=Mail::send('pages.sendEmailContact', array('firstName'=>$request->firstName,'lastName'=>$request->lastName,'email'=>$request->email,'subject'=>$request->subject,'message'=>$request->message,'phone'=>$request->phone), 
                         function($message) use($request)
                         {

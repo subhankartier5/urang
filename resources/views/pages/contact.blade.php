@@ -68,6 +68,18 @@
                     </div>
                     <div class="col-md-7 col-md-offset-1 col-sm-6">
                         <div class="contact-form">
+                            @if(Session::has('fail'))
+                              <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                              </div>
+                            @else
+                            @endif
+                            @if(Session::has('success'))
+                              <div class="alert alert-success">                               {{Session::get('success')}}
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                              </div>
+                            @else
+                            @endif
                             <div class="form-heading">
                                 <h5>send a message</h5>
                             </div>
