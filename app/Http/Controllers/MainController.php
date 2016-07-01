@@ -303,11 +303,19 @@ class MainController extends Controller
 
     public function postContactForm(Request $request)
     {
-            $flag=Mail::send('pages.sendEmailContact', array('firstName'=>$request->firstName,'lastName'=>$request->lastName,'email'=>$request->email,'subject'=>$request->subject,'message'=>$request->message,'phone'=>$request->phone), 
-                        function($message) use($request)
+        //dd($request->message);
+        $firstname = $request->firstName;
+        $lastname = $request->lastName;
+        $email = $request->email;
+        $subject = $request->subject;
+        $text = $request->message;
+        //dd($message);
+        $phone = $request->phone;
+
+            $flag=Mail::send('pages.sendEmailContact', ['firstName'=>$firstname,'lastName'=>$lastname,'email'=>$email,'subject'=>$subject,'text'=>$text,'phone'=>$phone], function($msg) use($request)
                         {
-                            $message->from($request->email);
-                            $message->to('work@tier5.us', $request->name)->subject('U-rang Details');
+                            $msg->from($request->email, 'U-rang');
+                            $msg->to('work@tier5.us', $request->firstName)->subject('U-rang Details');
                         });
 
             if($flag==1)

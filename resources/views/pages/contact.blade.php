@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea class="form-control" name="message" id="message" placeholder="MESSAGE" required></textarea>
+                                            <textarea class="form-control" name="message"  placeholder="your query"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">

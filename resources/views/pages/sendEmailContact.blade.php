@@ -12,7 +12,7 @@
 <div>Phone No :- {{$phone}}</div><br>
 <div>Email :- {{$email}}</div><br>
 <div>Subject :- {{$subject}}</div><br>
-<div>Message :- {{$message}}</div>
+<div>Message :- {{$text}}</div>
 
 </body>
 </html>
