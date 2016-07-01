@@ -287,4 +287,17 @@ class MainController extends Controller
             return 1;
         }
     }
+
+    public function getContactUs()
+    {
+
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        //$login_check = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
+        
+        return view('pages.contact', compact('site_details', 'neighborhood'));
+        
+        //return view('pages.contact');
+    }
 }

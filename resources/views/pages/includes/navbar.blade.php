@@ -37,7 +37,7 @@
                   
               </li>
               <li>
-                 <a href="#">Contact</a>
+                 <a href="{{ route('getContactUs') }}">Contact</a>
              </li>
              <li>
                  <a href="tel:8009595785">(800) 959-5785</a>

@@ -22,6 +22,7 @@ Route::get('/prices', ['uses' => 'MainController@getPrices', 'as' => 'getPrices'
 Route::get('/neighborhoods', ['uses' => 'MainController@getNeiborhoodPage', 'as' => 'getNeiborhoodPage']);
 Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList']);
 Route::post('/email-checker', ['uses' => 'MainController@emailChecker', 'as' => 'postEmailChecker']);
+Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getContactUs']);
 
 /*after login user functionality in middleware*/
 Route::group(['middleware' => ['user']], function () {
