@@ -303,11 +303,22 @@ class MainController extends Controller
 
     public function postContactForm(Request $request)
     {
-            Mail::send('pages.sendEmailContact', array('firstName'=>$request->firstName,'lastName'=>$request->lastName,'email'=>$request->email,'subject'=>$request->subject,'message'=>$request->message,'phone'=>$request->phone), 
+
+            $flag=Mail::send('pages.sendEmailContact', array('firstName'=>$request->firstName,'lastName'=>$request->lastName,'email'=>$request->email,'subject'=>$request->subject,'message'=>$request->message,'phone'=>$request->phone), 
                         function($message) use($request)
                         {
                             $message->from($request->email);
                             $message->to('work@tier5.us', $request->name)->subject('U-rang Details');
                         });
+
+            if($flag==1)
+            {
+                return redirect()->route('getContactUs')->with('success', 'Thank you for contacting us, We will get back to you shortly');
+            }
+            else
+            {
+                return redirect()->route('getContactUs')->with('fail', 'Mail is not sent');
+            }
+
     }
 }

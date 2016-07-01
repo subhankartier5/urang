@@ -17,6 +17,7 @@ class CreateNeighborhoodsTable extends Migration
             $table->integer('admin_id');
             $table->string('name');
             $table->longText('description');
+            $table->string('image');
             $table->timestamps();
         });
     }

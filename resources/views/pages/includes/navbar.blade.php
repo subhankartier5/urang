@@ -25,7 +25,7 @@
                   <a href="{{route('getFaqList')}}">FAQs</a>
               </li>
               <li>
-                <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                <a href="{{route('getNeiborhoodPage')}}"> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                 <ul>
                   @foreach($neighborhood as $hood)
                     <li> <a href="{{route('getNeiborhoodPage')}}">{{$hood->name}}</a></li>
