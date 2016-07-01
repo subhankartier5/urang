@@ -1,85 +1,78 @@
-@extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
+@extends('pages.layouts.master')
 @section('content')
-	  <div class="main-content neighbour">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <h2>FAQs</h2>
-          <p>How U-RANG Delivery Service Works...</p> 
-          <p>The box field that is on the home page EASY AS 1.2.3.....</p>
-          <div id="accordion" class="faq">
-          	@if(count($faq) > 0)
-	          	@foreach($faq as $faqs)
-	      			<h3>{{$faqs->question}}</h3>
-		            <div>
-		              <p>{{$faqs->answer}}</p>
-		            </div>
-	          	@endforeach
-	        @else
-	        	<p class="alert alert-warning" style="text-align: center;">No Faq Still Now!</p>
-	        @endif
-          </div>
-          <p class="schedule-pick">Click here to <a href="#">Schedule Pick-Up</a></p>
-        </div>
-<div class="col-md-4">
-            <div class="right-sidebar">
-              <h2>Our Services</h2>
-              <div class="services">
-                <a href="dryclean.html">
-                  <div class="image-serv">
-                    <img src="{{url('/')}}/public/images/dryclean.png" class="img-responsives">
-                  </div>
-                  <h3>Dry Clean</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="washnfold.html">
-                  <div class="image-serv">
-                    <img src="{{url('/')}}/public/images/washnfold.png" class="img-responsives">
-                  </div>
-                  <h3>Wash N Fold</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="corporate.html">
-                  <div class="image-serv">
-                    <img src="{{url('/')}}/public/images/corporate.png" class="img-responsives">
-                  </div>
-                  <h3>Corporate</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="tailoring.html">
-                  <div class="image-serv">
-                    <img src="{{url('/')}}/public/images/tailoring.png" class="img-responsives">
-                  </div>
-                  <h3>Tailoring</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="wetcleaning.html">
-                  <div class="image-serv">
-                    <img src="{{url('/')}}/public/images/wetcleaning.png" class="img-responsives">
-                  </div>
-                  <h3>Wet cleaning</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="cleanmyapt.html">
-                  <div class="image-serv">
-                    <img src="{{url('/')}}/public/images/cleanapt.png" class="img-responsives">
-                  </div>
-                  <h3>clean my apt</h3>
-                </a>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-   <script>
-  $(function() {
-    $( "#accordion" ).accordion();
-  });
-  </script>
+           <!-- ========================== -->
+        <!-- SERVICES - HEADER -->
+        <!-- ========================== -->
+        <section class="top-header qanda-header with-bottom-effect transparent-effect dark">
+            <div class="bottom-effect"></div>
+            <div class="header-container wow fadeInUp"> 
+                <div class="header-title">
+                    <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
+                    <div class="title">our Q & A</div>
+                    <em>Basic questions answered...</em>
+                </div>
+            </div><!--container-->
+        </section>  
+ 
+
+        
+        <!-- ========================== -->
+        <!-- ABOUT - HISTORY -->
+        <!-- ========================== -->
+        <section class="history-section">
+            <div class="container">
+                <div class="section-heading">
+                    <div class="section-title">How U-RANG Delivery Service Works...</div>
+                    <div class="section-subtitle">The box field that is on the home page EASY AS 1.2.3.....</div>
+                    <div class="design-arrow"></div>
+                </div>
+            </div>
+
+            <div class="wrap-timeline">
+                <div class="container">
+                    <div class="row top-row">
+                        <div class="col-md-12">
+                            <div class="time-title" id="timel"> <br />
+                                <div class="round-ico"><span class="icon icon-Flag"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    @if(count($faq) > 0)
+                      @for ($i=0; $i < count($faq) ; $i++)
+                        @if ($i%2 == 0) 
+                          <div class="row left-row">
+                            <div class="round-ico little"></div>
+                            <div class="col-md-6 col-sm-6 time-item wow fadeInUp" data-wow-duration="2s" >
+                                <div class="date">Q & A</div>
+                                <div class="title">{{$faq[$i]->question}}</div>
+                                <div class="time-image">
+                                    <img src="{{url('/')}}/public/dump_images/{{$faq[$i]->image}}" alt="" />
+                                </div>
+                                <p>{{$faq[$i]->answer}} </p>
+                            </div>
+                        </div>
+                        @else
+                          <div class="row right-row">
+                            <div class="round-ico big"></div>
+                            <div class="col-md-6 col-sm-6"></div>
+                            <div class="col-md-6 col-sm-6 time-item wow fadeInUp" data-wow-duration="2s" >
+                                <div class="date">Q & A</div>
+                                <div class="title">{{$faq[$i]->question}}</div>
+                                <div class="time-image">
+                                    <img src="{{url('/')}}/public/dump_images/{{$faq[$i]->image}}" alt="" />
+                                </div>
+                                <p>{{$faq[$i]->answer}}</p>
+                            </div>
+                        </div>
+                        @endif
+                      @endfor
+                    @else
+                      No Q & A
+                    @endif
+                    <div class="plus">
+                        <a href="{{route('getSignUp')}}" class="plus-ico">+</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 @endsection
