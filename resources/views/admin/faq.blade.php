@@ -34,6 +34,7 @@
 	                                    <th>ID</th>
 	                                    <th>Question</th>
 	                                    <th>Answer</th>
+	                                    <th>Image</th>
 	                                    <th>Created By</th>
 	                                    <th>Created At</th>
 	                                    <th>Edit</th>
@@ -46,6 +47,7 @@
 		                           		<td>{{$faq_details->id}}</td>
 		                           		<td>{{$faq_details->question}}</td>
 		                           		<td>{{$faq_details->answer}}</td>
+		                           		<td><img src="{{url('/')}}/public/dump_images/{{$faq_details->image}}" style="height: 50px; width: 73px;"></td>
 		                           		<td>{{$faq_details->admin_details->username}}</td>
 		                           		<td>{{ date("F jS Y",strtotime($faq_details->created_at->toDateString())) }}</td>
 		                           		<td><button type="button" id="edit_{{$faq_details->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
@@ -80,7 +82,7 @@
 			<p>Please wait...</p>
 			<img src="{{url('/')}}/public/img/reload.gif">
 		 </div>
-	        <form role="form" id="add-faq-form">
+	        <form role="form" id="add-faq-form" enctype="multipart/form-data" method="post" action="{{route('postAddFaq')}}">
 			  <div class="form-group">
 				 <div class="alert alert-success" id="success" style="display: none;"></div>
 		         <div class="alert alert-danger" id="errordiv" style="display: none;"></div>
@@ -91,11 +93,17 @@
 			    <label for="answer">Answer</label>
 			    <textarea class="form-control" id="answer" name="answer" required=""></textarea>
 			  </div>
-			  <button type="button" class="btn btn-primary btn-lg btn-block" id="addFaq">Add Faq</button>
+			  <div class="form-group">
+			    <label for="image">image</label>
+			    <input type="file" class="form-control" name="image" id="image" required="" />
+			  </div>
+			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="addFaq">Add Faq</button>
+			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
 			</form>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
 	      </div>
 	    </div>
 
@@ -116,11 +124,11 @@
 			<p>Please wait...</p>
 			<img src="{{url('/')}}/public/img/reload.gif">
 		 </div>
-	        <form role="form" id="edit-faq-form">
+	        <form role="form" id="edit-faq-form" method="post" enctype="multipart/form-data" action="{{route('postEditFaq')}}">
 			  <div class="form-group">
 				 <div class="alert alert-success" id="successEdit" style="display: none;"></div>
 		         <div class="alert alert-danger" id="errordivEdit" style="display: none;"></div>
-		         <input type="hidden" id="faq_id"></input>
+		         <input type="hidden" id="faq_id" name="id"></input>
 			    <label for="question">Question ?</label>
 			    <input class="form-control" id="questionEdit" name="questionEdit" type="text">
 			  </div>
@@ -128,7 +136,13 @@
 			    <label for="answer">Answer</label>
 			    <textarea class="form-control" id="answerEdit" name="answerEdit"></textarea>
 			  </div>
-			  <button type="button" class="btn btn-primary btn-lg btn-block" id="editFaq">Edit Faq</button>
+			  <div class="form-group">
+			    <label for="image">Image</label>
+			    <div id="imagePreview"></div>
+			    <input type="file" name="image" id="image" class="form-control"/>
+			  </div>
+			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="editFaq">Save Details</button>
+			  <input type="hidden" name="_token" value="{{Session::token()}}" />
 			</form>
 	      </div>
 	      <div class="modal-footer">
@@ -141,51 +155,13 @@
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			//alert('hi')
-			//add functionality
-			$('#addFaq').click(function(){
-				var question = $('#question').val();
-				var answer = $('#answer').val();
-				//alert('hi')
-				//console.log(question);
-				//console.log(answer);
-				if ($.trim(question) && $.trim(answer)) 
-				{
-					$('#loaderBodyAdd').show();
-					$('#add-faq-form').hide();
-					$('#loaderBody').show();
-					$('.table').hide();
-					$.ajax({
-						type: "POST",
-						url: "{{route('postAddFaq')}}",
-						data: {question: question, answer: answer, _token: "{{Session::token()}}"},
-						success: function(data) {
-							if (data != 0) 
-							{
-								location.reload();
-							}
-							else
-							{
-								$('#errordiv').show();
-								$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i> Could Not Save Your Details Please Try Again Later! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
-								return false;
-							}
-						}
-					});
-				}
-				else
-				{
-					$('#errordiv').show();
-					$('#errordiv').html('<i class="fa fa-times" aria-hidden="true"></i> All The Fields Are Mandetory and Make Sure You haven"t use a semicolon ";" <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
-					return false;
-				}
-			});
 			@foreach($faq as $faq_details)
 				$('#edit_{{$faq_details->id}}').click(function(){
 					$('#myModalEdit').modal('show');
 					$('#faq_id').val('{{$faq_details->id}}');
 					$('#questionEdit').val("{{$faq_details->question}}");
 					$('#answerEdit').val("{{$faq_details->answer}}");
+					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$faq_details->image}}" style="height: 100px; width: 100px;">');
 				});
 				$('#del_{{$faq_details->id}}').click(function(){
 					$.ajax({
@@ -207,32 +183,6 @@
 					});
 				});
 			@endforeach
-			$('#editFaq').click(function(){
-				var id = $('#faq_id').val();
-				var questionEdit = $('#questionEdit').val();
-				var answerEdit = $('#answerEdit').val();
-				$('#loaderBodyEdit').show();
-				$('#edit-faq-form').hide();
-				$.ajax({
-					url : "{{route('postEditFaq')}}",
-					type: "POST",
-					data: {id: id, questionEdit: questionEdit, answerEdit: answerEdit, _token: "{{Session::token()}}"},
-					success: function(data) {
-						if (data != 0) 
-						{
-							location.reload();
-						}
-						else
-						{
-							$('#loaderBodyEdit').hide();
-							$('#edit-faq-form').show();
-							$('#errordivEdit').show();
-							$('#errordivEdit').html('<i class="fa fa-times" aria-hidden="true"></i> Some Error Occured Please Try Again Later! <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
-							return false;
-						}
-					}
-				});
-			});
 		});
 	</script>
 @endsection

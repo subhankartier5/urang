@@ -493,43 +493,65 @@ class AdminController extends Controller
         return view('admin.faq', compact('user_data', 'site_details', 'faq'));
     }
     public function postAddFaq(Request $request) {
-        //return $request;
         $admin_id = Auth::user()->id;
         $question = $request->question;
         $answer = $request->answer;
+        $image = $request->image;
+        $extension =$image->getClientOriginalExtension();
+        $destinationPath = 'public/dump_images/';   // upload path
+        $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+        $image->move($destinationPath, $fileName); // uploading file to given path 
+        //return $fileName;
         $faq = new Faq();
         $faq->question = $question;
         $faq->answer = $answer;
+        $faq->image = $fileName;
         $faq->admin_id = $admin_id;
         if ($faq->save()) {
-            return 1;
+            return redirect()->route('getFaq')->with('successUpdate', 'Faq Successfully added!');
         }
         else
         {
-            return 0;
+            return redirect()->route('getFaq')->with('fail', 'Cannot Add faq try again later!');
         }
     }
     public function UpdateFaq(Request $request) {
+        //dd($request);
         //return $request;
         $id = $request->id;
         $question =$request->questionEdit;
         $answer = $request->answerEdit;
+        if ($request->image != null) {
+            $image = $request->image;
+            $extension =$image->getClientOriginalExtension();
+            $destinationPath = 'public/dump_images/';   // upload path
+            $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+            $image->move($destinationPath, $fileName); // uploading file to given path 
+            //return $fileName;
+        }
+        else
+        {
+            //dd('im here');
+            $data = Faq::find($id);
+            $fileName = $data->image;
+        }
         $faq = Faq::find($id);
         if ($faq) {
             $faq->question = $question;
             $faq->answer = $answer;
+            $faq->image = $fileName;
             $faq->admin_id = Auth::user()->id;
             if ($faq->save()) {
-                return 1;
+                return redirect()->route('getFaq')->with('successUpdate', 'Faq Successfully Updated!');
             }
             else
             {
-                return 0;
+                return redirect()->route('getFaq')->with('fail', 'Cannot Upadte faq try again later!');
             }
         }
         else
         {
-            return 0;
+            return redirect()->route('getFaq')->with('fail', 'Cannot Update faq try again later!');
         }
     }
     public function DeleteFaq(Request $request) {

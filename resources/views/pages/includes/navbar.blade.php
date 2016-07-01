@@ -22,7 +22,7 @@
               </li>
               <li><a href="{{route('getPrices')}}">Prices</a></li>
               <li>
-                  <a href="#">FAQs</a>
+                  <a href="{{route('getFaqList')}}">FAQs</a>
               </li>
               <li>
                 <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>

@@ -16,6 +16,7 @@ class CreateFaqsTable extends Migration
             $table->increments('id');
             $table->longText('question');
             $table->longText('answer');
+            $table->string('image');
             $table->integer('admin_id');
             $table->timestamps();
         });
