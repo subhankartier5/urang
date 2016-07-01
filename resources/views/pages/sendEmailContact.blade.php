@@ -8,7 +8,11 @@
 <hr>
 <label>Person's Details</label>
 <div>First Name :- {{$firstName}}</div><br>
-
+<div>Last Name :- {{$lastName}}</div><br>
+<div>Phone No :- {{$phone}}</div><br>
+<div>Email :- {{$email}}</div><br>
+<div>Subject :- {{$subject}}</div><br>
+<div>Message :- {{$message}}</div>
 
 </body>
 </html>
