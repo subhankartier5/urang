@@ -300,4 +300,24 @@ class MainController extends Controller
         
         //return view('pages.contact');
     }
+
+    public function postContactForm(Request $request)
+    {
+        
+
+        //dd($data);
+
+        /*Mail::send('pages.sendEmailContact', array('firstname'=>$req->firstName,'lastName'=>$req->lastName,'phone'=>$req->phone,'email'=>$req->email,'subject'=>$req->subject,'message'=>$req->message), 
+            function($message) use($req)
+            {
+                $message->from('kingsuk.majumder@tier5.us');
+                $message->to('work@tier5.us', 'Mail From U-rang')->subject($req->subject);
+            });*/
+            Mail::send('pages.sendEmailContact', array('firstName'=>$request->firstName,'lastName'=>$request->lastName,'email'=>$request->email,'subject'=>$request->subject,'message'=>$request->message,'phone'=>$request->phone), 
+                        function($message) use($request)
+                        {
+                            $message->from('work@tier5.us');
+                            $message->to($request->email, $request->name)->subject('U-rang Details');
+                        });
+    }
 }

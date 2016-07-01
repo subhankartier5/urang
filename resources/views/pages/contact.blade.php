@@ -71,7 +71,7 @@
                             <div class="form-heading">
                                 <h5>send a message</h5>
                             </div>
-                            <form method="post" action="urang.php" name="contact-form" id="contact-form">
+                            <form method="post" action="{{ route('postContactForm') }}" name="contact-form" id="contact-form">
                                 <div id="response"></div>
                                 <div class="row"> 
                                     <div class="col-md-6">
@@ -106,8 +106,9 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group"> 
-                                            <button type="submit" id="submit" class="btn btn-default">send message</button>
+                                            <button type="submit" class="btn btn-default">send message</button>
                                         </div>
+                                        <input type="hidden" name="_token" value="{{Session::token()}}">
                                     </div> 
                                 </div>
                             </form>
