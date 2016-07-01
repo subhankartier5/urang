@@ -76,32 +76,32 @@
                                 <div class="row"> 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="firstName" id="firstName"  placeholder="FIRST NAME" class="form-control" />
+                                            <input type="text" name="firstName" id="firstName"  placeholder="FIRST NAME" class="form-control" required/>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="lastName" id="lastName" placeholder="LAST NAME" class="form-control" />
+                                            <input type="text" name="lastName" id="lastName" placeholder="LAST NAME" class="form-control" required/>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="phone" id="phone" placeholder="PHONE NO." class="form-control" />
+                                            <input type="text" name="phone" id="phone" placeholder="PHONE NO." class="form-control" required/>
                                         </div>
                                     </div> 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="email" required id="email" placeholder="EMAIL" class="form-control" />
+                                            <input type="text" name="email" required id="email" placeholder="EMAIL" class="form-control" required/>
                                         </div>
                                     </div> 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" name="subject" required id="subject" placeholder="SUBJECT" class="form-control" />
+                                            <input type="text" name="subject" required id="subject" placeholder="SUBJECT" class="form-control" required/>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea class="form-control" name="message" id="message" placeholder="MESSAGE"></textarea>
+                                            <textarea class="form-control" name="message" id="message" placeholder="MESSAGE" required></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
