@@ -1,122 +1,84 @@
-@extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
+@extends('pages.layouts.master')
 @section('content')
-	<div class="main-content neighbour">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-        <h2>Dry Cleaning Price List</h2>
-        <p>Our Master Craftsmen can do miracles--you will be amazed! We offer full service Dry Cleaning & shirt Laundry, We also professionally clean Leather & Suede</p>
-
-          <div class="price-table">
-            <div class="col-md-6">
-              <table class="table table-responsive">
-                <thead>
-                  <th>Residential Service</th>
-                </thead>
-                <tbody>
-                	@foreach($price_list as $price)
-	                	@if($price->categories->name == 'Residential Services')
-	                		<tr>
-			                  	<td>{{$price->item}}</td>
-			                  	<td>${{$price->price}}</td>
-			                </tr>
-	                	@endif
-	                @endforeach
-                </tbody>
-              </table>
-            </div>
-            <div class="col-md-6">
-              <table class="table table-responsive">
-                <thead>
-                  <th>Household Items: Dry Clean</th>
-                </thead>
-                <tbody>
-	              	@foreach($price_list as $price)
-	                	@if($price->categories->name == 'Household Items: Dry Clean')
-	                		<tr>
-			                  	<td>{{$price->item}}</td>
-			                  	<td>${{$price->price}}</td>
-			                </tr>
-	                	@endif
-	                @endforeach
-                </tbody>
-              </table>
-              <div class="clear50"></div>
-              <table class="table table-responsive">
-                <thead>
-                  <th>Bedding</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="2">&nbsp</td>
-                  </tr>
-                  @foreach($price_list as $price)
-	                	@if($price->categories->name == 'Bedding')
-	                		<tr>
-			                  	<td>{{$price->item}}</td>
-			                  	<td>${{$price->price}}</td>
-			                </tr>
-	                	@endif
-	                @endforeach
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-            <div class="right-sidebar">
-              <h2>Our Services</h2>
-              <div class="services">
-                <a href="#">
-                  <div class="image-serv">
-                    <img src="images/dryclean.png" class="img-responsives">
-                  </div>
-                  <h3>Dry Clean</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="#">
-                  <div class="image-serv">
-                    <img src="images/washnfold.png" class="img-responsives">
-                  </div>
-                  <h3>Wash N Fold</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="#">
-                  <div class="image-serv">
-                    <img src="images/corporate.png" class="img-responsives">
-                  </div>
-                  <h3>Corporate</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="#">
-                  <div class="image-serv">
-                    <img src="images/tailoring.png" class="img-responsives">
-                  </div>
-                  <h3>Tailoring</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="#">
-                  <div class="image-serv">
-                    <img src="images/wetcleaning.png" class="img-responsives">
-                  </div>
-                  <h3>Wet cleaning</h3>
-                </a>
-              </div>
-              <div class="services">
-                <a href="#">
-                  <div class="image-serv">
-                    <img src="images/cleanapt.png" class="img-responsives">
-                  </div>
-                  <h3>clean my apt</h3>
-                </a>
-              </div>
-          </div>
-        </div>
+<section class="top-header pricing-header with-bottom-effect transparent-effect dark">
+   <div class="bottom-effect"></div>
+   <div class="header-container wow fadeInUp">
+      <div class="header-title">
+         <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
+         <div class="title">our prices</div>
+         <em>Concierge Dry Cleaning Service<br>
+         Owned and Operated Facility in Manhattan</em>
       </div>
-    </div>
-  </div>
+   </div>
+   <!--container-->
+</section>
+<section class="features-section">
+   <div class="container">
+      <div class="section-heading " >
+         <div class="section-title">Our Prices</div>
+         <div class="section-subtitle">
+            Our Master Craftsmen can do miracles--you will be amazed! <br>We offer full service Dry Cleaning & shirt Laundry, We also professionally clean Leather & Suede
+         </div>
+         <div class="design-arrow"></div>
+      </div>
+      <div class="col-md-6">
+         <ul class="plans">
+            <h2>Residential Service</h2>
+            @if(count($price_list) > 0)
+              @foreach($price_list as $price)
+                @if($price->categories->name == 'Residential Services')
+                  <li class="plan highlight">
+                     <span class="price price-green">${{$price->price}}</span>
+                     <div class="details">
+                        <h1 class="plan-title" style="margin-top: 14px;">{{$price->item}}</h1>
+                     </div>
+                     <a href="{{route('getSignUp')}}"><button class="btn select ">Sign-Up Now</button></a>
+                  </li>
+                @endif
+              @endforeach
+            @else
+              No Data
+            @endif
+         </ul>
+      </div>
+      <div class="col-md-6">
+         <ul class="plans">
+            <div style="height:60px;"></div>
+            <h2>Household Items: Dry Clean</h2>
+             @if(count($price_list) > 0)
+              @foreach($price_list as $price)
+                @if($price->categories->name == 'Household Items: Dry Clean')
+                  <li class="plan highlight">
+                     <span class="price price-green">${{$price->price}}</span>
+                     <div class="details">
+                        <h1 class="plan-title" style="margin-top: 14px;">{{$price->item}}</h1>
+                     </div>
+                     <a href="{{route('getSignUp')}}"><button class="btn select ">Sign-Up Now</button></a>
+                  </li>
+                @endif
+              @endforeach
+            @else
+              No Data
+            @endif
+            <div style="height:40px;"></div>
+            <h2>Bedding</h2>
+            @if(count($price_list) > 0)
+              @foreach($price_list as $price)
+                @if($price->categories->name == 'Bedding')
+                  <li class="plan highlight">
+                     <span class="price price-green">${{$price->price}}</span>
+                     <div class="details">
+                        <h1 class="plan-title" style="margin-top: 14px;">{{$price->item}}</h1>
+                     </div>
+                     <a href="{{route('getSignUp')}}"><button class="btn select ">Sign-Up Now</button></a>
+                  </li>
+                @endif
+              @endforeach
+            @else
+              No Data
+            @endif
+         </ul>
+      </div>
+   </div>
+</section>
 @endsection

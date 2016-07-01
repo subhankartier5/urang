@@ -20,7 +20,7 @@
               <li>
                   <a href="{{route('getSignUp')}}">Sign-Up</a>
               </li>
-              <li><a href="#">Prices</a></li>
+              <li><a href="{{route('getPrices')}}">Prices</a></li>
               <li>
                   <a href="#">FAQs</a>
               </li>

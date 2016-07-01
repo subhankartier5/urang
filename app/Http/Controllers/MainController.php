@@ -46,7 +46,7 @@ class MainController extends Controller
         return view('pages.signup', compact('site_details', 'neighborhood'));
     }
     public function postSignUp(Request $request) {
-        dd($request);
+        //dd($request);
         if ($request->password == $request->conf_password) {
             $user = new User();
             $user->email = $request->email;
@@ -237,6 +237,7 @@ class MainController extends Controller
         $neighborhood = $obj->getNeighborhood();
         //dd($login_check);
         $price_list = PriceList::with('categories')->get();
+        //dd();
         if ($login_check != null) {
             //dd('i m here');
            $logged_user= $obj->getCustomerData();
