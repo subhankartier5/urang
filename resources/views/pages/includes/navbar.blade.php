@@ -16,12 +16,6 @@
               <li class="active">
                   <a href="{{route('index')}}">Home</a>
               </li>
-              <li>
-                  <a href="{{route('getLogin')}}">Login</a>
-              </li>
-              <li>
-                  <a href="{{route('getSignUp')}}">Sign-Up</a>
-              </li>
               <li><a href="{{route('getPrices')}}">Prices</a></li>
               <li>
                   <a href="{{route('getFaqList')}}">FAQs</a>
@@ -43,6 +37,19 @@
               <li>
                  <a href="{{ route('getContactUs') }}">Contact</a>
              </li>
+             <li>
+                  @if(auth()->guard('users')->user() != null)
+                     <a href="{{route('getLogout')}}">Logout</a>
+                  @else
+                       <a href="{{route('getLogin')}}">Login</a>
+                  @endif
+              </li>
+              <li>
+                  @if(auth()->guard('users')->user() == null)
+                     <a href="{{route('getSignUp')}}">Sign-Up</a>
+                  @else
+                  @endif
+              </li>
              <li>
                  <a href="tel:8009595785">(800) 959-5785</a>
              </li>
