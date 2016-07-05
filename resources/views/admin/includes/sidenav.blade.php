@@ -41,7 +41,7 @@
                      <a href="{{route('getAllCustomers')}}"><i class="fa fa-list" aria-hidden="true"></i> Customer Lists</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-group" aria-hidden="true"></i> Customer Orders</a>
+                    <a href="{{route('getCustomerOrders')}}"><i class="fa fa-group" aria-hidden="true"></i> Customer Orders</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-table fa-fw"></i> Scheduled Pickup</a>
@@ -54,6 +54,9 @@
                 </li>
                 <li>
                     <a href="{{route('getFaq')}}"<i class="fa fa-question-circle" aria-hidden="true"></i> Faq Management</a>
+                </li>
+                <li>
+                    <a href="{{route('getStaffList')}}"><i class="fa fa-user fa-fw"></i> Staffs Management</a>
                 </li>
             </ul>
         </div>
