@@ -294,11 +294,17 @@ class MainController extends Controller
 
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$login_check = $obj->getCustomerData();
+        $login_check = $obj->getCustomerData();
         //$neighborhood = $obj->getNeighborhood();
-        
-        return view('pages.contact', compact('site_details'));
-        
+        //dd($login_check);
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.contact', compact('site_details', 'login_check','logged_user'));
+        }
+        else
+        {
+            return view('pages.contact', compact('site_details', 'login_check'));
+        }
         //return view('pages.contact');
     }
 
