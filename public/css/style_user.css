@@ -1,24 +1,24 @@
 @font-face {
 	font-family:'Montserrat-Light';
-	src:url('fonts/Montserrat-Light.otf') format('truetype');
+	src:url('../css/fonts/Montserrat-Light.otf') format('truetype');
 	unicode-range: U+0020-2265;
 }
 
 @font-face {
 	font-family:'Montserrat-Bold';
-	src:url('fonts/Montserrat-Bold.otf') format('truetype');
+	src:url('../css/fonts/Montserrat-Bold.otf') format('truetype');
 	unicode-range: U+0020-2265;
 }
 
 @font-face {
 	font-family:'Pacifico';
-	src:url('fonts/Pacifico.ttf') format('truetype');
+	src:url('../css/fonts/Pacifico.ttf') format('truetype');
 	unicode-range: U+0020-2265;
 }
 
 @font-face {
 	font-family:'Signika';
-	src:url('fonts/signika.negative-semibold.ttf') format('truetype');
+	src:url('../css/fonts/signika.negative-semibold.ttf') format('truetype');
 	unicode-range: U+0020-2265;
 }
 
@@ -191,6 +191,10 @@ h2{
     padding:50px;
 }
 
+.signup .modal-content h2{
+    padding:0;
+    font-size: 20px;
+}
 .login form{
 	border: 1px solid #68a832;
 	padding: 30px 50px;

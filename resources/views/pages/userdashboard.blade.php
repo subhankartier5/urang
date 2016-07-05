@@ -7,7 +7,7 @@
             <h2 > Dashboard </h2>
             <div class="dash-section">
               <h3>New Pick-Up</h3>
-              <p><a href="#"></span><i class="fa fa-share" aria-hidden="true"></i> Schedule Pick-Up </a></p>
+              <p><a href="{{route('getPickUpReq')}}"></span><i class="fa fa-share" aria-hidden="true"></i> Schedule Pick-Up </a></p>
             </div>
             <div class="clear50"></div>
             <div class="dash-section">
