@@ -5,6 +5,18 @@
 	        <div class="col-lg-12">
 	            <div class="panel panel-default">
 	                <div class="panel-heading">
+	                	@if(Session::has('fail'))
+	                		<div class="alert alert-danger">{{Session::get('fail')}}
+	                			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	                		</div>
+	                	@else
+	                	@endif
+	                	@if(Session::has('success'))
+	                		<div class="alert alert-success">	                             	{{Session::get('success')}}
+	                			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	                		</div>
+	                	@else
+	                	@endif
 	                	<div class="alert alert-success" id="success" style="display: none;"></div>
 	                   View Neighborhood
 	                   <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_neighbor"><i class="fa fa-plus" aria-hidden="true"></i> Add Neighborhood</button>
@@ -22,6 +34,7 @@
 	                                    <th>#</th>
 	                                    <th>Name</th>
 	                                    <th>Description</th>
+	                                    <th>Image</th>
 	                                    <th>Created By</th>
 	                                    <th>Created At</th>
 	                                    <th>Edit</th>
@@ -35,6 +48,7 @@
 			                            		<td>{{$neighbor->id}}</td>
 			                            		<td>{{$neighbor->name}}</td>
 			                            		<td>{{$neighbor->description}}</td>
+			                            		<td><img src="{{url('/')}}/public/dump_images/{{$neighbor->image}}" style="height: 50px; width: 73px;"></td>
 			                            		<td>{{$neighbor->admin->username}}</td>
 			                            		<td>{{ date("F jS Y",strtotime($neighbor->created_at->toDateString())) }}</td>
 			                            		<td><button type="button" id="edit_{{$neighbor->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
@@ -74,7 +88,7 @@
 	      			<p>Please wait...</p>
 		        	<img src="{{url('/')}}/public/img/reload.gif">
 		    </div>
-			<form role="form" id="add-modal-form">
+			<form role="form" id="add-modal-form" enctype="multipart/form-data" method="post" action="{{route('postneighborhood')}}">
 			  <div class="form-group">
 			    <label for="name">Name</label>
 			    <input class="form-control" id="name" name="name" type="text" required="">
@@ -83,7 +97,11 @@
 			    <label for="description">Description</label>
 			    <textarea class="form-control" id="description" name="description" required=""></textarea>
 			  </div>
-			  <button type="button" class="btn btn-primary btn-lg btn-block" id="postneighbor">Add Neighborhood</button>
+			  <div class="form-group">
+				<input type="file" name="image" class="form-control" required="" />			  	
+			  </div>
+			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postneighbor">Add Neighborhood</button>
+			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
 			</form>
 	      </div>
 	      <div class="modal-footer">
@@ -109,7 +127,7 @@
 		      			<p>Please wait...</p>
 			        	<img src="{{url('/')}}/public/img/reload.gif">
 			  </div>
-			<form role="form" id="edit-modal-form">
+			<form role="form" id="edit-modal-form" enctype="multipart/form-data" method="post" action="{{route('editneighborhood')}}">
 			  <div class="form-group">
 			    <label for="nameEdit">Name</label>
 			    <input class="form-control" id="nameEdit" name="nameEdit" type="text">
@@ -118,8 +136,13 @@
 			    <label for="descriptionEdit">Description</label>
 			    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit"></textarea>
 			  </div>
+			  <div class="form-group">
+			  	<div id="imagePreview"></div>
+			    <input type="file" name="image" id="image" class="form-control"/>
+			  </div>
 			  <input type="hidden" name="id" id="id"></input>
-			  <button type="button" class="btn btn-primary btn-lg btn-block" id="postEditneighbor">Save Changes</button>
+			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postEditneighbor">Save Changes</button>
+			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
 			</form>
 	      </div>
 	      <div class="modal-footer">
@@ -142,7 +165,7 @@
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
 			//adding neighbor in database
-			$('#postneighbor').click(function(){
+			/*$('#postneighbor').click(function(){
 				var name = $('#name').val();
 				var description = $('#description').val();
 				//console.log(name);
@@ -163,7 +186,7 @@
 						}
 					}
 				});
-			});
+			});*/
 
 			//edit neighborhood show or get
 			@foreach($neighborhood as $neighbor)
@@ -174,6 +197,7 @@
 					$('#nameEdit').val("{{$neighbor->name}}");
 					$('#descriptionEdit').val("{{$neighbor->description}}");
 					$('#id').val('{{$neighbor->id}}');
+					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$neighbor->image}}" style="height: 100px; width: 100px;">');
 				});
 				// delete neighborhood
 				$('#del_{{$neighbor->id}}').click(function(){
@@ -198,7 +222,7 @@
 			@endforeach
 
 			//post neighborhood edit
-			$('#postEditneighbor').click(function(){
+			/*$('#postEditneighbor').click(function(){
 				var id = $('#id').val();
 				//console.log(id);
 				var nameEdited = $('#nameEdit').val();
@@ -223,7 +247,7 @@
 						}
 					}
 				});
-			});
+			});*/
 		});
 	</script>
 @endsection

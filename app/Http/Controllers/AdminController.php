@@ -166,37 +166,57 @@ class AdminController extends Controller
         return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
     }
     public function postNeighborhood(Request $request) {
+        //dd($request->image);
         $name = $request->name;
         $description = $request->description;
         $admin_id = Auth::user()->id;
+        $image = $request->image;
+        $extension =$image->getClientOriginalExtension();
+        $destinationPath = 'public/dump_images/';   // upload path
+        $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+        $image->move($destinationPath, $fileName); // uploading file to given path 
+        //return $fileName;
         $data = new Neighborhood();
         $data->admin_id = $admin_id;
         $data->name = $name;
         $data->description = $description;
+        $data->image = $fileName;
         if ($data->save()) {
-           return 1;
+           //return 1;
+            return redirect()->route('get-neighborhood')->with('success', 'Neighborhood added Successfully');
         }
         else
         {
-            return 0;
+            //return 0;
+            return redirect()->route('get-neighborhood')->with('fail', 'Failed to add neighborhood');
         }
     }
     public function editNeighborhood(Request $request) {
+        //dd($request);
         $search = Neighborhood::find($request->id);
         if ($search) {
-            $search->name = $request->name;
-            $search->description = $request->description;
+            $search->name = $request->nameEdit;
+            $search->description = $request->descriptionEdit;
+            if ($request->image) {
+                $image = $request->image;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';   // upload path
+                $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+                $image->move($destinationPath, $fileName); // uploading file to given path 
+                //return $fileName;
+                $search->image = $fileName;
+            }
             if ($search->save()) {
-                return 1;
+                return redirect()->route('get-neighborhood')->with('success', 'Neighborhood updated Successfully');
             }
             else
             {
-                return 0;
+                return redirect()->route('get-neighborhood')->with('fail', 'Failed to update neighborhood');
             }
         }
         else
         {
-            return 0;
+            return redirect()->route('get-neighborhood')->with('fail', 'Failed to update neighborhood');
         }
     }
     public function deleteNeighborhood(Request $request) {
