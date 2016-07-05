@@ -15,6 +15,8 @@ use Mail;
 use Hash;
 use App\Neighborhood;
 use App\Faq;
+use App\Pickupreq;
+use App\OrderDetails;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -294,11 +296,17 @@ class MainController extends Controller
 
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$login_check = $obj->getCustomerData();
+        $login_check = $obj->getCustomerData();
         //$neighborhood = $obj->getNeighborhood();
-        
-        return view('pages.contact', compact('site_details'));
-        
+        //dd($login_check);
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.contact', compact('site_details', 'login_check','logged_user'));
+        }
+        else
+        {
+            return view('pages.contact', compact('site_details', 'login_check'));
+        }
         //return view('pages.contact');
     }
 
@@ -328,5 +336,64 @@ class MainController extends Controller
                 return redirect()->route('getContactUs')->with('fail', 'Mail is not sent');
             }
 
+    }
+    public function getPickUpReq() {
+        return view('pages.pickupreq');
+    }
+    public function postPickUp (Request $request) {
+        $pick_up_req = new Pickupreq();
+        $pick_up_req->user_id = auth()->guard('users')->user()->id;
+        $pick_up_req->address = $request->address;
+        $pick_up_req->pick_up_date = $request->pick_up_date;
+        $pick_up_req->pick_up_type = isset($request->order_type) ? 1 : 0;
+        $pick_up_req->schedule = $request->schedule;
+        $pick_up_req->delivary_type = $request->boxed_or_hung;
+        $pick_up_req->starch_type = $request->strach_type;
+        $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
+        $pick_up_req->door_man = $request->doorman;
+        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+        $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
+        $pick_up_req->payment_type = $request->pay_method;
+        $pick_up_req->order_status = 1;
+        $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
+        $pick_up_req->client_type = $request->client_type;
+        $pick_up_req->coupon = NULL;
+        $pick_up_req->wash_n_fold = $request->wash_n_fold;
+        if ($pick_up_req->save()) {
+            if ($request->order_type == 1) {
+
+                return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+            }
+            else
+            {
+                //return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Order Now!");
+                //this is for detailed pick up
+                $data = json_decode($request->list_items_json);
+                for ($i=0; $i< count($data); $i++) {
+                    $order_details = new OrderDetails();
+                    $order_details->pick_up_req_id = $pick_up_req->id;
+                    $order_details->user_id = auth()->guard('users')->user()->id;
+                    $order_details->price = $data[$i]->item_price;
+                    $order_details->items = $data[$i]->item_name;
+                    $order_details->quantity = $data[$i]->number_of_item;
+                    $order_details->payment_status = 0;
+                    $order_details->save();
+                }
+                return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+            }
+        }
+        else
+        {
+            return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
+        }
+
+    }
+    /*public function testCsrf()
+    {
+        echo "test";
+    }*/
+    public function testCsrf()
+    {
+        echo "test";
     }
 }

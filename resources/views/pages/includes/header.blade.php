@@ -11,8 +11,9 @@
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Raleway:400,700,300' rel='stylesheet' type='text/css'>
 <link href="{{url('/')}}/public/new/fonts/Stroke-Gap-Icons-Webfont/style.css" rel="stylesheet" type="text/css" />
-
-
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/style_user.css">
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/jquery-ui.css">
 <!-- components -->
 <link href="{{url('/')}}/public/new/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{url('/')}}/public/new/vendor/owl-carousel/owl-carousel/owl.carousel.css" rel="stylesheet" type="text/css" /> 
@@ -41,3 +42,5 @@
 <script src="{{url('/')}}/public/new/js/custom.js" type="text/javascript"></script>
 <script src="{{url('/')}}/public/new/js/map.js" type="text/javascript"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
+<script type="text/javascript" src="{{url('/')}}/public/js/main.js"></script>
+<script src="{{url('/')}}/public/js/jquery-ui.js"></script>

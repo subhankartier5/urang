@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserDetails extends Model
+class OrderDetails extends Model
 {
-    
+    //
 }

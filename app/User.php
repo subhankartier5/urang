@@ -13,4 +13,8 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     public function card_details(){
     	return $this->hasOne('App\CustomerCreditCardInfo', 'user_id', 'id');
     }
+    public function pickup_req()
+    {
+    	return $this->hasMany('App\Pickupreq','user_id','id');
+    }
 }
