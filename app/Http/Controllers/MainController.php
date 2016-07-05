@@ -335,4 +335,9 @@ class MainController extends Controller
             }
 
     }
+
+    public function testCsrf()
+    {
+        echo "test";
+    }
 }

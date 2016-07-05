@@ -68,3 +68,12 @@ Route::get('/faq' , ['uses' => 'AdminController@getFaq', 'as' => 'getFaq']);
 Route::post('/atempt-add-faq', ['uses' => 'AdminController@postAddFaq', 'as' => 'postAddFaq']);
 Route::post('/edit-faq', ['uses' => 'AdminController@UpdateFaq', 'as' => 'postEditFaq']);
 Route::post('/delete-faq', ['uses' => 'AdminController@DeleteFaq', 'as' => 'postDeleteFaq']);
+
+
+//test routes
+Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
+
+//Staff routes
+Route::group(['prefix' => 'staff'], function () {
+	Route::get('/',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
+}); 
