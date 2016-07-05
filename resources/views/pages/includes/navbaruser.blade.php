@@ -1,4 +1,4 @@
-<header class="top-header">
+<header>
     <div class="container-fluid">
         <div class="row">
           <div class="col-md-12 header-bar">
@@ -28,7 +28,7 @@
                       <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
                       <li role="presentation">
                         
-                        <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                        <a href="{{route('getNeiborhoodPage')}}"> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul>
                           <div style="display:none;">{{$test = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
                           @foreach($test as $hood)
@@ -38,7 +38,7 @@
 
                       </li>
                       <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>
-                      <li role="presentation"><a href="#">Contact</a></li>
+                      <li role="presentation"><a href="{{route('getContactUs')}}">Contact</a></li>
 
                       <li><a href="tel:8009595785">(800) 959-5785</a></li>
                     </ul>
@@ -49,7 +49,7 @@
                           <li role="presentation"><a href="{{route('getChangePassword')}}"><i class="fa fa-cog" aria-hidden="true"></i> Change Password</a></li>
                         </ul>
                       </li>
-                      <li><a href="{{route('getLogout')}}"><span class="glyphicon glyphicon-off logout" aria-hidden="true" title="Logout"></span></a></li>
+                      <li><a href="{{route('getLogout')}}"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
                     </ul>
                 
                   </div><!-- /.navbar-collapse -->

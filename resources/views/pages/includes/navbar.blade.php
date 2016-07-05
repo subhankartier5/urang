@@ -14,7 +14,11 @@
       <div class="navbar-collapse collapse floated" id="navbar-collapse">
           <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
               <li class="active">
-                  <a href="{{route('index')}}">Home</a>
+                  @if(auth()->guard('users')->user() == null)
+                    <a href="{{route('index')}}">Home</a>
+                  @else
+                    <a href="{{route('getCustomerDahsboard')}}">Home</a>
+                  @endif
               </li>
               <li><a href="{{route('getPrices')}}">Prices</a></li>
               <li>
