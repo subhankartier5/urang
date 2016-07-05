@@ -335,4 +335,7 @@ class MainController extends Controller
             }
 
     }
+    public function getPickUpReq() {
+        return view('pages.pickupreq');
+    }
 }
