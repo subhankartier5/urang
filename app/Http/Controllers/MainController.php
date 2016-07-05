@@ -15,20 +15,22 @@ use Mail;
 use Hash;
 use App\Neighborhood;
 use App\Faq;
+use App\Pickupreq;
+use App\OrderDetails;
 class MainController extends Controller
 {
     public function getIndex() {
         //dd(1);
-    	$obj = new NavBarHelper();
-    	$site_details = $obj->siteData();
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
         //$neighborhood = $obj->getNeighborhood();
         //dd($neighborhood);
-    	return view('pages.index', compact('site_details'));
+        return view('pages.index', compact('site_details'));
     }
     public function getLogin() {
         $user = auth()->guard('users');
-    	$obj = new NavBarHelper();
-    	$site_details = $obj->siteData();
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
         //$neighborhood = $obj->getNeighborhood();
         if ($user->user()) {
             //return view('pages.userdashboard', compact('site_details'));
@@ -72,13 +74,7 @@ class MainController extends Controller
                     $card_info->exp_month = $request->select_month;
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
-                       //mail should be send from here
-                        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
-                        function($message) use($request)
-                        {
-                            $message->from('work@tier5.us');
-                            $message->to($request->email, $request->name)->subject('U-rang Details');
-                        });
+                        $this->sendAnEmail($request);
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
@@ -130,11 +126,9 @@ class MainController extends Controller
     public function getDashboard() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$user = auth()->guard('users');
         $logged_user = $obj->getCustomerData();
-        //$neighborhood = $obj->getNeighborhood();
-        //dd($logged_user);
-        return view('pages.userdashboard', compact('site_details', 'logged_user'));
+        $pick_up_req = Pickupreq::where('user_id',$logged_user->id)->get();
+        return view('pages.userdashboard', compact('site_details', 'logged_user', 'pick_up_req'));
     } 
     public function getLogout() {
         $user = auth()->guard('users');
@@ -294,11 +288,17 @@ class MainController extends Controller
 
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$login_check = $obj->getCustomerData();
+        $login_check = $obj->getCustomerData();
         //$neighborhood = $obj->getNeighborhood();
-        
-        return view('pages.contact', compact('site_details'));
-        
+        //dd($login_check);
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.contact', compact('site_details', 'login_check','logged_user'));
+        }
+        else
+        {
+            return view('pages.contact', compact('site_details', 'login_check'));
+        }
         //return view('pages.contact');
     }
 
@@ -328,5 +328,103 @@ class MainController extends Controller
                 return redirect()->route('getContactUs')->with('fail', 'Mail is not sent');
             }
 
+    }
+    public function getPickUpReq() {
+        return view('pages.pickupreq');
+    }
+    public function postPickUp (Request $request) {
+        $total_price = 0.00;
+        $pick_up_req = new Pickupreq();
+        $pick_up_req->user_id = auth()->guard('users')->user()->id;
+        $pick_up_req->address = $request->address;
+        $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
+        $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
+        $pick_up_req->schedule = $request->schedule;
+        $pick_up_req->delivary_type = $request->boxed_or_hung;
+        $pick_up_req->starch_type = $request->strach_type;
+        $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
+        $pick_up_req->door_man = $request->doorman;
+        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+        $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
+        $pick_up_req->payment_type = $request->pay_method;
+        $pick_up_req->order_status = 1;
+        $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
+        $pick_up_req->client_type = $request->client_type;
+        $pick_up_req->coupon = NULL;
+        $pick_up_req->wash_n_fold = $request->wash_n_fold;
+        $data_table = json_decode($request->list_items_json);
+        for ($i=0; $i< count($data_table); $i++) {
+            $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
+        }
+        $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
+        if ($pick_up_req->save()) {
+            if ($request->order_type == 1) {
+                //fast pick up
+                return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+            }
+            else
+            {
+                //detailed pick up
+                $data = json_decode($request->list_items_json);
+                for ($i=0; $i< count($data); $i++) {
+                    $order_details = new OrderDetails();
+                    $order_details->pick_up_req_id = $pick_up_req->id;
+                    $order_details->user_id = auth()->guard('users')->user()->id;
+                    $order_details->price = $data[$i]->item_price;
+                    $order_details->items = $data[$i]->item_name;
+                    $order_details->quantity = $data[$i]->number_of_item;
+                    $order_details->payment_status = 0;
+                    $order_details->save();
+                }
+                return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+            }
+        }
+        else
+        {
+            return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
+        }
+    }
+    public function getMyPickUps() {
+        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail')->get();
+        //dd($pick_up_req);
+        return view('pages.mypickups', compact('pick_up_req'));
+    }
+    public function postDeletePickUp(Request $request) {
+        $id_to_del = $request->id;
+        $search = Pickupreq::find($id_to_del);
+        if ($search) {
+           if ($search->pick_up_type == 0) {
+                $search->delete();
+                $search_order_details = OrderDetails::where('pick_up_req_id', $id_to_del)->get();
+                foreach ($search_order_details as $details) {
+                    $details->delete();
+                }
+                return 1;
+           }
+           else
+           {
+                if ($search->delete()) {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+           }
+        }
+        else
+        {
+           return 0; 
+        }
+    }
+    private function sendAnEmail($request) {
+        //mail should be send from here
+        //dd($request->email);
+        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
+        function($message) use($request)
+        {
+            $message->from('work@tier5.us');
+            $message->to($request->email, $request->name)->subject('U-rang Details');
+        });
     }
 }

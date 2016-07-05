@@ -44,7 +44,13 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
+                                <?php $j = 0; ?>
+                                @foreach($customers as $cus)
+                                    @foreach($cus->pickup_req as $pick)
+                                        <?php $j += count($pick); ?>
+                                    @endforeach
+                                @endforeach
+                                <div class="huge">{{$j}}</div>
                                 <div>Orders!</div>
                             </div>
                         </div>
@@ -66,7 +72,13 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
+                                <?php $i = 0; ?>
+                                @foreach($customers as $cus)
+                                    @foreach($cus->order_details as $order)
+                                        <?php $i += count($order); ?>
+                                    @endforeach
+                                @endforeach
+                                <div class="huge">{{$i}}</div>
                                 <div>Scheduled Pickup!</div>
                             </div>
                         </div>

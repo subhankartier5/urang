@@ -19,43 +19,44 @@ use App\User;
 use App\UserDetails;
 use App\CustomerCreditCardInfo;
 use App\Faq;
-
+use App\Staff;
+use App\Pickupreq;
 class AdminController extends Controller
 {
     public function index() {
-    	if (Auth::check()) {
-    		return redirect()->route('get-admin-dashboard');
-    	}
-    	else
-    	{
-    		return view('admin.login');
-    	}
-    }
-    public function LoginAttempt(Request $request) {
-    	//dd($request);
-        //protected $guard = {'admin'};
-    	$email = $request->email;
-    	$password = $request->password;
-    	$remember_me = isset($request->remember)? true : false;
-    	//dd($remember_me);
-    	if (Auth::attempt(['email' => $email, 'password' => $password], $remember_me)) {
+        if (Auth::check()) {
             return redirect()->route('get-admin-dashboard');
         }
         else
         {
-        	return redirect()->route('get-admin-login')->with('fail', 'wrong username or password');
+            return view('admin.login');
+        }
+    }
+    public function LoginAttempt(Request $request) {
+        //dd($request);
+        //protected $guard = {'admin'};
+        $email = $request->email;
+        $password = $request->password;
+        $remember_me = isset($request->remember)? true : false;
+        //dd($remember_me);
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember_me)) {
+            return redirect()->route('get-admin-dashboard');
+        }
+        else
+        {
+            return redirect()->route('get-admin-login')->with('fail', 'wrong username or password');
         }
     }
     public function getDashboard() {
-    	$obj = new NavBarHelper();
+        $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $customers = User::with('user_details')->paginate(10);
+        $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
     	return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
     }
     public function logout() {
-    	Auth::logout();
-    	return redirect()->route('get-admin-login');
+        Auth::logout();
+        return redirect()->route('get-admin-login');
     }
     public function getProfile() {
         $obj = new NavBarHelper();
@@ -330,6 +331,7 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $customers = User::with('user_details')->paginate(10);
+        
         return view('admin.customers', compact('user_data', 'site_details', 'customers'));
     }
     public function getEditCustomer($id) {
@@ -585,6 +587,85 @@ class AdminController extends Controller
            {
                 return 0;
            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function getCustomerOrders() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = SiteConfig::first();
+        $pickups = Pickupreq::with('user_detail','user','order_detail')->get();
+        return view('admin.customerorders', compact('user_data', 'site_details','pickups'));
+    }
+
+    public function changeOrderStatusAdmin(Request $req)
+    {
+            $total_price = isset($req->total_price)? $req->total_price : false;
+            if($total_price)
+            {
+                $data['order_status'] = $req->order_status;
+                $data['total_price'] = $total_price;
+                //print_r($data);
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                if($result)
+                {
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+                }
+            }
+            else
+            {
+                $result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
+                if($result)
+                {
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+                }
+            }
+    }
+    public function getStaffList() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = SiteConfig::first();
+        $staff = Staff::paginate(15);
+        return view('admin.staffs', compact('user_data', 'site_details', 'staff'));
+    }
+    public function postAddStaff(Request $request) {
+        //dd($request);
+        $insert_staff = new Staff();
+        $insert_staff->user_name = $request->email;
+        $insert_staff->password = bcrypt($request->password);
+        $insert_staff->active = 1;
+        if ($insert_staff->save()) {
+            return redirect()->route('getStaffList')->with('success', 'Successfully added staff');
+        }
+        else
+        {
+            return redirect()->route('getStaffList')->with('fail', 'Sorry! Cannot add staff now please try again later.');
+        }
+    }
+    public function postIsBlock(Request $request) {
+        //return $request;
+        $search = Staff::find($request->id);
+        //return $search;
+        if ($search) {
+            $search->active == 1 ? $search->active=0 : $search->active=1;
+            if ($search->save()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
         else
         {

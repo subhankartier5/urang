@@ -1,4 +1,4 @@
-@extends('pages.layouts.master')
+@extends($login_check !=null ? 'pages.layouts.user-master' : 'pages.layouts.master')
 @section('content')
            <!-- ========================== -->
         <!-- SERVICES - HEADER -->
