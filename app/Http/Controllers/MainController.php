@@ -254,12 +254,12 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
-        //$neighborhood = $obj->getNeighborhood();
+        $neighborhood = $obj->getNeighborhood();
         if ($login_check != null) {
             $logged_user= $obj->getCustomerData();
-            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'logged_user'));
+            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'logged_user', 'neighborhood'));
         } else {
-            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list'));
+            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
         }
     }
     public function getFaqList() {
