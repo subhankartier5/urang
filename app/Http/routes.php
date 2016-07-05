@@ -32,6 +32,8 @@ Route::group(['middleware' => ['user']], function () {
     Route::post('/profile', ['uses' => 'MainController@postProfile', 'as' => 'post-user-profile']);
     Route::get('/changepassword', ['uses' => 'MainController@getChangePassword', 'as' => 'getChangePassword']);
     Route::post('/attempt-changepassword', ['uses' => 'MainController@postChangePassword', 'as' => 'postchangePassword']);
+    Route::get('/pickup-request', ['uses'=> 'MainController@getPickUpReq', 'as' => 'getPickUpReq']);
+    Route::post('/save-pickup-request', ['uses' => 'MainController@postPickUp', 'as' => 'postPickUpReq']);
 });
 
 
@@ -68,3 +70,13 @@ Route::get('/faq' , ['uses' => 'AdminController@getFaq', 'as' => 'getFaq']);
 Route::post('/atempt-add-faq', ['uses' => 'AdminController@postAddFaq', 'as' => 'postAddFaq']);
 Route::post('/edit-faq', ['uses' => 'AdminController@UpdateFaq', 'as' => 'postEditFaq']);
 Route::post('/delete-faq', ['uses' => 'AdminController@DeleteFaq', 'as' => 'postDeleteFaq']);
+
+
+//test routes
+Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
+
+//Staff routes
+Route::group(['prefix' => 'staff'], function () {
+	Route::get('/',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
+	Route::get('/orders',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
+}); 

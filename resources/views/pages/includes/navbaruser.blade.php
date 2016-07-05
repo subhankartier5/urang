@@ -43,6 +43,7 @@
                       <li><a href="tel:8009595785">(800) 959-5785</a></li>
                     </ul>
                     <ul class="nav navbar-nav">
+                      <div style="display: none;">{{$logged_user= (new \App\Helper\NavBarHelper)->getCustomerData()}}</div>
                       <li role="presentation" class="welcome-user"><a href="#">Welcome <span>{{$logged_user->user_details->name}}</span></a>
                         <ul>
                           <li role="presentation"><a href="{{route('get-user-profile')}}"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a></li>
