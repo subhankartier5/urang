@@ -250,6 +250,7 @@ class MainController extends Controller
         
     }
     public function getNeiborhoodPage() {
+        //dd(1);
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
