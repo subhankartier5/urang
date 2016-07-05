@@ -30,7 +30,8 @@
                         
                         <a href=""> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul>
-                          @foreach($neighborhood as $hood)
+                          <div style="display:none;">{{$test = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
+                          @foreach($test as $hood)
                             <li> <a href="{{route('getNeiborhoodPage')}}">{{$hood->name}}</a></li>
                           @endforeach
                         </ul>

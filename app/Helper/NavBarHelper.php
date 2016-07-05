@@ -33,4 +33,8 @@ class NavBarHelper
 		$neighborhood = Neighborhood::all();
 		return $neighborhood;
 	}
+	public function test()
+	{
+		return "test";
+	}
 }

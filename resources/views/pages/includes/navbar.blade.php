@@ -9,6 +9,8 @@
           <img class="scroll-logo hidden-xs" src="{{url('/')}}/public/new/img/logo.png" alt="logo" />
           <img class="scroll-logo visible-xs-block" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" />
       </a>
+
+      
       <div class="navbar-collapse collapse floated" id="navbar-collapse">
           <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
               <li class="active">
@@ -27,9 +29,11 @@
               <li>
                 <a href="{{route('getNeiborhoodPage')}}"> Neighborhoods <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                 <ul>
-                  @foreach($neighborhood as $hood)
+                <div style="display:none;">{{$test = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
+                  @foreach($test as $hood)
                     <li> <a href="{{route('getNeiborhoodPage')}}">{{$hood->name}}</a></li>
                   @endforeach
+                  
                 </ul>
               </li>
               <li>

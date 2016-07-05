@@ -21,29 +21,29 @@ class MainController extends Controller
         //dd(1);
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         //dd($neighborhood);
-    	return view('pages.index', compact('site_details', 'neighborhood'));
+    	return view('pages.index', compact('site_details'));
     }
     public function getLogin() {
         $user = auth()->guard('users');
     	$obj = new NavBarHelper();
     	$site_details = $obj->siteData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         if ($user->user()) {
             //return view('pages.userdashboard', compact('site_details'));
             return redirect()->route('getCustomerDahsboard');
         }
         else
         {
-            return view('pages.login', compact('site_details', 'neighborhood'));
+            return view('pages.login', compact('site_details'));
         }
     }
     public function getSignUp(){
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        $neighborhood = $obj->getNeighborhood();
-        return view('pages.signup', compact('site_details', 'neighborhood'));
+        //$neighborhood = $obj->getNeighborhood();
+        return view('pages.signup', compact('site_details'));
     }
     public function postSignUp(Request $request) {
         //dd($request);
@@ -132,9 +132,9 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         //$user = auth()->guard('users');
         $logged_user = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         //dd($logged_user);
-        return view('pages.userdashboard', compact('site_details', 'logged_user', 'neighborhood'));
+        return view('pages.userdashboard', compact('site_details', 'logged_user'));
     } 
     public function getLogout() {
         $user = auth()->guard('users');
@@ -145,8 +145,8 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
-        return view('pages.profile', compact('site_details', 'logged_user', 'neighborhood'));
+        //$neighborhood = $obj->getNeighborhood();
+        return view('pages.profile', compact('site_details', 'logged_user'));
     }
     public function postProfile(Request $request) {
         $obj = new NavBarHelper();
@@ -200,8 +200,8 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
-        return view('pages.changepassword', compact('site_details', 'logged_user', 'neighborhood'));
+        //$neighborhood = $obj->getNeighborhood();
+        return view('pages.changepassword', compact('site_details', 'logged_user'));
     }
     public function postChangePassword(Request $request) {
         //dd($request);
@@ -234,18 +234,18 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         //dd($login_check);
         $price_list = PriceList::with('categories')->get();
         //dd();
         if ($login_check != null) {
             //dd('i m here');
            $logged_user= $obj->getCustomerData();
-           return view('pages.price', compact('site_details', 'login_check', 'logged_user' , 'price_list', 'neighborhood'));
+           return view('pages.price', compact('site_details', 'login_check', 'logged_user' , 'price_list'));
         }
         else
         {
-            return view('pages.price', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+            return view('pages.price', compact('site_details', 'login_check' , 'price_list'));
         }
         
     }
@@ -253,25 +253,25 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         if ($login_check != null) {
             $logged_user= $obj->getCustomerData();
-            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'logged_user'));
+            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'logged_user'));
         } else {
-            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list', 'neighborhood'));
+            return view('pages.neighborhood', compact('site_details', 'login_check' , 'price_list'));
         }
     }
     public function getFaqList() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         $faq = Faq::all();
         if ($login_check != null) {
             $logged_user= $obj->getCustomerData();
-            return view('pages.faquser', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'logged_user', 'faq'));
+            return view('pages.faquser', compact('site_details', 'login_check' , 'price_list','logged_user', 'faq'));
         } else {
-            return view('pages.faquser', compact('site_details', 'login_check' , 'price_list', 'neighborhood', 'faq'));
+            return view('pages.faquser', compact('site_details', 'login_check' , 'price_list','faq'));
         }
     }
     public function emailChecker(Request $request) {
@@ -294,9 +294,9 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         //$login_check = $obj->getCustomerData();
-        $neighborhood = $obj->getNeighborhood();
+        //$neighborhood = $obj->getNeighborhood();
         
-        return view('pages.contact', compact('site_details', 'neighborhood'));
+        return view('pages.contact', compact('site_details'));
         
         //return view('pages.contact');
     }
