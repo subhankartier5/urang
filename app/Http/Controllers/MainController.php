@@ -337,6 +337,7 @@ class MainController extends Controller
             }
 
     }
+
     public function getPickUpReq() {
         return view('pages.pickupreq');
     }
@@ -386,5 +387,11 @@ class MainController extends Controller
         {
             return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
         }
+
+
+    public function testCsrf()
+    {
+        echo "test";
+
     }
 }
