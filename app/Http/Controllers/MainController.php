@@ -341,7 +341,6 @@ class MainController extends Controller
         return view('pages.pickupreq');
     }
     public function postPickUp (Request $request) {
-        //dd($request);
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = auth()->guard('users')->user()->id;
         $pick_up_req->address = $request->address;
@@ -361,23 +360,26 @@ class MainController extends Controller
         $pick_up_req->coupon = NULL;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
         if ($pick_up_req->save()) {
-            $data = json_decode($request->list_items_json);
-            for ($i=0; $i< count($data); $i++) {
-                $order_details = new OrderDetails();
-                $order_details->pick_up_req_id = $pick_up_req->id;
-                $order_details->user_id = auth()->guard('users')->user()->id;
-                $order_details->price = $data[$i]->item_price;
-                $order_details->items = $data[$i]->item_name;
-                $order_details->quantity = $data[$i]->number_of_item;
-                $order_details->payment_status = 0;
-                $order_details->save();
-            }
-            if ($order_details->save()) {
+            if ($request->order_type == 1) {
+
                 return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
             }
             else
             {
                 return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Order Now!");
+                //this is for detailed pick up
+                $data = json_decode($request->list_items_json);
+                for ($i=0; $i< count($data); $i++) {
+                    $order_details = new OrderDetails();
+                    $order_details->pick_up_req_id = $pick_up_req->id;
+                    $order_details->user_id = auth()->guard('users')->user()->id;
+                    $order_details->price = $data[$i]->item_price;
+                    $order_details->items = $data[$i]->item_name;
+                    $order_details->quantity = $data[$i]->number_of_item;
+                    $order_details->payment_status = 0;
+                    $order_details->save();
+                }
+                return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
             }
         }
         else

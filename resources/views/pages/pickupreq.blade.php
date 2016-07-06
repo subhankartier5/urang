@@ -228,7 +228,7 @@
 	   //alert(some);
 	   $('#datepicker').val(todays_date);
 	   //alert($('#order_type').val())
-	   $('#order_type').click(function(){
+	   $('#order_type').change(function(){
 	   	if ($('#order_type').val() == 0) 
 	   	{
 	   		$('#myModal').modal('show');
