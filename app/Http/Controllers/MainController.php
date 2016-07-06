@@ -338,4 +338,7 @@ class MainController extends Controller
     public function getPickUpReq() {
         return view('pages.pickupreq');
     }
+    public function postPickUp (Request $request) {
+        dd($request);
+    }
 }
