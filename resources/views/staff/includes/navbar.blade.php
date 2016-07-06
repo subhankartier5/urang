@@ -118,7 +118,11 @@
                         <a href="{{ route('getStaffIndex') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
+<<<<<<< HEAD
                         <a href="{{ route('getStaffOrders') }}"><i class="fa fa-fw fa-bar-chart-o"></i>Pickup Requests</a>
+=======
+                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+>>>>>>> af447319cb25ae180cb28d2b5eefbebcd3f91258
                     </li>
                     <li>
                         <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>

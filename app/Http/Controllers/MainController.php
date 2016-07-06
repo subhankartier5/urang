@@ -337,7 +337,6 @@ class MainController extends Controller
             }
 
     }
-
     public function getPickUpReq() {
         return view('pages.pickupreq');
     }
@@ -367,7 +366,7 @@ class MainController extends Controller
             }
             else
             {
-                return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Order Now!");
+                //return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Order Now!");
                 //this is for detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
@@ -388,10 +387,13 @@ class MainController extends Controller
             return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
         }
 
-
+    }
+    /*public function testCsrf()
+    {
+        echo "test";
+    }*/
     public function testCsrf()
     {
         echo "test";
-
     }
 }
