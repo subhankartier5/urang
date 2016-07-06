@@ -19,7 +19,7 @@ class CreatePickupreqsTable extends Migration
             $table->string('pick_up_date');
             $table->string('pick_up_type')->comment = "1->fast_pickup , 0->detailed_pickup";
             $table->string('schedule');
-            $table->string('delivary_type');
+            $table->string('delivary_type')->nullable();
             $table->string('starch_type');
             $table->integer('need_bag')->comment = "1-> yes, 0-> no";
             $table->integer('door_man')->comment = "1-> yes, 0-> no";

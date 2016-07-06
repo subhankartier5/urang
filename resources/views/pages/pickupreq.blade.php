@@ -7,12 +7,23 @@
         <h2>NYC Pick-up</h2>
         <h3>Individual Clients</h3>
         <p class="reg-heading">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery.</p>
+        @if(Session::has('fail'))
+          <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          </div>
+        @else
+        @endif
+        @if(Session::has('success'))
+          <div class="alert alert-success">                               {{Session::get('success')}}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          </div>
+        @else
+        @endif
           <form class="form-inline" method="post" action="{{route('postPickUpReq')}}">
               <h4>Schedule Pick-up - Regular Customer</h4>
               <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" value="{{auth()->guard('users')->user()->email}}" readonly="">
-                <input type="hidden" name="user_id" value="{{auth()->guard('users')->user()->id}}"></input>
               </div>
               <div class="form-group">
                 <label for="name">Name</label>
@@ -103,7 +114,7 @@
               <label for="schedule">How to pay </label>
               <div class="schedule-radio">
                 <label class="radio">
-                  <input type="radio" name="pay_method" id="inlineRadio6" value="1"> Charge my credit card this time for amount $ 
+                  <input type="radio" name="pay_method" id="inlineRadio6" value="1" required=""> Charge my credit card this time for amount $ 
                 </label>
                 <br>
                 <label class="radio">
@@ -129,17 +140,6 @@
              	?>
             </div>
             <div class="form-group">
-            	<select name="items" class="col-xs-5" style="display: none;" id="items" multiple="" required="">
-            		@if(count($price_list) > 0)
-            			@foreach($price_list as $list)
-            				<option value="{{$list->price}}">{{$list->item}} ${{$list->price}}</option>
-            			@endforeach
-            		@else
-            			<option value="">No Data</option>
-            		@endif
-                </select>
-            </div>
-            <div class="form-group">
             	<label for="wash_n_fold">Wash and fold?</label>
             	<select name="wash_n_fold" id="wash_n_fold">
             		<option value="1">Yes</option>
@@ -162,6 +162,55 @@
             <button type="submit" class="btn btn-default">Schedule Pick up</button>
             <input type="hidden" name="_token" value="{{Session::token()}}"></input>
             <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
+			            <!-- Modal -->
+			<div id="myModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+			    <!-- Modal content-->
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h2>Select items you want</h2>
+			      </div>
+			      <div class="modal-body">
+			        <table class = "table table-striped">
+			        	<thead>
+			        		<tr>
+				        		<th>No of Items</th>
+				        		<th>Item Name</th>
+				        		<th>Item Price</th>
+				        		<th>Action</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody>	
+							@if(count($price_list) > 0)
+								@foreach($price_list as $list)
+									<tr>
+										<td>
+											<select name="number_of_item" id="number_{{$list->id}}">
+												@for($i=0; $i<=10; $i++)
+													<option value="{{$i}}">{{$i}}</option>
+												@endfor
+											</select>
+										</td>
+										<td id="item_{{$list->id}}">{{$list->item}}</td>
+										<td id="price_{{$list->id}}">{{$list->price}}</td>
+										<td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+									</tr>
+								@endforeach
+							@else
+								<tr><td>No Data</td></tr>
+							@endif
+			        	</tbody>
+			        </table>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Save Changes</button>
+			      </div>
+			    </div>
+
+			  </div>
+			</div>
+      <input type="hidden" name="list_items_json" id="list_items_json"></input>
           </form>
         </div>
       </div>
@@ -182,13 +231,50 @@
 	   $('#order_type').click(function(){
 	   	if ($('#order_type').val() == 0) 
 	   	{
-	   		$('#items').show();
+	   		$('#myModal').modal('show');
 	   	}
 	   	else
 	   	{
-	   		$('#items').hide();
+	   		$('#myModal').modal('hide');
 	   	}
 	   });
 	});
+  jsonArray = [];
+
+  function add_id(id) {
+     if ($('#number_'+id).val() > 0) 
+     {
+        if ($('#btn_'+id).text() == "Add") 
+        {
+          $('#btn_'+id).text("Remove");
+          $('#number_'+id).prop('disabled', true);
+          list_item = {};
+          list_item['id'] = id;
+          list_item['number_of_item'] = $('#number_'+id).val();
+          list_item['item_name'] = $('#item_'+id).text();
+          list_item['item_price'] = $('#price_'+id).text();
+          jsonArray.push(list_item);
+          jsonString = JSON.stringify(jsonArray);
+          $('#list_items_json').val(jsonString);
+        }
+        else
+        {
+          $('#btn_'+id).text("Add");
+          $('#number_'+id).prop('disabled', false);
+          for(var j=0; j<= jsonArray.length; j++) {
+             if (jsonArray[j].id == id)  
+             {
+              jsonArray.splice(j,j);
+             }
+          }
+          jsonString = JSON.stringify(jsonArray);
+          $('#list_items_json').val(jsonString);
+        }
+     }
+     else
+     {
+        alert("please select atleast one item");
+     }
+  }
 </script>
 @endsection
