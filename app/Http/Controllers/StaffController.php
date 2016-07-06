@@ -14,4 +14,9 @@ class StaffController extends Controller
     {
     	return view('staff.index');
     }
+
+    public function getStaffOrders()
+    {
+    	return view('staff.orders');
+    }
 }

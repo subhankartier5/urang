@@ -78,4 +78,5 @@ Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
 //Staff routes
 Route::group(['prefix' => 'staff'], function () {
 	Route::get('/',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
+	Route::get('/orders',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
 }); 
