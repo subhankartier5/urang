@@ -387,4 +387,8 @@ class MainController extends Controller
             return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
         }
     }
+    public function getMyPickUps() {
+        
+        return view('pages.mypickups');
+    }
 }
