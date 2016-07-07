@@ -21,7 +21,7 @@
 <link href="{{url('/')}}/public/new/vendor/slick-carousel/slick/slick.css" rel="stylesheet" type="text/css" /> 
 <link href="{{url('/')}}/public/new/vendor/animate.css/animate.min.css" rel="stylesheet" type="text/css" /> 
 <link href="{{url('/')}}/public/new/css/main.css" rel="stylesheet" type="text/css" />
-
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.css"/>
 
 <!--js-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -44,3 +44,4 @@
 <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/main.js"></script>
 <script src="{{url('/')}}/public/js/jquery-ui.js"></script>
+<script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>

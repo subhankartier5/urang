@@ -36,7 +36,7 @@
               <div class="form-group">
                 <label for="address">Pick-Up Date</label>
                 <div class='input-group date'>
-                    <input type='text' class="form-control" id='datepicker' required="" name="pick_up_date" />
+                    <input type='text' class="form-control" id='datepicker' required="" name="pick_up_date" required="" />
                     <span class="input-group-addon">
                         <a href="#" class="calendar"><i class="fa fa-calendar" aria-hidden="true"></i></a>
                     </span>
@@ -46,7 +46,7 @@
               <label for="schedule">Schedule</label>
               <div class="schedule-radio">
                 <label class="radio">
-                  <input type="radio" name="schedule" id="inlineRadio1" value="For the time specified only" checked> For the time specified only.
+                  <input type="radio" name="schedule" id="inlineRadio1" value="For the time specified only" required=""> For the time specified only.
                 </label>
                 <br>
                 <label class="radio">
@@ -78,7 +78,7 @@
                   <input type="radio" name="boxed_or_hung" value="hung"> Hung
                 </label>
               </div>
-              <select name="strach_type">
+              <select name="strach_type" required="">
                 <option value="no">No Strach</option>
                 <option value="very_light_starch">Very Light Starch</option>
                 <option value="light_starch">Light Starch</option>
@@ -128,7 +128,7 @@
             </div>
             <div class="clear50"></div>
             <div class="form-group">
-                <select name="order_type" id="order_type" class="col-xs-5">
+                <select name="order_type" id="order_type" class="col-xs-5" required="">
                 	<option value="">Type of order</option>
                 	<option value="1">Fast Pickup</option>
                 	<option value="0">Detailed Pickup</option>
@@ -141,14 +141,14 @@
             </div>
             <div class="form-group">
             	<label for="wash_n_fold">Wash and fold?</label>
-            	<select name="wash_n_fold" id="wash_n_fold">
+            	<select name="wash_n_fold" id="wash_n_fold" required="">
             		<option value="1">Yes</option>
             		<option value="0">No</option>
             	</select>
             </div>
             <div class="form-group">
             	<label for="client_type">What type of client you are ?</label>
-            	<select name="client_type" id="client_type">
+            	<select name="client_type" id="client_type" required="">
             		<option value="">Client Type</option>
             		<option value="new_client">New Client</option>
             		<option value="key_client">Key Client</option>
@@ -156,8 +156,14 @@
             	</select>
             </div>
             <div class="form-group">
-            	<label>Is it a emergency service ? <p style="color: red;">$7 extra</p></label>
-            	<input type="checkbox" name="isEmergency"></input>
+              <div class="col-xs-6">
+                <label>Is it a emergency service ? <p style="color: red;">$7 extra</p></label>
+                <input type="checkbox" name="isEmergency"></input>
+              </div>
+              <div class="col-xs-6">
+                <label>Do you have a coupon code ?<p style="color: red;">Please left the field blank if you dont hav any.</p></label>
+                <input type="text" name="coupon" id="coupon" class="form-control" />
+              </div>
             </div>
             <button type="submit" class="btn btn-default">Schedule Pick up</button>
             <input type="hidden" name="_token" value="{{Session::token()}}"></input>
@@ -204,7 +210,7 @@
 			        </table>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Save Changes</button>
+			        <button type="button" class="btn btn-default" id="modal-close">Save Changes</button>
 			      </div>
 			    </div>
 
@@ -218,6 +224,7 @@
   </div>
   <script type="text/javascript">
 	$(document).ready(function(){
+    //sweetAlert("Oops...", "Something went wrong!", "error");
 	    $( "#datepicker" ).datepicker();
 	    $( ".calendar" ).click(function(e) {
 	      e.preventDefault();
@@ -238,6 +245,10 @@
 	   		$('#myModal').modal('hide');
 	   	}
 	   });
+     $('#modal-close').click(function(){
+        $('#myModal').modal('hide');
+        swal("Success!", "Your items are select now please place an order", "success");
+     });
 	});
   jsonArray = [];
 
@@ -273,7 +284,7 @@
      }
      else
      {
-        alert("please select atleast one item");
+        sweetAlert("Oops...", "Please select atleast one item", "error");
      }
   }
 </script>
