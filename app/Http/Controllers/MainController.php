@@ -132,11 +132,9 @@ class MainController extends Controller
     public function getDashboard() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$user = auth()->guard('users');
         $logged_user = $obj->getCustomerData();
-        //$neighborhood = $obj->getNeighborhood();
-        //dd($logged_user);
-        return view('pages.userdashboard', compact('site_details', 'logged_user'));
+        $pick_up_req = Pickupreq::where('user_id',$logged_user->id)->get();
+        return view('pages.userdashboard', compact('site_details', 'logged_user', 'pick_up_req'));
     } 
     public function getLogout() {
         $user = auth()->guard('users');
@@ -388,7 +386,8 @@ class MainController extends Controller
         }
     }
     public function getMyPickUps() {
-        
-        return view('pages.mypickups');
+        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail')->get();
+        //dd($pick_up_req);
+        return view('pages.mypickups', compact('pick_up_req'));
     }
 }
