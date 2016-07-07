@@ -23,8 +23,8 @@
                   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                       <li role="presentation"><a href="{{route('getCustomerDahsboard')}}">Home</a></li>
-                      <li role="presentation"><a href="#">NYC Pick-UP </a></li>
-                      <li role="presentation"><a href="#">My Pick-UP </a></li>
+                      <li role="presentation"><a href="{{route('getPickUpReq')}}">NYC Pick-UP </a></li>
+                      <li role="presentation"><a href="{{route('getMyPickUp')}}">My Pick-UP </a></li>
                       <li role="presentation"><a href="{{route('getPrices')}}">Prices</a></li>
                       <li role="presentation">
                         

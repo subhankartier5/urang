@@ -8,18 +8,25 @@ use App\Http\Requests;
 
 use App\Staff;
 
+use App\User;
+
+use App\Pickupreq;
+
+use App\UserDetails;
+
 class StaffController extends Controller
 {
     public function getStaffIndex()
     {
     	return view('staff.index');
     }
-<<<<<<< HEAD
+
 
     public function getStaffOrders()
     {
-    	return view('staff.orders');
+    	$pickups = Pickupreq::with('user_detail','user','order_detail')->get();
+    	//dd($user);
+    	return view('staff.orders',compact('pickups'));
     }
-=======
->>>>>>> af447319cb25ae180cb28d2b5eefbebcd3f91258
+
 }
