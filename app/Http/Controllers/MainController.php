@@ -132,11 +132,9 @@ class MainController extends Controller
     public function getDashboard() {
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$user = auth()->guard('users');
         $logged_user = $obj->getCustomerData();
-        //$neighborhood = $obj->getNeighborhood();
-        //dd($logged_user);
-        return view('pages.userdashboard', compact('site_details', 'logged_user'));
+        $pick_up_req = Pickupreq::where('user_id',$logged_user->id)->get();
+        return view('pages.userdashboard', compact('site_details', 'logged_user', 'pick_up_req'));
     } 
     public function getLogout() {
         $user = auth()->guard('users');
@@ -342,6 +340,7 @@ class MainController extends Controller
     }
     public function postPickUp (Request $request) {
         //dd($request);
+        $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = auth()->guard('users')->user()->id;
         $pick_up_req->address = $request->address;
@@ -360,6 +359,11 @@ class MainController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = NULL;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
+        $data_table = json_decode($request->list_items_json);
+        for ($i=0; $i< count($data_table); $i++) {
+            $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
+        }
+        $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
         if ($pick_up_req->save()) {
             if ($request->order_type == 1) {
                 //fast pick up
@@ -388,7 +392,36 @@ class MainController extends Controller
         }
     }
     public function getMyPickUps() {
-        
-        return view('pages.mypickups');
+        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail')->get();
+        //dd($pick_up_req);
+        return view('pages.mypickups', compact('pick_up_req'));
+    }
+    public function postDeletePickUp(Request $request) {
+        $id_to_del = $request->id;
+        $search = Pickupreq::find($id_to_del);
+        if ($search) {
+           if ($search->pick_up_type == 0) {
+                $search->delete();
+                $search_order_details = OrderDetails::where('pick_up_req_id', $id_to_del)->get();
+                foreach ($search_order_details as $details) {
+                    $details->delete();
+                }
+                return 1;
+           }
+           else
+           {
+                if ($search->delete()) {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+           }
+        }
+        else
+        {
+           return 0; 
+        }
     }
 }
