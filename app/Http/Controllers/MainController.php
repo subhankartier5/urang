@@ -21,16 +21,16 @@ class MainController extends Controller
 {
     public function getIndex() {
         //dd(1);
-    	$obj = new NavBarHelper();
-    	$site_details = $obj->siteData();
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
         //$neighborhood = $obj->getNeighborhood();
         //dd($neighborhood);
-    	return view('pages.index', compact('site_details'));
+        return view('pages.index', compact('site_details'));
     }
     public function getLogin() {
         $user = auth()->guard('users');
-    	$obj = new NavBarHelper();
-    	$site_details = $obj->siteData();
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
         //$neighborhood = $obj->getNeighborhood();
         if ($user->user()) {
             //return view('pages.userdashboard', compact('site_details'));
@@ -341,11 +341,12 @@ class MainController extends Controller
         return view('pages.pickupreq');
     }
     public function postPickUp (Request $request) {
+        //dd($request);
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = auth()->guard('users')->user()->id;
         $pick_up_req->address = $request->address;
         $pick_up_req->pick_up_date = $request->pick_up_date;
-        $pick_up_req->pick_up_type = isset($request->order_type) ? 1 : 0;
+        $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
         $pick_up_req->schedule = $request->schedule;
         $pick_up_req->delivary_type = $request->boxed_or_hung;
         $pick_up_req->starch_type = $request->strach_type;
@@ -361,13 +362,12 @@ class MainController extends Controller
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
         if ($pick_up_req->save()) {
             if ($request->order_type == 1) {
-
+                //fast pick up
                 return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
             }
             else
             {
-                //return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Order Now!");
-                //this is for detailed pick up
+                //detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
                     $order_details = new OrderDetails();
@@ -386,14 +386,5 @@ class MainController extends Controller
         {
             return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
         }
-
-    }
-    /*public function testCsrf()
-    {
-        echo "test";
-    }*/
-    public function testCsrf()
-    {
-        echo "test";
     }
 }
