@@ -44,11 +44,13 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
+                                <?php $j = 0; ?>
                                 @foreach($customers as $cus)
                                     @foreach($cus->pickup_req as $pick)
-                                        <div class="huge">{{count($pick)}}</div>
+                                        <?php $j += count($pick); ?>
                                     @endforeach
                                 @endforeach
+                                <div class="huge">{{$j}}</div>
                                 <div>Orders!</div>
                             </div>
                         </div>
