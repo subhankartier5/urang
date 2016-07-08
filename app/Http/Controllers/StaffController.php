@@ -87,15 +87,37 @@ class StaffController extends Controller
 
     public function changeOrderStatus(Request $req)
     {
-    	$result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
-    	if($result)
-    	{
-    		return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
-    	}
-    	else
-    	{
-    		return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
-    	}
+
+        //dd($req);
+        $total_price = isset($req->total_price)? $req->total_price : false;
+        if($total_price)
+        {
+            $data['order_status'] = $req->order_status;
+            $data['total_price'] = $total_price;
+            //print_r($data);
+            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+            if($result)
+            {
+                return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+            }
+            else
+            {
+                return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
+            }
+        }
+        else
+        {
+            $result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
+            if($result)
+            {
+                return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+            }
+            else
+            {
+                return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
+            }
+        }
+    	
     }
 
     public function getSearch()
