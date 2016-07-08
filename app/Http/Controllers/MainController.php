@@ -74,13 +74,7 @@ class MainController extends Controller
                     $card_info->exp_month = $request->select_month;
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
-                       //mail should be send from here
-                        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
-                        function($message) use($request)
-                        {
-                            $message->from('work@tier5.us');
-                            $message->to($request->email, $request->name)->subject('U-rang Details');
-                        });
+                        $this->sendAnEmail($request);
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
@@ -423,5 +417,15 @@ class MainController extends Controller
         {
            return 0; 
         }
+    }
+    private function sendAnEmail($request) {
+        //mail should be send from here
+        //dd($request->email);
+        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
+        function($message) use($request)
+        {
+            $message->from('work@tier5.us');
+            $message->to($request->email, $request->name)->subject('U-rang Details');
+        });
     }
 }
