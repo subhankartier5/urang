@@ -17,4 +17,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     {
     	return $this->hasMany('App\Pickupreq','user_id','id');
     }
+    public function order_details() {
+        return $this->hasMany('App\OrderDetails', 'user_id', 'id');
+    }
 }

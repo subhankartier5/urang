@@ -50,7 +50,7 @@ class AdminController extends Controller
     	$obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $customers = User::with('user_details')->paginate(10);
+        $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
     	return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
     }
     public function logout() {
@@ -590,5 +590,11 @@ class AdminController extends Controller
         {
             return 0;
         }
+    }
+    public function getCustomerOrders() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = SiteConfig::first();
+        return view('admin.customerorders', compact('user_data', 'site_details'));
     }
 }
