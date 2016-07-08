@@ -12,9 +12,24 @@
     	<div id="page-wrapper">
 
             <div class="container-fluid">
-
+            
 
             <div class="row">
+
+            @if(Session::has('fail'))
+            <div class="alert alert-danger">{{Session::get('fail')}}
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+            @else
+            @endif
+            @if(Session::has('success'))
+              <div class="alert alert-success">{{Session::get('success')}}
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              </div>
+            @else
+            @endif
+            {{ Session::forget('fail') }}
+            {{ Session::forget('success') }}
 
                 <div class="col-lg-12">
 
@@ -24,8 +39,8 @@
                 </div>
                 <div class="col-md-6">
                     <div id="wrap">
-                    <form>
-                        <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit">
+                    <form action="{{ route('getSearch') }}" method="get">
+                        <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit" required="true">
                     </form>
                       
                     </div>
@@ -102,7 +117,7 @@
                             <td>{{ $pickup->user->email }}</td>
                             <td>{{ $pickup->address }}</td>
                             @if($pick_up_type == "Detailed Pickup")
-                            <td>{{ $pick_up_type }} <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-info" aria-hidden="true"></i></button></td>
+                            <td>{{ $pick_up_type }} <button class="btn btn-default" data-toggle="modal" data-target="#detail_{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button></td>
                             @else
                             <td>{{ $pick_up_type }}</td>
                             @endif
@@ -110,23 +125,51 @@
                             <td>{{ $is_emargency }}</td>
                             <td>{{ $payment_type }}</td>
                             <td>{{ $pickup->client_type }} </td>
-                            <td>$50</td>
+                            <?php
+                                if(count($pickup->order_detail)>0)
+                                {
+                                    $total_amount = 0;
+                                    foreach($pickup->order_detail as $order)
+                                    {
+                                        $total_amount = $total_amount+($order->quantity*$order->price);
+                                        
+                                    }
+                                    echo "<td >$".$total_amount."</td>";
+                                }
+                                else
+                                {
+                                    echo "<td contenteditable>Enter Cost</td>";
+                                }                   
+                            ?>
                             <td>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                 <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                             </td>
-                            <td>                              
-                                 <select class="form-control">
-                                  <option value="picked_up">Picked Up</option>
-                                  <option value="processed">Processed</option>
-                                  <option value="delivered">Delivered</option>
+                            <form action="{{ route('changeOrderStatus') }}" method="post">  
+                            <td>
+                                @if($pickup->order_status == 1)
+                                <select name="order_status" class="form-control">
+                                  <option value="2">Picked Up</option>
+                                  <option value="3">Processed</option>
+                                  <option value="4">Delivered</option>
                                 </select>
-                                
-                                 
+                                @elseif($pickup->order_status == 2)
+                                <select name="order_status" class="form-control">
+                                  <option value="3">Processed</option>
+                                  <option value="4">Delivered</option>
+                                </select>
+                                @else
+                                <select name="order_status" class="form-control">
+                                  <option value="4">Delivered</option>
+                                </select>
+                                @endif    
                             </td>
                             <td>
-                                <button class="btn btn-primary">Apply</button>
+                                <input type="hidden" name="pickup_id" value="{{ $pickup->id }}">
+                                <input type="hidden" name="_token" value="{{ Session::token() }}">
+                                <button type="submit" class="btn btn-primary">Apply</button>
                             </td>
+                            </form>
                           </tr>
                         @endforeach
                         </tbody>
@@ -145,8 +188,54 @@
 
     </div>
     <!-- /#wrapper -->
+@foreach($pickups as $pickup) 
+    @if(count($pickup->order_detail)>0)
+                        
+    <!-- Modal -->
+        <div id="detail_{{ $pickup->id }}" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
 
-   
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+              </div>
+              <div class="modal-body">
+                
+                  <h2>Order Items</h2>
+                  
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>No Of Items</th>
+                        <th>Item Name</th>
+                        <th>Item Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($pickup->order_detail as $order)
+                      <tr>
+                        <td>{{ $order->quantity }}</td>
+                        <td>{{ $order->items }}</td>
+                        <td>${{ number_format((float)$order->price, 2, '.', '') }}</td>
+                      </tr>
+                    @endforeach  
+                    </tbody>
+                  </table>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+    @endif
+@endforeach
+
 
     <!-- Modal -->
 @foreach($pickups as $pickup)
@@ -392,55 +481,7 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
   </div>
   @endforeach 
 
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog modal-lg">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Modal Header</h4>
-          </div>
-          <div class="modal-body">
-            
-              <h2>Order Items</h2>
-              
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>john@example.com</td>
-                  </tr>
-                  <tr>
-                    <td>Mary</td>
-                    <td>Moe</td>
-                    <td>mary@example.com</td>
-                  </tr>
-                  <tr>
-                    <td>July</td>
-                    <td>Dooley</td>
-                    <td>july@example.com</td>
-                  </tr>
-                </tbody>
-              </table>
-            
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
 
 <script type="text/javascript">
     $(document).ready(function(){
