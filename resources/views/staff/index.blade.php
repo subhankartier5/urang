@@ -27,14 +27,14 @@
                 </div>
                 <!-- /.row -->
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <i class="fa fa-info-circle"></i>  <strong>Like SB Admin?</strong> Try out <a href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB Admin 2</a> for additional features!
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
 
                 <div class="row">
@@ -46,12 +46,12 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>New Comments!</div>
+                                        <div class="huge">{{ count($orders_to_pick_up) }}</div>
+                                        <div>New Orders</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="{{ route('getStaffOrders') }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -68,12 +68,12 @@
                                         <i class="fa fa-tasks fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
+                                        <div class="huge">{{ count($orders_picked_up) }}</div>
+                                        <div>Picked Up Orders</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="{{ route('getStaffOrders') }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -90,12 +90,12 @@
                                         <i class="fa fa-shopping-cart fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>New Orders!</div>
+                                        <div class="huge">{{ count($orders_processed) }}</div>
+                                        <div>Processed Orders</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="{{ route('getStaffOrders') }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -112,12 +112,12 @@
                                         <i class="fa fa-support fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
-                                        <div>Support Tickets!</div>
+                                        <div class="huge">{{ count($orders_delivered) }}</div>
+                                        <div>Deliverd Orders</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="{{ route('getStaffOrders') }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

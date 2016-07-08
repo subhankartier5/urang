@@ -37,4 +37,11 @@ class NavBarHelper
 	{
 		return "test";
 	}
+
+	public function staffDetails()
+	{
+		$staff = auth()->guard('staffs')->user();
+
+		return $staff;
+	}
 }

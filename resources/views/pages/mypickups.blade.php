@@ -140,7 +140,7 @@ function openModal(id) {
 		if ('{{$req->id}}' == id) 
 		{
 			@foreach($req->order_detail as $order)
-				div += '<tr><td>{{$order->items}}</td><td>{{$order->quantity}}</td><td>{{$order->price}}</td></tr>';
+				div += '<tr><td>{{$order->items}}</td><td>{{$order->quantity}}</td><td>{{number_format((float)$order->price, 2, '.', '')}}</td></tr>';
 				$('#order').html(div);
 			@endforeach
 		}
