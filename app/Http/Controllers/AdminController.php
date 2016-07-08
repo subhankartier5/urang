@@ -20,6 +20,8 @@ use App\UserDetails;
 use App\CustomerCreditCardInfo;
 use App\Faq;
 use App\Staff;
+use App\Pickupreq;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -330,6 +332,7 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $customers = User::with('user_details')->paginate(10);
+        
         return view('admin.customers', compact('user_data', 'site_details', 'customers'));
     }
     public function getEditCustomer($id) {
@@ -595,7 +598,40 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = SiteConfig::first();
-        return view('admin.customerorders', compact('user_data', 'site_details'));
+        $pickups = Pickupreq::with('user_detail','user','order_detail')->get();
+        return view('admin.customerorders', compact('user_data', 'site_details','pickups'));
+    }
+
+    public function changeOrderStatusAdmin(Request $req)
+    {
+            $total_price = isset($req->total_price)? $req->total_price : false;
+            if($total_price)
+            {
+                $data['order_status'] = $req->order_status;
+                $data['total_price'] = $total_price;
+                //print_r($data);
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                if($result)
+                {
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+                }
+            }
+            else
+            {
+                $result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
+                if($result)
+                {
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+                }
+            }
     }
     public function getStaffList() {
         $obj = new NavBarHelper();
