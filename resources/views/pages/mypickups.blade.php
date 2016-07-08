@@ -19,7 +19,6 @@
 		      </div>
 		    @else
 		    @endif
-
 		    <div class = "table-responsive">
 			   <table class = "table table-bordered">
 			      <thead>
@@ -115,6 +114,12 @@
 			         </tr>
 			      </thead>
 			      <tbody id="order">
+			      <tbody>
+      				<tr>
+      					<td id="name"></td>
+      					<td id="qty"></td>
+      					<td id="price"></td>
+      				</tr>
 			      </tbody>
 			      
 			   </table>
