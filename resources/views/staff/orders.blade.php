@@ -16,6 +16,7 @@
 
             <div class="row">
 
+
             @if(Session::has('fail'))
             <div class="alert alert-danger">{{Session::get('fail')}}
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -125,27 +126,21 @@
                             <td>{{ $is_emargency }}</td>
                             <td>{{ $payment_type }}</td>
                             <td>{{ $pickup->client_type }} </td>
-                            <?php
-                                if(count($pickup->order_detail)>0)
-                                {
-                                    $total_amount = 0;
-                                    foreach($pickup->order_detail as $order)
-                                    {
-                                        $total_amount = $total_amount+($order->quantity*$order->price);
-                                        
-                                    }
-                                    echo "<td >$".$total_amount."</td>";
-                                }
-                                else
-                                {
-                                    echo "<td contenteditable>Enter Cost</td>";
-                                }                   
-                            ?>
+                            <form action="{{ route('changeOrderStatus') }}" method="post">
+                            @if(count($pickup->order_detail)>0)
+                            <td>{{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
+                            @else
+                            <td contenteditable>
+                            
+
+                            <input style="width: 70px" type="number" name="total_price" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}" required>
+                            </td>
+                            @endif
                             <td>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                 <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                             </td>
-                            <form action="{{ route('changeOrderStatus') }}" method="post">  
+                              
                             <td>
                                 @if($pickup->order_status == 1)
                                 <select name="order_status" class="form-control">

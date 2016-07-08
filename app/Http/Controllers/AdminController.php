@@ -19,7 +19,7 @@ use App\User;
 use App\UserDetails;
 use App\CustomerCreditCardInfo;
 use App\Faq;
-
+use App\Staff;
 class AdminController extends Controller
 {
     public function index() {
@@ -596,5 +596,26 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = SiteConfig::first();
         return view('admin.customerorders', compact('user_data', 'site_details'));
+    }
+    public function getStaffList() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = SiteConfig::first();
+        $staff = Staff::paginate(15);
+        return view('admin.staffs', compact('user_data', 'site_details', 'staff'));
+    }
+    public function postAddStaff(Request $request) {
+        //dd($request);
+        $insert_staff = new Staff();
+        $insert_staff->user_name = $request->email;
+        $insert_staff->password = bcrypt($request->password);
+        $insert_staff->active = 1;
+        if ($insert_staff->save()) {
+            return redirect()->route('getStaffList')->with('success', 'Successfully added staff');
+        }
+        else
+        {
+            return redirect()->route('getStaffList')->with('fail', 'Sorry! Cannot add staff now please try again later.');
+        }
     }
 }

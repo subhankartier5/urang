@@ -55,6 +55,9 @@
                 <li>
                     <a href="{{route('getFaq')}}"<i class="fa fa-question-circle" aria-hidden="true"></i> Faq Management</a>
                 </li>
+                <li>
+                    <a href="{{route('getStaffList')}}"><i class="fa fa-user fa-fw"></i> Staffs Management</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
