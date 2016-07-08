@@ -40,12 +40,7 @@ Route::group(['middleware' => ['user']], function () {
 
 
 /*Admin Routes*/
-Route::get('/admin', function(){
-	//this route will redirect to main admin login
-	return redirect()->route('get-admin-login');
-});
-Route::group(['prefix' => 'admin'], function () { 
-	Route::get('/login', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
+	Route::get('/admin', ['uses' => 'AdminController@index', 'as' => 'get-admin-login']);
 	Route::post('/admin', ['uses' => 'AdminController@LoginAttempt', 'as' => 'post-admin-login']);
 	Route::get('/dashboard', ['uses' => 'AdminController@getDashboard', 'middleware' => 'auth', 'as' => 'get-admin-dashboard']);
 	Route::get('/logout', ['uses' => 'AdminController@logout', 'as' => 'get-admin-logout']);
@@ -76,7 +71,6 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::post('/edit-faq', ['uses' => 'AdminController@UpdateFaq', 'as' => 'postEditFaq']);
 	Route::post('/delete-faq', ['uses' => 'AdminController@DeleteFaq', 'as' => 'postDeleteFaq']);
 	Route::get('/customer-orders', ['uses' => 'AdminController@getCustomerOrders', 'as' => 'getCustomerOrders']);
-});
 
 //test routes
 Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
