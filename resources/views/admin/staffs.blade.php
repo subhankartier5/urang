@@ -48,7 +48,7 @@
                               @endif
                            </td>
                            <td><button type="submit" id="btnEdit_{{$one_staff->id}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></td>
-                           <td><button type="submit" id="btnDel_{{$one_staff->id}}" class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
+                           <td><button type="submit" id="btnDel_{{$one_staff->id}}" class="btn btn-danger btn-xs" onclick="DelRecord('{{$one_staff->id}}')"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
                            <td><button type="submit" id="btnCp_{{$one_staff->id}}" class="btn btn-warning btn-xs"><i class="fa fa-key" aria-hidden="true"></i> Change Password</button></td>
                            <td>{{ date("F jS Y",strtotime($one_staff->created_at->toDateString())) }}</td>
                         </tr>
@@ -160,5 +160,24 @@ $(document).ready(function(){
     });
   @endforeach
 });
+function DelRecord(id) {
+  //alert(id);
+  $.ajax({
+    url: "{{route('postDelStaff')}}",
+    type: "POST",
+    data: {id: id, _token: "{{Session::token()}}"},
+    success: function(data) {
+      //console.log(data);
+      if (data == 1) 
+      {
+        location.reload();
+      }
+      else
+      {
+        sweetAlert("Oops...", "Some error occured please try again later", "error");
+      }
+    } 
+  });
+}
 </script>
 @endsection

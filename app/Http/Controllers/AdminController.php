@@ -690,4 +690,20 @@ class AdminController extends Controller
             return redirect()->route('getStaffList')->with('fail', 'Could not find a user with this email!');
         }
     }
+    public function postDelStaff(Request $request) {
+        $search = Staff::find($request->id);
+        if ($search) {
+            if ($search->delete()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
