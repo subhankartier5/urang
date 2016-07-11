@@ -18,8 +18,15 @@ use Illuminate\Support\Facades\Input;
 
 use Session;
 
+use Auth;
+
 class StaffController extends Controller
 {
+    public function __construct()
+    {
+        $paginate_limit = 2;
+    }
+    
 
     public function LoginAttempt(Request $request) 
     {
@@ -30,7 +37,16 @@ class StaffController extends Controller
         $remember_me = isset($request->remember)? true : false;
         //dd($remember_me);
         if ($staff->attempt(['user_name' => $user_name, 'password' => $password], $remember_me)) {
-            return redirect()->route('getStaffIndex');
+            $active = $staff->user()->active;
+            if($active)
+            {
+                return redirect()->route('getStaffIndex');
+            }
+            else
+            {
+                return redirect()->route('getStaffLogin')->with('fail', 'This staff is blocked by admin!');
+            }
+            
         }
         else
         {
@@ -74,7 +90,7 @@ class StaffController extends Controller
         $staff = auth()->guard('staffs')->user();
         if($staff)
         {
-            $pickups = Pickupreq::orderBy('id', 'desc')->with('user_detail','user','order_detail')->get();
+            $pickups = Pickupreq::orderBy('id', 'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
             //dd($user);
             return view('staff.orders',compact('pickups'));
         }
@@ -136,7 +152,7 @@ class StaffController extends Controller
         $staff = auth()->guard('staffs')->user();
         if($staff)
         {
-            $pickups = Pickupreq::where('id',$search)->with('user_detail','user','order_detail')->get();
+            $pickups = Pickupreq::where('id',$search)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
             if($pickups)
             {
                 Session::put('success', 'Search result found!');
@@ -152,6 +168,22 @@ class StaffController extends Controller
         else
         {
             return redirect()->route('getStaffLogin');
+        }
+
+    }
+    public function getSort()
+    {
+        $input = Input::get('sort');
+        $sort = isset($input) ? $input : false;
+
+        if($sort)
+        {
+            $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+            return view('staff.orders',compact('pickups'));
+        }
+        else
+        {
+            return redirect()->route('getStaffOrders');
         }
 
     }

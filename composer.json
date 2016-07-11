@@ -6,8 +6,15 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "ext-curl": "*",
+        "authorizenet/authorizenet": "1.8.9",
+        "jms/serializer": "serializer-master-dev as 1.0"
     },
+    "repositories": [{
+       "type": "vcs",
+       "url": "https://github.com/goetas/serializer.git"
+    }],
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
