@@ -80,7 +80,10 @@ Route::group(['middleware' => ['user']], function () {
 	    Route::post('/save-details-staff', ['uses'=> 'AdminController@postEditDetailsStaff', 'as' => 'postEditDetailsStaff']);
 	    Route::post('/delete-staff', ['uses' => 'AdminController@postDelStaff', 'as' => 'postDelStaff']);
 	    Route::post('/change-staff-password', ['uses' => 'AdminController@postChangeStaffPassword', 'as' => 'postChangeStaffPassword']);
+        Route::get('/search',['uses' => 'AdminController@getSearchAdmin', 'as' => 'getSearchAdmin']);
+        Route::get('/sortby',['uses' => 'AdminController@getSortAdmin','as' => 'sortAdmin']);
 	});
+
 
 //test routes
 Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
@@ -88,10 +91,11 @@ Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
 //Staff routes
 Route::group(['prefix' => 'staff'], function () {
     Route::get('/login',['uses' => 'StaffController@getStaffLogin','as' => 'getStaffLogin']);
-	Route::get('/dashboard',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
-	Route::get('/orders',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
+    Route::get('/',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
+    Route::get('/orders',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
     Route::post('/orders',['uses' => 'StaffController@changeOrderStatus', 'as' => 'changeOrderStatus']);
     Route::get('/search',['uses' => 'StaffController@getSearch', 'as' => 'getSearch']);
-    Route::post('/',['uses' => 'StaffController@LoginAttempt', 'as' => 'post-staff-login']);
-    Route::get('/',['uses' => 'StaffController@getLogout', 'as' => 'getStaffLogout']);
+    Route::post('/login',['uses' => 'StaffController@LoginAttempt', 'as' => 'post-staff-login']);
+    Route::get('/logout',['uses' => 'StaffController@getLogout', 'as' => 'getStaffLogout']);
+    Route::get('/sort',['uses' => 'StaffController@getSort','as' => 'sort']);
 }); 

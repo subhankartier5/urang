@@ -1,30 +1,55 @@
 @extends('admin.layouts.master')
 @section('content')
-    <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel-heading">
-                @if(Session::has('fail'))
-                    <div class="alert alert-danger">{{Session::get('fail')}}
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    </div>
-                @else
-                @endif
-                @if(Session::has('success'))
-                    <div class="alert alert-success">{{Session::get('success')}}
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    </div>
-                @else
-                @endif
-                {{ Session::forget('fail') }}
-                {{ Session::forget('success') }}
-                <div class="row">
-                <div class="col-md-6">
+	<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel-heading">
+				@if(Session::has('fail'))
+	        		<div class="alert alert-danger">{{Session::get('fail')}}
+	        			<a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	        		</div>
+        		@else
+        		@endif
+	        	@if(Session::has('success'))
+	        		<div class="alert alert-success">{{Session::get('success')}}
+	        			<a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	        		</div>
+	        	@else
+	        	@endif
+	        	{{ Session::forget('fail') }}
+            	{{ Session::forget('success') }}
+	         	<div class="row">
+                <div class="col-md-3">
                     <h2>Pickup Request Table</h2>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+
+                	<div class="row">
+	                <form action="{{ route('sortAdmin') }}" method="get">
+	                    <div class="col-md-5">
+	                        <select name="sort" class="form-control">
+	                          <option value="">Sort By</option>
+	                          <option value="pick_up_date">Pickup Date</option>
+	                          <option value="created_at">Order Date</option>
+	                          <option value="total_price">Price</option>
+	                          <option value="is_Emergency">Emergency</option>
+	                        </select>
+	                    </div>
+	                    <div class="col-md-3"></div>
+	                    <div class="col-md-4">
+	                        <button type="submit" class="btn btn-default">Sort</button>
+	                    </div>
+	                </form>
+	                </div>
+                	
+                </div>
+                <div class="col-md-4">
+                	
+                </div>
+
+                <div class="col-md-1">
                     <div id="wrap">
-                    <form action="#" method="get">
+                    <form action="{{ route('getSearchAdmin') }}" method="get">
                         <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit" required="true">
                     </form>
                       
@@ -32,16 +57,17 @@
                 </div>
                     
                 </div>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <table class="table table-bordered">
+
+	        </div>
+	        <div class="panel-body">
+	        	<div class="row">
+	                <div class="col-lg-12">
+	                	<table class="table table-bordered">
                         <thead>
                           <tr>
                             <th>Order Id</th>
                             <th>Created At</th>
-                            <th>Updated At</th>
+                            <th>Pickup Date</th>
                             <th>Customer Email</th>
                             <th>Pickup Address</th>
                             <th>Pickup Type</th>
@@ -102,7 +128,7 @@
                           <tr>
                             <td>{{ $pickup->id }}</td>
                             <td>{{ date("F jS Y",strtotime($pickup->created_at->toDateString())) }}</td>
-                            <td>{{ date("F jS Y",strtotime($pickup->updated_at->toDateString())) }}</td>
+                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                             <td>{{ $pickup->user->email }}</td>
                             <td>{{ $pickup->address }}</td>
                             @if($pick_up_type == "Detailed Pickup")
@@ -157,11 +183,12 @@
                         @endforeach
                         </tbody>
                       </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                      <span style="float: right;">{!!$pickups->render()!!}</span>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
 </div>
 
 @foreach($pickups as $pickup) 

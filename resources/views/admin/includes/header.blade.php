@@ -20,6 +20,7 @@
 
     <!-- Custom CSS -->
     <link href="{{url('/')}}/public/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="{{url('/')}}/public/css/staff.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
     <link href="{{url('/')}}/public/bower_components/morrisjs/morris.css" rel="stylesheet">

@@ -21,6 +21,9 @@ use App\CustomerCreditCardInfo;
 use App\Faq;
 use App\Staff;
 use App\Pickupreq;
+use Illuminate\Support\Facades\Input;
+use Session;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -597,7 +600,7 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = SiteConfig::first();
-        $pickups = Pickupreq::with('user_detail','user','order_detail')->get();
+        $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
         return view('admin.customerorders', compact('user_data', 'site_details','pickups'));
     }
 
@@ -653,6 +656,7 @@ class AdminController extends Controller
             return redirect()->route('getStaffList')->with('fail', 'Sorry! Cannot add staff now please try again later.');
         }
     }
+
     public function postIsBlock(Request $request) {
         //return $request;
         $search = Staff::find($request->id);
@@ -723,5 +727,44 @@ class AdminController extends Controller
         {
             return redirect()->route('getStaffList')->with('fail', 'Could not find a user with this email!');
         }
+    }
+    public function getSearchAdmin()
+    {
+            $search = Input::get('search');
+        
+            $obj = new NavBarHelper();
+            $user_data = $obj->getUserData();
+        
+            $pickups = Pickupreq::where('id',$search)->with('user_detail','user','order_detail')->get();
+            if($pickups)
+            {
+                Session::put('success', 'Search result found!');
+                return view('admin.customerorders',compact('pickups','user_data'));
+            }
+            else
+            {
+                Session::put('error', 'Search result not found!');
+                return view('admin.customerorders',compact('pickups','user_data'));
+            }
+            
+    }
+
+    public function getSortAdmin()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $input = Input::get('sort');
+        $sort = isset($input) ? $input : false;
+
+        if($sort)
+        {
+            $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+            return view('admin.customerorders',compact('pickups','user_data'));
+        }
+        else
+        {
+            return redirect()->route('getCustomerOrders');
+        }
+
     }
 }
