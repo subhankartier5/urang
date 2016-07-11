@@ -333,12 +333,12 @@ class MainController extends Controller
         return view('pages.pickupreq');
     }
     public function postPickUp (Request $request) {
-        //dd($request);
+        //dd();
         $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = auth()->guard('users')->user()->id;
         $pick_up_req->address = $request->address;
-        $pick_up_req->pick_up_date = $request->pick_up_date;
+        $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
         $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
         $pick_up_req->schedule = $request->schedule;
         $pick_up_req->delivary_type = $request->boxed_or_hung;
