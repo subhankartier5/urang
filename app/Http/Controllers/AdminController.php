@@ -672,4 +672,22 @@ class AdminController extends Controller
             return 0;
         }
     }
+    public function postEditDetailsStaff(Request $request) {
+        //dd($request);
+        $search = Staff::find($request->user_id);
+        if ($search) {
+            $search->user_name = $request->email;
+            if ($search->save()) {
+                return redirect()->route('getStaffList')->with('success', 'Details Saved Successfully!');
+            }
+            else
+            {
+                return redirect()->route('getStaffList')->with('fail', 'Could not save your details right now!');
+            }
+        }
+        else
+        {
+            return redirect()->route('getStaffList')->with('fail', 'Could not find a user with this email!');
+        }
+    }
 }

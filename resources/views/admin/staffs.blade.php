@@ -6,13 +6,13 @@
          <div class="panel panel-default">
             <div class="panel-heading">
                @if(Session::has('fail'))
-                 <div class="alert alert-danger">{{Session::get('fail')}}
+                 <div class="alert alert-danger"><strong>Error!</strong> {{Session::get('fail')}}
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                  </div>
                @else
                @endif
                @if(Session::has('success'))
-                 <div class="alert alert-success">                                {{Session::get('success')}}
+                 <div class="alert alert-success"><strong>Success!</strong> {{Session::get('success')}}
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                  </div>
                @else
@@ -30,6 +30,7 @@
                            <th>Block Status</th>
                            <th>Edit Details</th>
                            <th>Delete</th>
+                           <th>Change Password</th>
                            <th>Created At</th>
                         </tr>
                      </thead>
@@ -41,14 +42,15 @@
                            <td>{{$one_staff->user_name}}</td>
                            <td>
                               @if ($one_staff->active == 1) 
-                                <button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')">Block</button>
+                                <button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')"><i class="fa fa-ban" aria-hidden="true"></i> Block</button>
                               @else
-                                <button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')">unblock</button>
+                                <button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')"><i class="fa fa-ban" aria-hidden="true"></i> unblock</button>
                               @endif
                            </td>
-                           <td><button type="submit" id="btnEdit_{{$one_staff->id}}" class="btn btn-warning btn-xs">Edit</button></td>
-                           <td><button type="submit" id="btnDel_{{$one_staff->id}}" class="btn btn-danger btn-xs">Delete</button></td>
-                           <td>{{$one_staff->created_at}}</td>
+                           <td><button type="submit" id="btnEdit_{{$one_staff->id}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></td>
+                           <td><button type="submit" id="btnDel_{{$one_staff->id}}" class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
+                           <td><button type="submit" id="btnCp_{{$one_staff->id}}" class="btn btn-warning btn-xs"><i class="fa fa-key" aria-hidden="true"></i> Change Password</button></td>
+                           <td>{{ date("F jS Y",strtotime($one_staff->created_at->toDateString())) }}</td>
                         </tr>
                         @endforeach
                         @else
@@ -58,6 +60,7 @@
                         @endif
                      </tbody>
                   </table>
+                  <span style="float: right;">{!!$staff->render()!!}</span>
                </div>
             </div>
          </div>
@@ -97,6 +100,36 @@
 
   </div>
 </div>
+
+<!-- ModalEdit -->
+<div id="myModalEdit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Changes</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="{{route('postEditDetailsStaff')}}">
+          <div class="form-group">
+            <label for="email">Staff Email:</label>
+            <input class="form-control" id="emailEdit" name="email" type="email" required="">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" id="editStaff">Save Staff</button>
+        <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+        <input type="hidden" name="user_id" id="user_id"></input>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script type="text/javascript">
 function isBlock(id) {
   //alert(id);
@@ -117,5 +150,15 @@ function isBlock(id) {
     } 
   });
 }
+$(document).ready(function(){
+  @foreach($staff as $one_staff)
+    $('#btnEdit_{{$one_staff->id}}').click(function(){
+      $('#myModalEdit').modal('show');
+      $('#emailEdit').val("{{$one_staff->user_name}}");
+      $('#user_id').val("{{$one_staff->id}}");
+      return false;
+    });
+  @endforeach
+});
 </script>
 @endsection
