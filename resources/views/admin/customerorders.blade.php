@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-6">
                     <div id="wrap">
-                    <form action="{{ route('getSearchAdmin') }}" method="get">
+                    <form action="#" method="get">
                         <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit" required="true">
                     </form>
                       
