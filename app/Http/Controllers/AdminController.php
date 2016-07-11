@@ -52,7 +52,7 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
-    	return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
+        return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
     }
     public function logout() {
         Auth::logout();

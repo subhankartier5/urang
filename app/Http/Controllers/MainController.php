@@ -333,6 +333,7 @@ class MainController extends Controller
         return view('pages.pickupreq');
     }
     public function postPickUp (Request $request) {
+        //dd();
         $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = auth()->guard('users')->user()->id;

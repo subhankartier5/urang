@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 @section('content')
-<<<<<<< HEAD
     <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -38,30 +37,6 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <table class="table table-bordered">
-=======
-	<div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel-heading">
-				@if(Session::has('fail'))
-	        		<div class="alert alert-danger">{{Session::get('fail')}}
-	        			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	        		</div>
-        		@else
-        		@endif
-	        	@if(Session::has('success'))
-	        		<div class="alert alert-success">{{Session::get('success')}}
-	        			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	        		</div>
-	        	@else
-	        	@endif
-	         	<h1>Customer Orders</h1>
-	        </div>
-	        <div class="panel-body">
-	        	<div class="row">
-	                <div class="col-lg-12">
-	                	<table class="table table-bordered">
->>>>>>> 559271e3de2ac83450d66ec1fd34807f38dc4d5f
                         <thead>
                           <tr>
                             <th>Order Id</th>
@@ -182,19 +157,11 @@
                         @endforeach
                         </tbody>
                       </table>
-<<<<<<< HEAD
                     </div>
                 </div>
             </div>
         </div>
     </div>
-=======
-	                </div>
-	            </div>
-	        </div>
-		</div>
-	</div>
->>>>>>> 559271e3de2ac83450d66ec1fd34807f38dc4d5f
 </div>
 
 @foreach($pickups as $pickup) 

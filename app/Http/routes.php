@@ -74,7 +74,7 @@ Route::group(['middleware' => ['user']], function () {
 	Route::get('/staffs', ['uses' => 'AdminController@getStaffList', 'as' => 'getStaffList']);
 	Route::post('/add-staff', ['uses' => 'AdminController@postAddStaff', 'as' => 'postAddStaff']);
 	Route::post('/change-block-status', ['uses' => 'AdminController@postIsBlock', 'as' => 'postIsBlock']);
-    Route::post('/changeOrderStatus',['uses' => 'AdminController@changeOrderStatusAdmin', 'as' => 'changeOrderStatusAdmin']);
+
     Route::post('/changeOrderStatus',['uses' => 'AdminController@changeOrderStatusAdmin', 'as' => 'changeOrderStatusAdmin']);
 
 //test routes
