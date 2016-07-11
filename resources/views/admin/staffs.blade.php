@@ -129,7 +129,39 @@
 
   </div>
 </div>
+<!-- Modal -->
+<div id="myModalCp" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change Password</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="{{route('postChangeStaffPassword')}}" onsubmit="return CheckPassword()">
+          <div class="form-group">
+            <label for="new_pass">New Password</label>
+            <input type="password" name="new_pass" id="new_pass" class="form-control" required="" onkeyup="return CheckPassword();"></input>
+          </div>
+          <div class="form-group">
+            <label for="new_pass">Confirm New Password</label>
+            <input type="password" name="con_new_pass" id="con_new_pass" class="form-control" required="" onkeyup="return CheckPassword();"></input>
+          </div>
+          <div class="form-group" id="passcheck"></div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Change Password</button>
+          <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+          <input type="hidden" name="user_id" id="user_id1"></input>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script type="text/javascript">
 function isBlock(id) {
   //alert(id);
@@ -158,6 +190,11 @@ $(document).ready(function(){
       $('#user_id').val("{{$one_staff->id}}");
       return false;
     });
+    $('#btnCp_{{$one_staff->id}}').click(function(){
+      $('#myModalCp').modal('show');
+      $('#user_id1').val('{{$one_staff->id}}');
+      //alert('hi')
+    });
   @endforeach
 });
 function DelRecord(id) {
@@ -178,6 +215,38 @@ function DelRecord(id) {
       }
     } 
   });
+}
+function CheckPassword() {
+  var password = $('#new_pass').val();
+  //return false;
+  var conf_password = $('#con_new_pass').val();
+  if (password && conf_password) 
+  {
+    if (password.length >= 6 && conf_password.length >=6) 
+    {
+      if (password == conf_password) 
+      {
+        $('#passcheck').html("<div style='color:green;'>password and confirm password matched!</div>");
+        return true;
+      }
+      else
+      {
+        $('#passcheck').html("<div style='color:red;'>password and confirm password did not match!</div>");
+        return false;
+      }
+    }
+    else
+    {
+      $('#passcheck').html("<div style='color:red;'>password should atleast be 6 charecters!</div>");
+      return false;
+    }
+    
+  }
+  else
+  {
+    $('#passcheck').html("<div style='color:red;'>password and confirm password should be same and atleast be 6 charecters</div>");
+    return false;
+  }
 }
 </script>
 @endsection

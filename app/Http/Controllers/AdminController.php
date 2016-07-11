@@ -706,4 +706,22 @@ class AdminController extends Controller
             return 0;
         }
     }
+    public function postChangeStaffPassword(Request $request) {
+        //dd($request);
+        $search = Staff::find($request->user_id);
+        if ($search) {
+            $search->password = bcrypt($request->con_new_pass);
+            if ($search->save()) {
+                return redirect()->route('getStaffList')->with('success', 'Password Updated Successfully!');
+            }
+            else
+            {
+                 return redirect()->route('getStaffList')->with('fail', 'Could not update your password right now!');
+            }
+        }
+        else
+        {
+            return redirect()->route('getStaffList')->with('fail', 'Could not find a user with this email!');
+        }
+    }
 }
