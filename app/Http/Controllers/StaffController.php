@@ -65,7 +65,7 @@ class StaffController extends Controller
         {
             return redirect()->route('getStaffLogin');
         }
-    	
+        
     }
 
 
@@ -82,7 +82,7 @@ class StaffController extends Controller
         {
             return redirect()->route('getStaffLogin');
         }
-    	
+        
     }
 
     public function changeOrderStatus(Request $req)
@@ -125,13 +125,13 @@ class StaffController extends Controller
             return redirect()->route('getStaffLogin');
         }
 
-    	
+        
     }
 
     public function getSearch()
     {
-    	$search = Input::get('search');
-    	
+        $search = Input::get('search');
+        
         
         $staff = auth()->guard('staffs')->user();
         if($staff)

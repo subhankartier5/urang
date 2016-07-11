@@ -6,15 +6,15 @@
          <div class="panel panel-default">
             <div class="panel-heading">
                @if(Session::has('fail'))
-	               <div class="alert alert-danger">{{Session::get('fail')}}
-	                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	               </div>
+                 <div class="alert alert-danger">{{Session::get('fail')}}
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                 </div>
                @else
                @endif
                @if(Session::has('success'))
-	               <div class="alert alert-success">	                             	{{Session::get('success')}}
-	                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	               </div>
+                 <div class="alert alert-success">                                {{Session::get('success')}}
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                 </div>
                @else
                @endif
                <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_staff" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add Staff</button>
@@ -41,9 +41,9 @@
                            <td>{{$one_staff->user_name}}</td>
                            <td>
                               @if ($one_staff->active == 1) 
-                              	<button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')">Block</button>
+                                <button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')">Block</button>
                               @else
-                              	<button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')">unblock</button>
+                                <button type="submit" id="btnBlock_{{$one_staff->id}}" class="btn btn-primary btn-xs" onclick="isBlock('{{$one_staff->id}}')">unblock</button>
                               @endif
                            </td>
                            <td><button type="submit" id="btnEdit_{{$one_staff->id}}" class="btn btn-warning btn-xs">Edit</button></td>
@@ -76,19 +76,19 @@
       </div>
       <div class="modal-body">
          <form role="form" method="post" action="{{route('postAddStaff')}}">
-			  <div class="form-group">
-				 <div class="alert alert-success" id="success" style="display: none;"></div>
-		         <div class="alert alert-danger" id="errordiv" style="display: none;"></div>
-			    <label for="email">Staff Email:</label>
-			    <input class="form-control" id="email" name="email" type="email" required="">
-			  </div>
-			  <div class="form-group">
-			    <label for="password">password</label>
-			    <input type="password" class="form-control" name="password" id="password" required="" />
-			  </div>
-			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="addStaff">Add Staff</button>
-			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-			</form>
+        <div class="form-group">
+         <div class="alert alert-success" id="success" style="display: none;"></div>
+             <div class="alert alert-danger" id="errordiv" style="display: none;"></div>
+          <label for="email">Staff Email:</label>
+          <input class="form-control" id="email" name="email" type="email" required="">
+        </div>
+        <div class="form-group">
+          <label for="password">password</label>
+          <input type="password" class="form-control" name="password" id="password" required="" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="addStaff">Add Staff</button>
+        <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+      </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

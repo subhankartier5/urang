@@ -24,39 +24,39 @@ use App\Pickupreq;
 class AdminController extends Controller
 {
     public function index() {
-    	if (Auth::check()) {
-    		return redirect()->route('get-admin-dashboard');
-    	}
-    	else
-    	{
-    		return view('admin.login');
-    	}
-    }
-    public function LoginAttempt(Request $request) {
-    	//dd($request);
-        //protected $guard = {'admin'};
-    	$email = $request->email;
-    	$password = $request->password;
-    	$remember_me = isset($request->remember)? true : false;
-    	//dd($remember_me);
-    	if (Auth::attempt(['email' => $email, 'password' => $password], $remember_me)) {
+        if (Auth::check()) {
             return redirect()->route('get-admin-dashboard');
         }
         else
         {
-        	return redirect()->route('get-admin-login')->with('fail', 'wrong username or password');
+            return view('admin.login');
+        }
+    }
+    public function LoginAttempt(Request $request) {
+        //dd($request);
+        //protected $guard = {'admin'};
+        $email = $request->email;
+        $password = $request->password;
+        $remember_me = isset($request->remember)? true : false;
+        //dd($remember_me);
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember_me)) {
+            return redirect()->route('get-admin-dashboard');
+        }
+        else
+        {
+            return redirect()->route('get-admin-login')->with('fail', 'wrong username or password');
         }
     }
     public function getDashboard() {
-    	$obj = new NavBarHelper();
+        $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $customers = User::with('user_details', 'pickup_req', 'order_details')->paginate(10);
-    	return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
+        return view('admin.dashboard', compact('user_data', 'site_details', 'customers'));
     }
     public function logout() {
-    	Auth::logout();
-    	return redirect()->route('get-admin-login');
+        Auth::logout();
+        return redirect()->route('get-admin-login');
     }
     public function getProfile() {
         $obj = new NavBarHelper();
