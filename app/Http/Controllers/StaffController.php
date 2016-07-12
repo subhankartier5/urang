@@ -70,7 +70,7 @@ class StaffController extends Controller
         $staff = auth()->guard('staffs')->user();
         if($staff)
         {
-            $pickups = Pickupreq::with('user_detail','user','order_detail')->get();
+            $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
             $orders_to_pick_up = Pickupreq::where('order_status',1)->with('user_detail','user','order_detail')->get();
             $orders_picked_up = Pickupreq::where('order_status',2)->with('user_detail','user','order_detail')->get();
             $orders_processed = Pickupreq::where('order_status',3)->with('user_detail','user','order_detail')->get();

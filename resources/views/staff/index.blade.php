@@ -1,14 +1,14 @@
 @extends('staff.layouts.master')
 
 @section('title')
-	U-rang|Staff Dashboard
+    U-rang|Staff Dashboard
 @endsection
 
 @section('content')
 
 
     <div id="wrapper">
-		<div id="page-wrapper">
+        <div id="page-wrapper">
 
             <div class="container-fluid">
 
@@ -145,7 +145,7 @@
                 <!-- /.row -->
 
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>Chart</h3>
@@ -162,53 +162,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">just now</span>
-                                        <i class="fa fa-fw fa-calendar"></i> Calendar updated
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">4 minutes ago</span>
-                                        <i class="fa fa-fw fa-comment"></i> Commented on a post
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">23 minutes ago</span>
-                                        <i class="fa fa-fw fa-truck"></i> Order 392 shipped
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">46 minutes ago</span>
-                                        <i class="fa fa-fw fa-money"></i> Invoice 653 has been paid
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">1 hour ago</span>
-                                        <i class="fa fa-fw fa-user"></i> A new user has been added
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">2 hours ago</span>
-                                        <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">yesterday</span>
-                                        <i class="fa fa-fw fa-globe"></i> Saved the world
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">two days ago</span>
-                                        <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
-                                    </a>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
+                    
+                    <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
@@ -220,64 +175,24 @@
                                             <tr>
                                                 <th>Order #</th>
                                                 <th>Order Date</th>
-                                                <th>Order Time</th>
+                                                <th>Delivery Date</th>
                                                 <th>Amount (USD)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>3326</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:29 PM</td>
-                                                <td>$321.33</td>
+                                        @foreach($pickups as $pickup)
+                                            <tr style="cursor: pointer;" onclick="trclick('info_modal_{{$pickup->id}}')">
+                                                <td>{{$pickup->id}}</td>
+                                                <td>{{date("F jS Y",strtotime($pickup->created_at->toDateString()))}}</td>
+                                                <td>{{date("F jS Y",strtotime($pickup->pick_up_date))}}</td>
+                                                <td>{{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                                             </tr>
-                                            <tr>
-                                                <td>3325</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:20 PM</td>
-                                                <td>$234.34</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3324</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:03 PM</td>
-                                                <td>$724.17</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3323</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:00 PM</td>
-                                                <td>$23.71</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3322</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:49 PM</td>
-                                                <td>$8345.23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3321</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:23 PM</td>
-                                                <td>$245.12</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3320</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:15 PM</td>
-                                                <td>$5663.54</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3319</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:13 PM</td>
-                                                <td>$943.45</td>
-                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="text-right">
-                                    <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                                    <span style="float: right;">{!!$pickups->render()!!}</span>
                                 </div>
                             </div>
                         </div>
@@ -293,6 +208,263 @@
 
     </div>
     <!-- /#wrapper -->
+
+    @foreach($pickups as $pickup)
+<?php
+$order_status = "";
+switch ($pickup->order_status) {
+    case '1':
+        $order_status = "Order Placed";
+        break;
+    case '2':
+        $order_status = "Picked Up";
+        break;
+    case '3':
+        $order_status = "Processed";
+        break;
+    case '4':
+        $order_status = "Delivered";
+        break;
+    
+    default:
+        $order_status = "Default";
+        break;
+}
+
+$is_emargency = $pickup->is_emergency == 1 ? "Yes" : "No";
+
+$payment_type = "";
+switch ($pickup->payment_type) {
+    case '1':
+        $payment_type = "Card";
+        break;
+    case '2':
+        $payment_type = "COD";
+        break;
+    case '3':
+        $payment_type = "Check Payment";
+        break;
+    
+    default:
+        $payment_type = "Default";
+        break;
+}
+
+$door_man = $pickup->door_man == 1 ? "Yes" : "No";
+
+$need_bag = $pickup->need_bag == 1 ? "Yes" : "No";
+
+$wash_n_fold = $pickup->wash_n_fold == 1? "Yes" : "No";
+
+$pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
+
+?>    
+  <div class="modal fade" id="info_modal_{{ $pickup->id }}" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">User Details</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="row">
+            <div class="col-md-6 col-sm-6 col-sm-offset-3">
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>User Id</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span>{{ $pickup->user->id }}</span></div>    
+                </div>
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Name</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span>{{ $pickup->user_detail->name }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Email</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user->email }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Address</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->address }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Personal Phone</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->personal_ph }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Cell Phone</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->cell_phone }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Office Phone</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->address }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Special Instruction</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->spcl_instructions }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Driving Instruction</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->driving_instructions }}</span></div>    
+                </div>
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Created At</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->user_detail->created_at->toDateString())) }}</span></div>    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 col-sm-5"><strong>Updated At</strong></div> 
+                    <div class="col-md-1 col-sm-1">:</div> 
+                    <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->user_detail->updated_at->toDateString())) }}</span></div>    
+                </div>
+            </div>
+            </div>
+
+
+          
+        </div>
+        <div class="modal-header" style="border-top: 1px solid #292424;">
+          
+          <h4 class="modal-title">Pickup Details</h4>
+        </div>
+        <div class="modal-body">
+        <div class="row">
+        <div class="col-md-6 col-sm-6 col-sm-offset-3">
+
+
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Pickup Id</strong></div> 
+            <div class="col-md-1 col-sm-1">:</div> 
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->id }}</span></div>    
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Created At</strong></div>
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->created_at->toDateString())) }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Pickup Address</strong></div>
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->address }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Pickup Date</strong></div>
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->pick_up_date }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Pickup Type</strong></div>
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5">{{ $pick_up_type }}</div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Schedule</strong></div>
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->schedule }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Delivary Type</strong></div>   
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->delivary_type }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Starch Type</strong></div>   
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->starch_type }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Need Bag</strong></div>  
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $need_bag }}</span></div>
+
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Doorman:</strong></div>    
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $door_man }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Special Instruction:</strong></div>     
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->special_instructions }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Driving Instruction:</strong></div>  
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->driving_instructions }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Payment Type</strong></div> 
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $payment_type }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Order Status</strong></div>
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $order_status }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Emergency</strong></div> 
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $is_emargency }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Clint Type</strong></div> 
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $pickup->client_type }}</span></div>
+            </div>
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Wash and Fold</strong></div>   
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ $wash_n_fold }}</span></div>
+            </div> 
+            <div class="row">
+            <div class="col-md-5 col-sm-5"><strong>Updated At</strong></div>  
+            <div class="col-md-1 col-sm-1">:</div>
+            <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->updated_at->toDateString())) }}</span></div>
+            </div> 
+        
+        </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endforeach 
+
+  <script type="text/javascript">
+      $(document).ready(function(){
+        /*$('tr').click(function(){
+            alert('click');
+        });*/
+
+      });
+        function trclick(modalid)
+        {
+            $('#'+modalid).modal('show');
+        }
+  </script>
+
     <script type="text/javascript">
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {

@@ -12,5 +12,9 @@ class ConstantsHelper
 	public function getPagination() {
 		return 10;
 	}
+	public function getClintEmail()
+	{
+		return "work@tier5.us";
+	}
 	
 }

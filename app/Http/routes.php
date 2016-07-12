@@ -91,10 +91,6 @@ Route::group(['middleware' => ['user']], function () {
         });
 	});
 
-
-//test routes
-Route::post('/csrf',['uses' => 'MainController@testCsrf', 'as' => 'testCsrf']);
-
 //Staff routes
 Route::group(['prefix' => 'staff'], function () {
     Route::get('/login',['uses' => 'StaffController@getStaffLogin','as' => 'getStaffLogin']);
@@ -105,4 +101,19 @@ Route::group(['prefix' => 'staff'], function () {
     Route::post('/login',['uses' => 'StaffController@LoginAttempt', 'as' => 'post-staff-login']);
     Route::get('/logout',['uses' => 'StaffController@getLogout', 'as' => 'getStaffLogout']);
     Route::get('/sort',['uses' => 'StaffController@getSort','as' => 'sort']);
+});
+
+//API V.1 routes
+Route::group(['prefix' => 'V1'], function () {
+    Route::post('/login',['uses' => 'ApiV1\UserApiController@LoginAttempt', 'as' => 'LoginAttempt']);
+    Route::post('/order-history',['uses' => 'ApiV1\UserApiController@order_history','as' => 'order_history']);
+    Route::post('/place-order',['uses' => 'ApiV1\UserApiController@placeOrder','as' => 'placeOrder']);
+    Route::post('/sign-up-user',['uses' => 'ApiV1\UserApiController@userSignUp','as' => 'userSignUp']);
+    Route::get('/get-prices',['uses' => 'ApiV1\UserApiController@getPrices', 'as' => 'getPricesApi']);
+    Route::get('/get-neighborhoods',['uses' => 'ApiV1\UserApiController@getNeighborhood','as' => 'getNeighborhoodApi']);
+    Route::get('/get-faq',['uses' => 'ApiV1\UserApiController@getFaq','as' => 'getFaqApi']);
+    Route::post('/contact-us',['uses' => 'ApiV1\UserApiController@contactUs','as' => 'contactUsApi']);
+    Route::post('/update-user',['uses' => 'ApiV1\UserApiController@updateProfile','as' => 'updateProfileApi']);
+    Route::post('/change-password',['uses' => 'ApiV1\UserApiController@changePassword','as' => 'changePasswordApi']);
+    Route::post('/delete-pickup',['uses' => 'ApiV1\UserApiController@deletePickup','as' => 'deletePickupApi']);
 }); 
