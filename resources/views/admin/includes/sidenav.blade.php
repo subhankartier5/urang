@@ -68,7 +68,7 @@
                             <a href="{{route('getCmsWashNFold')}}">Wash and Fold Page</a>
                         </li>
                         <li>
-                            <a href="#">Corporate Page</a>
+                            <a href="{{route('getCorporate')}}">Corporate Page</a>
                         </li>
                         <li>
                             <a href="#">Tailoring Page</a>

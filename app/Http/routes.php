@@ -90,6 +90,8 @@ Route::group(['middleware' => ['user']], function () {
         	Route::post('/save-dry-clean', ['uses' => 'AdminController@postCmsDryClean', 'as' => 'postCmsDryClean']);
         	Route::get('/wash-n-fold', ['uses' => 'AdminController@getCmsWashNFold', 'as' => 'getCmsWashNFold']);
         	Route::post('/save-wash-n-fold', ['uses' => 'AdminController@postCmsWashNFold', 'as' => 'postCmsWashNFold']);
+        	Route::get('/corporate', ['uses' => 'AdminController@getCorporate', 'as' => 'getCorporate']);
+        	Route::post('/save-corporate', ['uses' => 'AdminController@postCorpoarte' , 'as' => 'postCorpoarte']);
         });
 	});
 
