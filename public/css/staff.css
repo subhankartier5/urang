@@ -20,7 +20,7 @@ width: 43%; display: inline-block; text-align: right; margin-right: 25px;font-si
   position: relative;
 }
 
-input[type="text"] {
+#search {
   height: 60px;
   font-size: 15px;
   display: inline-block;
@@ -41,17 +41,17 @@ input[type="text"] {
   cursor: pointer;
 }
 
-input[type="text"]:focus:hover {
+#search:focus:hover {
   border-bottom: 1px solid #BBB;
 }
 
-input[type="text"]:focus {
+#search:focus {
   width: 300px;
   z-index: 1;
   border-bottom: 1px solid #BBB;
   cursor: text;
 }
-input[type="submit"] {
+#search_submit {
   height: 67px;
   width: 63px;
   display: inline-block;
@@ -70,6 +70,6 @@ input[type="submit"] {
   transition: opacity .4s ease;
 }
 
-input[type="submit"]:hover {
+#search_submit:hover {
   opacity: 0.8;
 }

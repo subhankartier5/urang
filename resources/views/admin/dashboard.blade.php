@@ -115,8 +115,4 @@
 
 </div>
 <!-- /#wrapper -->
-<form method="post" action="{{route('getPayment')}}">
-    <button type="submit">payment</button>
-    <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-</form>
 @endsection

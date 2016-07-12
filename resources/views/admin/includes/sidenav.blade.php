@@ -58,6 +58,9 @@
                 <li>
                     <a href="{{route('getStaffList')}}"><i class="fa fa-user fa-fw"></i> Staffs Management</a>
                 </li>
+                <li>
+                     <a href="{{route('getPayment')}}"><i class="fa fa-credit-card fa-fw"></i> Make Payments</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

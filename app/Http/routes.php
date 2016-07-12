@@ -80,9 +80,11 @@ Route::group(['middleware' => ['user']], function () {
 	    Route::post('/save-details-staff', ['uses'=> 'AdminController@postEditDetailsStaff', 'as' => 'postEditDetailsStaff']);
 	    Route::post('/delete-staff', ['uses' => 'AdminController@postDelStaff', 'as' => 'postDelStaff']);
 	    Route::post('/change-staff-password', ['uses' => 'AdminController@postChangeStaffPassword', 'as' => 'postChangeStaffPassword']);
-	    Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'getPayment']);
+	    Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'postPayment']);
         Route::get('/search',['uses' => 'AdminController@getSearchAdmin', 'as' => 'getSearchAdmin']);
         Route::get('/sortby',['uses' => 'AdminController@getSortAdmin','as' => 'sortAdmin']);
+        Route::get('/payment', ['uses' => 'PaymentController@getPayment', 'as' => 'getPayment']);
+        Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
 	});
 
 
