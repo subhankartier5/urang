@@ -74,7 +74,7 @@
                             <a href="{{route('getTailoring')}}">Tailoring Page</a>
                         </li>
                         <li>
-                            <a href="#">Wet Cleaning Page</a>
+                            <a href="{{route('getWetCleaning')}}">Wet Cleaning Page</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

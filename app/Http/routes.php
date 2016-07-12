@@ -94,6 +94,8 @@ Route::group(['middleware' => ['user']], function () {
         	Route::post('/save-corporate', ['uses' => 'AdminController@postCorpoarte' , 'as' => 'postCorpoarte']);
         	Route::get('/tailoring', ['uses' => 'AdminController@getTailoring', 'as' => 'getTailoring']);
         	Route::post('/save-tailoring', ['uses' => 'AdminController@postTailoring', 'as' => 'postTailoring']);
+        	Route::get('/wet-cleaning', ['uses' => 'AdminController@getWetCleaning', 'as' => 'getWetCleaning']);
+        	Route::post('/save-wet-cleaning',['uses' => 'AdminController@postWetCleaning', 'as' => 'postWetCleaning']);
         });
 	});
 

@@ -1039,4 +1039,71 @@ class AdminController extends Controller
             }
         }
     }
+    public function getWetCleaning() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $cms_data = Cms::where('identifier', 4)->first();
+        return view('admin.cms-wetcleaning', compact('user_data', 'cms_data')); 
+    }
+    public function postWetCleaning(Request $request) {
+        $isDataExists = Cms::where('identifier', 4)->first();
+        if ($isDataExists != null) {
+            //upadte data
+            $isDataExists->title = $request->title;
+            $isDataExists->meta_keywords = $request->keywords;
+            $isDataExists->meta_description = $request->description;
+            $isDataExists->page_heading = $request->heading;
+            $isDataExists->tags = $request->tags;
+            $isDataExists->content = $request->content;
+            if ($request->bgimage) {
+                $image = $request->bgimage;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';   // upload path
+                $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+                $image->move($destinationPath, $fileName); // uploading file to given path 
+                //return $fileName;
+                $isDataExists->background_image = $fileName;
+            }
+            if ($isDataExists->save()) {
+                return redirect()->route('getWetCleaning')->with('success', 'Successfully Updated');
+            }
+            else
+            {
+                return redirect()->route('getWetCleaning')->with('fail', 'some error occured cannot save the details right now!');
+            }
+
+        }
+        else
+        {
+            //insert new record
+            $new_data = new Cms();
+            $new_data->title = $request->title;
+            $new_data->meta_keywords = $request->keywords;
+            $new_data->meta_description = $request->description;
+            $new_data->page_heading = $request->heading;
+            $new_data->tags = $request->tags;
+            $new_data->content = $request->content;
+            if ($request->bgimage != null) {
+                $image = $request->bgimage;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';   // upload path
+                $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+                $image->move($destinationPath, $fileName); // uploading file to given path 
+                //return $fileName;
+                $new_data->background_image = $fileName;
+            }
+            else
+            {
+                $new_data->background_image = NULL;
+            }
+            $new_data->identifier = 4;
+            if ($new_data->save()) {
+                return redirect()->route('getWetCleaning')->with('success', 'Successfully Saved Your Data');
+            }
+            else
+            {
+                return redirect()->route('getWetCleaning')->with('fail', 'some error occured cannot save the details right now!');
+            }
+        }
+    }
 }
