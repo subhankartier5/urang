@@ -39,6 +39,16 @@
                   
               </li>
               <li>
+                <a href="#">Pages <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                <ul style="width: 160%">
+                  <li><a href="">DRY CLEAN ONLY</a></li>
+                  <li><a href="">WASH & FOLD</a></li>
+                  <li><a href="">CORPOARTE</a></li>
+                  <li><a href="">TAILORING</a></li>
+                  <li><a href="">WET CLEANING</a></li>
+                </ul>
+              </li>
+              <li>
                  <a href="{{ route('getContactUs') }}">Contact</a>
              </li>
              <li>
@@ -54,9 +64,6 @@
                   @else
                   @endif
               </li>
-             <li>
-                 <a href="tel:8009595785">(800) 959-5785</a>
-             </li>
           </ul>
       </div>
     </div>

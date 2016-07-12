@@ -85,6 +85,10 @@ Route::group(['middleware' => ['user']], function () {
         Route::get('/sortby',['uses' => 'AdminController@getSortAdmin','as' => 'sortAdmin']);
         Route::get('/payment', ['uses' => 'PaymentController@getPayment', 'as' => 'getPayment']);
         Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
+        Route::group(['prefix' => 'cms'], function() {
+        	Route::get('/dry-clean', ['uses' => 'AdminController@getCmsDryClean', 'as' => 'getCmsDryClean']);
+        	Route::post('/save-dry-clean', ['uses' => 'AdminController@postCmsDryClean', 'as' => 'postCmsDryClean']);
+        });
 	});
 
 

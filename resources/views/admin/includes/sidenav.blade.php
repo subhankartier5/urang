@@ -58,6 +58,27 @@
                 <li>
                      <a href="{{route('getPayment')}}"><i class="fa fa-credit-card fa-fw"></i> Make Payments</a>
                 </li>
+               <li>
+                    <a href="#"><i class="fa fa-files-o fa-fw"></i> Cms<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{route('getCmsDryClean')}}">Dry Clean Page</a>
+                        </li>
+                        <li>
+                            <a href="#">Wash and Fold Page</a>
+                        </li>
+                        <li>
+                            <a href="#">Corporate Page</a>
+                        </li>
+                        <li>
+                            <a href="#">Tailoring Page</a>
+                        </li>
+                        <li>
+                            <a href="#">Wet Cleaning Page</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
