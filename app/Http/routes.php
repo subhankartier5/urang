@@ -88,6 +88,8 @@ Route::group(['middleware' => ['user']], function () {
         Route::group(['prefix' => 'cms'], function() {
         	Route::get('/dry-clean', ['uses' => 'AdminController@getCmsDryClean', 'as' => 'getCmsDryClean']);
         	Route::post('/save-dry-clean', ['uses' => 'AdminController@postCmsDryClean', 'as' => 'postCmsDryClean']);
+        	Route::get('/wash-n-fold', ['uses' => 'AdminController@getCmsWashNFold', 'as' => 'getCmsWashNFold']);
+        	Route::post('/save-wash-n-fold', ['uses' => 'AdminController@postCmsWashNFold', 'as' => 'postCmsWashNFold']);
         });
 	});
 

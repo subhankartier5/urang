@@ -65,7 +65,7 @@
                             <a href="{{route('getCmsDryClean')}}">Dry Clean Page</a>
                         </li>
                         <li>
-                            <a href="#">Wash and Fold Page</a>
+                            <a href="{{route('getCmsWashNFold')}}">Wash and Fold Page</a>
                         </li>
                         <li>
                             <a href="#">Corporate Page</a>
