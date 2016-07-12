@@ -44,9 +44,6 @@
                     <a href="{{route('getCustomerOrders')}}"><i class="fa fa-group" aria-hidden="true"></i> Customer Orders</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-table fa-fw"></i> Scheduled Pickup</a>
-                </li>
-                <li>
                     <a href="{{ route('getPriceList') }}"><i class="fa fa-edit fa-fw"></i> Price List</a>
                 </li>
                 <li>
