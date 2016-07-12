@@ -19,7 +19,7 @@
         		</div>
         	@else
         	@endif
-            <h1 class="page-header">Corporate Page Contents</h1>
+            <h1 class="page-header">Tailoring Page Contents</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -28,12 +28,12 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Manage Corporate Page
+                    Manage Tailoring Page
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form role="form" method="post" action="{{route('postCorpoarte')}}" enctype="multipart/form-data">
+                            <form role="form" method="post" action="{{route('postTailoring')}}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
                                     <input class="form-control" type="text" name="title" id="title" />
@@ -71,7 +71,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-outline btn-primary btn-lg btn-block" id="save_dry_clean">Save Details</button>
                                 <input type="hidden" name="_token" value="{{ Session::token() }}"></input>
-                                <input type="hidden" name="identifier" value="2"></input>
+                                <input type="hidden" name="identifier" value="3"></input>
                             </form>
                         </div>
                     </div>

@@ -71,7 +71,7 @@
                             <a href="{{route('getCorporate')}}">Corporate Page</a>
                         </li>
                         <li>
-                            <a href="#">Tailoring Page</a>
+                            <a href="{{route('getTailoring')}}">Tailoring Page</a>
                         </li>
                         <li>
                             <a href="#">Wet Cleaning Page</a>
