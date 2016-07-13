@@ -330,7 +330,9 @@ class MainController extends Controller
 
     }
     public function getPickUpReq() {
-        return view('pages.pickupreq');
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        return view('pages.pickupreq', compact('site_details'));
     }
     public function postPickUp (Request $request) {
         //dd();
@@ -386,9 +388,11 @@ class MainController extends Controller
         }
     }
     public function getMyPickUps() {
-        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail')->get();
+        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail')->orderBy('created_at','desc')->get();
         //dd($pick_up_req);
-        return view('pages.mypickups', compact('pick_up_req'));
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        return view('pages.mypickups', compact('pick_up_req', 'site_details'));
     }
     public function postDeletePickUp(Request $request) {
         $id_to_del = $request->id;

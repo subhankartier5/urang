@@ -26,9 +26,7 @@
 			            <th>Pick Up ID</th>
 			            <th>Issue Date</th>
 			            <th>Order Status</th>
-			            <th>Item Name</th>
-			            <th>Quantity</th>
-			            <th>Price(Per Quantiy)</th>
+			            <th>Pickup Type</th>
 			            <th>Delete</th>
 			            <th>Invoice</th>
 			         </tr>
@@ -61,15 +59,11 @@
 					                    }
 					            	?>
 					            </td>
-				          		@if(count($req->order_detail) > 0)
-				          			<td><button class="btn btn-link" type="button" id="btn1_{{$req->id}}" onclick="openModal('{{$req->id}}')">See Details</button></td>
-				          			<td><button class="btn btn-link" type="button" id="btn2_{{$req->id}}" onclick="openModal('{{$req->id}}')">See Details</button></td>
-				          			<td><button class="btn btn-link" type="button" id="btn3_{{$req->id}}" onclick="openModal('{{$req->id}}')">See Details</button></td>
-				          		@else
-				          			<td>No Items</td>
-				          			<td>0</td>
-				          			<td>0.00</td>
-				          		@endif
+					            @if($req->pick_up_type == 1)
+					            	<td>Fast Pickup</td>
+					            @else
+					            	<td>Detail Pickup<button class="btn btn-link" type="button" id="btn1_{{$req->id}}" onclick="openModal('{{$req->id}}')">See Details</button></td>
+					            @endif
 				          		<td>
 				          			@if($req->order_status == 1)
 				          				<button type="button" id="btn_{{$req->id}}" class="btn btn-danger btn-xs" onclick="DeleteOrder('{{$req->id}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
@@ -77,7 +71,9 @@
 				          				<button type="button" id="btn_{{$req->id}}" class="btn btn-danger btn-xs" disabled="true"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				          			@endif
 				          		</td>
-				          		<td>link</td>
+				          		<td>
+				          			<button type="button" class="btn btn-link" onclick="ShowInvoice('{{$req->id}}')"><i class="fa fa-external-link" aria-hidden="true"></i></button>
+				          		</td>
 			         		</tr>
 			      		@endforeach
 			      	@else
@@ -114,14 +110,7 @@
 			         </tr>
 			      </thead>
 			      <tbody id="order">
-			      <tbody>
-      				<tr>
-      					<td id="name"></td>
-      					<td id="qty"></td>
-      					<td id="price"></td>
-      				</tr>
 			      </tbody>
-			      
 			   </table>
 			</div>  
       </div>

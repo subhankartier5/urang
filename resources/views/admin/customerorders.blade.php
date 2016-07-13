@@ -41,12 +41,9 @@
 	                    </div>
 	                </form>
 	                </div>
-                	
                 </div>
                 <div class="col-md-4">
-                	
                 </div>
-
                 <div class="col-md-1">
                     <div id="wrap">
                     <form action="{{ route('getSearchAdmin') }}" method="get">
@@ -57,7 +54,6 @@
                 </div>
                     
                 </div>
-
 	        </div>
 	        <div class="panel-body">
 	        	<div class="row">
@@ -179,6 +175,11 @@
                                 <button type="submit" class="btn btn-primary">Apply</button>
                             </td>
                             </form>
+                            @if(count($pickup->invoice) > 0)
+                                <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
+                            @else
+                                <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
+                            @endif
                           </tr>
                         @endforeach
                         </tbody>
@@ -483,4 +484,163 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
     </div>
   </div>
   @endforeach 
+  <div id="ModalInvoice" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create Invoice</h4>
+        <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_items" onclick="addItem()"><i class="fa fa-plus" aria-hidden="true"></i> Add more</button>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="{{route('postInvoice')}}" id="invoice_form">
+            <div class="form-group" id="invoice_div">
+                <label>Item Name:</label>
+                <input type="text" name="items[0]" class="form-control" required="" placeholder="item name"></input><br/>
+                <label>Quantity:</label>
+                <input type="number" name="qty[0]" class="form-control" required="" placeholder="quantity"></input><br/>
+                <label>Price (per quantity):</label>
+                <input type="text" name="price[0]" class="form-control" required="" placeholder="price/quantity"></input>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit_inv">Create Invoice</button>
+            <input type="hidden" id="pick_up_req_id" name="pick_up_req_id"></input>
+            <input type="hidden" id="req_user_id" name="req_user_id"></input>
+            <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+            <input type="hidden" name="loop_limit" id="loop_limit"></input>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+    <!-- Modal -->
+    <div id="ModalShowInvoice" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Invoice Details as per <label id="invoice_date"></label></h4>
+          </div>
+          <div class="modal-body">
+            <div style="float: right;">
+                <p>Invoice No:</p>
+                <label id="invoice_no"></label>
+            </div>
+             <div class="form-group">
+                 <label>User Name:</label>
+                 <div id="user_name"></div>
+             </div>
+             <div class="form-group">
+                 <label>User Email:</label>
+                 <div id="user_email"></div>
+             </div>
+             <div class="form-group">
+                 <label>Pickup Type:</label>
+                 <div id="pickup_type"></div>
+             </div>
+             <div class="form-group">
+                  <label>Total Price:</label>
+                  <div id="total_price"></div>
+             </div>
+             <div class="form-group">
+                <label>Take Action:</label>
+                 <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
+            </div>
+            <label>See Breakdown:</label>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Item</td>
+                        <td>Quantity</td>
+                        <td>Price</td>
+                    </tr>
+                </thead>
+                <tbody id="inv">
+                    
+                </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <script type="text/javascript">
+       var i = 1;
+      function createInvoice(pick_up_id, user_id) {
+        $('#ModalInvoice').modal('show');
+        $('#pick_up_req_id').val(pick_up_id);
+        $('#req_user_id').val(user_id);
+      }
+      function addItem() {
+        //alert('hi')
+        $('#invoice_div').append('<br><button type="button" class="btn btn-danger btn-xs" id="del_'+i+'" style="float: right;" onclick="delListItem('+i+')"><i class="fa fa-times" aria-hidden="true"></i></button><label id="nameL_'+i+'">Item Name:</label><input type="text" name="items['+i+']" id="items_'+i+'" class="form-control" required="" placeholder="item name"></input><br/><label id="qtyL_'+i+'">Quantity:</label><input type="number" name="qty['+i+']" id="qty_'+i+'" class="form-control" required="" placeholder="quantity"></input><br/><label id="priceL_'+i+'">Price (per quantity):</label><input type="text" name="price['+i+']" id="price_'+i+'" class="form-control" required="" placeholder="price/quantity"></input><br/>');
+        i++;
+      }
+      function delListItem(id) {
+        $('#items_'+id+'').remove();
+        $('#qty_'+id+'').remove();
+        $('#price_'+id+'').remove();
+        $('#nameL_'+id+'').remove();
+        $('#priceL_'+id+'').remove();
+        $('#qtyL_'+id+'').remove();
+        $('#del_'+id+'').remove();
+        $("br").remove();
+        i--;
+      }
+      $(document).ready(function(){
+        $('#submit_inv').click(function(){
+            $('#loop_limit').val(i);
+        });
+      });
+      function showDetails(id) {
+        var div = "";
+        var total_price = 0;
+        $('#ModalShowInvoice').modal('show');
+            @foreach ($pickups as $pickup)
+                $('#user_name').text('{{$pickup->user_detail->name}}');
+                $('#user_email').text('{{$pickup->user->email}}');
+                $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
+                @foreach($pickup->invoice as $invoice)
+                    if ('{{$invoice->pick_up_req_id}}' == id) 
+                    {
+                        $('#invoice_no').text('#{{$invoice->invoice_id}}');
+                        $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
+                        div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
+                        total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
+                        $('#total_price').text(total_price);
+                        $('#inv').html(div);
+                        //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
+                        $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
+                    }
+                @endforeach
+            @endforeach
+      }
+      function delInvoice(id) {
+        //alert(id);
+        $.ajax({
+            url: "{{route('postDeleteInvoice')}}",
+            type: "POST",
+            data: {invoice_id: id, _token: "{{Session::token()}}"},
+            success: function(data) {
+                if (data == 1) 
+                {
+                    location.reload();
+                }
+                else
+                {
+                    sweetAlert("Oops...", "Could Not delete this invoice", "error");
+                }
+            }
+        });
+      }
+  </script>
 @endsection

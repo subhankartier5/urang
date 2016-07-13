@@ -600,7 +600,7 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = SiteConfig::first();
-        $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+        $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
         return view('admin.customerorders', compact('user_data', 'site_details','pickups'));
     }
 

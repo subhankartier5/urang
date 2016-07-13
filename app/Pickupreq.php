@@ -19,5 +19,7 @@ class Pickupreq extends Model
     {
     	return $this->hasMany('App\OrderDetails','pick_up_req_id','id');
     }
-
+    public function invoice() {
+        return $this->hasMany('App\Invoice', 'pick_up_req_id', 'id');
+    }
 }
