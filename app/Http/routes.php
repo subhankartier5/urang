@@ -112,6 +112,7 @@ Route::group(['prefix' => 'staff'], function () {
     Route::post('/login',['uses' => 'StaffController@LoginAttempt', 'as' => 'post-staff-login']);
     Route::get('/logout',['uses' => 'StaffController@getLogout', 'as' => 'getStaffLogout']);
     Route::get('/sort',['uses' => 'StaffController@getSort','as' => 'sort']);
+    Route::post('/add-item-custom',['uses' => 'StaffController@addItemCustom','as'=>'addItemCustom']);
 });
 
 //API V.1 routes

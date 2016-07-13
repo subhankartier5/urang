@@ -273,10 +273,14 @@
           $('#btn_'+id).text("Add");
           $('#number_'+id).prop('disabled', false);
           for(var j=0; j<= jsonArray.length; j++) {
-             if (jsonArray[j].id == id)  
-             {
-              jsonArray.splice(j,j);
-             }
+            if(jsonArray.length == 1)
+            {
+                jsonArray = [];
+            }
+            else if (jsonArray[j].id == id)  
+            {
+                jsonArray.splice(j,j);
+            }
           }
           jsonString = JSON.stringify(jsonArray);
           $('#list_items_json').val(jsonString);

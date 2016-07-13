@@ -3,22 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use App\Staff;
-
 use App\User;
-
 use App\Pickupreq;
-
 use App\UserDetails;
-
 use Illuminate\Support\Facades\Input;
-
 use Session;
-
 use Auth;
+use App\OrderDetails;
 
 class StaffController extends Controller
 {
@@ -185,6 +178,42 @@ class StaffController extends Controller
         {
             return redirect()->route('getStaffOrders');
         }
+
+    }
+
+    public function addItemCustom(Request $request)
+    {
+        //dd($request);
+        $data = json_decode($request->list_items_json);
+
+        $user = Pickupreq::find($request->row_id);
+        $previous_price = $user->total_price;
+        $price_to_add = 0.00;
+        
+        for ($i=0; $i< count($data); $i++) 
+        {
+            $order_details = new OrderDetails();
+            $order_details->pick_up_req_id = $request->row_id;
+            $order_details->user_id = $request->row_user_id;
+            $order_details->price = $data[$i]->item_price;
+            $order_details->items = $data[$i]->item_name;
+            $order_details->quantity = $data[$i]->number_of_item;
+            $order_details->payment_status = 0;
+
+            $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
+            
+            $order_details->save();
+        }
+        $user->total_price = $previous_price+$price_to_add;
+        if($user->save())
+        {
+            return redirect()->route('getStaffOrders')->with('success', 'Order successfully updated!');
+        }
+        else
+        {
+            return redirect()->route('getStaffOrders')->with('error', 'Cannot update the order now!');
+        }
+        
 
     }
 
