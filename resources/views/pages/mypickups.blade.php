@@ -1,5 +1,13 @@
 @extends('pages.layouts.user-master')
 @section('content')
+<style type="text/css">
+	.single-form {
+	 border: none !important; 
+     padding: 0 !important; 
+     background: none !important; 
+     width: 0 !important; 
+	}
+</style>
 <div class="main-content">
 	<div class="container">
 	  <div class="row signup login">
@@ -72,7 +80,11 @@
 				          			@endif
 				          		</td>
 				          		<td>
-				          			<button type="button" class="btn btn-link" onclick="ShowInvoice('{{$req->id}}')"><i class="fa fa-external-link" aria-hidden="true"></i></button>
+				          			<form action="{{route('showInvoiceUser')}}" method="post" class="single-form">
+				          				<button type="submit" class="btn btn-link"><i class="fa fa-external-link" aria-hidden="true"></i></button>
+				          				<input type="hidden" name="id" value="{{$req->id}}"></input>
+				          				<input type="hidden" name="_token" value="{{Session::token()}}"></input>
+					          		</form>
 				          		</td>
 			         		</tr>
 			      		@endforeach

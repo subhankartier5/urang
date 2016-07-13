@@ -1,5 +1,10 @@
 @extends('invoices.layouts.master')
 @section('content')
+<style>
+.custom-table table{width: 100%;}
+.custom-table table tr td:nth-child(2){text-align: left;}
+.custom-table table tr td:nth-child(3){text-align: right;}
+</style>
 <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
@@ -9,11 +14,17 @@
                             <td class="title">
                                 <img src="{{url('/')}}/public/images/logo_invoice.png" style="width:100%; max-width:300px;">
                             </td>
-                            
+                            <div style="display: none;">
+                                <?php
+                                    $one_iteraion = "";
+                                ?>
+                                @foreach($search_invoice as $invoice)
+                                    {{$one_iteration = $invoice}}
+                                @endforeach
+                            </div>
                             <td>
-                                Invoice #: 123<br>
-                                Created: January 1, 2015<br>
-                                Due: February 1, 2015
+                                Invoice #: {{$one_iteration->invoice_id}}<br>
+                                Date: {{date("F jS Y",strtotime($one_iteration->created_at->toDateString()))}}
                             </td>
                         </tr>
                     </table>
@@ -24,16 +35,21 @@
                 <td colspan="2">
                     <table>
                         <tr>
+                            <label>To,</label>
                             <td>
-                                Next Step Webs, Inc.<br>
-                                12345 Sunny Road<br>
-                                Sunnyville, TX 12345
+                                {{$one_iteration->user_details->name}}<br>
+                                {{$one_iteration->user->email}}<br>
+                                {{$one_iteration->user_details->address}}
                             </td>
-                            
                             <td>
-                                Acme Corp.<br>
-                                John Doe<br>
-                                john@example.com
+                                <label>From,</label><br>
+                                Urang.com<br>
+                                Email us: support@urang.com<br>
+                                Call us: 85858558585 <br>
+                                Payment Status: {{$one_iteration->user_details->payment_status == 1 ? 'Paid' : 'Pending'}} <br>
+                                @if($one_iteration->user_details->payment_status == 1)
+                                    Paid At: {{date("F jS Y",strtotime($one_iteration->updated_at->toDateString()))}}
+                                @endif
                             </td>
                         </tr>
                     </table>
@@ -46,65 +62,71 @@
                 </td>
                 
                 <td>
-                    Check #
+                    Coupon #
                 </td>
             </tr>
             
             <tr class="details">
                 <td>
-                    Check
+                    <?php
+                        switch ($one_iteration->pick_up_req->payment_type) {
+                            case '1':
+                                echo "Card";
+                                break;
+                            case '2':
+                                echo "Cash On Delivary";
+                                break;
+                            case '3':
+                                echo "Check Payment";
+                                break;   
+                            default:
+                                echo "Error! Not able to understand payment method";
+                                break;
+                        }
+                    ?>
                 </td>
                 
                 <td>
-                    1000
+                    {{$one_iteration->pick_up_req->coupon != null ? $one_iteration->pick_up_req->coupon: "No Coupon Applied" }}
                 </td>
             </tr>
-            
-            <tr class="heading">
-                <td>
+            <tr>
+            <td colspan="3">
+            <div class="custom-table">
+            <table>
+                <tr class="heading">
+                <td style="width: 30%">
                     Item
                 </td>
-                
-                <td>
-                    Price
+                <td style="width: 30%">
+                    Quantity
+                </td>
+                <td style="width: 30%">
+                    Price 
                 </td>
             </tr>
-            
-            <tr class="item">
-                <td>
-                    Website design
-                </td>
-                
-                <td>
-                    $300.00
-                </td>
+            <div style="display: none;">
+                {{$total_price = 0.00}}
+            </div>
+            @foreach($search_invoice as $invoice)
+                <tr class="item">
+                    <td>{{$invoice->item}}</td>
+                    <td>{{$invoice->quantity}}</td>
+                    <td>{{$invoice->quantity*$invoice->price}}</td>
+                </tr>
+                <div style="display: none;">
+                    {{$total_price += floatval($invoice->quantity*$invoice->price)}}
+                </div> 
+            @endforeach
+            </table>
+            </div>
+            </td>    
             </tr>
-            
-            <tr class="item">
-                <td>
-                    Hosting (3 months)
-                </td>
-                
-                <td>
-                    $75.00
-                </td>
-            </tr>
-            
-            <tr class="item last">
-                <td>
-                    Domain name (1 year)
-                </td>
-                
-                <td>
-                    $10.00
-                </td>
-            </tr>
-            
             <tr class="total">
                 <td></td>
                 
                 <td>
-                   Total: $385.00
+                   Total: {{$total_price}}
                 </td>
             </tr>
         </table>

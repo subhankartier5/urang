@@ -10,6 +10,7 @@ use App\Invoice;
 class InvoiceController extends Controller
 {
     public function index() {
+    	dd($data);
     	return view('invoices.invoice');
     }
     public function postInvoice(Request $request) {
@@ -32,5 +33,16 @@ class InvoiceController extends Controller
     		$element->delete();
     	}
     	return 1;
+    }
+    public function showInvoiceUser(Request $request) {
+    	//return $request; Full texts	
+    	$search_invoice = Invoice::where('pick_up_req_id', $request->id)->with('user', 'user_details', 'pick_up_req')->get();
+    	if (count($search_invoice) > 0) {
+    		return view('invoices.invoice', compact('search_invoice'));
+    	}
+    	else
+    	{
+    		return redirect()->route('getMyPickUp')->with('fail', 'Invoice is not generated yet by admin');
+    	}
     }
 }
