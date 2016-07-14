@@ -30,6 +30,7 @@
                 <div class="panel-heading">
                     Make Payments
                     <button type="button" id="set_account" class="btn btn-primary btn-xs" style="float: right;" data-toggle="modal" data-target="#myModal">Set Up Account</button>
+                    <button type="button" id="show_customers_card" class="btn btn-primary btn-xs" style="float: right; margin-right: 1%;" data-toggle="modal" data-target="#modalCustomrs">Show Clients</button>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -105,6 +106,50 @@
 
   </div>
 </div>
+<!-- Modal -->
+<div id="modalCustomrs" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-list" aria-hidden="true"></i> Pending Customer List with card info:</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Client ID:</th>
+              <th>Client Email:</th>
+              <th>Card Number</th>
+              <th>cvv</th>
+              <th>Expiry Date (yyyy-mm)</th>
+              <th>Mark As Paid</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($user_details as $user)
+              <tr>
+                <td>{{$user->user->id}}</td>
+                <td>{{$user->user->email}}</td>
+                <td><?php
+                $card_info = \App\CustomerCreditCardInfo::where('user_id', $user->user_id)->first();
+                ?>{{$card_info->card_no}}</td>
+                <td>{{$card_info->cvv !=null ? $card_info->cvv: "No cvv" }}</td>
+                <td>20{{$card_info->exp_year}}-{{$card_info->exp_month}}</td>
+                <td><button type="button" id="paid_{{$user->id}}" class="btn btn-danger btn-xs" onclick="MarkAsPaid('{{$user->id}}')"><i class="fa fa-check" aria-hidden="true"></i> Paid</button></td>
+              </tr>
+            @endforeach
+          </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 @if($payment_keys != null)
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -157,6 +202,27 @@
       		sweetAlert("Oops...", "Wrong Credit Card Details", "error");
       		return false;
       	}
+      }
+      function MarkAsPaid(id) {
+        //alert(id);
+        $.ajax({
+          url:"{{route('postMarkAsPaid')}}",
+          type: "POST",
+          data: {pick_up_req_id : id, _token: "{{Session::token()}}"},
+          success: function(data) {
+            //console.log(data);
+            //return false;
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else
+            {
+              sweetAlert("Oops...", "Something went wrong cannot mark as paid", "error");
+              return false;
+            }
+          }
+        });
       }
 </script>
 @endsection

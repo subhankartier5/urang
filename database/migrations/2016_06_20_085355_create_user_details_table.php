@@ -22,7 +22,7 @@ class CreateUserDetailsTable extends Migration
             $table->bigInteger('off_phone')->nullable();
             $table->string('spcl_instructions')->nullable();
             $table->string('driving_instructions')->nullable();
-            $table->tinyInteger('payment_status')->comment = "1->paid , 0->pending";
+            //$table->tinyInteger('payment_status')->comment = "1->paid , 0->pending";
             $table->timestamps();
         });
     }

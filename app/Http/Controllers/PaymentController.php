@@ -10,13 +10,17 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use App\Helper\NavBarHelper;
 use App\PaymentKeys;
+use App\Pickupreq;
+use App\CustomerCreditCardInfo;
 class PaymentController extends Controller
 {
 	public function getPayment() {
 		$obj = new NavBarHelper();
         $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
         $payment_keys = PaymentKeys::first();
-		return view('admin.payment', compact('user_data', 'payment_keys'));
+        $user_details = Pickupreq::where('payment_type',1)->where('payment_status', 0)->with('user')->get();
+		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
     public function AuthoRizePayment(Request $auth_request) {
     	//dd($auth_request);
@@ -98,6 +102,25 @@ class PaymentController extends Controller
 	    	{
 	    		return redirect()->route('getPayment')->with('fail', "Failed to save details");
 	    	}
+    	}
+    }
+    public function postMarkAsPaid(Request $request) {
+    	//return $request;
+    	$search_req = Pickupreq::find($request->pick_up_req_id);
+    	//return $search_req;
+    	if ($search_req) {
+    		$search_req->payment_status = 1;
+    		if ($search_req->save()) {
+    			return 1;
+    		}
+    		else
+    		{
+    			return 0;
+    		}
+    	}
+    	else
+    	{
+    		return 0;
     	}
     }
 }
