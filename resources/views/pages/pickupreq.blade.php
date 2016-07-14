@@ -250,6 +250,7 @@
         if($('#list_items_json').val() == '')
         {
           sweetAlert("Oops...", "You can't request a Detailed Pickup without selecting any item", "warning");
+          $('#myModal').modal('hide');
           $('#order_type>option:eq(0)').prop('selected', true);
           return;
         }
