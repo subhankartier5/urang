@@ -12,6 +12,7 @@ use App\Helper\NavBarHelper;
 use App\PaymentKeys;
 use App\Pickupreq;
 use App\CustomerCreditCardInfo;
+use App\Invoice;
 class PaymentController extends Controller
 {
 	public function getPayment() {

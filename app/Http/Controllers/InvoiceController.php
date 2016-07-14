@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Invoice;
-
+use App\Pickupreq;
 class InvoiceController extends Controller
 {
     public function index() {
@@ -14,6 +14,8 @@ class InvoiceController extends Controller
     	return view('invoices.invoice');
     }
     public function postInvoice(Request $request) {
+        //dd($request->pick_up_req_id);
+        $total_price = 0.00;
     	for ($i=0; $i < $request->loop_limit ; $i++) { 
     		$save_invoice = new Invoice();
     		$save_invoice->user_id = $request->req_user_id;
@@ -22,9 +24,19 @@ class InvoiceController extends Controller
     		$save_invoice->item = $request->items[$i];
     		$save_invoice->quantity = $request->qty[$i];
     		$save_invoice->price = $request->price[$i];
+            $total_price += $request->qty[$i]*$request->price[$i];
     		$save_invoice->save();
     	}
-    	return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+        //dd($total_price);
+        $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
+        $search_pickupreq->total_price = $total_price;
+        if ($search_pickupreq->save()) {
+           return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+        }
+        else
+        {
+            return redirect()->route('getCustomerOrders')->with('fail', "Some error occured failed to update total price");
+        }
     }
     public function postDeleteInvoice(Request $request) {
     	//return $request;

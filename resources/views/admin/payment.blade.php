@@ -120,10 +120,12 @@
           <thead>
             <tr>
               <th>Client ID:</th>
+              <th>Order ID:</th>
               <th>Client Email:</th>
               <th>Card Number</th>
               <th>cvv</th>
               <th>Expiry Date (yyyy-mm)</th>
+              <th>Chargable Amount</th>
               <th>Mark As Paid</th>
             </tr>
           </thead>
@@ -131,12 +133,14 @@
             @foreach($user_details as $user)
               <tr>
                 <td>{{$user->user->id}}</td>
+                <td>{{$user->id}}</td>
                 <td>{{$user->user->email}}</td>
                 <td><?php
                 $card_info = \App\CustomerCreditCardInfo::where('user_id', $user->user_id)->first();
                 ?>{{$card_info->card_no}}</td>
                 <td>{{$card_info->cvv !=null ? $card_info->cvv: "No cvv" }}</td>
                 <td>20{{$card_info->exp_year}}-{{$card_info->exp_month}}</td>
+                <td>{{number_format((float)$user->total_price, 2, '.', '') == 0.00 ? "Invoice Is Not Created Yet" : number_format((float)$user->total_price, 2, '.', '')}}</td>
                 <td><button type="button" id="paid_{{$user->id}}" class="btn btn-danger btn-xs" onclick="MarkAsPaid('{{$user->id}}')"><i class="fa fa-check" aria-hidden="true"></i> Paid</button></td>
               </tr>
             @endforeach
