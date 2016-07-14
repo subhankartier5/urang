@@ -128,7 +128,7 @@
             </div>
             <div class="clear50"></div>
             <div class="form-group">
-                <select name="order_type" id="order_type" class="col-xs-5" required="">
+                <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="">
                   <option value="">Type of order</option>
                   <option value="1">Fast Pickup</option>
                   <option value="0">Detailed Pickup</option>
@@ -235,7 +235,7 @@
      //alert(some);
      $('#datepicker').val(todays_date);
      //alert($('#order_type').val())
-     $('#order_type').click(function(){
+     $('#order_type').change(function(){
       if ($('#order_type').val() == 0) 
       {
         $('#myModal').modal('show');
@@ -246,6 +246,13 @@
       }
      });
      $('#modal-close').click(function(){
+
+        if($('#list_items_json').val() == '')
+        {
+          sweetAlert("Oops...", "You can't request a Detailed Pickup without selecting any item", "warning");
+          $('#order_type>option:eq(0)').prop('selected', true);
+          return;
+        }
         $('#myModal').modal('hide');
         swal("Success!", "Your items are select now please place an order", "success");
      });
@@ -276,6 +283,8 @@
             if(jsonArray.length == 1)
             {
                 jsonArray = [];
+                $('#list_items_json').val('');
+                return;
             }
             else if (jsonArray[j].id == id)  
             {

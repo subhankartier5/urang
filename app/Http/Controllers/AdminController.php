@@ -24,6 +24,8 @@ use App\Pickupreq;
 use Illuminate\Support\Facades\Input;
 use Session;
 use App\Cms;
+use App\OrderDetails;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -1104,6 +1106,40 @@ class AdminController extends Controller
             {
                 return redirect()->route('getWetCleaning')->with('fail', 'some error occured cannot save the details right now!');
             }
+        }
+    }
+
+    public function addItemCustomAdmin(Request $request)
+    {
+        //dd($request);
+        $data = json_decode($request->list_items_json);
+
+        $user = Pickupreq::find($request->row_id);
+        $previous_price = $user->total_price;
+        $price_to_add = 0.00;
+        
+        for ($i=0; $i< count($data); $i++) 
+        {
+            $order_details = new OrderDetails();
+            $order_details->pick_up_req_id = $request->row_id;
+            $order_details->user_id = $request->row_user_id;
+            $order_details->price = $data[$i]->item_price;
+            $order_details->items = $data[$i]->item_name;
+            $order_details->quantity = $data[$i]->number_of_item;
+            $order_details->payment_status = 0;
+
+            $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
+            
+            $order_details->save();
+        }
+        $user->total_price = $previous_price+$price_to_add;
+        if($user->save())
+        {
+            return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
+        }
+        else
+        {
+            return redirect()->route('getCustomerOrders')->with('error', 'Cannot update the order now!');
         }
     }
 }

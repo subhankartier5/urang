@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
     Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
+    Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
 });
 
 //Staff routes

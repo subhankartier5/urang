@@ -21,6 +21,9 @@
 	         	<div class="row">
                 <div class="col-md-3">
                     <h2>Pickup Request Table</h2>
+                    <?php
+                        $price_list = \App\PriceList::all();
+                      ?>
                 </div>
                 <div class="col-md-4">
 
@@ -227,7 +230,7 @@
                     @endforeach  
                     </tbody>
                   </table>
-                
+                <button class="btn btn-default" id="edit_itms" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button></td>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -573,6 +576,65 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
 
       </div>
     </div>
+
+
+    <!-- Modal -->
+      <div id="EditItemModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h2>Select items you want</h2>
+            </div>
+            <div class="modal-body">
+              <table class = "table table-striped">
+                <thead>
+                  <tr>
+                    <th>No of Items</th>
+                    <th>Item Name</th>
+                    <th>Item Price</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody> 
+              @if(count($price_list) > 0)
+                @foreach($price_list as $list)
+                  <tr>
+                    <td>
+                      <select name="number_of_item" id="number_{{$list->id}}">
+                        @for($i=0; $i<=10; $i++)
+                          <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                      </select>
+                    </td>
+                    <td id="item_{{$list->id}}">{{$list->item}}</td>
+                    <td id="price_{{$list->id}}">{{$list->price}}</td>
+                    <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+                  </tr>
+                @endforeach
+              @else
+                <tr><td>No Data</td></tr>
+              @endif
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            <form action="{{ route('addItemCustomAdmin') }}" method="post" id="edit_item_form">
+                <input type="hidden" id="row_id" name="row_id">
+                <input type="hidden" id="list_items_json" name="list_items_json" required="">
+                <input type="hidden" id="row_user_id" name="row_user_id">
+                <input type="hidden" name="_token" value="{{Session::token()}}">
+                <button type="button" onclick="sbmitEditForm()" class="btn btn-default" id="modal-close">Save Changes</button>
+            </form>
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
   <script type="text/javascript">
        var i = 1;
       function createInvoice(pick_up_id, user_id) {
@@ -642,5 +704,68 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
             }
         });
       }
+
+      jsonArray = [];
+
+  function add_id(id) {
+     if ($('#number_'+id).val() > 0) 
+     {
+        if ($('#btn_'+id).text() == "Add") 
+        {
+          $('#btn_'+id).text("Remove");
+          $('#number_'+id).prop('disabled', true);
+          list_item = {};
+          list_item['id'] = id;
+          list_item['number_of_item'] = $('#number_'+id).val();
+          list_item['item_name'] = $('#item_'+id).text();
+          list_item['item_price'] = $('#price_'+id).text();
+          jsonArray.push(list_item);
+          jsonString = JSON.stringify(jsonArray);
+          $('#list_items_json').val(jsonString);
+        }
+        else
+        {
+          $('#btn_'+id).text("Add");
+          $('#number_'+id).prop('disabled', false);
+          for(var j=0; j<= jsonArray.length; j++) {
+            if(jsonArray.length == 1)
+            {
+                jsonArray = [];
+                $('#list_items_json').val('');
+                return;
+            }
+            else if(jsonArray[j].id == id)  
+            {
+              jsonArray.splice(j,j);
+            }
+          }
+          jsonString = JSON.stringify(jsonArray);
+          $('#list_items_json').val(jsonString);
+        }
+     }
+     else
+     {
+        sweetAlert("Oops...", "Please select atleast one item", "error");
+     }
+  }
+  function openEditItemModal(pickup_id,user_id)
+  {
+    $('#row_id').val(pickup_id);
+    $('#row_user_id').val(user_id);
+    $('#EditItemModal').modal('show');
+    
+  }
+  function sbmitEditForm()
+  {
+    
+    if($('#list_items_json').val() != '')
+    {
+        $('#edit_item_form').submit();
+    }
+    else
+    {
+        sweetAlert("Oops...", "You have to select at least one item", "error");
+    }
+  }
   </script>
 @endsection
