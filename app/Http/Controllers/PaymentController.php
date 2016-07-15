@@ -124,5 +124,13 @@ class PaymentController extends Controller
     		return 0;
     	}
     }
+    public function getManageClientPayment() {
+    	$obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $data = Pickupreq::where('payment_status', 0)->where('payment_type', '!=', 1)->with('user')->paginate(10);
+        //dd($data);
+        return view('admin.pending-payments', compact('user_data', 'site_details', 'data'));
+    }
 }
    

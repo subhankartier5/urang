@@ -79,6 +79,9 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
+                <li>
+                    <a href="{{route('getManageClientPayment')}}"><i class="fa fa-inr" aria-hidden="true"></i> Manage client Payments</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
