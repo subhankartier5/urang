@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Input;
 use Session;
 use App\Cms;
 use App\OrderDetails;
-
+use App\SchoolDonations;
 class AdminController extends Controller
 {
     public function index() {
@@ -1140,6 +1140,64 @@ class AdminController extends Controller
         else
         {
             return redirect()->route('getCustomerOrders')->with('error', 'Cannot update the order now!');
+        }
+    }
+    public function getSchoolDonations() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $list_school = SchoolDonations::with('neighborhood')->paginate(10);
+        $neighborhood = Neighborhood::all();
+        return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood'));
+    }
+    public function postSaveSchool(Request $request) {
+        //dd($request);
+        $school_data = new SchoolDonations();
+        $school_data->neighborhood_id = $request->neighborhood;
+        $school_data->school_name = $request->school_name;
+        $image = $request->image;
+        $extension =$image->getClientOriginalExtension();
+        $destinationPath = 'public/dump_images/';
+        $fileName = rand(111111111,999999999).'.'.$extension;
+        $image->move($destinationPath, $fileName);
+        $school_data->image = $fileName;
+        $school_data->pending_money = 0.00;
+        $school_data->total_money_gained = 0.00;
+        if ($school_data->save()) {
+            return redirect()->route('getSchoolDonationsAdmin')->with('success', 'Successfully Saved School !');
+        }
+        else
+        {
+            return redirect()->route('getSchoolDonationsAdmin')->with('fail', 'Failed to Save School !');
+        }
+    }
+    public function postEditSchool(Request $request) {
+        //dd($request);
+        $search = SchoolDonations::find($request->sch_id);
+        if ($search) {
+            $search->neighborhood_id = $request->neighborhood;
+            $search->school_name = $request->school_name;
+            if ($request->image) {
+                $image = $request->image;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';
+                $fileName = rand(111111111,999999999).'.'.$extension;
+                $image->move($destinationPath, $fileName);
+                $search->image = $fileName;
+            }
+            $search->pending_money = $request->pending_money;
+            $search->total_money_gained = $request->total_money_gained;
+            if ($search->save()) {
+                return redirect()->route('getSchoolDonationsAdmin')->with('success', 'Successfully Saved School !');
+            }
+            else
+            {
+                return redirect()->route('getSchoolDonationsAdmin')->with('fail', 'Failed to update some error occured !');
+            }
+        }
+        else
+        {
+            return redirect()->route('getSchoolDonationsAdmin')->with('fail', 'Failed to find a School !');
         }
     }
 }

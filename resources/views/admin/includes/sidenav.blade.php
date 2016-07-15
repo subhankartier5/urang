@@ -44,6 +44,9 @@
                     <a href="{{route('getCustomerOrders')}}"><i class="fa fa-group" aria-hidden="true"></i> Customer Orders</a>
                 </li>
                 <li>
+                    <a href="{{route('getSchoolDonationsAdmin')}}"><i class="fa fa-usd" aria-hidden="true"></i> School Donations</a>
+                </li>
+                <li>
                     <a href="{{ route('getPriceList') }}"><i class="fa fa-edit fa-fw"></i> Price List</a>
                 </li>
                 <li>

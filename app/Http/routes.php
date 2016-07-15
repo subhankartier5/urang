@@ -104,6 +104,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::get('/pending-payments', ['uses' => 'PaymentController@getManageClientPayment', 'as' => 'getManageClientPayment']);
+    Route::get('/manage-school-donations', ['uses' => 'AdminController@getSchoolDonations', 'as' => 'getSchoolDonationsAdmin']);
+    Route::post('/save-school', ['uses' => 'AdminController@postSaveSchool', 'as' => 'postSaveSchool']);
+    Route::post('/edit-school', ['uses' => 'AdminController@postEditSchool', 'as' => 'postEditSchool']);
 });
 
 //Staff routes
