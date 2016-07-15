@@ -515,6 +515,10 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
     background: url(../img/sections/qanda.jpg) center no-repeat;
     background-size: cover;
 }
+.school-donation-header {
+    background: url(../img/sections/school.jpg) center no-repeat;
+    background-size: cover;
+}
 .core-features-section { padding: 0 0 100px; }
 
 .offers-section { padding: 80px 0; }

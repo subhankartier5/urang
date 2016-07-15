@@ -35,7 +35,7 @@
                 </ul>
               </li>
               <li>
-                  <a href="#">School Donations</a>
+                  <a href="{{route('getSchoolDonations')}}">School Donations</a>
                   
               </li>
               <li>

@@ -17,6 +17,7 @@ use App\Neighborhood;
 use App\Faq;
 use App\Pickupreq;
 use App\OrderDetails;
+use App\SchoolDonations;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -289,8 +290,6 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
-        //$neighborhood = $obj->getNeighborhood();
-        //dd($login_check);
         if ($login_check != null) {
             $logged_user= $obj->getCustomerData();
             return view('pages.contact', compact('site_details', 'login_check','logged_user'));
@@ -299,7 +298,6 @@ class MainController extends Controller
         {
             return view('pages.contact', compact('site_details', 'login_check'));
         }
-        //return view('pages.contact');
     }
 
     public function postContactForm(Request $request)
@@ -431,5 +429,20 @@ class MainController extends Controller
             $message->from('work@tier5.us');
             $message->to($request->email, $request->name)->subject('U-rang Details');
         });
+    }
+    public function getSchoolDonations(){
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        $list_school = SchoolDonations::with('neighborhood')->get();
+        //dd($list_school);
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.school-donation', compact('site_details', 'login_check','logged_user', 'list_school'));
+        }
+        else
+        {
+            return view('pages.school-donation', compact('site_details', 'login_check', 'list_school'));
+        }
     }
 }

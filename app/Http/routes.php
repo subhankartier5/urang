@@ -22,6 +22,7 @@ Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList'
 Route::post('/email-checker', ['uses' => 'MainController@emailChecker', 'as' => 'postEmailChecker']);
 Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getContactUs']);
 Route::post('/postContactForm',['uses' => 'MainController@postContactForm', 'as' => 'postContactForm']);
+Route::get('/school-donations', ['uses' => 'MainController@getSchoolDonations', 'as' => 'getSchoolDonations']);
 
 /*after login user functionality in middleware*/
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
