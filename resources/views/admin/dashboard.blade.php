@@ -29,7 +29,7 @@
                     </div>
                     <a href="#">
                         <div class="panel-footer">
-                            <a class="pull-left" href="#">View Details</a>
+                            <a class="pull-left" href="{{route('getAllCustomers')}}">View Details</a>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -57,7 +57,7 @@
                     </div>
                     <a href="#">
                         <div class="panel-footer">
-                            <a class="pull-left" href="#">View Details</a>
+                            <a class="pull-left" href="{{route('getCustomerOrders')}}">View Details</a>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -85,7 +85,7 @@
                     </div>
                     <a href="#">
                         <div class="panel-footer">
-                            <a href="#" class="pull-left">View Details</a>
+                            <a href="{{route('getCustomerOrders')}}" class="pull-left">View Details</a>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
