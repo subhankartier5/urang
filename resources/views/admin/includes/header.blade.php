@@ -22,9 +22,6 @@
     <link href="{{url('/')}}/public/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="{{url('/')}}/public/css/staff.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="{{url('/')}}/public/bower_components/morrisjs/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="{{url('/')}}/public/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script src="{{url('/')}}/public/bower_components/jquery/dist/jquery.min.js"></script>
@@ -34,6 +31,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.css"/>
     <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
     <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>

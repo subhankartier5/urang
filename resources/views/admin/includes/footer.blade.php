@@ -34,8 +34,5 @@
 
     <!-- Morris Charts JavaScript -->
     <script src="{{url('/')}}/public/bower_components/raphael/raphael-min.js"></script>
-    <script src="{{url('/')}}/public/bower_components/morrisjs/morris.min.js"></script>
-    <script src="{{url('/')}}/public/js/morris-data.js"></script>
-
     <!-- Custom Theme JavaScript -->
     <script src="{{url('/')}}/public/dist/js/sb-admin-2.js"></script>

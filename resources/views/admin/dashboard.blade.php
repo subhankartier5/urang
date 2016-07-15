@@ -102,7 +102,9 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <div id="morris-area-chart"></div>
+                        <div style="height: 400px width:400px">
+                            <canvas id="myChart" height="350" width="977"></canvas>
+                        </div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -115,4 +117,43 @@
 
 </div>
 <!-- /#wrapper -->
+<script type="text/javascript">
+    var ctx = $("#myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Data"],
+            datasets: [{
+                label: 'Customers',
+                data: ['{{count($customers)}}'],
+                backgroundColor: ['rgba(0,0,255,0.6)'],
+                borderColor: ['rgba(0,0,255,0.3)'],
+                borderWidth: 1
+            },
+            {
+                label: 'Orders',
+                data: ['{{$j}}'],
+                backgroundColor: ['rgba(92,184,92,1)'],
+                borderColor: ['rgba(92, 184, 92, 0.7)'],
+                borderWidth: 1
+            },
+            {
+                label: 'Schedule Pickup',
+                data: ['{{$i}}'],
+                backgroundColor: ['rgba(255, 153, 0, 0.7)'],
+                borderColor: ['rgba(255, 153, 0, 1)'],
+                borderWidth: 1
+            }],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 @endsection
