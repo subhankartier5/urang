@@ -38,18 +38,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <ul class="footer-nav">
-                                      <li><a href="#">Home</a></li>
-                                        <li><a href="#">About Us</a></li>
-                                        <li><a href="#">Login</a></li>
-                                        <li><a href="#">Sign-Up</a></li>
+                                      <li><a href="{{route('index')}}">Home</a></li>
+                                        <li><a href="{{route('getCustomerDahsboard')}}">About Us</a></li>
+                                        <li><a href="{{route('getLogin')}}">Login</a></li>
+                                        <li><a href="{{route('getSignUp')}}">Sign-Up</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
                                     <ul class="footer-nav">
-                                        <li><a href="#">Neighborhoods</a></li>
-                                        <li><a href="#">Prices</a></li>
-                                        <li><a href="#">FAQ's</a></li>
-                                        <li><a href="#">Contact us</a></li>
+                                        <li><a href="{{route('getNeiborhoodPage')}}">Neighborhoods</a></li>
+                                        <li><a href="{{route('getPrices')}}">Prices</a></li>
+                                        <li><a href="{{route('getFaqList')}}">FAQ's</a></li>
+                                        <li><a href="{{ route('getContactUs') }}">Contact us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -87,3 +87,9 @@
                 <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
             </section>
         </footer>
+<script type="text/javascript">
+    $(function()
+    {
+      $('.scroll-pane').jScrollPane();
+    });
+</script>
