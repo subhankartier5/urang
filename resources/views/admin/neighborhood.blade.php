@@ -95,7 +95,7 @@
 			  </div>
 			  <div class="form-group">
 			    <label for="description">Description</label>
-			    <textarea class="form-control" id="description" name="description" required=""></textarea>
+			    <textarea class="form-control" id="description" name="description"></textarea>
 			  </div>
 			  <div class="form-group">
 				<input type="file" name="image" class="form-control" required="" />			  	
@@ -164,14 +164,13 @@
 		});
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
-			//edit neighborhood show or get
 			@foreach($neighborhood as $neighbor)
 				$('#edit_{{$neighbor->id}}').click(function(){
 					$('#myModalEdit').modal({
 						show: 'true'
 					});
 					$('#nameEdit').val("{{$neighbor->name}}");
-					$('#descriptionEdit').val("{{$neighbor->description}}");
+					 tinyMCE.activeEditor.setContent("{{$neighbor->description}}");
 					$('#id').val('{{$neighbor->id}}');
 					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$neighbor->image}}" style="height: 100px; width: 100px;">');
 				});
