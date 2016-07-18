@@ -93,6 +93,7 @@
 	        				@foreach($neighborhood as $neighbor)
 	        					<option value="{{$neighbor->id}}">{{$neighbor->name}}</option>
 	        				@endforeach
+	        				<option value="0">Others</option>
 	        			</select>
 	        		@else
 	        			No Neighborhood please create one <a href="{{route('get-neighborhood')}}">click here</a>
