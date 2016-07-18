@@ -107,6 +107,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/manage-school-donations', ['uses' => 'AdminController@getSchoolDonations', 'as' => 'getSchoolDonationsAdmin']);
     Route::post('/save-school', ['uses' => 'AdminController@postSaveSchool', 'as' => 'postSaveSchool']);
     Route::post('/edit-school', ['uses' => 'AdminController@postEditSchool', 'as' => 'postEditSchool']);
+    Route::post('/delete-school', ['uses' => 'AdminController@postDeleteSchool', 'as' => 'postDeleteSchool']);
+    Route::post('/pay-pending-money', ['uses' => 'AdminController@postPendingMoney', 'as' => 'postPendingMoney']);
 });
 
 //Staff routes

@@ -1200,4 +1200,42 @@ class AdminController extends Controller
             return redirect()->route('getSchoolDonationsAdmin')->with('fail', 'Failed to find a School !');
         }
     }
+    public function postDeleteSchool(Request $request) {
+        //return $request;
+        $search_school = SchoolDonations::find($request->id);
+        if ($search_school) {
+            if ($search_school->delete()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function postPendingMoney(Request $request) {
+        $search_school = SchoolDonations::find($request->id);
+        if ($search_school) {
+            $total_money_gained = $search_school->total_money_gained;
+            $pending_money = $search_school->pending_money;
+            //return 1;
+            $search_school->total_money_gained = $total_money_gained+$pending_money;
+            $search_school->pending_money = 0.00;
+            if ($search_school->save()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
