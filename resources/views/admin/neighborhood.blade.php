@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
+<script>tinymce.init({ selector:'textarea' });</script>
 	<div id="page-wrapper">
 	    <div class="row">
 	        <div class="col-lg-12">
@@ -161,6 +162,19 @@
 					show: 'true'
 				});
 			});
+		});
+		$('#postneighbor').click(function(){
+			var editorContent = tinyMCE.get('description').getContent();
+			if ($.trim(editorContent) == '')
+			{
+			    sweetAlert("Oops...", "Description Field is required!", "error");
+			    return false;
+			}
+			else
+			{
+			    return true;
+			}
+
 		});
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";

@@ -48,7 +48,7 @@
                                 <div class="time-image">
                                     <img src="{{url('/')}}/public/dump_images/{{$faq[$i]->image}}" alt="" />
                                 </div>
-                                <p>{{$faq[$i]->answer}} </p>
+                                <p>{!!$faq[$i]->answer!!} </p>
                             </div>
                         </div>
                         @else
@@ -61,7 +61,7 @@
                                 <div class="time-image">
                                     <img src="{{url('/')}}/public/dump_images/{{$faq[$i]->image}}" alt="" />
                                 </div>
-                                <p>{{$faq[$i]->answer}}</p>
+                                <p>{!!$faq[$i]->answer!!}</p>
                             </div>
                         </div>
                         @endif

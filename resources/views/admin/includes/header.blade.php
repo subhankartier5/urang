@@ -35,5 +35,4 @@
     <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
     <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
 </head>

@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
+	<script>tinymce.init({ selector:'textarea' });</script>
 	<div id="page-wrapper">
 	    <div class="row">
 	        <div class="col-lg-12">
@@ -91,7 +92,7 @@
 			  </div>
 			  <div class="form-group">
 			    <label for="answer">Answer</label>
-			    <textarea class="form-control" id="answer" name="answer" required=""></textarea>
+			    <textarea class="form-control" id="answer" name="answer"></textarea>
 			  </div>
 			  <div class="form-group">
 			    <label for="image">image</label>
@@ -155,12 +156,26 @@
 
 	<script type="text/javascript">
 		$(document).ready(function(){
+			$('#addFaq').click(function(){
+				var editorContent = tinyMCE.get('answer').getContent();
+				if ($.trim(editorContent) == '')
+				{
+				    sweetAlert("Oops...", "Answer Field is required!", "error");
+				    return false;
+				}
+				else
+				{
+				    return true;
+				}
+
+			});
 			@foreach($faq as $faq_details)
 				$('#edit_{{$faq_details->id}}').click(function(){
 					$('#myModalEdit').modal('show');
 					$('#faq_id').val('{{$faq_details->id}}');
 					$('#questionEdit').val("{{$faq_details->question}}");
-					$('#answerEdit').val("{{$faq_details->answer}}");
+					tinyMCE.activeEditor.setContent("{{$faq_details->answer}}");
+					//$('#answerEdit').val("{{$faq_details->answer}}");
 					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$faq_details->image}}" style="height: 100px; width: 100px;">');
 				});
 				$('#del_{{$faq_details->id}}').click(function(){
