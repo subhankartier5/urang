@@ -182,7 +182,6 @@
 			
 		}
 		function delSchool(id) {
-<<<<<<< HEAD
 			$.ajax({
 				url: "{{route('postDeleteSchool')}}",
 				type:"POST",
