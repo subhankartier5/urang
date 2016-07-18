@@ -15,8 +15,8 @@
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
-                          <a href="register.html" class="btn btn-primary">Get Started NOW</a>
-                          <a href="services.html" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
+                          <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
+                          <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
                       </div>
                   </div>
               </div>
@@ -30,8 +30,8 @@
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200">Concierge Dry Cleaning Service</div>
                       <div class="under-title sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="600" data-hide-delay="200"> Owned and Operated Facility in Manhattan</div>
                       <div class="controls sp-layer" data-show-transition="up" data-hide-transition="up" data-show-delay="800" data-hide-delay="250">
-                          <a href="register.html" class="btn btn-primary">Get Started NOW</a>
-                          <a href="prices.html" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
+                          <a href="{{route('getSignUp')}}" class="btn btn-primary">Get Started NOW</a>
+                          <a href="{{route('getPrices')}}" class="btn btn-info">&nbsp;&nbsp;Discover More&nbsp;&nbsp;</a>
                       </div>
                   </div>
               </div>
@@ -59,7 +59,7 @@
                   <div class="feature-item ">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a href="services.html"><span class="icon icon-Carioca"></span></a>
+                              <a><span class="icon icon-Carioca"></span></a>
                           </div>
                       </div>
                       <div class="title">Dry Clean Only</div>
@@ -74,7 +74,7 @@
                   <div class="feature-item active">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                             <a href="services.html"><span class="icon icon-Heart"></span></a>
+                             <a><span class="icon icon-Heart"></span></a>
                           </div>
                       </div>
                       <div class="title">Wash & Fold</div>
@@ -90,7 +90,7 @@
                   <div class="feature-item">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a href="services.html"><span class="icon icon-Tools"></span></a>
+                              <a><span class="icon icon-Tools"></span></a>
                           </div>
                       </div>
                       <div class="title">Corporate</div>
@@ -106,7 +106,7 @@
                   <div class="feature-item">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a href="services.html"><span class="icon icon-Blog"></span></a>
+                              <a><span class="icon icon-Blog"></span></a>
                           </div>
                       </div>
                       <div class="title">Tailoring</div>
@@ -121,7 +121,7 @@
                   <div class="feature-item">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a href="services.html"><span class="icon icon-Blog"></span></a>
+                              <a><span class="icon icon-Blog"></span></a>
                           </div>
                       </div>
                       <div class="title">Wet Cleaning</div>

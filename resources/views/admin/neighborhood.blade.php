@@ -164,30 +164,6 @@
 		});
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
-			//adding neighbor in database
-			/*$('#postneighbor').click(function(){
-				var name = $('#name').val();
-				var description = $('#description').val();
-				//console.log(name);
-				$('#add-modal-form').hide();
-				$('#loader').show();
-				$.ajax({
-					url: baseUrl+'/neighborhood',
-					type:"POST",
-					data: {name:name, description:description, _token: '{!! csrf_token() !!}'},
-					success: function(data) {
-						if (data!=0) 
-						{
-							location.reload();
-						}
-						else
-						{
-							$('#error').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Sorry!</strong>'+' Could not save this neighborhood now please try again later');
-						}
-					}
-				});
-			});*/
-
 			//edit neighborhood show or get
 			@foreach($neighborhood as $neighbor)
 				$('#edit_{{$neighbor->id}}').click(function(){
@@ -222,34 +198,6 @@
 					});
 				});
 			@endforeach
-
-			//post neighborhood edit
-			/*$('#postEditneighbor').click(function(){
-				var id = $('#id').val();
-				//console.log(id);
-				var nameEdited = $('#nameEdit').val();
-				//console.log(nameEdited);
-				var descriptionEdited = $('#descriptionEdit').val();
-				//console.log(descriptionEdited);
-				//console.log(baseUrl);
-				$('#edit-modal-form').hide();
-				$('#loaderEdit').show();
-				$.ajax({
-					url: baseUrl+'/edit-neighborhood',
-					type:"POST",
-					data: {id: id, name:nameEdited, description:descriptionEdited, _token: '{!! csrf_token() !!}'},
-					success: function(data) { 
-						if (data!=0) 
-						{
-							location.reload();
-						}
-						else
-						{
-							$('#error').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Sorry!</strong>'+' Could not update this neighborhood now please try again later');
-						}
-					}
-				});
-			});*/
 		});
 	</script>
 @endsection

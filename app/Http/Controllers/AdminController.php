@@ -172,7 +172,7 @@ class AdminController extends Controller
         return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
     }
     public function postNeighborhood(Request $request) {
-        //dd($request->image);
+        //dd($request->description);
         $name = $request->name;
         $description = $request->description;
         $admin_id = Auth::user()->id;
