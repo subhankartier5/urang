@@ -41,7 +41,7 @@
                         <a href="{{route('getSchoolDonations')}}">School Donations</a> 
                       </li>
                       <li>
-                        <a href="#">Pages <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                        <a href="#">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul style="width: 160%">
                           <li><a href="">DRY CLEAN ONLY</a></li>
                           <li><a href="">WASH & FOLD</a></li>
