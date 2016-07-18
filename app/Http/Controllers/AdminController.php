@@ -230,7 +230,18 @@ class AdminController extends Controller
         $search = Neighborhood::find($request->id);
         if ($search) {
             if ($search->delete()) {
-               return 1;
+                $search_school = SchoolDonations::where('neighborhood_id',$request->id)->get();
+                //return $search_school;
+                if ($search_school) {
+                    foreach ($search_school as $school) {
+                       $school->delete();
+                    }
+                    return 1;
+                }
+                else
+                {
+                    return 1;
+                }
             }
             else
             {
