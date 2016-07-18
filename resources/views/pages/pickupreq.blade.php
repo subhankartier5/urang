@@ -164,6 +164,35 @@
                 <label>Do you have a coupon code ?<p style="color: red;">Please left the field blank if you dont hav any.</p></label>
                 <input type="text" name="coupon" id="coupon" class="form-control" />
               </div>
+              <div class="col-xs-6">
+              <div class="row">
+              <div class="col-xs-4">
+                <span>
+                  <label>Donate to a school in your neighborhood ?</label>
+                  <input onclick="openCheckBoxSchool()" type="checkbox" name="isEmergency"></input>
+                </span>
+              </div>
+              <div class="col-xs-4">
+                  <?php 
+                  $school_list = \App\SchoolDonations::all();
+                ?>
+                <span>
+                  <select name="school_donation_id" id="schoolNameDropDown">
+                    <option value="">Select School</option>
+                    @foreach($school_list as $school)
+                    <option value="{{$school->id}}">{{$school->school_name}}</option>
+                    @endforeach
+                  </select>
+                </span>
+              </div>
+              <div class="col-xs-4">
+                  <span id="schoolDonationAmount">
+                    <input placeholder="Enter Donation Amount" type="number" name="school_donation_amount">
+                  </span>
+              </div>
+
+              </div>
+              </div>
             </div>
             <button type="submit" class="btn btn-default">Schedule Pick up</button>
             <input type="hidden" name="_token" value="{{Session::token()}}"></input>
@@ -301,5 +330,17 @@
         sweetAlert("Oops...", "Please select atleast one item", "error");
      }
   }
+  $('#schoolNameDropDown').hide();
+  $('#schoolDonationAmount').hide();
+  function openCheckBoxSchool()
+  {
+    $('#schoolNameDropDown').show();
+  }
+  $('#schoolNameDropDown').change(function(){
+    if($('#schoolNameDropDown').val() != '')
+    {
+      $('#schoolDonationAmount').show();
+    }
+  });
 </script>
 @endsection
