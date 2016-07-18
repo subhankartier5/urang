@@ -333,7 +333,7 @@ class MainController extends Controller
         return view('pages.pickupreq', compact('site_details'));
     }
     public function postPickUp (Request $request) {
-        //dd();
+        //dd($request);
         $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = auth()->guard('users')->user()->id;
@@ -353,6 +353,17 @@ class MainController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = NULL;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
+        if(isset($request->school_donation_id))
+        {
+            $pick_up_req->school_donation_id = $request->school_donation_id;
+            $pick_up_req->school_donation_amount = $request->school_donation_amount;
+            $search = SchoolDonations::find($request->school_donation_id);
+            $present_pending_money = $search->pending_money;
+            $updated_pending_money = $present_pending_money+$request->school_donation_amount;
+            $search->pending_money = $updated_pending_money;
+            $search->save();
+
+        }
         $data_table = json_decode($request->list_items_json);
         for ($i=0; $i< count($data_table); $i++) {
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;

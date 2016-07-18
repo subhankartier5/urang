@@ -95,7 +95,7 @@
 	        				@endforeach
 	        			</select>
 	        		@else
-	        			No Neighborhood please create one <a href="{{route('getNeiborhoodPage')}}">click here</a>
+	        			No Neighborhood please create one <a href="{{route('get-neighborhood')}}">click here</a>
 	        		@endif
 	        	</div>
 	        	<div class="form-group">

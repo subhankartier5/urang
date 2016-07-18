@@ -208,6 +208,8 @@
 						type: "POST",
 						data: {id: '{{$neighbor->id}}', _token: '{!!csrf_token()!!}'},
 						success: function(data) {
+							//console.log(data);
+							//return;
 							if (data!=0) 
 							{
 								location.reload();
