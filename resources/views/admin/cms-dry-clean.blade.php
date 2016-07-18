@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
+    <script>tinymce.init({ selector:'textarea' });</script>
 	<div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -44,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Meta Description:</label>
-                                    <textarea class="form-control" rows="3" name="description" id="description"></textarea>
+                                    <input type="text" class="form-control" name="description" id="description" ></input>
                                 </div>
                                 <div class="form-group">
                                 	<label for="heading">Page Heading:</label>
@@ -56,7 +57,7 @@
                                 </div>
                                 <div class="form-group">
                                 	<label for="content">Page Content:</label>
-                                	<textarea name="content" id="content" class="form-control" required="" rows="10"></textarea>
+                                	<textarea name="content" id="content" class="form-control" rows="10"></textarea>
                                 </div>
                                 <div class="form-group">
                                 	<img src="" id="imagePreview" style="height: 150px; width: 150px;" />

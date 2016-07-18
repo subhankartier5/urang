@@ -87,9 +87,3 @@
                 <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
             </section>
         </footer>
-<script type="text/javascript">
-    $(function()
-    {
-      $('.scroll-pane').jScrollPane();
-    });
-</script>

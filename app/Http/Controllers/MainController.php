@@ -18,6 +18,7 @@ use App\Faq;
 use App\Pickupreq;
 use App\OrderDetails;
 use App\SchoolDonations;
+use App\Cms;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -455,5 +456,11 @@ class MainController extends Controller
         {
             return view('pages.school-donation', compact('site_details', 'login_check', 'list_school'));
         }
+    }
+    public function getDryClean() {
+        $obj = new NavBarHelper();
+        $login_check = $obj->getCustomerData();
+        $page_data = Cms::where('identifier', 0)->first();
+        return view('stand_alone_pages.dryclean', compact('login_check', 'page_data'));
     }
 }
