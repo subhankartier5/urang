@@ -17,7 +17,7 @@
       </a>
    </div>
    <div class="services">
-      <a href="#">
+      <a href="{{route('getCorporateFront')}}">
          <div class="image-serv">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
          </div>

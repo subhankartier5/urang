@@ -10,7 +10,7 @@
       @if($page_data != null && $page_data->background_image!= null)
         <img src="{{url('/')}}/public/dump_images/{{$page_data->background_image}}" class="img-responsive">
       @else
-        <img src="{{url('/')}}/public/dump_images/130856340.jpg" class="img-responsive" alt="dry clean page image">
+        <img src="{{url('/')}}/public/images/no_image.jpg" class="img-responsive" alt="dry clean page image">
       @endif
       <div>{!! $page_data != null && $page_data->content != null ? $page_data->content : "Dry Clean Page" !!}</div>
   </div>
