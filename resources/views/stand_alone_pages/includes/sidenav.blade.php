@@ -25,7 +25,7 @@
       </a>
    </div>
    <div class="services">
-      <a href="#">
+      <a href="{{route('getTailoringFront')}}">
          <div class="image-serv">
             <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span>
          </div>
