@@ -45,7 +45,7 @@
                   <li><a href="{{route('getWashNFold')}}">WASH & FOLD</a></li>
                   <li><a href="{{route('getCorporateFront')}}">CORPOARTE</a></li>
                   <li><a href="{{route('getTailoringFront')}}">TAILORING</a></li>
-                  <li><a href="">WET CLEANING</a></li>
+                  <li><a href="{{route('getWetCleaningFront')}}">WET CLEANING</a></li>
                 </ul>
               </li>
               <li>

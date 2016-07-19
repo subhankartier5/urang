@@ -34,5 +34,5 @@
     <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.css"/>
     <script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
     <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
 </head>

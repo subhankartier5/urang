@@ -33,7 +33,7 @@
       </a>
    </div>
    <div class="services">
-      <a href="#">
+      <a href="{{route('getWetCleaningFront')}}">
          <div class="image-serv">
             <span class="glyphicon glyphicon-tint" aria-hidden="true"></span>
          </div>

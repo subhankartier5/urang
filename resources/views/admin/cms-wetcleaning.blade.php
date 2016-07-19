@@ -36,7 +36,7 @@
                             <form role="form" method="post" action="{{route('postWetCleaning')}}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
-                                    <input class="form-control" type="text" name="title" id="title" />
+                                    <input class="form-control" type="text" name="title" id="title" required="" />
                                 </div>
                                 <div class="form-group">
                                     <label for="keywords">Meta Keywords:</label>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Meta Description:</label>
-                                    <textarea class="form-control" rows="3" name="description" id="description"></textarea>
+                                    <input type="text" class="form-control" name="description" id="description"></input>
                                 </div>
                                 <div class="form-group">
                                 	<label for="heading">Page Heading:</label>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="form-group">
                                 	<label for="content">Page Content:</label>
-                                	<textarea name="content" id="content" class="form-control" required="" rows="10"></textarea>
+                                	<textarea name="content" id="content" class="form-control" rows="10">{{$cms_data != null && $cms_data->content != null ? $cms_data->content : '' }}</textarea>
                                 </div>
                                 @if($cms_data != null)
                                     @if($cms_data->background_image)
@@ -91,9 +91,25 @@
 			$('#description').val("{{$cms_data->meta_description}}");
 			$('#heading').val("{{$cms_data->page_heading}}");
 			$('#tags').val("{{$cms_data->tags}}");
-			$('#content').val("{{$cms_data->content}}");
 			$('#imagePreview').attr('src',"{{url('/')}}/public/dump_images/{{$cms_data->background_image}}");
 		});
 	</script>
 @endif
+<script type="text/javascript">
+CKEDITOR.replace('content',
+{
+on :
+{
+instanceReady : function( ev )
+{
+this.dataProcessor.writer.setRules( '*',
+{
+indent : false,
+breakBeforeOpen : true,
+breakAfterOpen : false,
+breakBeforeClose : false,
+breakAfterClose : true
+});
+}}});
+</script>
 @endsection

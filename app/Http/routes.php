@@ -27,6 +27,7 @@ Route::get('/dry-clean',['uses' => 'MainController@getDryClean', 'as' => 'getDry
 Route::get('/wash-n-fold', ['uses' => 'MainController@getWashNFold', 'as' => 'getWashNFold']);
 Route::get('/corporate', ['uses' => 'MainController@getCorporate', 'as' => 'getCorporateFront']);
 Route::get('/tailoring', ['uses' => 'MainController@getTailoring', 'as' => 'getTailoringFront']);
+Route::get('/wet-cleaning', ['uses' => 'MainController@getWetCleaning', 'as' => 'getWetCleaningFront']);
 
 /*after login user functionality in middleware*/
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
