@@ -1,9 +1,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="keywords" content="{{$page_data != null && $page_data->meta_keywords != null ? $page_data->meta_keywords : "U-rang 2016 | dry clean only"}}">
-<meta name="description" content="{{$page_data != null && $page_data->meta_description != null ? $page_data->meta_description : "U-rang 2016 | dry clean only"}}">
-<title>{{$page_data != null && $page_data->title != null ? $page_data->title : "U-rang 2016 | Dry clean"}}</title>
+<meta name="keywords" content="{{$page_data != null && $page_data->meta_keywords != null ? $page_data->meta_keywords : "U-rang 2016 | u-rang services"}}">
+<meta name="description" content="{{$page_data != null && $page_data->meta_description != null ? $page_data->meta_description : "U-rang 2016 | u-rang services"}}">
+<title>{{$page_data != null && $page_data->title != null ? $page_data->title : "U-Rang 2016 | New York City's #1 Domestic Concierge Service"}}</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="{{url('/')}}/public/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <!-- Optional theme -->

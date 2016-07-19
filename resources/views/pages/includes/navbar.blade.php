@@ -42,7 +42,7 @@
                 <a href="#">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                 <ul style="width: 160%">
                   <li><a href="{{route('getDryClean')}}">DRY CLEAN ONLY</a></li>
-                  <li><a href="">WASH & FOLD</a></li>
+                  <li><a href="{{route('getWashNFold')}}">WASH & FOLD</a></li>
                   <li><a href="">CORPOARTE</a></li>
                   <li><a href="">TAILORING</a></li>
                   <li><a href="">WET CLEANING</a></li>

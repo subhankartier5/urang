@@ -463,4 +463,10 @@ class MainController extends Controller
         $page_data = Cms::where('identifier', 0)->first();
         return view('stand_alone_pages.dryclean', compact('login_check', 'page_data'));
     }
+    public function getWashNFold() {
+        $obj = new NavBarHelper();
+        $login_check = $obj->getCustomerData();
+        $page_data = Cms::where('identifier', 1)->first(); 
+        return view('stand_alone_pages.wash_n_fold', compact('login_check', 'page_data'));
+    }
 }
