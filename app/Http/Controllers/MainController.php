@@ -475,4 +475,10 @@ class MainController extends Controller
         $page_data = Cms::where('identifier', 2)->first(); 
         return view('stand_alone_pages.corporate', compact('login_check', 'page_data'));
     }
+    public function getTailoring() {
+        $obj = new NavBarHelper();
+        $login_check = $obj->getCustomerData();
+        $page_data = Cms::where('identifier', 3)->first(); 
+        return view('stand_alone_pages.tailoring', compact('login_check', 'page_data'));
+    }
 }

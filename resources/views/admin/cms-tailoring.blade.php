@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
+    <script>tinymce.init({ selector:'textarea' });</script>
 	<div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -36,7 +37,7 @@
                             <form role="form" method="post" action="{{route('postTailoring')}}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
-                                    <input class="form-control" type="text" name="title" id="title" />
+                                    <input class="form-control" type="text" name="title" id="title" required="" />
                                 </div>
                                 <div class="form-group">
                                     <label for="keywords">Meta Keywords:</label>
@@ -44,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Meta Description:</label>
-                                    <textarea class="form-control" rows="3" name="description" id="description"></textarea>
+                                    <input class="form-control" name="description" id="description"></input>
                                 </div>
                                 <div class="form-group">
                                 	<label for="heading">Page Heading:</label>
@@ -56,7 +57,7 @@
                                 </div>
                                 <div class="form-group">
                                 	<label for="content">Page Content:</label>
-                                	<textarea name="content" id="content" class="form-control" required="" rows="10"></textarea>
+                                	<textarea name="content" id="content" class="form-control" rows="10"></textarea>
                                 </div>
                                 @if($cms_data != null)
                                     @if($cms_data->background_image)

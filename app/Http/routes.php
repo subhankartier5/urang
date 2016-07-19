@@ -26,6 +26,7 @@ Route::get('/school-donations', ['uses' => 'MainController@getSchoolDonations', 
 Route::get('/dry-clean',['uses' => 'MainController@getDryClean', 'as' => 'getDryClean']);
 Route::get('/wash-n-fold', ['uses' => 'MainController@getWashNFold', 'as' => 'getWashNFold']);
 Route::get('/corporate', ['uses' => 'MainController@getCorporate', 'as' => 'getCorporateFront']);
+Route::get('/tailoring', ['uses' => 'MainController@getTailoring', 'as' => 'getTailoringFront']);
 
 /*after login user functionality in middleware*/
 Route::get('/login', ['uses' => 'MainController@getLogin' ,'as' => 'getLogin']);
