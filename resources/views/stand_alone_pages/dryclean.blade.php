@@ -4,11 +4,15 @@
 <div class="container">
 <div class="row">
   <div class="col-md-8 dryclean">
-      <h2><span class="glyphicon glyphicon-home" aria-hidden="true"></span>{{$page_data->page_heading}}</h2>
-      <h3>{{$page_data->tags}}</h3>
+      <h2><span class="glyphicon glyphicon-home" aria-hidden="true"></span>{{$page_data != null && $page_data->page_heading != null ? $page_data->page_heading : "Dry Clean Only"}}</h2>
+      <h3>{{$page_data != null && $page_data->tags != null ? $page_data->tags : "U-Rang 2016 #1 dry cleaner in US"}}</h3>
       <hr>
-      <img src="{{url('/')}}/public/dump_images/{{$page_data->background_image}}" class="img-responsive">
-      <div>{!! $page_data->content !!}</div>
+      @if($page_data != null && $page_data->background_image!= null)
+        <img src="{{url('/')}}/public/dump_images/{{$page_data->background_image}}" class="img-responsive">
+      @else
+        <img src="{{url('/')}}/public/dump_images/130856340.jpg" class="img-responsive" alt="dry clean page image">
+      @endif
+      <div>{!! $page_data != null && $page_data->content != null ? $page_data->content : "Dry Clean Page" !!}</div>
   </div>
   <div class="col-md-4">
       <div class="right-sidebar">

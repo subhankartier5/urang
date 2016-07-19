@@ -37,7 +37,7 @@
                             <form role="form" method="post" action="{{ route('postCmsDryClean') }}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
-                                    <input class="form-control" type="text" name="title" id="title" />
+                                    <input class="form-control" type="text" name="title" id="title" required="" />
                                 </div>
                                 <div class="form-group">
                                     <label for="keywords">Meta Keywords:</label>
