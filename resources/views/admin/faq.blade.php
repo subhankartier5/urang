@@ -109,50 +109,52 @@
 
 	  </div>
 	</div>
-	@foreach($faq as $faq_details)
-		<!--Modal Edit-->
-		<div id="myModalEdit_{{$faq_details->id}}" class="modal fade" role="dialog">
-		  <div class="modal-dialog">
-		    <!-- Modal content-->
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Edit Faq</h4>
-		      </div>
-		      <div class="modal-body">
-		      <div style="background: transparent; display: none;" id="loaderBodyEdit" align="center">
-				<p>Please wait...</p>
-				<img src="{{url('/')}}/public/img/reload.gif">
-			 </div>
-		        <form role="form" id="edit-faq-form" method="post" enctype="multipart/form-data" action="{{route('postEditFaq')}}">
-				  <div class="form-group">
-					 <div class="alert alert-success" id="successEdit" style="display: none;"></div>
-			         <div class="alert alert-danger" id="errordivEdit" style="display: none;"></div>
-			         <input type="hidden" id="faq_id" name="id" value="{{$faq_details->id}}"></input>
-				    <label for="question">Question ?</label>
-				    <input class="form-control" id="questionEdit" name="questionEdit" type="text" value="{{$faq_details->question}}">
-				  </div>
-				  <div class="form-group">
-				    <label for="answer">Answer</label>
-				    <textarea class="form-control ckeditor" id="answerEdit" name="answerEdit">{!!$faq_details->answer!!}</textarea>
-				  </div>
-				  <div class="form-group">
-				    <label for="image">Image</label>
-				    <div id="imagePreview"><img src="{{url('/')}}/public/dump_images/{{$faq_details->image}}" alt="image" class="img-responsive" style="height: 100px; width: 100px;"></div>
-				    <input type="file" name="image" id="image" class="form-control"/>
-				  </div>
-				  <button type="submit" class="btn btn-primary btn-lg btn-block" id="editFaq">Save Details</button>
-				  <input type="hidden" name="_token" value="{{Session::token()}}" />
-				</form>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		      </div>
-		    </div>
+	@if(count($faq) > 0 )
+		@foreach($faq as $faq_details)
+			<!--Modal Edit-->
+			<div id="myModalEdit_{{$faq_details->id}}" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+			    <!-- Modal content-->
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">Edit Faq</h4>
+			      </div>
+			      <div class="modal-body">
+			      <div style="background: transparent; display: none;" id="loaderBodyEdit" align="center">
+					<p>Please wait...</p>
+					<img src="{{url('/')}}/public/img/reload.gif">
+				 </div>
+			        <form role="form" id="edit-faq-form" method="post" enctype="multipart/form-data" action="{{route('postEditFaq')}}">
+					  <div class="form-group">
+						 <div class="alert alert-success" id="successEdit" style="display: none;"></div>
+				         <div class="alert alert-danger" id="errordivEdit" style="display: none;"></div>
+				         <input type="hidden" id="faq_id" name="id" value="{{$faq_details->id}}"></input>
+					    <label for="question">Question ?</label>
+					    <input class="form-control" id="questionEdit" name="questionEdit" type="text" value="{{$faq_details->question}}">
+					  </div>
+					  <div class="form-group">
+					    <label for="answer">Answer</label>
+					    <textarea class="form-control ckeditor" id="answerEdit" name="answerEdit">{!!$faq_details->answer!!}</textarea>
+					  </div>
+					  <div class="form-group">
+					    <label for="image">Image</label>
+					    <div id="imagePreview"><img src="{{url('/')}}/public/dump_images/{{$faq_details->image}}" alt="image" class="img-responsive" style="height: 100px; width: 100px;"></div>
+					    <input type="file" name="image" id="image" class="form-control"/>
+					  </div>
+					  <button type="submit" class="btn btn-primary btn-lg btn-block" id="editFaq">Save Details</button>
+					  <input type="hidden" name="_token" value="{{Session::token()}}" />
+					</form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
 
-		  </div>
-		</div>
-	@endforeach
+			  </div>
+			</div>
+		@endforeach
+	@endif
 	<script type="text/javascript">
 		$(document).ready(function(){
 			/*$('#addFaq').click(function(){

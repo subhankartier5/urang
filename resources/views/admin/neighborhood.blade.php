@@ -47,11 +47,11 @@
 			                            	<tr>
 			                            		<td>{{$neighbor->id}}</td>
 			                            		<td>{{$neighbor->name}}</td>
-			                            		<td>{{$neighbor->description}}</td>
+			                            		<td>{!!$neighbor->description!!}</td>
 			                            		<td><img src="{{url('/')}}/public/dump_images/{{$neighbor->image}}" style="height: 50px; width: 73px;"></td>
 			                            		<td>{{$neighbor->admin->username}}</td>
 			                            		<td>{{ date("F jS Y",strtotime($neighbor->created_at->toDateString())) }}</td>
-			                            		<td><button type="button" id="edit_{{$neighbor->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
+			                            		<td><button type="button" data-toggle="modal" data-target="#myModalEdit_{{$neighbor->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
 			                            		<td><button type="button" id="del_{{$neighbor->id}}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
 			                                </tr>
 		                            	@endforeach
@@ -111,47 +111,51 @@
 
 	  </div>
 	</div>
-	<!-- Modal for edit  -->
-	<div id="myModalEdit" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
+	@if(count($neighborhood) > 0 )
+		@foreach($neighborhood as $neighbor)
+			<!-- Modal for edit  -->
+			<div id="myModalEdit_{{$neighbor->id}}" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 style="color: red;" id="errorEdit"></h4>
-	        <h4 class="modal-title">Edit Neighborhood</h4>
-	      </div>
-	      <div class="modal-body">
-		      <div style="background: transparent; display: none;" id="loaderEdit" align="center">
-		      			<p>Please wait...</p>
-			        	<img src="{{url('/')}}/public/img/reload.gif">
-			  </div>
-			<form role="form" id="edit-modal-form" enctype="multipart/form-data" method="post" action="{{route('editneighborhood')}}">
-			  <div class="form-group">
-			    <label for="nameEdit">Name</label>
-			    <input class="form-control" id="nameEdit" name="nameEdit" type="text">
-			  </div>
-			  <div class="form-group">
-			    <label for="descriptionEdit">Description</label>
-			    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit"></textarea>
-			  </div>
-			  <div class="form-group">
-			  	<div id="imagePreview"></div>
-			    <input type="file" name="image" id="image" class="form-control"/>
-			  </div>
-			  <input type="hidden" name="id" id="id"></input>
-			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postEditneighbor">Save Changes</button>
-			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-			</form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
+			    <!-- Modal content-->
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 style="color: red;" id="errorEdit"></h4>
+			        <h4 class="modal-title">Edit Neighborhood</h4>
+			      </div>
+			      <div class="modal-body">
+				      <div style="background: transparent; display: none;" id="loaderEdit" align="center">
+				      			<p>Please wait...</p>
+					        	<img src="{{url('/')}}/public/img/reload.gif">
+					  </div>
+					<form role="form" id="edit-modal-form" enctype="multipart/form-data" method="post" action="{{route('editneighborhood')}}">
+					  <div class="form-group">
+					    <label for="nameEdit">Name</label>
+					    <input class="form-control" id="nameEdit" name="nameEdit" type="text" value="{{$neighbor->name}}">
+					  </div>
+					  <div class="form-group">
+					    <label for="descriptionEdit">Description</label>
+					    <textarea class="form-control ckeditor" id="descriptionEdit" name="descriptionEdit">{!! $neighbor->description !!}</textarea>
+					  </div>
+					  <div class="form-group">
+					  	<div id="imagePreview"><img src="{{url('/')}}/public/dump_images/{{$neighbor->image}}" style="height: 100px; width: 100px;"></div>
+					    <input type="file" name="image" id="image" class="form-control"/>
+					  </div>
+					  <input type="hidden" name="id" id="id" value="{{$neighbor->id}}"></input>
+					  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postEditneighbor">Save Changes</button>
+					  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+					</form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
 
-	  </div>
-	</div>
+			  </div>
+			</div>
+		@endforeach
+	@endif
 	<!--Add new neighbor script-->
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -178,14 +182,6 @@
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
 			@foreach($neighborhood as $neighbor)
-				$('#edit_{{$neighbor->id}}').click(function(){
-					$('#myModalEdit').modal({
-						show: 'true'
-					});
-					$('#nameEdit').val("{{$neighbor->name}}");
-					$('#id').val('{{$neighbor->id}}');
-					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$neighbor->image}}" style="height: 100px; width: 100px;">');
-				});
 				// delete neighborhood
 				$('#del_{{$neighbor->id}}').click(function(){
 					$('.table').hide();
@@ -213,21 +209,6 @@
 	</script>
 	<script type="text/javascript">
 		CKEDITOR.replace('description',
-		{
-		on :
-		{
-		instanceReady : function( ev )
-		{
-		this.dataProcessor.writer.setRules( '*',
-		{
-		indent : false,
-		breakBeforeOpen : true,
-		breakAfterOpen : false,
-		breakBeforeClose : false,
-		breakAfterClose : true
-		});
-		}}});
-		CKEDITOR.replace('descriptionEdit',
 		{
 		on :
 		{
