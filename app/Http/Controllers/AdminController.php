@@ -554,8 +554,6 @@ class AdminController extends Controller
         }
     }
     public function UpdateFaq(Request $request) {
-        //dd($request);
-        //return $request;
         $id = $request->id;
         $question =$request->questionEdit;
         $answer = $request->answerEdit;
@@ -565,19 +563,14 @@ class AdminController extends Controller
             $destinationPath = 'public/dump_images/';   // upload path
             $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
             $image->move($destinationPath, $fileName); // uploading file to given path 
-            //return $fileName;
-        }
-        else
-        {
-            //dd('im here');
-            $data = Faq::find($id);
-            $fileName = $data->image;
         }
         $faq = Faq::find($id);
         if ($faq) {
             $faq->question = $question;
             $faq->answer = $answer;
-            $faq->image = $fileName;
+            if ($request->image != null) {
+                $faq->image = $fileName;
+            }
             $faq->admin_id = Auth::user()->id;
             if ($faq->save()) {
                 return redirect()->route('getFaq')->with('successUpdate', 'Faq Successfully Updated!');

@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 @section('content')
-<script>tinymce.init({ selector:'textarea' });</script>
 	<div id="page-wrapper">
 	    <div class="row">
 	        <div class="col-lg-12">
@@ -163,7 +162,7 @@
 				});
 			});
 		});
-		$('#postneighbor').click(function(){
+		/*$('#postneighbor').click(function(){
 			var editorContent = tinyMCE.get('description').getContent();
 			if ($.trim(editorContent) == '')
 			{
@@ -175,7 +174,7 @@
 			    return true;
 			}
 
-		});
+		});*/
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
 			@foreach($neighborhood as $neighbor)
@@ -184,7 +183,6 @@
 						show: 'true'
 					});
 					$('#nameEdit').val("{{$neighbor->name}}");
-					 tinyMCE.activeEditor.setContent("{{$neighbor->description}}");
 					$('#id').val('{{$neighbor->id}}');
 					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$neighbor->image}}" style="height: 100px; width: 100px;">');
 				});
@@ -212,5 +210,37 @@
 				});
 			@endforeach
 		});
+	</script>
+	<script type="text/javascript">
+		CKEDITOR.replace('description',
+		{
+		on :
+		{
+		instanceReady : function( ev )
+		{
+		this.dataProcessor.writer.setRules( '*',
+		{
+		indent : false,
+		breakBeforeOpen : true,
+		breakAfterOpen : false,
+		breakBeforeClose : false,
+		breakAfterClose : true
+		});
+		}}});
+		CKEDITOR.replace('descriptionEdit',
+		{
+		on :
+		{
+		instanceReady : function( ev )
+		{
+		this.dataProcessor.writer.setRules( '*',
+		{
+		indent : false,
+		breakBeforeOpen : true,
+		breakAfterOpen : false,
+		breakBeforeClose : false,
+		breakAfterClose : true
+		});
+		}}});
 	</script>
 @endsection

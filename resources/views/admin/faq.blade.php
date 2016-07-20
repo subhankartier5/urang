@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 @section('content')
-	<script>tinymce.init({ selector:'textarea' });</script>
 	<div id="page-wrapper">
 	    <div class="row">
 	        <div class="col-lg-12">
@@ -47,11 +46,11 @@
 		                           	<tr>
 		                           		<td>{{$faq_details->id}}</td>
 		                           		<td>{{$faq_details->question}}</td>
-		                           		<td>{{$faq_details->answer}}</td>
+		                           		<td>{!!$faq_details->answer!!}</td>
 		                           		<td><img src="{{url('/')}}/public/dump_images/{{$faq_details->image}}" style="height: 50px; width: 73px;"></td>
 		                           		<td>{{$faq_details->admin_details->username}}</td>
 		                           		<td>{{ date("F jS Y",strtotime($faq_details->created_at->toDateString())) }}</td>
-		                           		<td><button type="button" id="edit_{{$faq_details->id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
+		                           		<td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModalEdit_{{$faq_details->id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
 			                           	<td><button type="button" id="del_{{$faq_details->id}}" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
 		                           	</tr>
 		                           @endforeach
@@ -110,53 +109,53 @@
 
 	  </div>
 	</div>
-	<!--Modal Edit-->
-	<div id="myModalEdit" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
+	@foreach($faq as $faq_details)
+		<!--Modal Edit-->
+		<div id="myModalEdit_{{$faq_details->id}}" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Edit Faq</h4>
+		      </div>
+		      <div class="modal-body">
+		      <div style="background: transparent; display: none;" id="loaderBodyEdit" align="center">
+				<p>Please wait...</p>
+				<img src="{{url('/')}}/public/img/reload.gif">
+			 </div>
+		        <form role="form" id="edit-faq-form" method="post" enctype="multipart/form-data" action="{{route('postEditFaq')}}">
+				  <div class="form-group">
+					 <div class="alert alert-success" id="successEdit" style="display: none;"></div>
+			         <div class="alert alert-danger" id="errordivEdit" style="display: none;"></div>
+			         <input type="hidden" id="faq_id" name="id" value="{{$faq_details->id}}"></input>
+				    <label for="question">Question ?</label>
+				    <input class="form-control" id="questionEdit" name="questionEdit" type="text" value="{{$faq_details->question}}">
+				  </div>
+				  <div class="form-group">
+				    <label for="answer">Answer</label>
+				    <textarea class="form-control ckeditor" id="answerEdit" name="answerEdit">{!!$faq_details->answer!!}</textarea>
+				  </div>
+				  <div class="form-group">
+				    <label for="image">Image</label>
+				    <div id="imagePreview"><img src="{{url('/')}}/public/dump_images/{{$faq_details->image}}" alt="image" class="img-responsive" style="height: 100px; width: 100px;"></div>
+				    <input type="file" name="image" id="image" class="form-control"/>
+				  </div>
+				  <button type="submit" class="btn btn-primary btn-lg btn-block" id="editFaq">Save Details</button>
+				  <input type="hidden" name="_token" value="{{Session::token()}}" />
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Edit Faq</h4>
-	      </div>
-	      <div class="modal-body">
-	      <div style="background: transparent; display: none;" id="loaderBodyEdit" align="center">
-			<p>Please wait...</p>
-			<img src="{{url('/')}}/public/img/reload.gif">
-		 </div>
-	        <form role="form" id="edit-faq-form" method="post" enctype="multipart/form-data" action="{{route('postEditFaq')}}">
-			  <div class="form-group">
-				 <div class="alert alert-success" id="successEdit" style="display: none;"></div>
-		         <div class="alert alert-danger" id="errordivEdit" style="display: none;"></div>
-		         <input type="hidden" id="faq_id" name="id"></input>
-			    <label for="question">Question ?</label>
-			    <input class="form-control" id="questionEdit" name="questionEdit" type="text">
-			  </div>
-			  <div class="form-group">
-			    <label for="answer">Answer</label>
-			    <textarea class="form-control" id="answerEdit" name="answerEdit"></textarea>
-			  </div>
-			  <div class="form-group">
-			    <label for="image">Image</label>
-			    <div id="imagePreview"></div>
-			    <input type="file" name="image" id="image" class="form-control"/>
-			  </div>
-			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="editFaq">Save Details</button>
-			  <input type="hidden" name="_token" value="{{Session::token()}}" />
-			</form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-
-	  </div>
-	</div>
-
+		  </div>
+		</div>
+	@endforeach
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('#addFaq').click(function(){
+			/*$('#addFaq').click(function(){
 				var editorContent = tinyMCE.get('answer').getContent();
 				if ($.trim(editorContent) == '')
 				{
@@ -168,16 +167,8 @@
 				    return true;
 				}
 
-			});
+			});*/
 			@foreach($faq as $faq_details)
-				$('#edit_{{$faq_details->id}}').click(function(){
-					$('#myModalEdit').modal('show');
-					$('#faq_id').val('{{$faq_details->id}}');
-					$('#questionEdit').val("{{$faq_details->question}}");
-					tinyMCE.activeEditor.setContent("{{$faq_details->answer}}");
-					//$('#answerEdit').val("{{$faq_details->answer}}");
-					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$faq_details->image}}" style="height: 100px; width: 100px;">');
-				});
 				$('#del_{{$faq_details->id}}').click(function(){
 					$.ajax({
 						url: "{{route('postDeleteFaq')}}",
@@ -199,5 +190,22 @@
 				});
 			@endforeach
 		});
+	</script>
+	<script type="text/javascript">
+		CKEDITOR.replace('answer',
+		{
+		on :
+		{
+		instanceReady : function( ev )
+		{
+		this.dataProcessor.writer.setRules( '*',
+		{
+		indent : false,
+		breakBeforeOpen : true,
+		breakAfterOpen : false,
+		breakBeforeClose : false,
+		breakAfterClose : true
+		});
+		}}});
 	</script>
 @endsection
