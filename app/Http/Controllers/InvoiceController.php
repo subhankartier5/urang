@@ -30,17 +30,17 @@ class InvoiceController extends Controller
         $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
         $search_pickupreq->total_price = $total_price;
         if ($search_pickupreq->save()) {
-            if ($request->identifier = 'staff') {
+            if ($request->identifier == 'staff') {
                 return redirect()->route('getStaffOrders')->with('success', "Invoice Successfully created");
             }
-            else
-            {
-                return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+
+            else  {
+               return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
             }
         }
         else
         {
-            if ($request->identifier = 'staff') {
+            if ($request->identifier == 'staff') {
                 return redirect()->route('getStaffOrders')->with('fail', "Some error occured failed to update total price");
             }
             else
@@ -51,7 +51,6 @@ class InvoiceController extends Controller
         }
     }
     public function postDeleteInvoice(Request $request) {
-    	//return $request;
     	$search = Invoice::where('invoice_id', $request->invoice_id)->get();
     	foreach ($search as $element) {
     		$element->delete();
