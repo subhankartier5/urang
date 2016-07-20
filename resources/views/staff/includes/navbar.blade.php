@@ -123,7 +123,7 @@
 
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-dollar" aria-hidden="true"></i> Manage client payments</a>
+                        <a href="{{route('getSchoolDonationStaff')}}"><i class="fa fa-usd" aria-hidden="true"></i> School Donation</a>
                     </li>
                     <!--<li>
                         <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>

@@ -1,30 +1,38 @@
-@extends('admin.layouts.master')
+@extends('staff.layouts.master')
 @section('content')
-	<div id="page-wrapper">
-	   <div class="row">
-	      <div class="col-lg-12">
-	         <div class="panel panel-default">
-	            <div class="panel-heading">
-	               @if(Session::has('fail'))
-	                 <div class="alert alert-danger"><strong>Error!</strong> {{Session::get('fail')}}
-	                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	                 </div>
-	               @else
-	               @endif
-	               @if(Session::has('success'))
-	                 <div class="alert alert-success"><strong>Success!</strong> {{Session::get('success')}}
-	                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	                 </div>
-	               @else
-	               @endif
-	               <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_school" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add School</button>
-	               <p>School List</p>
-	            </div>
-	            <div class="panel-body">
-	               <div class="table-responsive table-bordered">
-	                  <table class="table">
-	                     <thead>
-	                        <tr>
+	<div id="wrapper">
+	
+    	<div id="page-wrapper">
+
+            <div class="container-fluid">
+            
+
+            <div class="row">
+
+
+            @if(Session::has('fail'))
+            <div class="alert alert-danger">{{Session::get('fail')}}
+                <a href="{{ route('getStaffOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+            @else
+            @endif
+            @if(Session::has('success'))
+              <div class="alert alert-success">{{Session::get('success')}}
+                <a href="{{ route('getStaffOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              </div>
+            @else
+            @endif
+            {{ Session::forget('fail') }}
+            {{ Session::forget('success') }}
+                <div class="col-lg-12">
+                <div class="row">
+                <div class="col-md-3">
+                    <h2>Table</h2>
+                </div>
+                </div>            
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
 	                           <th>#</th>
 	                           <th>School Name</th>
 	                           <th>School Neighborhood</th>
@@ -34,10 +42,10 @@
 	                           <th>Edit</th>
 	                           <th>Delete</th>
 	                           <th>Pay Pending Money</th>
-	                        </tr>
-	                     </thead>
-	                     <tbody>
-	                        @if(count($list_school) > 0)
+                          </tr>
+                        </thead>
+                        <tbody>
+                        	@if(count($list_school) > 0)
 	                        	@foreach($list_school as $school)
 	                        		<tr>
 	                        			<td>{{$school->id}}</td>
@@ -66,61 +74,24 @@
 	                        @else
 	                        	<tr><td>No Data</td></tr>
 	                        @endif
-	                     </tbody>
-	                  </table>
-	                  <span style="float: right;">{!! $list_school->render() !!}</span>
-	               </div>
-	            </div>
-	         </div>
-	      </div>
-	   </div>
-	</div>
-	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
+                        </tbody>
+                      </table>
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Add School</h4>
-	      </div>
-	      <div class="modal-body">
-	        <form role="form" enctype="multipart/form-data" action="{{route('postSaveSchool')}}" method="post">
-	        	<div class="form-group">
-	        		<label for="school_name">School Name:</label>
-	        		<input type="text" class="form-control" name="school_name" required=""></input>
-	        	</div>
-	        	<div class="form-group">
-	        		<label for="neighborhood">Select Neighborhood:</label>
-	        		@if(count($neighborhood) > 0)
-	        			<select class="form-control" name="neighborhood" required="">
-	        				<option value="">Select Neighborhood</option>
-	        				@foreach($neighborhood as $neighbor)
-	        					<option value="{{$neighbor->id}}">{{$neighbor->name}}</option>
-	        				@endforeach
-	        				<option value="0">Others</option>
-	        			</select>
-	        		@else
-	        			No Neighborhood please create one <a href="{{route('get-neighborhood')}}">click here</a>
-	        		@endif
-	        	</div>
-	        	<div class="form-group">
-	        		<label for="image">Upload Image:</label>
-	        		<input type="file" name="image" class="form-control" required=""></input>
-	        	</div>
-	        	<button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-	        	<input type="hidden" name="_token" value="{{Session::token()}}"></input>
-	        </form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
+                      <span style="float: right;">{!! $list_school->render() !!}</span>
+                    
+                </div>
+                
+            </div>
 
-	  </div>
-	</div>
-	<div id="myModalEdit" class="modal fade" role="dialog">
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <div id="myModalEdit" class="modal fade" role="dialog">
 	  <div class="modal-dialog">
 	    <!-- Modal content-->
 	    <div class="modal-content">
@@ -129,7 +100,7 @@
 	        <h4 class="modal-title">Edit School</h4>
 	      </div>
 	      <div class="modal-body">
-	        <form role="form" enctype="multipart/form-data" action="{{route('postEditSchool')}}" method="post">
+	        <form role="form" enctype="multipart/form-data" action="{{route('postEditSchoolStaff')}}" method="post">
 	        	<div class="form-group">
 	        		<label for="school_name">School Name:</label>
 	        		<input type="text" class="form-control" name="school_name" id="school_name"></input>
@@ -191,7 +162,7 @@
 		}
 		function delSchool(id) {
 			$.ajax({
-				url: "{{route('postDeleteSchool')}}",
+				url: "{{route('postDeleteSchoolStaff')}}",
 				type:"POST",
 				data: {id: id, _token: "{{Session::token()}}"},
 				success : function(data) {
@@ -209,7 +180,7 @@
 		}
 		function payPendingMoney(id) {
 			$.ajax({
-				url: "{{route('postPendingMoney')}}",
+				url: "{{route('postPendingMoneyStaff')}}",
 				type:"POST",
 				data: {id: id, _token: "{{Session::token()}}"},
 				success : function(data) {

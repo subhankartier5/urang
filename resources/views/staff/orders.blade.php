@@ -1,12 +1,5 @@
 @extends('staff.layouts.master')
-
-@section('title')
-	U-rang|Orders
-@endsection
-
 @section('content')
-
-
     <div id="wrapper">
 	
     	<div id="page-wrapper">

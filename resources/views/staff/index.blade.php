@@ -1,12 +1,5 @@
 @extends('staff.layouts.master')
-
-@section('title')
-    U-rang|Staff Dashboard
-@endsection
-
 @section('content')
-
-
     <div id="wrapper">
         <div id="page-wrapper">
 

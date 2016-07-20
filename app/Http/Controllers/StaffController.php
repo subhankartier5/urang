@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Input;
 use Session;
 use Auth;
 use App\OrderDetails;
+use App\SchoolDonations;
+use App\Neighborhood;
 
 class StaffController extends Controller
 {
@@ -214,6 +216,82 @@ class StaffController extends Controller
 
     }
 
-
-
+    public function getSchoolDonationStaff() {
+       $staff = auth()->guard('staffs')->user();
+       if ($staff) {
+            $list_school = SchoolDonations::with('neighborhood')->paginate(10);
+            $neighborhood = Neighborhood::all();
+            return view('staff.school-donation', compact('list_school', 'neighborhood'));
+       }
+       else
+       {
+        return redirect()->route('getStaffLogin');
+       }
+    }
+    public function postEditSchoolStaff(Request $request) {
+        //dd($request);
+        $search = SchoolDonations::find($request->sch_id);
+        if ($search) {
+            $search->neighborhood_id = $request->neighborhood;
+            $search->school_name = $request->school_name;
+            if ($request->image) {
+                $image = $request->image;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';
+                $fileName = rand(111111111,999999999).'.'.$extension;
+                $image->move($destinationPath, $fileName);
+                $search->image = $fileName;
+            }
+            $search->pending_money = $request->pending_money;
+            $search->total_money_gained = $request->total_money_gained;
+            if ($search->save()) {
+                return redirect()->route('getSchoolDonationStaff')->with('success', 'Successfully Saved School !');
+            }
+            else
+            {
+                return redirect()->route('getSchoolDonationStaff')->with('fail', 'Failed to update some error occured !');
+            }
+        }
+        else
+        {
+            return redirect()->route('getSchoolDonationStaff')->with('fail', 'Failed to find a School !');
+        }
+    }
+    public function postDeleteSchoolStaff(Request $request) {
+        $search_school = SchoolDonations::find($request->id);
+        if ($search_school) {
+            if ($search_school->delete()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public function postPendingMoneyStaff(Request $request) {
+        $search_school = SchoolDonations::find($request->id);
+        if ($search_school) {
+            $total_money_gained = $search_school->total_money_gained;
+            $pending_money = $search_school->pending_money;
+            //return 1;
+            $search_school->total_money_gained = $total_money_gained+$pending_money;
+            $search_school->pending_money = 0.00;
+            if ($search_school->save()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

@@ -104,8 +104,6 @@ Route::group(['middleware' => ['auth']], function () {
     	Route::get('/wet-cleaning', ['uses' => 'AdminController@getWetCleaning', 'as' => 'getWetCleaning']);
     	Route::post('/save-wet-cleaning',['uses' => 'AdminController@postWetCleaning', 'as' => 'postWetCleaning']);
     });
-    Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
-    Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
     Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::get('/pending-payments', ['uses' => 'PaymentController@getManageClientPayment', 'as' => 'getManageClientPayment']);
@@ -115,9 +113,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/delete-school', ['uses' => 'AdminController@postDeleteSchool', 'as' => 'postDeleteSchool']);
     Route::post('/pay-pending-money', ['uses' => 'AdminController@postPendingMoney', 'as' => 'postPendingMoney']);
 });
-
+//invoice routes
+	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
+	Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
 //Staff routes
-Route::group(['prefix' => 'staff'], function () {
+Route::group (['prefix' => 'staff'], function () {
     Route::get('/login',['uses' => 'StaffController@getStaffLogin','as' => 'getStaffLogin']);
     Route::get('/',['uses' => 'StaffController@getStaffIndex','as' => 'getStaffIndex']);
     Route::get('/orders',['uses' => 'StaffController@getStaffOrders', 'as' => 'getStaffOrders']);
@@ -127,6 +127,10 @@ Route::group(['prefix' => 'staff'], function () {
     Route::get('/logout',['uses' => 'StaffController@getLogout', 'as' => 'getStaffLogout']);
     Route::get('/sort',['uses' => 'StaffController@getSort','as' => 'sort']);
     Route::post('/add-item-custom',['uses' => 'StaffController@addItemCustom','as'=>'addItemCustom']);
+    Route::get('/school-donation', ['uses' => 'StaffController@getSchoolDonationStaff', 'as' => 'getSchoolDonationStaff']);
+    Route::post('/save-school-donation', ['uses' => 'StaffController@postEditSchoolStaff', 'as' => 'postEditSchoolStaff']);
+    Route::post('/delete-school', ['uses' => 'StaffController@postDeleteSchoolStaff', 'as' => 'postDeleteSchoolStaff']);
+    Route::post('/pay-pending-money', ['uses' => 'StaffController@postPendingMoneyStaff', 'as' => 'postPendingMoneyStaff']);
 });
 
 //API V.1 routes
