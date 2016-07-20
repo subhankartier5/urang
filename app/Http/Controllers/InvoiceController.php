@@ -14,9 +14,8 @@ class InvoiceController extends Controller
     	return view('invoices.invoice');
     }
     public function postInvoice(Request $request) {
-        //dd($request->pick_up_req_id);
         $total_price = 0.00;
-    	for ($i=0; $i < $request->loop_limit ; $i++) { 
+    	for ($i=0; $i < count($request->items) ; $i++) { 
     		$save_invoice = new Invoice();
     		$save_invoice->user_id = $request->req_user_id;
     		$save_invoice->pick_up_req_id = $request->pick_up_req_id;
@@ -31,11 +30,24 @@ class InvoiceController extends Controller
         $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
         $search_pickupreq->total_price = $total_price;
         if ($search_pickupreq->save()) {
-           return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+            if ($request->identifier = 'staff') {
+                return redirect()->route('getStaffOrders')->with('success', "Invoice Successfully created");
+            }
+            else
+            {
+                return redirect()->route('getCustomerOrders')->with('success', "Invoice Successfully created");
+            }
         }
         else
         {
-            return redirect()->route('getCustomerOrders')->with('fail', "Some error occured failed to update total price");
+            if ($request->identifier = 'staff') {
+                return redirect()->route('getStaffOrders')->with('fail', "Some error occured failed to update total price");
+            }
+            else
+            {
+                return redirect()->route('getCustomerOrders')->with('fail', "Some error occured failed to update total price");
+            }
+            
         }
     }
     public function postDeleteInvoice(Request $request) {

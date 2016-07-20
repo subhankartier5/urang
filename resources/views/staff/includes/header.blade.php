@@ -4,9 +4,6 @@
     <!-- Custom CSS -->
     <link href="{{url('/')}}/public/css/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="{{url('/')}}/public/css/morris.css" rel="stylesheet">
-
     <link href="{{url('/')}}/public/css/staff.css" rel="stylesheet">
 
     <!-- Custom Fonts -->

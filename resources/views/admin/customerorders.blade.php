@@ -500,17 +500,17 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
         <form role="form" method="post" action="{{route('postInvoice')}}" id="invoice_form">
             <div class="form-group" id="invoice_div">
                 <label>Item Name:</label>
-                <input type="text" name="items[0]" class="form-control" required="" placeholder="item name"></input><br/>
+                <input type="text" name="items[]" class="form-control" required="" placeholder="item name"></input><br/>
                 <label>Quantity:</label>
-                <input type="number" name="qty[0]" class="form-control" required="" placeholder="quantity"></input><br/>
+                <input type="number" name="qty[]" class="form-control" required="" placeholder="quantity"></input><br/>
                 <label>Price (per quantity):</label>
-                <input type="text" name="price[0]" class="form-control" required="" placeholder="price/quantity"></input>
+                <input type="text" name="price[]" class="form-control" required="" placeholder="price/quantity"></input>
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit_inv">Create Invoice</button>
             <input type="hidden" id="pick_up_req_id" name="pick_up_req_id"></input>
             <input type="hidden" id="req_user_id" name="req_user_id"></input>
             <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-            <input type="hidden" name="loop_limit" id="loop_limit"></input>
+            <input type="hidden" name="identifier" value="admin"></input>
         </form>
       </div>
       <div class="modal-footer">
@@ -643,8 +643,7 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
         $('#req_user_id').val(user_id);
       }
       function addItem() {
-        //alert('hi')
-        $('#invoice_div').append('<br><button type="button" class="btn btn-danger btn-xs" id="del_'+i+'" style="float: right;" onclick="delListItem('+i+')"><i class="fa fa-times" aria-hidden="true"></i></button><label id="nameL_'+i+'">Item Name:</label><input type="text" name="items['+i+']" id="items_'+i+'" class="form-control" required="" placeholder="item name"></input><br/><label id="qtyL_'+i+'">Quantity:</label><input type="number" name="qty['+i+']" id="qty_'+i+'" class="form-control" required="" placeholder="quantity"></input><br/><label id="priceL_'+i+'">Price (per quantity):</label><input type="text" name="price['+i+']" id="price_'+i+'" class="form-control" required="" placeholder="price/quantity"></input><br/>');
+        $('#invoice_div').append('<br><button type="button" class="btn btn-danger btn-xs" id="del_'+i+'" style="float: right;" onclick="delListItem('+i+')"><i class="fa fa-times" aria-hidden="true"></i></button><label id="nameL_'+i+'">Item Name:</label><input type="text" name="items[]" id="items_'+i+'" class="form-control" required="" placeholder="item name"></input><br/><label id="qtyL_'+i+'">Quantity:</label><input type="number" name="qty[]" id="qty_'+i+'" class="form-control" required="" placeholder="quantity"></input><br/><label id="priceL_'+i+'">Price (per quantity):</label><input type="text" name="price[]" id="price_'+i+'" class="form-control" required="" placeholder="price/quantity"></input><br/>');
         i++;
       }
       function delListItem(id) {
