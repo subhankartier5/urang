@@ -59,7 +59,7 @@
                   <div class="feature-item ">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a><span class="icon icon-Carioca"></span></a>
+                              <a href="{{route('getDryClean')}}" target="_blank"><span class="icon icon-Carioca"></span></a>
                           </div>
                       </div>
                       <div class="title">Dry Clean Only</div>
@@ -74,7 +74,7 @@
                   <div class="feature-item active">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                             <a><span class="icon icon-Heart"></span></a>
+                             <a href="{{route('getWashNFold')}}" target="_blank"><span class="icon icon-Heart"></span></a>
                           </div>
                       </div>
                       <div class="title">Wash & Fold</div>
@@ -90,7 +90,7 @@
                   <div class="feature-item">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a><span class="icon icon-Tools"></span></a>
+                              <a href="{{route('getCorporateFront')}}" target="_blank"><span class="icon icon-Tools"></span></a>
                           </div>
                       </div>
                       <div class="title">Corporate</div>
@@ -106,7 +106,7 @@
                   <div class="feature-item">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a><span class="icon icon-Blog"></span></a>
+                              <a href="{{route('getTailoringFront')}}" target="_blank"><span class="icon icon-Blog"></span></a>
                           </div>
                       </div>
                       <div class="title">Tailoring</div>
@@ -121,7 +121,7 @@
                   <div class="feature-item">
                       <div class="wrap-feature-icon">
                           <div class="feature-icon">
-                              <a><span class="icon icon-Blog"></span></a>
+                              <a href="{{route('getWetCleaningFront')}}" target="_blank"><span class="icon icon-Blog"></span></a>
                           </div>
                       </div>
                       <div class="title">Wet Cleaning</div>
