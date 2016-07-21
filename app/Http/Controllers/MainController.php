@@ -19,6 +19,8 @@ use App\Pickupreq;
 use App\OrderDetails;
 use App\SchoolDonations;
 use App\Cms;
+use Event;
+use App\Events\SomeEvent;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -76,6 +78,8 @@ class MainController extends Controller
                     $card_info->exp_month = $request->select_month;
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
+                        //sending email asynchronously
+                        Event::fire(new SomeEvent($request));
                         $this->sendAnEmail($request);
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
@@ -432,7 +436,7 @@ class MainController extends Controller
            return 0; 
         }
     }
-    private function sendAnEmail($request) {
+/*    private function sendAnEmail($request) {
         //mail should be send from here
         //dd($request->email);
         Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
@@ -441,7 +445,7 @@ class MainController extends Controller
             $message->from('work@tier5.us');
             $message->to($request->email, $request->name)->subject('U-rang Details');
         });
-    }
+    }*/
     public function getSchoolDonations(){
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
