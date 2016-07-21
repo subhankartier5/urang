@@ -112,6 +112,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/edit-school', ['uses' => 'AdminController@postEditSchool', 'as' => 'postEditSchool']);
     Route::post('/delete-school', ['uses' => 'AdminController@postDeleteSchool', 'as' => 'postDeleteSchool']);
     Route::post('/pay-pending-money', ['uses' => 'AdminController@postPendingMoney', 'as' => 'postPendingMoney']);
+    Route::get('/manage-request-no',['uses' => 'AdminController@manageReqNo','as' => 'manageReqNo']);
+    Route::post('/changeWeekDayNumber',['uses' => 'AdminController@changeWeekDayNumber','as' => 'changeWeekDayNumber']);
+    Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
 });
 //invoice routes
 	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);

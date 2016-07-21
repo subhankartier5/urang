@@ -26,6 +26,8 @@ use Session;
 use App\Cms;
 use App\OrderDetails;
 use App\SchoolDonations;
+use App\PickUpNumber;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -1240,6 +1242,44 @@ class AdminController extends Controller
         else
         {
             return 0;
+        }
+    }
+
+    public function manageReqNo()
+    {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $list_school = SchoolDonations::with('neighborhood')->paginate(10);
+        $neighborhood = Neighborhood::all();
+        $pick_up_number = PickUpNumber::first();
+
+        return view('admin.manage-request-numbers', compact('user_data', 'site_details', 'list_school', 'neighborhood','pick_up_number'));
+        
+    }
+    public function changeWeekDayNumber(Request $req)
+    {
+        $search = PickUpNumber::first();
+        
+        //dd($req);
+        $update = PickUpNumber::where('id',$search->id)->update([$req->column_name => $req->value]);
+
+        if($update)
+        {
+            return redirect()->route('manageReqNo');
+        }
+        
+    }
+    public function setSundayToZero()
+    {
+        $search = PickUpNumber::first();
+        
+        //dd($search);
+        $update = PickUpNumber::where('id',$search->id)->update(['sunday' => 0]);
+
+        if($update)
+        {
+            return redirect()->route('manageReqNo');
         }
     }
 }

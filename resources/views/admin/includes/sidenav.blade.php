@@ -85,6 +85,9 @@
                 <li>
                     <a href="{{route('getManageClientPayment')}}"><i class="fa fa-dollar" aria-hidden="true"></i> Manage client Payments</a>
                 </li>
+                <li>
+                    <a href="{{route('manageReqNo')}}"><i class="fa fa-stack-overflow" aria-hidden="true"></i> Manage Request Numbers</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
