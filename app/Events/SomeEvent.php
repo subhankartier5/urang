@@ -10,6 +10,7 @@ use Mail;
 class SomeEvent extends Event
 {
     use SerializesModels;
+    public $request;
 
     /**
      * Create a new event instance.
@@ -18,12 +19,7 @@ class SomeEvent extends Event
      */
     public function __construct($request)
     {
-        Mail::send('pages.sendEmail', array('name'=>$request->name,'email'=>$request->email,'password'=>$request->password), 
-        function($message) use($request)
-        {
-            $message->from('work@tier5.us');
-            $message->to($request->email, $request->name)->subject('U-rang Details');
-        });
+        $this->request = $request;
     }
 
     /**
