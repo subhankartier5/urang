@@ -34,7 +34,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
-
+<script type="text/javascript" src="{{url('/')}}/public/js/jquery.creditCardValidator.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="{{url('/')}}/public/new/vendor/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>

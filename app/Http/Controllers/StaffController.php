@@ -14,7 +14,7 @@ use Auth;
 use App\OrderDetails;
 use App\SchoolDonations;
 use App\Neighborhood;
-
+use App\PaymentKeys;
 class StaffController extends Controller
 {
     public function __construct()
@@ -292,6 +292,18 @@ class StaffController extends Controller
         else
         {
             return 0;
+        }
+    }
+    public function getMakePayments() {
+        $staff = auth()->guard('staffs')->user();
+        if ($staff) {
+            $payment_keys = PaymentKeys::first();
+            $user_details = Pickupreq::where('payment_type',1)->where('payment_status', 0)->with('user')->get();
+            return view('staff.make-payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
+        }
+        else
+        {
+            return redirect()->route('getStaffLogin');
         }
     }
 }

@@ -125,10 +125,10 @@
                     <li>
                         <a href="{{route('getSchoolDonationStaff')}}"><i class="fa fa-usd" aria-hidden="true"></i> School Donation</a>
                     </li>
-                    <!--<li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
                     <li>
+                        <a href="{{route('getMakePayments')}}"><i class="fa fa-credit-card fa-fw"></i> Make Payments</a>
+                    </li>
+                    <!--<li>
                         <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
                     </li>
                     <li>

@@ -54,40 +54,70 @@ class PaymentController extends Controller
 			{
 				$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
 			}
+			//dd($response);
 			if ($response != null)
 			{
 			    $tresponse = $response->getTransactionResponse();
 			    if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )   
 			    {
-			        return redirect()->route('getPayment')->with('success', "Payment was successfull!");
+			    	if (isset($auth_request->i_m_staff)) {
+			    		return redirect()->route('getMakePayments')->with('success', "Payment was successfull!");
+			    	} else {
+			    		return redirect()->route('getPayment')->with('success', "Payment was successfull!");
+			    	}
 			    }
 			    else
 			    {
-			        return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!"); 
+			    	if (isset($auth_request->i_m_staff)) {
+			    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
+			    	} else {
+			    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
+			    	}
 			    }
 			}
 			else
 			{
-			    return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!"); 
+			    if (isset($auth_request->i_m_staff)) {
+		    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
+		    	} else {
+		    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
+		    	} 
 			}
    		}
    		else
    		{
-   			return redirect()->route('getPayment')->with('fail', "No Payment keys found! Please fill up your payment keys and try again!"); 
+   			if (isset($auth_request->i_m_staff)) {
+	    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
+	    	} else {
+	    		return redirect()->route('getPayment')->with('fail', "Payment Failed check card details and try again later!");
+	    	} 
    		}
     }
     public function postPaymentKeys(Request $request) {
+    	//dd($request->i_m_staff);
     	$payment_keys = PaymentKeys::first();
     	if ($payment_keys != null) {
     		$payment_keys->login_id = trim($request->authorize_id);
     		$payment_keys->transaction_key = trim($request->tran_key);
 	    	$payment_keys->mode = $request->mode;
 	    	if ($payment_keys->save()) {
-	    		return redirect()->route('getPayment')->with('success', "Account Details Successfully Saved!");
+	    		if (isset($request->i_m_staff)) {
+	    			return redirect()->route('getMakePayments')->with('success', "Account Details Successfully Saved!");
+	    		}
+	    		else
+	    		{
+	    			return redirect()->route('getPayment')->with('success', "Account Details Successfully Saved!");
+	    		}
 	    	}
 	    	else
 	    	{
-	    		return redirect()->route('getPayment')->with('fail', "Failed to save details");
+	    		if (isset($request->i_m_staff)) {
+	    			return redirect()->route('getMakePayments')->with('fail', "Failed to save details");
+	    		}
+	    		else
+	    		{
+	    			return redirect()->route('getPayment')->with('fail', "Failed to save details");
+	    		}
 	    	}
     	}
     	else

@@ -87,11 +87,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/save-details-staff', ['uses'=> 'AdminController@postEditDetailsStaff', 'as' => 'postEditDetailsStaff']);
     Route::post('/delete-staff', ['uses' => 'AdminController@postDelStaff', 'as' => 'postDelStaff']);
     Route::post('/change-staff-password', ['uses' => 'AdminController@postChangeStaffPassword', 'as' => 'postChangeStaffPassword']);
-    Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'postPayment']);
     Route::get('/search',['uses' => 'AdminController@getSearchAdmin', 'as' => 'getSearchAdmin']);
     Route::get('/sortby',['uses' => 'AdminController@getSortAdmin','as' => 'sortAdmin']);
     Route::get('/payment', ['uses' => 'PaymentController@getPayment', 'as' => 'getPayment']);
-    Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
     Route::group(['prefix' => 'cms'], function() {
     	Route::get('/dry-clean', ['uses' => 'AdminController@getCmsDryClean', 'as' => 'getCmsDryClean']);
     	Route::post('/save-dry-clean', ['uses' => 'AdminController@postCmsDryClean', 'as' => 'postCmsDryClean']);
@@ -105,7 +103,6 @@ Route::group(['middleware' => ['auth']], function () {
     	Route::post('/save-wet-cleaning',['uses' => 'AdminController@postWetCleaning', 'as' => 'postWetCleaning']);
     });
     Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
-    Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::get('/pending-payments', ['uses' => 'PaymentController@getManageClientPayment', 'as' => 'getManageClientPayment']);
     Route::get('/manage-school-donations', ['uses' => 'AdminController@getSchoolDonations', 'as' => 'getSchoolDonationsAdmin']);
     Route::post('/save-school', ['uses' => 'AdminController@postSaveSchool', 'as' => 'postSaveSchool']);
@@ -119,6 +116,10 @@ Route::group(['middleware' => ['auth']], function () {
 //invoice routes
 	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
 	Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
+//mark as paid routes
+    Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
+    Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);
+    Route::post('/payment', ['uses' => 'PaymentController@AuthoRizePayment', 'as' => 'postPayment']);
 //Staff routes
 Route::group (['prefix' => 'staff'], function () {
     Route::get('/login',['uses' => 'StaffController@getStaffLogin','as' => 'getStaffLogin']);
@@ -134,6 +135,7 @@ Route::group (['prefix' => 'staff'], function () {
     Route::post('/save-school-donation', ['uses' => 'StaffController@postEditSchoolStaff', 'as' => 'postEditSchoolStaff']);
     Route::post('/delete-school', ['uses' => 'StaffController@postDeleteSchoolStaff', 'as' => 'postDeleteSchoolStaff']);
     Route::post('/pay-pending-money', ['uses' => 'StaffController@postPendingMoneyStaff', 'as' => 'postPendingMoneyStaff']);
+    Route::get('/make-payments', ['uses' => 'StaffController@getMakePayments', 'as' => 'getMakePayments']);
 });
 
 //API V.1 routes
