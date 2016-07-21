@@ -80,7 +80,7 @@ class MainController extends Controller
                     if ($card_info->save()) {
                         //sending email asynchronously
                         Event::fire(new SomeEvent($request));
-                        $this->sendAnEmail($request);
+                        //$this->sendAnEmail($request);
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
