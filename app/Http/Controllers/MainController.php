@@ -19,8 +19,9 @@ use App\Pickupreq;
 use App\OrderDetails;
 use App\SchoolDonations;
 use App\Cms;
-use Event;
-use App\Events\SomeEvent;
+//use Event;
+//use App\Events\SomeEvent;
+use App\Jobs\SendReminderEmail;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -78,9 +79,6 @@ class MainController extends Controller
                     $card_info->exp_month = $request->select_month;
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
-                        //sending email asynchronously
-                        Event::fire(new SomeEvent($request));
-                        //$this->sendAnEmail($request);
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
