@@ -136,6 +136,7 @@ Route::group (['prefix' => 'staff'], function () {
     Route::post('/delete-school', ['uses' => 'StaffController@postDeleteSchoolStaff', 'as' => 'postDeleteSchoolStaff']);
     Route::post('/pay-pending-money', ['uses' => 'StaffController@postPendingMoneyStaff', 'as' => 'postPendingMoneyStaff']);
     Route::get('/make-payments', ['uses' => 'StaffController@getMakePayments', 'as' => 'getMakePayments']);
+    Route::get('/manual-payments', ['uses' => 'StaffController@getManualPayment', 'as' => 'getManualPayment']);
 });
 
 //API V.1 routes

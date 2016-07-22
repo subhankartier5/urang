@@ -306,4 +306,15 @@ class StaffController extends Controller
             return redirect()->route('getStaffLogin');
         }
     }
+    public function getManualPayment() {
+       $staff = auth()->guard('staffs')->user();
+        if ($staff) {
+            $data = Pickupreq::where('payment_status', 0)->where('payment_type', '!=', 1)->with('user')->paginate(10);
+            return view('staff.manual_payment', compact('data'));
+        }
+        else
+        {
+            return redirect()->route('getStaffLogin');
+        }
+    }
 }

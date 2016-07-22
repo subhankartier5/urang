@@ -128,10 +128,10 @@
                     <li>
                         <a href="{{route('getMakePayments')}}"><i class="fa fa-credit-card fa-fw"></i> Make Payments</a>
                     </li>
-                    <!--<li>
-                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
                     <li>
+                        <a href="{{route('getManualPayment')}}"><i class="fa fa-usd" aria-hidden="true"></i> Manage Client Payments</a>
+                    </li>
+                    <!--<li>
                         <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
                     </li>
                     <li>
