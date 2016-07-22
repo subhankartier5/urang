@@ -169,7 +169,7 @@
               <div class="col-xs-4">
                 <span>
                   <label>Donate to a school in your neighborhood ?</label>
-                  <input onclick="openCheckBoxSchool()" type="checkbox" name="isEmergency"></input>
+                  <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isEmergency"></input>
                 </span>
               </div>
               <div class="col-xs-4">
@@ -334,7 +334,7 @@
   $('#schoolDonationAmount').hide();
   function openCheckBoxSchool()
   {
-    $('#schoolNameDropDown').show();
+    $('#schoolNameDropDown').toggle();
   }
   $('#schoolNameDropDown').change(function(){
     if($('#schoolNameDropDown').val() != '')

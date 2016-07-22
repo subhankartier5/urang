@@ -356,7 +356,7 @@ class MainController extends Controller
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = NULL;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
-        if(isset($request->school_donation_id))
+        if($request->school_donation_id != null)
         {
             $pick_up_req->school_donation_id = $request->school_donation_id;
             $pick_up_req->school_donation_amount = $request->school_donation_amount;
