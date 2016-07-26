@@ -5,14 +5,14 @@
       <div class="container-fluid">
          <div class="row">
             @if(Session::has('fail'))
-            <div class="alert alert-danger">{{Session::get('fail')}}
-               <a href="{{ route('getStaffOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <div class="alert alert-danger"><i class="fa fa-warning" aria-hidden="true"></i> <strong>Error!</strong> {{Session::get('fail')}}
+               <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
             @else
             @endif
             @if(Session::has('success'))
-            <div class="alert alert-success">{{Session::get('success')}}
-               <a href="{{ route('getStaffOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <div class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> <strong>Success!</strong> {{Session::get('success')}}
+               <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
             @else
             @endif
@@ -45,12 +45,8 @@
                                           <input class="form-control" type="text" name="exp_date" required="" id="exp_date" placeholder="Format: yyyy-mm" />
                                        </div>
                                        <div class="form-group">
-                                          <label>CVV:</label>
-                                          <input class="form-control" type="number" name="cvv" id="cvv" required="" placeholder="cvv" />
-                                       </div>
-                                       <div class="form-group">
                                           <label>Amount</label>
-                                          <input type="number" class="form-control" name="amount" required="" placeholder="chargable amount" id="amount"></input>
+                                          <input type="number" class="form-control" name="amount" required="" placeholder="chargable amount" id="amount" step="any"></input>
                                        </div>
                                        <button type="submit" class="btn btn-outline btn-primary btn-lg btn-block" id="make_payment">Make Payment</button>
                                        <input type="hidden" name="_token" value="{{ Session::token() }}"></input>
@@ -204,7 +200,7 @@
       }
       function IsValid(){
       	//return false;
-      	if ($('#isValidCard').val() == 0 && $('#exp_date').val() && $('#cvv').val() && $('#amount').val()) 
+      	if ($('#isValidCard').val() == 0 && $('#exp_date').val() && $('#amount').val()) 
       	{
       		return true;
       	}
@@ -236,5 +232,12 @@
           }
         });
       }
+      $(function() {
+        $("#exp_date").datepicker({
+           changeMonth: true,
+           changeYear: true,
+           dateFormat: 'yy-mm'
+        });
+      });
 </script>
 @endsection

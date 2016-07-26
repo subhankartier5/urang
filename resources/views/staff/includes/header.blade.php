@@ -23,7 +23,7 @@
 <!-- Custom Fonts -->
 <link href="{{url('/')}}/public/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.css"/>
-
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/jquery-ui.css">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -38,5 +38,6 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="{{url('/')}}/public/new/vendor/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>
+<script type="text/javascript" src="{{url('/')}}/public/js/jquery-ui.js"></script>
 
 
