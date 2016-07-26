@@ -152,4 +152,5 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/update-user',['uses' => 'ApiV1\UserApiController@updateProfile','as' => 'updateProfileApi']);
     Route::post('/change-password',['uses' => 'ApiV1\UserApiController@changePassword','as' => 'changePasswordApi']);
     Route::post('/delete-pickup',['uses' => 'ApiV1\UserApiController@deletePickup','as' => 'deletePickupApi']);
+    Route::post('/pick-up-types', ['uses' => 'ApiV1\UserApiController@postPickUpType', 'as' => 'postPickUpType']);
 }); 

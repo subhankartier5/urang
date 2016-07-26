@@ -511,4 +511,53 @@ class UserApiController extends Controller
 			    	));
         }
     }
+    public function postPickUpType(Request $request) {
+        //return $request->id;
+        if (trim($request->id) != null) {
+            $pick_up_req = Pickupreq::where('user_id',$request->id)->get();
+            $placed_order = 0;
+            $picked_up_order = 0;
+            $processed_order = 0;
+            $delivered_order =0;
+            foreach ($pick_up_req as $req) {
+                $order_status = $req->order_status;
+                switch ($order_status) {
+                  case '1':
+                    $placed_order++;
+                    break;
+                  case '2':
+                     $picked_up_order++;
+                    break;
+                  case '3':
+                     $processed_order++;
+                    break;
+                  case '4':
+                     $delivered_order++;
+                    break;
+                  default:
+                    echo "Something went wrong error!";
+                    break;
+                }
+            }
+            return Response::json(array(
+                'status' => true ,
+                'status_code' => 200,
+                'response' => array(
+                    'total_pick_up' => count($pick_up_req),
+                    'scheduled_pick_up' => $placed_order,
+                    'picked_up_order' => $picked_up_order,
+                    'processed_pick_up' => $processed_order,
+                    'delivered_pick_up_req' => $delivered_order
+                )
+            ));
+        }
+        else
+        {
+            return Response::json(array(
+                'status' => false ,
+                'status_code' => 400,
+                'message' => 'User id cannot be null!'
+            ));
+        }
+    }
 }
