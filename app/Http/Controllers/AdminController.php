@@ -27,6 +27,7 @@ use App\Cms;
 use App\OrderDetails;
 use App\SchoolDonations;
 use App\PickUpNumber;
+use App\Invoice;
 
 class AdminController extends Controller
 {
@@ -398,22 +399,41 @@ class AdminController extends Controller
                 $user_details->delete();
                 $card_details = CustomerCreditCardInfo::where('user_id', $id)->first();
                 if ($card_details) {
-                    $card_details->delete();
-                    return 1;
+                    //$card_details->delete();
+                    if ($card_details->delete()) {
+                        $search = Pickupreq::where('user_id', $id)->get();
+                        foreach ($search as $pick_up_req) {
+                            $pick_up_req->delete();
+                        }
+                        $search_invoice = Invoice::where('user_id', $id)->get();
+                        foreach ($search_invoice as $inv) {
+                            $inv->delete();
+                        }
+                        $orders = OrderDetails::where('user_id', $id)->get();
+                        foreach ($orders as $each_order) {
+                            $each_order->delete();
+                        }
+                        return 1;
+                    }
+                    else
+                    {
+                        return "error in deleteing card details of this user";
+                    }
+                    //return 1;
                 }
                 else
                 {
-                    return 0;
+                    return "Cannot find this user's card details";
                 }
             }
             else
             {
-                return 0;
+                return "Cannot delete that user with that id";
             }
         }
         else
         {
-            return 0;
+            return "Cannot find a user with that id";
         }
     }
     public function postEditCustomer(Request $request) {
@@ -496,7 +516,7 @@ class AdminController extends Controller
             $user_details->off_phone = isset($request->officeph_no) ? $request->officeph_no : NULL;
             $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
             $user_details->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
-            $user_details->payment_status = 0;
+            //$user_details->payment_status = 0;
             if ($user_details->save()) {
                 $credit_info = new CustomerCreditCardInfo();
                 $credit_info->user_id = $user_details->user_id;

@@ -108,23 +108,35 @@
 					});
 					//delete functionality
 					$('#del_'+{{$customer->id}}).click(function(){
-						var id = '{{$customer->id}}';
-						$.ajax({
-							url: baseUrl+"/delete-user",
-							type: "POST",
-							data: {id: id, _token: '{!!csrf_token()!!}'},
-							success: function(data) {
-								if (data == 1) 
-								{
-									location.reload();
-								}
-								else
-								{
-									$('#errordiv').show();
-									$('#errordiv').html('Some Error occured please try again later');
-								}
-								//console.log(data);
-							}
+						swal({   
+							title: "Are you sure?",   
+							text: "Deleting this user will remove all pickup req and all data associated with it!",   
+							type: "warning",   
+							showCancelButton: true,   
+							confirmButtonColor: "#DD6B55",   
+							confirmButtonText: "Yes, delete it!",   
+							closeOnConfirm: false }, 
+							function(){   
+								/*swal("Deleted!", "Your imaginary file has been deleted.", "success");*/ 
+								var id = '{{$customer->id}}';
+								$.ajax({
+									url: baseUrl+"/delete-user",
+									type: "POST",
+									data: {id: id, _token: '{!!csrf_token()!!}'},
+									success: function(data) {
+										if (data == 1) 
+										{
+											location.reload();
+										}
+										else
+										{
+											console.log(data);
+											$('#errordiv').show();
+											$('#errordiv').html('Some Error occured please try again later');
+										}
+										//console.log(data);
+									}
+								});
 						});
 					});
 				@endforeach
