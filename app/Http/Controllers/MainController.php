@@ -235,7 +235,7 @@ class MainController extends Controller
         //$neighborhood = $obj->getNeighborhood();
         //dd($login_check);
         $price_list = PriceList::with('categories')->get();
-        //dd();
+        //dd($price_list);
         if ($login_check != null) {
             //dd('i m here');
            $logged_user= $obj->getCustomerData();

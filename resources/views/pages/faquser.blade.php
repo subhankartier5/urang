@@ -43,7 +43,7 @@
                           <div class="row left-row">
                             <div class="round-ico little"></div>
                             <div class="col-md-6 col-sm-6 time-item wow fadeInUp" data-wow-duration="2s" >
-                                <div class="date">Q & A</div>
+                                <div class="dateLeft">Q & A</div>
                                 <div class="title">{{$faq[$i]->question}}</div>
                                 <div class="time-image">
                                     <img src="{{url('/')}}/public/dump_images/{{$faq[$i]->image}}" alt="" />
@@ -56,7 +56,7 @@
                             <div class="round-ico big"></div>
                             <div class="col-md-6 col-sm-6"></div>
                             <div class="col-md-6 col-sm-6 time-item wow fadeInUp" data-wow-duration="2s" >
-                                <div class="date">Q & A</div>
+                                <div class="dateRight">Q & A</div>
                                 <div class="title">{{$faq[$i]->question}}</div>
                                 <div class="time-image">
                                     <img src="{{url('/')}}/public/dump_images/{{$faq[$i]->image}}" alt="" />

@@ -854,7 +854,8 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 .wrap-timeline .right-row .time-item { padding-left: 80px; }
 .wrap-timeline .left-row .time-item { padding-right: 80px; }
 .wrap-timeline .time-item { padding-top: 10px; }
-.wrap-timeline .time-item .date { font-size: 12px; text-transform: uppercase; color: #ff6400; margin-bottom: 10px; }
+.wrap-timeline .time-item .dateLeft { margin-left: 264px; font-size: 12px; text-transform: uppercase; color: #ff6400; margin-bottom: 10px; }
+.wrap-timeline .time-item .dateRight { margin-right: 264px; font-size: 12px; text-transform: uppercase; color: #ff6400; margin-bottom: 10px; }
 .wrap-timeline .time-item .time-image img { max-width: 100%; margin-bottom: 20px; width: auto; }
 .wrap-timeline .time-item .title { font-size: 18px; color: #333333; font-weight: bold; margin-bottom: 15px; }
 .wrap-timeline .time-item p { margin: 0; }
