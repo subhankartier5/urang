@@ -1176,13 +1176,21 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 	padding: 20px 40px;
 }
 	.plan {
-		background: white;
-		border-radius: 6px;
-		height: 60px;
-		margin: 10px 0;
-		opacity: 0.8;
-		padding: 4px 25px;
-		width: 450px;
+    background: white;
+    border-radius: 6px;
+    height: 100px;
+    margin: 10px 0;
+    opacity: 0.8;
+    padding: 0 25px;
+    width: 100%;
+    clear: both;
+}
+.plan a{
+    color: #666;
+}
+.plan .plan-title{
+    line-height: 20px;
+    word-wrap: break-word;
 }
 		&:hover,
 		&.highlight {
@@ -1212,12 +1220,15 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 		}
 		
 		.details {
-			color: #222;
-			display: block;
-			float: left;
-			height: 46px;
-			margin: 8px 0;
-			padding: 0px 10px;
+    color: #222;
+    display: inline-block;
+    float: left;
+    height: 46px;
+    margin: 8px 0;
+    padding: 0px 10px;
+    width: 50%;
+    font-size: 16px;
+        }
 			
 			.plan-title {
 				font-size: 17px;
