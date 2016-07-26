@@ -138,7 +138,7 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        
 	      </div>
 	    </div>
 
@@ -150,7 +150,7 @@
 			@foreach($list_school as $school)
 				if ('{{$school->id}}' == id) 
 				{
-					$('#school_name').val('{{$school->school_name}}');
+					$('#school_name').val('{!!$school->school_name!!}');
 					$('#neighborhood').val('{{$school->neighborhood_id}}');
 					$('#imagePreview').html('<img src="{{url("/")}}/public/dump_images/{{$school->image}}" style="height: 100px; width: 100px;" alt="school image">');
 					$('#pending_money').val('{{number_format((float)$school->pending_money, 2, '.', '')}}');

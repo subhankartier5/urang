@@ -111,9 +111,6 @@
                 </tbody>
 	        </table>
 	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
 	    </div>
 
 	  </div>
@@ -159,10 +156,8 @@
 			</form>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>
-
 	  </div>
 	</div>
 	<!-- Modal for edit  -->
@@ -198,7 +193,6 @@
 			</form>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>
 
@@ -227,9 +221,6 @@
 			  <div class="form-group">
 			  	<button type="button" class="btn btn-primary btn-lg btn-block" id="postCategory">Add Category</button>
 			  </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
 	    </div>
 
 	  </div>
@@ -288,7 +279,7 @@
 						//showing modal
 						$('#id').val('{{$item->id}}');
 						$('#categoryEdit').val("{{$item->categories->name}}");
-						$('#nameEdit').val("{{$item->item}}");
+						$('#nameEdit').val("{!!$item->item!!}");
 						$('#priceEdit').val("{{$item->price}}");
 						$('#myModalEdit').modal('show');
 					});
