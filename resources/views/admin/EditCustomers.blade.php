@@ -63,7 +63,8 @@
 								</div>
 								<div class="form-group">
 								    <label for="name">Card No</label>
-								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? $user->card_details->card_no : 'No data exist' }}" onkeyup="return creditCardValidate();" /></input>
+								    <input type="text" class="form-control" id="card_no" name="card_no" required="" value="{{$user->card_details != null ? substr_replace($user->card_details->card_no, str_repeat("*", 8), 4, 8) : 'No data exist' }}" 
+								    onkeyup="return creditCardValidate();" /></input>
 								</div>
 								<p class="log"></p>
 								<div class="form-group">
