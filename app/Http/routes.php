@@ -145,9 +145,9 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/order-history',['uses' => 'ApiV1\UserApiController@order_history','as' => 'order_history']);
     Route::post('/place-order',['uses' => 'ApiV1\UserApiController@placeOrder','as' => 'placeOrder']);
     Route::post('/sign-up-user',['uses' => 'ApiV1\UserApiController@userSignUp','as' => 'userSignUp']);
-    Route::get('/get-prices',['uses' => 'ApiV1\UserApiController@getPrices', 'as' => 'getPricesApi']);
-    Route::get('/get-neighborhoods',['uses' => 'ApiV1\UserApiController@getNeighborhood','as' => 'getNeighborhoodApi']);
-    Route::get('/get-faq',['uses' => 'ApiV1\UserApiController@getFaq','as' => 'getFaqApi']);
+    Route::post('/get-prices',['uses' => 'ApiV1\UserApiController@getPrices', 'as' => 'getPricesApi']);
+    Route::post('/get-neighborhoods',['uses' => 'ApiV1\UserApiController@getNeighborhood','as' => 'getNeighborhoodApi']);
+    Route::post('/get-faq',['uses' => 'ApiV1\UserApiController@getFaq','as' => 'getFaqApi']);
     Route::post('/contact-us',['uses' => 'ApiV1\UserApiController@contactUs','as' => 'contactUsApi']);
     Route::post('/update-user',['uses' => 'ApiV1\UserApiController@updateProfile','as' => 'updateProfileApi']);
     Route::post('/change-password',['uses' => 'ApiV1\UserApiController@changePassword','as' => 'changePasswordApi']);
