@@ -22,6 +22,7 @@ use App\Faq;
 use App\Pickupreq;
 use App\OrderDetails;
 use Illuminate\Support\Facades\Validator;
+use App\Categories;
 
 class UserApiController extends Controller
 {
@@ -252,7 +253,7 @@ class UserApiController extends Controller
 
     public function getPrices()
     {
-    	$price_list = PriceList::with('categories')->get();
+    	$price_list = Categories::with('pricelists')->get();
     	if($price_list)
     	{
     		return Response::json(array(
