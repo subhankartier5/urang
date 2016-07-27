@@ -21,7 +21,7 @@ use App\SchoolDonations;
 use App\Cms;
 //use Event;
 //use App\Events\SomeEvent;
-use App\Jobs\SendReminderEmail;
+//use App\Jobs\SendReminderEmail;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -459,7 +459,13 @@ class MainController extends Controller
             return view('pages.school-donation', compact('site_details', 'login_check', 'list_school'));
         }
     }
-    public function getDryClean() {
+    public function getServices() {
+        $obj = new NavBarHelper();
+        $login_check = $obj->getCustomerData();
+        $site_details = $obj->siteData();
+        return view('pages.services', compact('login_check', 'site_details'));
+    }
+   /* public function getDryClean() {
         $obj = new NavBarHelper();
         $login_check = $obj->getCustomerData();
         $page_data = Cms::where('identifier', 0)->first();
@@ -488,5 +494,5 @@ class MainController extends Controller
         $login_check = $obj->getCustomerData();
         $page_data = Cms::where('identifier', 4)->first(); 
         return view('stand_alone_pages.wet-cleaning', compact('login_check', 'page_data'));
-    }
+    }*/
 }

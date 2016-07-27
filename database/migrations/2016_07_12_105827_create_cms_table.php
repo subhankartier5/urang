@@ -21,7 +21,7 @@ class CreateCmsTable extends Migration
             $table->string('tags')->nullable();
             $table->longText('content')->nullable();
             $table->string('background_image')->nullable();
-            $table->tinyInteger('identifier')->comment = "0->dry clean page , 1-> wash and fold, 2->corporate page, 3-> tailoring page, 5-> wet cleaning page";
+            $table->tinyInteger('identifier')->comment = "0->dry clean page , 1-> wash and fold, 2->corporate page, 3-> tailoring page, 4-> wet cleaning page";
             $table->timestamps();
         });
     }

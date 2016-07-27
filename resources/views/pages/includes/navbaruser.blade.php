@@ -41,13 +41,13 @@
                         <a href="{{route('getSchoolDonations')}}">School Donations</a> 
                       </li>
                       <li>
-                        <a href="{{route('getDryClean')}}">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+                        <a href="{{route('getServices')}}">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                         <ul style="width: 160%">
-                          <li><a href="{{route('getDryClean')}}">DRY CLEAN ONLY</a></li>
-                          <li><a href="{{route('getWashNFold')}}">WASH & FOLD</a></li>
-                          <li><a href="{{route('getCorporateFront')}}">CORPOARTE</a></li>
-                          <li><a href="{{route('getTailoringFront')}}">TAILORING</a></li>
-                          <li><a href="{{route('getWetCleaningFront')}}">WET CLEANING</a></li>
+                          <li class="dryclean"><a href="{{route('getServices')}}#dry-clean">DRY CLEAN ONLY</a></li>
+                          <li class="washnfold"><a href="{{route('getServices')}}#wash-n-fold">WASH & FOLD</a></li>
+                          <li><a href="{{route('getServices')}}#corporate">CORPOARTE</a></li>
+                          <li><a href="{{route('getServices')}}#tailoring">TAILORING</a></li>
+                          <li><a href="{{route('getServices')}}#wet-cleaning">WET CLEANING</a></li>
                         </ul>
                       </li>
                       <li role="presentation"><a href="{{route('getFaqList')}}">FAQs</a></li>
