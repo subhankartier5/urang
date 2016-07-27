@@ -71,7 +71,6 @@
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th>Order Id</th>
                             <th>Created At</th>
                             <th>Pickup Date</th>
                             <th>Customer Email</th>
@@ -132,7 +131,6 @@
 
                         ?>
                           <tr>
-                            <td>{{ $pickup->id }}</td>
                             <td>{{ date("F jS Y",strtotime($pickup->created_at->toDateString())) }}</td>
                             <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                             <td>{{ $pickup->user->email }}</td>

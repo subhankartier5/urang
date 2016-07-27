@@ -14,22 +14,34 @@ class InvoiceController extends Controller
     	return view('invoices.invoice');
     }
     public function postInvoice(Request $request) {
+        //dd($request);
         $total_price = 0.00;
-    	for ($i=0; $i < count($request->items) ; $i++) { 
-    		$save_invoice = new Invoice();
-    		$save_invoice->user_id = $request->req_user_id;
-    		$save_invoice->pick_up_req_id = $request->pick_up_req_id;
-    		$save_invoice->invoice_id = time();
-    		$save_invoice->item = $request->items[$i];
-    		$save_invoice->quantity = $request->qty[$i];
-    		$save_invoice->price = $request->price[$i];
-            $total_price += $request->qty[$i]*$request->price[$i];
-    		$save_invoice->save();
-    	}
-        //dd($total_price);
-        $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
-        $search_pickupreq->total_price = $total_price;
-        if ($search_pickupreq->save()) {
+        $itemList=explode(',',$request->list_item);
+         for($i=0;$i<count($itemList);$i++)
+         {
+            $items=$itemList[$i];
+            if($items!='')
+            {
+                $item_each = explode('-', $items);
+                for ($j=0; $j <count($item_each) ; $j++) { 
+                    $item_name = $item_each[2];
+                    $qty = $item_each[1];
+                    $price =$item_each[3];
+                }
+                $save_invoice = new Invoice();
+                $save_invoice->user_id = $request->req_user_id;
+                $save_invoice->pick_up_req_id = $request->pick_up_req_id;
+                $save_invoice->invoice_id = time();
+                $save_invoice->item = $item_name;
+                $save_invoice->quantity = $qty;
+                $save_invoice->price = $price;
+                $total_price += $qty*$price;
+                $save_invoice->save();
+            }
+         }
+         $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
+         $search_pickupreq->total_price = $total_price;
+         if ($search_pickupreq->save()) {
             if ($request->identifier == 'staff') {
                 return redirect()->route('getStaffOrders')->with('success', "Invoice Successfully created");
             }
