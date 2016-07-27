@@ -500,7 +500,6 @@
          <input type="hidden" id="pick_up_req_id" name="pick_up_req_id"></input>
          <input type="hidden" id="req_user_id" name="req_user_id"></input>
          <input type="hidden" name="identifier" value="admin"></input>
-         <input type="hidden" name="list_items_json" id="list_items_json"></input>
          <input type="hidden" name="_token" value="{{Session::token()}}"></input>
          <input type="hidden" name="list_item" id="text_field"></input>
          </div>
@@ -708,31 +707,32 @@
       var Price=$('#price_'+id).text();
       if(str!='')
       {
-        arrItems.push(str+','+id+'-'+quan+'-'+Itemname+'-'+Price);
+        arrItems.push(str+','+id+'^%'+quan+'^%'+Itemname+'^%'+Price);
       }
       else
       {
-        arrItems.push(id+'-'+quan+'-'+Itemname+'-'+Price);
+        arrItems.push(id+'^%'+quan+'^%'+Itemname+'^%'+Price);
       }
       $('#btn_'+id).text('Remove');
       
       $('#text_field').val(arrItems);
+      $('#number_'+id).prop('disabled', true);
     }
     else
     {
       var quan=$('#number_'+id).val();
       var Itemname=$('#item_'+id).text();
       var Price=$('#price_'+id).text();
-      var replace_string=id+'-'+quan+'-'+Itemname+'-'+Price;
+      var replace_string=id+'^%'+quan+'^%'+Itemname+'^%'+Price;
       var str=$('#text_field').val();
       var myString= $('#text_field').val();
       myString = myString.replace(replace_string,',');
       $('#text_field').val(myString);
       $('#btn_'+id).text('Add');
+      $('#number_'+id).prop('disabled', false);
     }
      
    }
-   
    function add_id(id) {
    if ($('#number_'+id).val() > 0) 
    {
