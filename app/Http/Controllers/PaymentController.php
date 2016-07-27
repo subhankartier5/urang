@@ -15,6 +15,11 @@ use App\CustomerCreditCardInfo;
 use App\Invoice;
 class PaymentController extends Controller
 {
+	public function postGetCustomerCreditCard(Request $request) {
+		//return $request;
+		$credit_card_info = CustomerCreditCardInfo::where('user_id', $request->id)->first();
+		return $credit_card_info;
+	}
 	public function getPayment() {
 		$obj = new NavBarHelper();
         $user_data = $obj->getUserData();

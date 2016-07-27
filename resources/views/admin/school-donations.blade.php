@@ -56,9 +56,9 @@
 	                        			<td><button type="button" class="btn btn-danger btn-xs" onclick="delSchool('{{$school->id}}')"><i class="fa fa-times" aria-hidden="true"></i> Delete</button></td>
 	                        			<td>
 	                        				@if(number_format((float)$school->pending_money, 2, '.', '') == 0.00)
-	                        					<label style="color: green;"><i class="fa fa-check" aria-hidden="true"></i> No pending money</label>
+	                        					<label style="color: green;"><i class="fa fa-check" aria-hidden="true"></i> Paid</label>
 	                        				@else
-	                        					<button type="button" class="btn btn-primary btn-xs" onclick="payPendingMoney('{{$school->id}}')"><i class="fa fa-check" aria-hidden="true"></i> Paid</button>
+	                        					<button type="button" class="btn btn-primary btn-xs" onclick="payPendingMoney('{{$school->id}}')"><i class="fa fa-check" aria-hidden="true"></i> Not Paid</button>
 	                        				@endif
 	                        			</td>
 	                        		</tr>

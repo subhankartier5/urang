@@ -113,6 +113,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/manage-request-no',['uses' => 'AdminController@manageReqNo','as' => 'manageReqNo']);
     Route::post('/changeWeekDayNumber',['uses' => 'AdminController@changeWeekDayNumber','as' => 'changeWeekDayNumber']);
     Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
+    Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
 });
 //invoice routes
 	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
