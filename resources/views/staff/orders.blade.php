@@ -557,38 +557,62 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
 
         </div>
       </div> 
-<div id="ModalInvoice" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Create Invoice</h4>
-        <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_items" onclick="addItem()"><i class="fa fa-plus" aria-hidden="true"></i> Add more</button>
-      </div>
-      <div class="modal-body">
-        <form role="form" method="post" action="{{route('postInvoice')}}" id="invoice_form">
-            <div class="form-group" id="invoice_div">
-                <label>Item Name:</label>
-                <input type="text" name="items[0]" class="form-control" required="" placeholder="item name"></input><br/>
-                <label>Quantity:</label>
-                <input type="number" name="qty[0]" class="form-control" required="" placeholder="quantity"></input><br/>
-                <label>Price (per quantity):</label>
-                <input type="text" name="price[0]" class="form-control" required="" placeholder="price/quantity"></input>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit_inv">Create Invoice</button>
-            <input type="hidden" id="pick_up_req_id" name="pick_up_req_id"></input>
-            <input type="hidden" id="req_user_id" name="req_user_id"></input>
-            <input type="hidden" name="_token" value="{{Session::token()}}"></input>
-            <input type="hidden" name="identifier" value="staff"></input>
-        </form>
-      </div>
-      <div class="modal-footer">
-        
-      </div>
-    </div>
+      <div id="ModalInvoice" class="modal fade" role="dialog">
+<!--work-->
+   <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Create Invoice</h4>
+         </div>
+         <div class="modal-body">
+            <table class = "table table-striped">
+               <thead>
+                  <tr>
+                     <th>No of Items</th>
+                     <th>Item Name</th>
+                     <th>Item Price</th>
+                     <th>Action</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <form role="form" method="post" action="{{route('postInvoice')}}">
+                     @if(count($price_list) > 0)
+                     @foreach($price_list as $list)
+                     <tr>
+                        <td>
+                           <select name="number_of_item" id="number1_{{$list->id}}">
+                              @for($i=1; $i<=10; $i++)
+                                <option value="{{$i}}">{{$i}}</option>
+                              @endfor
+                           </select>
+                        </td>
+                        <td id="item_{{$list->id}}">{{$list->item}}</td>
+                        <td id="price_{{$list->id}}">{{$list->price}}</td>
+                        <td><button type="button" class="btn btn-primary btn-xs" onclick="add_item({{$list->id}})" id="btn1_{{$list->id}}">Add</button></td>
+                     </tr>
+                     @endforeach
 
-  </div>
+                     @else
+                     <tr>
+                        <td>No Data</td>
+                     </tr>
+                     @endif
+               </tbody>
+            </table>
+         </div>
+         <div class="modal-footer">
+         <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn_create_inv">Create Invoice</button>
+         <input type="hidden" id="pick_up_req_id" name="pick_up_req_id"></input>
+         <input type="hidden" id="req_user_id" name="req_user_id"></input>
+         <input type="hidden" name="identifier" value="staff"></input>
+         <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+         <input type="hidden" name="list_item" id="text_field"></input>
+         </div>
+      </div>
+      </form>
+   </div>
 </div>
 <!-- Modal -->
     <div id="ModalShowInvoice" class="modal fade" role="dialog">
@@ -649,6 +673,7 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
 
 
 <script type="text/javascript">
+
     $(document).ready(function(){
         $('#infoButton').click(function(){
             $('#infoModal').modal('show');
@@ -723,7 +748,43 @@ function createInvoice(pick_up_id, user_id) {
     $('#pick_up_req_id').val(pick_up_id);
     $('#req_user_id').val(user_id);
 }
-function addItem() {
+function add_item(id) {
+    arrItems = [];
+    if($('#btn1_'+id).text()=='Add')
+    {
+      var str=$('#text_field').val();
+      var quan=$('#number1_'+id).val();
+      var Itemname=$('#item_'+id).text();
+      var Price=$('#price_'+id).text();
+      if(str!='')
+      {
+        arrItems.push(str+','+id+'^%'+quan+'^%'+Itemname+'^%'+Price);
+      }
+      else
+      {
+        arrItems.push(id+'^%'+quan+'^%'+Itemname+'^%'+Price);
+      }
+      $('#btn1_'+id).text('Remove');
+      
+      $('#text_field').val(arrItems);
+      $('#number1_'+id).prop('disabled', true);
+    }
+    else
+    {
+      var quan=$('#number1_'+id).val();
+      var Itemname=$('#item_'+id).text();
+      var Price=$('#price_'+id).text();
+      var replace_string=id+'^%'+quan+'^%'+Itemname+'^%'+Price;
+      var str=$('#text_field').val();
+      var myString= $('#text_field').val();
+      myString = myString.replace(replace_string,',');
+      $('#text_field').val(myString);
+      $('#btn1_'+id).text('Add');
+      $('#number1_'+id).prop('disabled', false);
+    }
+     
+   }
+/*function addItem() {
     $('#invoice_div').append('<br><button type="button" class="btn btn-danger btn-xs" id="del_'+i+'" style="float: right;" onclick="delListItem('+i+')"><i class="fa fa-times" aria-hidden="true"></i></button><label id="nameL_'+i+'">Item Name:</label><input type="text" name="items[]" id="items_'+i+'" class="form-control" required="" placeholder="item name"></input><br/><label id="qtyL_'+i+'">Quantity:</label><input type="number" name="qty[]" id="qty_'+i+'" class="form-control" required="" placeholder="quantity"></input><br/><label id="priceL_'+i+'">Price (per quantity):</label><input type="text" name="price[]" id="price_'+i+'" class="form-control" required="" placeholder="price/quantity"></input><br/>');
     i++;
 }
@@ -737,7 +798,7 @@ function delListItem(id) {
     $('#del_'+id+'').remove();
     $("br").remove();
     i--;
-}
+}*/
 $(document).ready(function(){
     $('#submit_inv').click(function(){
         $('#loop_limit').val(i);
