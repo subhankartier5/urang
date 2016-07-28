@@ -69,6 +69,9 @@
             @else
                <div class="container">
                   <div class="row">
+                  <div class="col-md-5 col-sm-5 text-center">
+                        <img src="{{url('/')}}/public/dump_images/{{$neighborhood[$i]->image}}" alt="image" class="img-responsive" />
+                     </div>
                      <div class="col-md-7 col-sm-7 text-left">
                         <div class="clearfix " style="padding-right: 3px;">
                            <div class="above-title">Neighborhoods</div>
@@ -79,10 +82,7 @@
                         <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
                         <p>{!!$neighborhood[$i]->description!!}</p>
                      </div>
-                     <div style="height: 80px;"></div>
-                     <div class="col-md-5 col-sm-5 text-center">
-                        <img src="{{url('/')}}/public/dump_images/{{$neighborhood[$i]->image}}" alt="image" class="img-responsive" />
-                     </div>
+                     
                   </div>
                </div>
             @endif
