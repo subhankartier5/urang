@@ -19,6 +19,7 @@ use App\Pickupreq;
 use App\OrderDetails;
 use App\SchoolDonations;
 use App\Cms;
+use App\Invoice;
 //use Event;
 //use App\Events\SomeEvent;
 //use App\Jobs\SendReminderEmail;
@@ -390,6 +391,17 @@ class MainController extends Controller
                     $order_details->quantity = $data[$i]->number_of_item;
                     $order_details->payment_status = 0;
                     $order_details->save();
+                }
+                //create invoice
+                for ($j=0; $j < count($data) ; $j++) { 
+                    $invoice = new Invoice();
+                    $invoice->user_id = auth()->guard('users')->user()->id;
+                    $invoice->pick_up_req_id = $pick_up_req->id;
+                    $invoice->invoice_id = time();
+                    $invoice->item = $data[$j]->item_name;
+                    $invoice->quantity = $data[$j]->number_of_item;
+                    $invoice->price = $data[$j]->item_price;
+                    $invoice->save();
                 }
                 return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
             }

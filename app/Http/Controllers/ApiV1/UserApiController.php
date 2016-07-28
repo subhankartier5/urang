@@ -23,6 +23,7 @@ use App\Pickupreq;
 use App\OrderDetails;
 use Illuminate\Support\Facades\Validator;
 use App\Categories;
+use App\SchoolDonations;
 
 class UserApiController extends Controller
 {
@@ -561,4 +562,22 @@ class UserApiController extends Controller
             ));
         }
     }
+    public function postSchoolLists() {
+        $school_list = SchoolDonations::all();
+        if ($school_list) {
+           return Response::json(array(
+                'status' => 'true',
+                'status_code' => 200,
+                'response' => $school_list
+            ));
+        }
+        else
+        {
+            return  Response::json(array(
+                'status' => false ,
+                'status_code' => 400,
+                'message' => 'No School exists!'
+            ));
+        }
+    } 
 }
