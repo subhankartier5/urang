@@ -87,6 +87,4 @@
       <p>©2016 <span>Paper'd Media, Inc.</span>. All Rights Reserved</p>
    </section>
 </footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="{{url('/')}}/public/new/vendor/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script src="{{url('/')}}/public/new/js/custom.js" type="text/javascript"></script>
