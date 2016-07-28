@@ -624,6 +624,7 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = SiteConfig::first();
         $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+        //dd($pickups);
         return view('admin.customerorders', compact('user_data', 'site_details','pickups'));
     }
 
@@ -1138,7 +1139,6 @@ class AdminController extends Controller
         $user = Pickupreq::find($request->row_id);
         $previous_price = $user->total_price;
         $price_to_add = 0.00;
-        
         for ($i=0; $i< count($data); $i++) 
         {
             $order_details = new OrderDetails();
@@ -1152,6 +1152,19 @@ class AdminController extends Controller
             $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
             
             $order_details->save();
+        }
+        if ($request->identifier_modal != null && $request->identifier_modal == 'redo_inv') {
+            for ($j=0; $j< count($data); $j++) 
+            {
+                $invoice = new Invoice();
+                $invoice->pick_up_req_id = $request->row_id;
+                $invoice->user_id = $request->row_user_id;
+                $invoice->invoice_id = $request->invoice_updt;
+                $invoice->price = $data[$j]->item_price;
+                $invoice->item = $data[$j]->item_name;
+                $invoice->quantity = $data[$j]->number_of_item;
+                $invoice->save();
+            }
         }
         $user->total_price = $previous_price+$price_to_add;
         if($user->save())
