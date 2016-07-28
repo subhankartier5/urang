@@ -263,19 +263,17 @@ class AdminController extends Controller
         return view('admin.priceList', compact('user_data', 'site_details', 'priceList', 'categories'));
     }
     public function postPriceList(Request $request){
-        $item = new PriceList();
-        $item->admin_id = Auth::user()->id;
-        $item->category_id = $request->category;
-        $item->item = $request->item;
-        $item->price = $request->price;
-        if ($item->save()) {
-            $return = PriceList::with('categories', 'admin')->get();
-            return $return;
+        //dd($request);
+        for ($i=0; $i < count($request->category) ; $i++) { 
+            //print_r($request->name[$i]);
+            $item = new PriceList();
+            $item->admin_id = Auth::user()->id;
+            $item->category_id = $request->category[$i];
+            $item->item = $request->name[$i];
+            $item->price = $request->price[$i];
+            $item->save();
         }
-        else
-        {
-            return 0;
-        }
+        return redirect()->route('getPriceList')->with('success', 'items successfully added!');
         
     }
     public function editPriceList(Request $request) {

@@ -5,8 +5,20 @@
 	        <div class="col-lg-12">
 	            <div class="panel panel-default">
 	                <div class="panel-heading">
-	                	<div class="alert alert-success" id="success" style="display: none;"></div>
-	                	<div class="alert alert-danger" id="errordiv" style="display: none;"></div>
+	                	@if(Session::has('fail'))
+            <div class="alert alert-danger">{{Session::get('fail')}}
+               <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+            @else
+            @endif
+            @if(Session::has('success'))
+            <div class="alert alert-success">{{Session::get('success')}}
+               <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+            @else
+            @endif
+            {{ Session::forget('fail') }}
+            {{ Session::forget('success') }}
 	                   View Price List
 	                   <button type="button" class="btn btn-primary btn-xs marginClass" id="add_category"><i class="fa fa-plus" aria-hidden="true"></i> Add Category</button>
 	                   <button type="button" class="btn btn-danger btn-xs marginClass" id="del_category" data-toggle="modal" data-target="#myModalDelCat"><i class="fa fa-trash" aria-hidden="true"></i> Delete Category</button>
@@ -123,18 +135,20 @@
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 style="color: red;" id="error"></h4>
-	        <h4 class="modal-title">Add Items</h4>
+	        <h4 class="modal-title" style="margin-bottom: -16px;">Add Items</h4>
+	        <button type="button" class="btn btn-primary btn-xs" id="mul_item" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i> add more..</button>
 	      </div>
 	      <div class="modal-body">
 	      	<div style="background: transparent; display: none;" id="loader" align="center">
 	      			<p>Please wait...</p>
 		        	<img src="{{url('/')}}/public/img/reload.gif">
 		    </div>
-			<form role="form" id="add-modal-form">
+		    <!--work-->
+			<form role="form" id="add-modal-form" action="{{route('postPriceList')}}" method="post">
 				<div class="form-group">
-				    <label for="categories">Categories</label>
+				    <label for="categories" id="cat_label_0">Categories</label>
 				    @if(count($categories) > 0)
-				    	<select class="form-control" id="category" required="">
+				    	<select class="form-control" id="cat_0" required="" name="category[]">
 				    		<option value="">Select Category</option>
 					    	@foreach($categories as $category)
 								<option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -145,14 +159,16 @@
 				    @endif
 			  </div>
 			  <div class="form-group">
-			    <label for="name">Item Name</label>
-			    <input class="form-control" id="name" name="name" type="text" required="">
+			    <label for="name" id="namelbl_0">Item Name</label>
+			    <input class="form-control" id="name_0" name="name[]" type="text" required="">
 			  </div>
 			  <div class="form-group">
-			    <label for="price">Price</label>
-			    <input type="number" class="form-control" name="price" id="price" required=""></input>
+			    <label for="price" id="pricelbl_0">Price</label>
+			    <input type="number" class="form-control" name="price[]" id="price_0" required=""></input>
 			  </div>
-			  <button type="button" class="btn btn-primary btn-lg btn-block" id="postItem">Add Item</button>
+			  <div id="jq_append"></div>
+			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postItem">Add Item</button>
+			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
 			</form>
 	      </div>
 	      <div class="modal-footer">
@@ -226,50 +242,30 @@
 	  </div>
 	</div>
 	<script type="text/javascript">
+	var j=1;
+	function delItem(id) {
+		//console.log(id);
+		$('#del_'+id+'').remove();
+	    $('#cat_label_'+id+'').remove();
+	    $('#cat_'+id+'').remove();
+	    $('#namelbl_'+id+'').remove();
+	    $('#name_'+id+'').remove();
+	    $('#pricelbl_'+id+'').remove();
+	    $('#price_'+id+'').remove();
+	    j--;
+	}
 		$(document).ready(function(){
 			var baseUrl = "{{url('/')}}";
 			//showing modal to add item
 			$('#add_items').click(function(){
 				$('#myModal').modal('show');
 			});
-			//save price item in databse
-			$('#postItem').click(function(){
-				var category = $('#category').val();
-				var item = $('#name').val();
-				var price = $('#price').val();
-				//console.log(category);
-				//return false;
-				if ($.trim(category) && $.trim(item) && $.trim(price)) 
-				{	
-					$('#add-modal-form').hide();
-					$('#loader').show();
-					$.ajax({
-						url: baseUrl+'/price-list',
-						type: "POST",
-						data: {category: category, item: item, price:price, _token: "{!! csrf_token() !!}"},
-						success : function(data){
-							if (data!=0) 
-							{
-								location.reload();
-								$('#success').show();
-								$('#success').html("<strong><i class='fa fa-check' aria-hidden='true'></i> Success!</strong> Item successfully added! <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
-							}
-							else
-							{
-								$('#loader').hide();
-								$('#add-modal-form').show();
-								$('#error').show();
-								$('#error').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Could not be able to save your details now try again later');
-							}
-						}
-
-					});
-				}
-				else
-				{
-					$('error').show();
-					$('#error').html('<i class="fa fa-times" aria-hidden="true"></i>'+' <strong>Error!</strong>'+' Please fill out all the fields correctly');
-				}
+			//add multiple list item
+			
+			$('#mul_item').click(function() {
+				//console.log('test')
+				$('#jq_append').append('<div class="form-group"><button type="button" class="btn btn-danger btn-xs" id="del_'+j+'" style="float: right;" onclick="delItem('+j+')"><i class="fa fa-times" aria-hidden="true"></i></button><label id="cat_label_'+j+'">Categories</label>@if(count($categories) > 0)<select class="form-control" id="cat_'+j+'" required="" name="category[]"><option value="">Select Category</option>@foreach($categories as $category)<option value="{{ $category->id }}">{{ $category->name }}</option>@endforeach</select>@else<label class="alert alert-warning">No Categories.</label>@endif</div><div class="form-group"><label for="name" id="namelbl_'+j+'">Item Name</label><input class="form-control" id="name_'+j+'" name="name[]" type="text" required=""></div><div class="form-group"><label for="price" id="pricelbl_'+j+'">Price</label><input type="number" class="form-control" name="price[]" id="price_'+j+'" required=""></input></div>');
+				j++;
 			});
 			//edit price item in database
 			@foreach($priceList as $item)
