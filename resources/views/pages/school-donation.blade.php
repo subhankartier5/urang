@@ -45,7 +45,7 @@
                     				<div class="row left-row">
 			                            <div class="round-ico little"></div>
 			                            <div class="col-md-6 col-sm-6 time-item wow fadeInUp" data-wow-duration="2s" >
-			                                <div class="date">{{$list_school[$i]->neighborhood->name}}</div>
+			                                <div class="dateLeft">{{$list_school[$i]->neighborhood->name}}</div>
 			                                <div class="title">{{$list_school[$i]->school_name}}</div>
 			                                <div class="time-image">
 			                                    <img src="{{url('/')}}/public/dump_images/{{$list_school[$i]->image}}" alt="School Image" />
@@ -59,7 +59,7 @@
 			                            <div class="round-ico big"></div>
 			                            <div class="col-md-6 col-sm-6"></div>
 			                            <div class="col-md-6 col-sm-6 time-item wow fadeInUp" data-wow-duration="2s" >
-			                                <div class="date">{{$list_school[$i]->neighborhood->name}}</div>
+			                                <div class="dateRight">{{$list_school[$i]->neighborhood->name}}</div>
 			                                <div class="title">{{$list_school[$i]->school_name}}</div>
 			                                <div class="time-image">
 			                                    <img src="{{url('/')}}/public/dump_images/{{$list_school[$i]->image}}" alt="School Image" />
