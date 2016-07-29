@@ -1,10 +1,10 @@
 @extends('staff.layouts.master')
 @section('content')
-    <div id="wrapper">
+    <div id="wrapper" class="col-md-12 orders">
 	
     	<div id="page-wrapper">
 
-            <div class="container-fluid">
+            <div class="col-md-12">
             
 
             <div class="row">
@@ -28,47 +28,43 @@
                 $price_list = \App\PriceList::all();
               ?>
 
-                <div class="col-lg-12">
+                <div>
 
-                <div class="row">
-                <div class="col-md-3">
-                    <h2>Pickup Request Table</h2>
+                    <div class="top-bar">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h2>Pickup Request Table</h2>
 
-                </div>
-                <div class="col-md-4">
-                <div class="row">
-                <form action="{{ route('sort') }}" method="get">
-                    <div class="col-md-5">
-                        <select name="sort" class="form-control">
-                          <option value="">Sort By</option>
-                          <option value="pick_up_date">Pickup Date</option>
-                          <option value="created_at">Order Date</option>
-                          <option value="total_price">Price</option>
-                          <option value="is_Emergency">Emergency</option>
-                        </select>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <form action="{{ route('sort') }}" method="get">
+                                        <div class="col-md-6">
+                                            <select name="sort" class="form-control">
+                                              <option value="">Sort By</option>
+                                              <option value="pick_up_date">Pickup Date</option>
+                                              <option value="created_at">Order Date</option>
+                                              <option value="total_price">Price</option>
+                                              <option value="is_Emergency">Emergency</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-default">Sort</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div id="wrap">
+                                <form action="{{ route('getSearch') }}" method="get">
+                                    <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit" required="true">
+                                </form>
+                                  
+                                </div>
+                            </div>
+                        </div> 
                     </div>
-                    <div class="col-md-3"></div>
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-default">Sort</button>
-                    </div>
-                </form>
-                </div>
-                    
-                    
-                </div>
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-1">
-                    <div id="wrap">
-                    <form action="{{ route('getSearch') }}" method="get">
-                        <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit" required="true">
-                    </form>
-                      
-                    </div>
-                </div>
-                    
-                </div>            
-                      <table class="table table-bordered">
+                      <table class="table table-bordered table-responsive">
                         <thead>
                           <tr>
                             <th>Created At</th>
@@ -83,6 +79,8 @@
                             <th>Total Amount</th>
                             <th>More Info</th>
                             <th>Mark As</th>
+                            <th></th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>

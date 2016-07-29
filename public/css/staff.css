@@ -80,3 +80,20 @@ width: 43%; display: inline-block; text-align: right; margin-right: 25px;font-si
 .hidden_div {
   display: none;
 }
+
+#page-wrapper {
+    display: inline-block;
+}
+
+.table-bordered {
+    display: block;
+}
+
+.top-bar{
+  padding: 20px 0 0;
+  margin-bottom: 40px;
+}
+
+.top-bar h2{
+  margin-top: 0;
+}
