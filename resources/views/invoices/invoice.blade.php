@@ -112,7 +112,7 @@
                 <tr class="item">
                     <td>{{$invoice->item}}</td>
                     <td>{{$invoice->quantity}}</td>
-                    <td>{{$invoice->quantity*$invoice->price}}</td>
+                    <td>{{number_format((float)$invoice->price, 2, '.', '')}}</td>
                 </tr>
                 <div style="display: none;">
                     {{$total_price += floatval($invoice->quantity*$invoice->price)}}

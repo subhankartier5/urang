@@ -114,8 +114,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/changeWeekDayNumber',['uses' => 'AdminController@changeWeekDayNumber','as' => 'changeWeekDayNumber']);
     Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
     Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
+    //Route::post
 });
 //invoice routes
+    Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);
 	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
 	Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
 //mark as paid routes
@@ -155,4 +157,5 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/change-password',['uses' => 'ApiV1\UserApiController@changePassword','as' => 'changePasswordApi']);
     Route::post('/delete-pickup',['uses' => 'ApiV1\UserApiController@deletePickup','as' => 'deletePickupApi']);
     Route::post('/pick-up-types', ['uses' => 'ApiV1\UserApiController@postPickUpType', 'as' => 'postPickUpType']);
+    Route::post('/school-lists', ['uses' => 'ApiV1\UserApiController@postSchoolLists', 'as' => 'postSchoolLists']);
 }); 

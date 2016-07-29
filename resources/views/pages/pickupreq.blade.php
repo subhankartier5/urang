@@ -309,19 +309,23 @@
         {
           $('#btn_'+id).text("Add");
           $('#number_'+id).prop('disabled', false);
-          for(var j=0; j<= jsonArray.length; j++) {
-            if(jsonArray.length == 1)
+          for(var j=0; j< jsonArray.length; j++) {
+            if (jsonArray.length > 1) 
             {
-                jsonArray = [];
-                $('#list_items_json').val('');
-                return;
-            }
-            else if (jsonArray[j].id == id)  
-            {
+              if (jsonArray[j].id == id) 
+              {
                 jsonArray.splice(j,j);
+                jsonString = JSON.stringify(jsonArray);
+              }
             }
+            else
+            {
+              jsonArray = [];
+              $('#list_items_json').val('');
+            }
+            
           }
-          jsonString = JSON.stringify(jsonArray);
+          //jsonString = JSON.stringify(jsonArray);
           $('#list_items_json').val(jsonString);
         }
      }

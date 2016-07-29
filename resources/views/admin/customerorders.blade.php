@@ -195,7 +195,7 @@
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Modal Header</h4>
+            <h4 class="modal-title">Add More..</h4>
          </div>
          <div class="modal-body">
             <h2>Order Items</h2>
@@ -508,57 +508,63 @@
    </div>
 </div>
 <!-- Modal -->
-<div id="ModalShowInvoice" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Invoice Details as per <label id="invoice_date"></label></h4>
-         </div>
-         <div class="modal-body">
-            <div style="float: right;">
-               <p>Invoice No:</p>
-               <label id="invoice_no"></label>
-            </div>
-            <div class="form-group">
-               <label>User Name:</label>
-               <div id="user_name"></div>
-            </div>
-            <div class="form-group">
-               <label>User Email:</label>
-               <div id="user_email"></div>
-            </div>
-            <div class="form-group">
-               <label>Pickup Type:</label>
-               <div id="pickup_type"></div>
-            </div>
-            <div class="form-group">
-               <label>Total Price:</label>
-               <div id="total_price"></div>
-            </div>
-            <div class="form-group">
-               <label>Take Action:</label>
-               <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
-            </div>
-            <label>See Breakdown:</label>
-            <table class="table table-bordered">
-               <thead>
-                  <tr>
-                     <td>Item</td>
-                     <td>Quantity</td>
-                     <td>Price</td>
-                  </tr>
-               </thead>
-               <tbody id="inv">
-               </tbody>
-            </table>
-         </div>
-         <div class="modal-footer">
-         </div>
-      </div>
-   </div>
-</div>
+@if(count($pickups)>0)
+  @foreach($pickups as $pickup)
+  <div id="ModalShowInvoice" class="modal fade" role="dialog">
+     <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+           <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Invoice Details as per <label id="invoice_date"></label></h4>
+           </div>
+           <div class="modal-body">
+              <div style="float: right;">
+                 <p>Invoice No:</p>
+                 <label id="invoice_no"></label>
+              </div>
+              <div class="form-group">
+                 <label>User Name:</label>
+                 <div id="user_name"></div>
+              </div>
+              <div class="form-group">
+                 <label>User Email:</label>
+                 <div id="user_email"></div>
+              </div>
+              <div class="form-group">
+                 <label>Pickup Type:</label>
+                 <div id="pickup_type"></div>
+              </div>
+              <div class="form-group">
+                 <label>Total Price:</label>
+                 <div id="total_price"></div>
+              </div>
+              <div class="form-group">
+                 <label>Take Action:</label>
+                 <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
+              </div>
+              <label>See Breakdown:</label>
+              <table class="table table-bordered">
+                 <thead>
+                    <tr>
+                       <td>Item</td>
+                       <td>Quantity</td>
+                       <td>Price</td>
+                    </tr>
+                 </thead>
+                 <tbody id="inv">
+                 </tbody>
+              </table>
+           </div>
+           <div class="modal-footer">
+            <!--as we are using same modal again and again we need to show up some identifier-->
+            <button class="btn btn-default" id="edit_itms" onclick="recreateInv({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button>
+           </div>
+        </div>
+     </div>
+  </div>
+  @endforeach
+@endif
 <!-- Modal -->
 <div id="EditItemModal" class="modal fade" role="dialog">
    <div class="modal-dialog">
@@ -583,15 +589,15 @@
                   @foreach($price_list as $list)
                   <tr>
                      <td>
-                        <select name="number_of_item" id="number_{{$list->id}}">
+                        <select name="number_of_item" id="number2_{{$list->id}}">
                            @for($i=0; $i<=10; $i++)
                            <option value="{{$i}}">{{$i}}</option>
                            @endfor
                         </select>
                      </td>
-                     <td id="item_{{$list->id}}">{{$list->item}}</td>
-                     <td id="price_{{$list->id}}">{{$list->price}}</td>
-                     <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+                     <td id="item2_{{$list->id}}">{{$list->item}}</td>
+                     <td id="price2_{{$list->id}}">{{$list->price}}</td>
+                     <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
                   </tr>
                   @endforeach
                   @else
@@ -608,6 +614,8 @@
                <input type="hidden" id="list_items_json" name="list_items_json" required="">
                <input type="hidden" id="row_user_id" name="row_user_id">
                <input type="hidden" name="_token" value="{{Session::token()}}">
+               <!-- <input type="hidden" name="identifier_modal" id="identifier_modal"></input> -->
+               <input type="hidden" name="invoice_updt" id="invoice_updt"></input>
                <button type="button" onclick="sbmitEditForm()" class="btn btn-default" id="modal-close">Save Changes</button>
             </form>
          </div>
@@ -665,7 +673,7 @@
             @foreach($pickup->invoice as $invoice)
                 if ('{{$invoice->pick_up_req_id}}' == id) 
                 {
-                    $('#invoice_no').text('#{{$invoice->invoice_id}}');
+                    $('#invoice_no').text('{{$invoice->invoice_id}}');
                     $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
                     div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
                     total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
@@ -697,6 +705,48 @@
    }
    
    jsonArray = [];
+   function add_id(id) {
+    //alert(id);
+    if ($('#number2_'+id).val() > 0) 
+     {
+      if ($('#btn2_'+id).text() == "Add") 
+      {
+        $('#btn2_'+id).text("Remove");
+        $('#number2_'+id).prop('disabled', true);
+        list_item = {};
+        list_item['id'] = id;
+        list_item['number_of_item'] = $('#number2_'+id).val();
+        list_item['item_name'] = $('#item2_'+id).text();
+        list_item['item_price'] = $('#price2_'+id).text();
+        jsonArray.push(list_item);
+        jsonString = JSON.stringify(jsonArray);
+        $('#list_items_json').val(jsonString);
+      }
+      else
+      {
+        $('#btn2_'+id).text("Add");
+        $('#number2_'+id).prop('disabled', false);
+        for(var j=0; j< jsonArray.length; j++) {
+          if(jsonArray.length == 1)
+          {
+              jsonArray = [];
+              $('#list_items_json').val('');
+              return;
+          }
+          else if(jsonArray[j].id == id)  
+          {
+            jsonArray.splice(j,j);
+          }
+        }
+        jsonString = JSON.stringify(jsonArray);
+        $('#list_items_json').val(jsonString);
+      }
+     }
+     else
+     {
+      sweetAlert("Oops...", "Please select atleast one item", "error");
+     }
+   }
    function add_item(id) {
     arrItems = [];
     if($('#btn_'+id).text()=='Add')
@@ -733,53 +783,40 @@
     }
      
    }
-   function add_id(id) {
-   if ($('#number_'+id).val() > 0) 
-   {
-    if ($('#btn_'+id).text() == "Add") 
-    {
-      $('#btn_'+id).text("Remove");
-      $('#number_'+id).prop('disabled', true);
-      list_item = {};
-      list_item['id'] = id;
-      list_item['number_of_item'] = $('#number_'+id).val();
-      list_item['item_name'] = $('#item_'+id).text();
-      list_item['item_price'] = $('#price_'+id).text();
-      jsonArray.push(list_item);
-      jsonString = JSON.stringify(jsonArray);
-      $('#list_items_json').val(jsonString);
-    }
-    else
-    {
-      $('#btn_'+id).text("Add");
-      $('#number_'+id).prop('disabled', false);
-      for(var j=0; j<= jsonArray.length; j++) {
-        if(jsonArray.length == 1)
-        {
-            jsonArray = [];
-            $('#list_items_json').val('');
-            return;
-        }
-        else if(jsonArray[j].id == id)  
-        {
-          jsonArray.splice(j,j);
-        }
-      }
-      jsonString = JSON.stringify(jsonArray);
-      $('#list_items_json').val(jsonString);
-    }
-   }
-   else
-   {
-    sweetAlert("Oops...", "Please select atleast one item", "error");
-   }
-   }
    function openEditItemModal(pickup_id,user_id)
    {
-   $('#row_id').val(pickup_id);
-   $('#row_user_id').val(user_id);
-   $('#EditItemModal').modal('show');
-   
+    //alert($('#invoice_no').text())
+    //return;
+    $.ajax({
+      url:"{{route('postPickUpId')}}",
+      type: "POST",
+      data: {id: pickup_id, _token:"{{Session::token()}}"},
+      success: function(data) {
+        //console.log(data);
+        if (data != 0) 
+        {
+          //console.log(data.invoice_id);
+          $('#row_id').val(pickup_id);
+          $('#row_user_id').val(user_id);
+          $('#invoice_updt').val(data.invoice_id);
+          $('#EditItemModal').modal('show');
+        }
+        else
+        {
+          sweetAlert("Oops...", "Some Error occured. Hint: No invoice is related with this pick up req id", "error");
+        }
+      }
+    });
+   }
+   function recreateInv(pick_req_id_inv, user_id_inv) {
+    //alert();
+    //alert($('#invoice_no').text())
+    //return;
+    $('#row_id').val(pick_req_id_inv);
+    $('#row_user_id').val(user_id_inv);
+    //$('#identifier_modal').val(identifier);
+    $('#invoice_updt').val($('#invoice_no').text());
+    $('#EditItemModal').modal('show');
    }
    function sbmitEditForm()
    {
