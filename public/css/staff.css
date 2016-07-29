@@ -81,11 +81,14 @@ width: 43%; display: inline-block; text-align: right; margin-right: 25px;font-si
   display: none;
 }
 
-#page-wrapper {
+
+
+.orders #page-wrapper {
     display: inline-block;
+    width: 100%;
 }
 
-.table-bordered {
+.orders .table-bordered {
     display: block;
 }
 
