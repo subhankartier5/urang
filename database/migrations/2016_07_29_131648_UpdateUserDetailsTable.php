@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePickupSchoolDonation extends Migration
+class UpdateUserDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class UpdatePickupSchoolDonation extends Migration
      */
     public function up()
     {
-        Schema::table('pickupreqs', function($table) {
-             $table->integer('school_donation_id')->nullable();
-             //$table->double('school_donation_amount', 15, 2)->nullable();
+        Schema::table('user_details', function($table) {
+            $table->integer('school_id')->nullable();
         });
     }
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePickupSchoolDonation extends Migration
+class CreateSchoolDonationPercentagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class UpdatePickupSchoolDonation extends Migration
      */
     public function up()
     {
-        Schema::table('pickupreqs', function($table) {
-             $table->integer('school_donation_id')->nullable();
-             //$table->double('school_donation_amount', 15, 2)->nullable();
+        Schema::create('school_donation_percentages', function (Blueprint $table) {
+            $table->increments('id');
+            $table->double('percentage', 15, 2);
+            $table->timestamps();
         });
     }
 
@@ -25,6 +26,6 @@ class UpdatePickupSchoolDonation extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('school_donation_percentages');
     }
 }

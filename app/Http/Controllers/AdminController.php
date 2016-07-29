@@ -25,6 +25,7 @@ use App\OrderDetails;
 use App\SchoolDonations;
 use App\PickUpNumber;
 use App\Invoice;
+use App\SchoolDonationPercentage;
 
 class AdminController extends Controller
 {
@@ -1135,10 +1136,10 @@ class AdminController extends Controller
     {
         //dd($request);
         $data = json_decode($request->list_items_json);
-
         $user = Pickupreq::find($request->row_id);
         $previous_price = $user->total_price;
         $price_to_add = 0.00;
+        $new_total_price = 0.00 ;
         for ($i=0; $i< count($data); $i++) 
         {
             $order_details = new OrderDetails();
@@ -1163,10 +1164,22 @@ class AdminController extends Controller
                 $invoice->price = $data[$j]->item_price;
                 $invoice->item = $data[$j]->item_name;
                 $invoice->quantity = $data[$j]->number_of_item;
+                $price_to_add = $price_to_add;
                 $invoice->save();
             }
         //}
         $user->total_price = $previous_price+$price_to_add;
+        $new_total_price = $previous_price+$price_to_add;
+        $user_info = UserDetails::where('user_id', $request->row_user_id)->first();
+         if ($user_info->school_id != null) {
+            $fetch_percentage = SchoolDonationPercentage::first();
+            $new_percentage = $fetch_percentage->percentage/100;
+            $school = SchoolDonations::find($user_info->school_id);
+            $present_pending_money = $school->pending_money;
+            $updated_pending_money = $present_pending_money+($new_total_price*$new_percentage);
+            $school->pending_money = $updated_pending_money;
+            $school->save();
+         }
         if($user->save())
         {
             return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
@@ -1193,7 +1206,8 @@ class AdminController extends Controller
         $site_details = $obj->siteData();
         $list_school = SchoolDonations::with('neighborhood')->paginate(10);
         $neighborhood = Neighborhood::all();
-        return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood'));
+        $percentage = SchoolDonationPercentage::first();
+        return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood', 'percentage'));
     }
     public function postSaveSchool(Request $request) {
         //dd($request);
@@ -1319,6 +1333,26 @@ class AdminController extends Controller
         if($update)
         {
             return redirect()->route('manageReqNo');
+        }
+    }
+    public function savePercentage(Request $request) {
+        //return $request;
+        $save_percentage = SchoolDonationPercentage::first();
+        if ($save_percentage) {
+            $save_percentage->percentage = $request->percentage;
+            if ($save_percentage->save()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            $new_percentage = new SchoolDonationPercentage();
+            $new_percentage->percentage = $request->percentage;
+            if ($new_percentage->save()) {
+                return 1;
+            } else {
+                return  0;
+            }
         }
     }
 }

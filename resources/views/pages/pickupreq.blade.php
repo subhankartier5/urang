@@ -185,11 +185,11 @@
                   </select>
                 </span>
               </div>
-              <div class="col-xs-4">
+             <!--  <div class="col-xs-4">
                   <span id="schoolDonationAmount">
                     <input placeholder="Enter Donation Amount" type="number" name="school_donation_amount">
                   </span>
-              </div>
+              </div> -->
 
               </div>
               </div>
@@ -340,11 +340,11 @@
   {
     $('#schoolNameDropDown').toggle();
   }
-  $('#schoolNameDropDown').change(function(){
+  /*$('#schoolNameDropDown').change(function(){
     if($('#schoolNameDropDown').val() != '')
     {
       $('#schoolDonationAmount').show();
     }
-  });
+  });*/
 </script>
 @endsection

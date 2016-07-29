@@ -17,8 +17,12 @@
 	                 </div>
 	               @else
 	               @endif
+	               <input type="number" step="any" name="percentage" id="percentage" style="display: none; margin-left: 75%;"></input>
+	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%;" id="add_percentage" onclick="OpenTextBox()">Add Money Percentage</button>
+	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%; display: none;" id="reset">close</button>
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_school" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add School</button>
-	               <p>School List</p>
+	               <div id="errorjs"></div>
+	               <p>School List (School Donation Percentage {{$percentage != null ? $percentage->percentage: '0'}}%)</p>
 	            </div>
 	            <div class="panel-body">
 	               <div class="table-responsive table-bordered">
@@ -226,5 +230,64 @@
 				}
 			});
 		}
+		function OpenTextBox() {
+			if ($('#add_percentage').text() == 'Add Money Percentage') 
+			{
+				$('#add_percentage').text('Save');
+				$('#percentage').slideDown('slow');
+				$('#add_school').hide();
+				$('#reset').show();
+			}
+			else
+			{
+				var value_box = $('#percentage').val();
+				if ($.trim(value_box) && $.isNumeric(value_box)) {
+					$('#percentage').attr('style', 'margin-left:75%;');
+					$('#percentage').val('');
+					$('#errorjs').hide();
+					$.ajax({
+						url : "{{route('savePercentage')}}",
+						type: "POST",
+						data: {percentage: value_box, _token: "{{Session::token()}}"},
+						success: function(data) {
+							//console.log(data);
+							if (data == 1) 
+							{
+								location.reload();
+							}
+							else
+							{
+								$('#errorjs').html('<p style="color:red;margin-left: 75%;"><i class="fa fa-times" aria-hidden="true"></i> Error! Something went wrong</p>');
+							}
+						}
+
+					});
+				}
+				else
+				{
+					$('#errorjs').show();
+					$('#percentage').attr('style', 'border-color:#ff0000; margin-left:75%;');
+					$('#percentage').effect('shake' ,{times:2}, 500);
+					$('#errorjs').html('<p style="color:red;margin-left: 75%;"><i class="fa fa-times" aria-hidden="true"></i> Error! Invalid input. Hint: input number!</p>');
+					$('#percentage').keyup(function(){
+						$('#errorjs').hide();
+						$('#percentage').attr('style', 'margin-left:75%; border: none;');
+					});
+					return;
+				}
+				$('#percentage').slideUp('slow');
+				$('#add_school').show();
+				$('#add_percentage').text('Add Money Percentage');
+			}
+		}
+		$('#reset').click(function() {
+			$('#add_percentage').text('Add Money Percentage');
+			$('#percentage').attr('style', 'margin-left:75%;');
+			$('#percentage').val('');
+			$('#percentage').slideUp('slow');
+			$('#add_school').show();
+			$('#errorjs').hide();
+			$('#reset').hide();
+		});
 	</script>
 @endsection

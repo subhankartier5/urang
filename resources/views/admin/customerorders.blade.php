@@ -508,8 +508,6 @@
    </div>
 </div>
 <!-- Modal -->
-@if(count($pickups)>0)
-  @foreach($pickups as $pickup)
   <div id="ModalShowInvoice" class="modal fade" role="dialog">
      <div class="modal-dialog">
         <!-- Modal content-->
@@ -558,13 +556,13 @@
            </div>
            <div class="modal-footer">
             <!--as we are using same modal again and again we need to show up some identifier-->
-            <button class="btn btn-default" id="edit_itms" onclick="recreateInv({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button>
+            <input type="hidden" id="pick_up_req_id_alter" name="pick_up_req_id_alter"></input>
+            <input type="hidden" id="user_id" name="user_id"></input>
+            <button class="btn btn-default" id="show_modal_items">Edit Items</button>
            </div>
         </div>
      </div>
   </div>
-  @endforeach
-@endif
 <!-- Modal -->
 <div id="EditItemModal" class="modal fade" role="dialog">
    <div class="modal-dialog">
@@ -623,6 +621,14 @@
    </div>
 </div>
 <script type="text/javascript">
+  $(document).ready(function(){
+    $('#show_modal_items').click(function(){
+      $('#row_id').val($('#pick_up_req_id_alter').val());
+      $('#row_user_id').val($('#user_id').val());
+      $('#invoice_updt').val($('#invoice_no').text());
+      $('#EditItemModal').modal('show');
+   });
+  });
    var i = 1;
    function createInvoice(pick_up_id, user_id) {
     $('#ModalInvoice').modal('show');
@@ -679,6 +685,8 @@
                     total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
                     $('#total_price').text(total_price);
                     $('#inv').html(div);
+                    $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
+                    $('#user_id').val('{{$invoice->user_id}}');
                     //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
                     $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
                 }
@@ -808,7 +816,8 @@
       }
     });
    }
-   function recreateInv(pick_req_id_inv, user_id_inv) {
+   
+   /*function recreateInv(pick_req_id_inv, user_id_inv) {
     //alert();
     //alert($('#invoice_no').text())
     //return;
@@ -817,7 +826,8 @@
     //$('#identifier_modal').val(identifier);
     $('#invoice_updt').val($('#invoice_no').text());
     $('#EditItemModal').modal('show');
-   }
+   }*/
+   //$('')
    function sbmitEditForm()
    {
    

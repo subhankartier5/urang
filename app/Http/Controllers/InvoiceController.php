@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Invoice;
 use App\Pickupreq;
+use App\SchoolDonations;
+use App\SchoolDonationPercentage;
+use App\UserDetails;
 class InvoiceController extends Controller
 {
     public function index() {
@@ -14,6 +17,7 @@ class InvoiceController extends Controller
     	return view('invoices.invoice');
     }
     public function postInvoice(Request $request) {
+        //dd($request);
         if ($request->list_item != null) {
             $total_price = 0.00;
             $itemList=explode(',',$request->list_item);
@@ -38,6 +42,16 @@ class InvoiceController extends Controller
                     $total_price += $qty*$price;
                     $save_invoice->save();
                 }
+             }
+             $user_info = UserDetails::where('user_id', $request->req_user_id)->first();
+             if ($user_info->school_id != null) {
+                $fetch_percentage = SchoolDonationPercentage::first();
+                $new_percentage = $fetch_percentage->percentage/100;
+                $school = SchoolDonations::find($user_info->school_id);
+                $present_pending_money = $school->pending_money;
+                $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+                $school->pending_money = $updated_pending_money;
+                $school->save();
              }
              $search_pickupreq = Pickupreq::find($request->pick_up_req_id);
              $search_pickupreq->total_price = $total_price;
