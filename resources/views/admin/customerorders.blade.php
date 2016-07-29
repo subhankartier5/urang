@@ -558,7 +558,7 @@
            </div>
            <div class="modal-footer">
             <!--as we are using same modal again and again we need to show up some identifier-->
-            <button class="btn btn-default" id="edit_itms" onclick="recreateInv({{$pickup->id}},{{$pickup->user->id}}, 'redo_inv')">Edit Items</button>
+            <button class="btn btn-default" id="edit_itms" onclick="recreateInv({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button>
            </div>
         </div>
      </div>
@@ -614,7 +614,7 @@
                <input type="hidden" id="list_items_json" name="list_items_json" required="">
                <input type="hidden" id="row_user_id" name="row_user_id">
                <input type="hidden" name="_token" value="{{Session::token()}}">
-               <input type="hidden" name="identifier_modal" id="identifier_modal"></input>
+               <!-- <input type="hidden" name="identifier_modal" id="identifier_modal"></input> -->
                <input type="hidden" name="invoice_updt" id="invoice_updt"></input>
                <button type="button" onclick="sbmitEditForm()" class="btn btn-default" id="modal-close">Save Changes</button>
             </form>
@@ -785,16 +785,36 @@
    }
    function openEditItemModal(pickup_id,user_id)
    {
-   $('#row_id').val(pickup_id);
-   $('#row_user_id').val(user_id);
-   $('#EditItemModal').modal('show');
-   
+    //alert($('#invoice_no').text())
+    //return;
+    $.ajax({
+      url:"{{route('postPickUpId')}}",
+      type: "POST",
+      data: {id: pickup_id, _token:"{{Session::token()}}"},
+      success: function(data) {
+        //console.log(data);
+        if (data != 0) 
+        {
+          //console.log(data.invoice_id);
+          $('#row_id').val(pickup_id);
+          $('#row_user_id').val(user_id);
+          $('#invoice_updt').val(data.invoice_id);
+          $('#EditItemModal').modal('show');
+        }
+        else
+        {
+          sweetAlert("Oops...", "Some Error occured. Hint: No invoice is related with this pick up req id", "error");
+        }
+      }
+    });
    }
-   function recreateInv(pick_req_id_inv, user_id_inv, identifier) {
+   function recreateInv(pick_req_id_inv, user_id_inv) {
     //alert();
+    //alert($('#invoice_no').text())
+    //return;
     $('#row_id').val(pick_req_id_inv);
     $('#row_user_id').val(user_id_inv);
-    $('#identifier_modal').val(identifier);
+    //$('#identifier_modal').val(identifier);
     $('#invoice_updt').val($('#invoice_no').text());
     $('#EditItemModal').modal('show');
    }

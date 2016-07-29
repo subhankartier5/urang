@@ -15,6 +15,7 @@ use App\OrderDetails;
 use App\SchoolDonations;
 use App\Neighborhood;
 use App\PaymentKeys;
+use App\Invoice;
 class StaffController extends Controller
 {
     public function __construct()
@@ -202,6 +203,17 @@ class StaffController extends Controller
             $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
             
             $order_details->save();
+        }
+        for ($j=0; $j< count($data); $j++) 
+        {
+            $invoice = new Invoice();
+            $invoice->pick_up_req_id = $request->row_id;
+            $invoice->user_id = $request->row_user_id;
+            $invoice->invoice_id = $request->invoice_updt;
+            $invoice->price = $data[$j]->item_price;
+            $invoice->item = $data[$j]->item_name;
+            $invoice->quantity = $data[$j]->number_of_item;
+            $invoice->save();
         }
         $user->total_price = $previous_price+$price_to_add;
         if($user->save())

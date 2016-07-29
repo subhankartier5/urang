@@ -219,7 +219,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                <h4 class="modal-title">Add More..</h4>
               </div>
               <div class="modal-body">
                 
@@ -500,6 +500,66 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
     </div>
   </div>
   @endforeach
+@if(count($pickups)>0)
+  @foreach($pickups as $pickup)
+    <!-- Modal -->
+    <div id="ModalShowInvoice" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Invoice Details as per <label id="invoice_date"></label></h4>
+          </div>
+          <div class="modal-body">
+            <div style="float: right;">
+                <p>Invoice No:</p>
+                <label id="invoice_no"></label>
+            </div>
+             <div class="form-group">
+                 <label>User Name:</label>
+                 <div id="user_name"></div>
+             </div>
+             <div class="form-group">
+                 <label>User Email:</label>
+                 <div id="user_email"></div>
+             </div>
+             <div class="form-group">
+                 <label>Pickup Type:</label>
+                 <div id="pickup_type"></div>
+             </div>
+             <div class="form-group">
+                  <label>Total Price:</label>
+                  <div id="total_price"></div>
+             </div>
+             <div class="form-group">
+                <label>Take Action:</label>
+                 <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
+            </div>
+            <label>See Breakdown:</label>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Item</td>
+                        <td>Quantity</td>
+                        <td>Price</td>
+                    </tr>
+                </thead>
+                <tbody id="inv">
+                    
+                </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" id="edit_itms" onclick="recreateInv({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    @endforeach
+@endif
 
 
   <!-- Modal -->
@@ -548,6 +608,7 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
                 <input type="hidden" id="row_id" name="row_id">
                 <input type="hidden" id="list_items_json" name="list_items_json" required="">
                 <input type="hidden" id="row_user_id" name="row_user_id">
+                <input type="hidden" name="invoice_updt" id="invoice_updt"></input>
                 <input type="hidden" name="_token" value="{{Session::token()}}">
                 <button type="button" onclick="sbmitEditForm()" class="btn btn-default" id="modal-close">Save Changes</button>
             </form>
@@ -614,64 +675,6 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
       </form>
    </div>
 </div>
-<!-- Modal -->
-    <div id="ModalShowInvoice" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Invoice Details as per <label id="invoice_date"></label></h4>
-          </div>
-          <div class="modal-body">
-            <div style="float: right;">
-                <p>Invoice No:</p>
-                <label id="invoice_no"></label>
-            </div>
-             <div class="form-group">
-                 <label>User Name:</label>
-                 <div id="user_name"></div>
-             </div>
-             <div class="form-group">
-                 <label>User Email:</label>
-                 <div id="user_email"></div>
-             </div>
-             <div class="form-group">
-                 <label>Pickup Type:</label>
-                 <div id="pickup_type"></div>
-             </div>
-             <div class="form-group">
-                  <label>Total Price:</label>
-                  <div id="total_price"></div>
-             </div>
-             <div class="form-group">
-                <label>Take Action:</label>
-                 <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
-            </div>
-            <label>See Breakdown:</label>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <td>Item</td>
-                        <td>Quantity</td>
-                        <td>Price</td>
-                    </tr>
-                </thead>
-                <tbody id="inv">
-                    
-                </tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
 <script type="text/javascript">
 
     $(document).ready(function(){
@@ -725,11 +728,41 @@ $pick_up_type = $pickup->pick_up_type == 1? "Fast Pickup" : "Detailed Pickup";
   }
   function openEditItemModal(pickup_id,user_id)
   {
-    $('#row_id').val(pickup_id);
-    $('#row_user_id').val(user_id);
-    $('#EditItemModal').modal('show');
+    //$('#row_id').val(pickup_id);
+    //$('#row_user_id').val(user_id);
+    //$('#EditItemModal').modal('show');
+    $.ajax({
+      url:"{{route('postPickUpId')}}",
+      type: "POST",
+      data: {id: pickup_id, _token:"{{Session::token()}}"},
+      success: function(data) {
+        //console.log(data);
+        if (data != 0) 
+        {
+          //console.log(data.invoice_id);
+          $('#row_id').val(pickup_id);
+          $('#row_user_id').val(user_id);
+          $('#invoice_updt').val(data.invoice_id);
+          $('#EditItemModal').modal('show');
+        }
+        else
+        {
+          sweetAlert("Oops...", "Some Error occured. Hint: No invoice is related with this pick up req id", "error");
+        }
+      }
+    });
     
   }
+  function recreateInv(pick_req_id_inv, user_id_inv) {
+    //alert();
+    //alert($('#invoice_no').text())
+    //return;
+    $('#row_id').val(pick_req_id_inv);
+    $('#row_user_id').val(user_id_inv);
+    //$('#identifier_modal').val(identifier);
+    $('#invoice_updt').val($('#invoice_no').text());
+    $('#EditItemModal').modal('show');
+   }
   function sbmitEditForm()
   {
     

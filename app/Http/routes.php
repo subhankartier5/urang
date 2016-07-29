@@ -114,8 +114,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/changeWeekDayNumber',['uses' => 'AdminController@changeWeekDayNumber','as' => 'changeWeekDayNumber']);
     Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
     Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
+    //Route::post
 });
 //invoice routes
+    Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);
 	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
 	Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
 //mark as paid routes

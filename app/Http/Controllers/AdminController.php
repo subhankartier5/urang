@@ -1153,7 +1153,7 @@ class AdminController extends Controller
             
             $order_details->save();
         }
-        if ($request->identifier_modal != null && $request->identifier_modal == 'redo_inv') {
+        //if ($request->identifier_modal != null && $request->identifier_modal == 'redo_inv') {
             for ($j=0; $j< count($data); $j++) 
             {
                 $invoice = new Invoice();
@@ -1165,7 +1165,7 @@ class AdminController extends Controller
                 $invoice->quantity = $data[$j]->number_of_item;
                 $invoice->save();
             }
-        }
+        //}
         $user->total_price = $previous_price+$price_to_add;
         if($user->save())
         {
@@ -1174,6 +1174,17 @@ class AdminController extends Controller
         else
         {
             return redirect()->route('getCustomerOrders')->with('error', 'Cannot update the order now!');
+        }
+    }
+    public function fetchInvoice(Request $request) {
+        //return $request;
+        $find_invoice = Invoice::where('pick_up_req_id', $request->id)->first();
+        if ($find_invoice) {
+            return $find_invoice;
+        }
+        else
+        {
+            return 0;
         }
     }
     public function getSchoolDonations() {
