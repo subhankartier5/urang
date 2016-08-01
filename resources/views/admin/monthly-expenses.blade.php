@@ -248,7 +248,114 @@
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td>test2</td>
+	                        		<td>
+	                        			<?php
+	                        				switch ($i) {
+	                        					case '1':
+	                        						//echo "january";
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 1)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						//echo ($total_price_monthly*22)/100;
+	                        						break;
+	                        					case '2':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 2)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '3':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 3)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '4':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 4)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '5':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 5)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '6':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 6)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '7':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 7)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '8':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 8)->get();
+	                        						//echo $school_donations;
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '9':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 9)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '10':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 10)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '11':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 11)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					case '12':
+	                        						$total_price_monthly_school_donations = 0.00;
+	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 12)->get();
+	                        						foreach ($school_donations as $school) {
+	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
+	                        						}
+	                        						echo $total_price_monthly_school_donations;
+	                        						break;
+	                        					default:
+	                        						echo "Something went wrong";
+	                        						break;
+	                        				}
+	                        			?>
+	                        		</td>
 	                        		<td>
 	                        			<?php
 	                        				switch ($i) {
