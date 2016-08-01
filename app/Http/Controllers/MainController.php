@@ -145,10 +145,12 @@ class MainController extends Controller
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $logged_user = $obj->getCustomerData();
+        $school_list = SchoolDonations::all();
         //$neighborhood = $obj->getNeighborhood();
-        return view('pages.profile', compact('site_details', 'logged_user'));
+        return view('pages.profile', compact('site_details', 'logged_user', 'school_list'));
     }
     public function postProfile(Request $request) {
+        //dd($request);
         $obj = new NavBarHelper();
         $logged_user = $obj->getCustomerData();
         $update_id = $logged_user->id;
@@ -167,6 +169,7 @@ class MainController extends Controller
             $user_details->off_phone = $request->office_phone != null ? $request->office_phone: '';
             $user_details->spcl_instructions = $request->spcl_instruction != null ? $request->spcl_instruction: '';
             $user_details->driving_instructions = $request->driving_instruction != null ? $request->driving_instruction : '';
+            $user_details->school_id = $request->school_donation_id;
             if ($user_details->save()) {
                 $card_info = CustomerCreditCardInfo::where('user_id' , $update_id)->first();
                 //dd($card_info);

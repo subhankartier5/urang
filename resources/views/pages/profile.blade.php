@@ -48,6 +48,15 @@
                      <label for="officephone">Office Phone (optional)</label>
                      <input type="number" class="form-control" id="officephone" placeholder="Format: 5555555555" name="office_phone" value="{{$logged_user->user_details->off_phone ==0 ? '' : $logged_user->user_details->off_phone}}">
                   </div>
+                  <div class="form-group">
+                     <label for="school_donation_id">Selected School</label>
+                     <select name="school_donation_id" id="schoolNameDropDown" class="form-control">
+                       <option value="">Select School</option>
+                       @foreach($school_list as $school)
+                       <option value="{{$school->id}}">{{$school->school_name}}</option>
+                       @endforeach
+                     </select>
+                  </div>
                </div>
                <div class="clear50"></div>
                <div class="col-md-6 individual-form">
@@ -171,6 +180,7 @@
 		$('#cardtype').val(SelectCardType);
 		$('#select_year').val(SelectYear);
 		$('#select_month').val(SelectMonth);
+      $('#schoolNameDropDown').val('{{$logged_user->user_details->school_id}}');
 	});
 </script>
 @endsection

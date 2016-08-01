@@ -254,6 +254,7 @@
   <script type="text/javascript">
   $(document).ready(function(){
     //sweetAlert("Oops...", "Something went wrong!", "error");
+      $('#schoolNameDropDown').val("{{auth()->guard('users')->user()->user_details->school_id}}");
       $( "#datepicker" ).datepicker();
       $( ".calendar" ).click(function(e) {
         e.preventDefault();

@@ -1137,6 +1137,7 @@ class AdminController extends Controller
         //dd($request);
         $data = json_decode($request->list_items_json);
         $user = Pickupreq::find($request->row_id);
+        //dd($user->school_donation_id);
         $previous_price = $user->total_price;
         $price_to_add = 0.00;
         $new_total_price = 0.00 ;
@@ -1151,9 +1152,9 @@ class AdminController extends Controller
             $order_details->payment_status = 0;
 
             $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
-            
             $order_details->save();
         }
+        //dd($);
         //if ($request->identifier_modal != null && $request->identifier_modal == 'redo_inv') {
             for ($j=0; $j< count($data); $j++) 
             {
@@ -1169,17 +1170,30 @@ class AdminController extends Controller
             }
         //}
         $user->total_price = $previous_price+$price_to_add;
-        $new_total_price = $previous_price+$price_to_add;
-        $user_info = UserDetails::where('user_id', $request->row_user_id)->first();
-         if ($user_info->school_id != null) {
+        $new_total_price = $price_to_add;
+        //$donate = Pickupreq::find()
+        //dd($user->school_donation_id);
+        //dd("im here");
+        /*if ($user->school_donation_id != null) {
+            dd(1);
+        }
+        else
+        {
+            dd(0);
+        }
+        exit;*/
+        //if ($user->school_donation_id != null) {
+        //$user_info = UserDetails::where('user_id', $request->row_user_id)->first();
+        if ($user->school_donation_id != null) {
             $fetch_percentage = SchoolDonationPercentage::first();
             $new_percentage = $fetch_percentage->percentage/100;
-            $school = SchoolDonations::find($user_info->school_id);
+            $school = SchoolDonations::find($user->school_donation_id);
             $present_pending_money = $school->pending_money;
             $updated_pending_money = $present_pending_money+($new_total_price*$new_percentage);
             $school->pending_money = $updated_pending_money;
             $school->save();
-         }
+        }
+        //}
         if($user->save())
         {
             return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
