@@ -1400,4 +1400,10 @@ class AdminController extends Controller
             }
         }
     }
+    public function getExpenses() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();   
+        return view('admin.monthly-expenses', compact('user_data', 'site_details'));
+    }
 }

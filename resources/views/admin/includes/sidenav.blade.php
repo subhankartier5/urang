@@ -88,6 +88,9 @@
                 <li>
                     <a href="{{route('manageReqNo')}}"><i class="fa fa-stack-overflow" aria-hidden="true"></i> Manage Request Numbers</a>
                 </li>
+                <li>
+                    <a href="{{route('getExpenses')}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Monthly expenses</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
