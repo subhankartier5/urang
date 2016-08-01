@@ -164,6 +164,26 @@ class UserApiController extends Controller
         }
     }
 
+    public function checkEmail(Request $request)
+    {
+        if(User::where('email',$request->email)->first()) 
+        {
+            return Response::json(array(
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => "This email already exists!"        
+                    ));
+        }
+        else
+        {
+            return Response::json(array(
+                        'status' => true,
+                        'status_code' => 200,
+                        'message' => "Email can be taken!"        
+                    ));
+        }
+    }
+
     public function userSignUp(Request $request)
     {
     	if ($request->password == $request->conf_password) {
