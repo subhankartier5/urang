@@ -26,6 +26,7 @@ use App\SchoolDonations;
 use App\PickUpNumber;
 use App\Invoice;
 use App\SchoolDonationPercentage;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -173,7 +174,6 @@ class AdminController extends Controller
         return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
     }
     public function postNeighborhood(Request $request) {
-        //dd($request->description);
         $name = $request->name;
         $description = $request->description;
         $admin_id = Auth::user()->id;
@@ -182,7 +182,8 @@ class AdminController extends Controller
         $destinationPath = 'public/dump_images/';   // upload path
         $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
         $image->move($destinationPath, $fileName); // uploading file to given path 
-        //return $fileName;
+        $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+        $img->save('public/app_images/'.$img->basename);
         $data = new Neighborhood();
         $data->admin_id = $admin_id;
         $data->name = $name;
@@ -211,6 +212,8 @@ class AdminController extends Controller
                 $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
                 $search->image = $fileName;
             }
             if ($search->save()) {
@@ -558,6 +561,8 @@ class AdminController extends Controller
         $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
         $image->move($destinationPath, $fileName); // uploading file to given path 
         //return $fileName;
+        $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+        $img->save('public/app_images/'.$img->basename);
         $faq = new Faq();
         $faq->question = $question;
         $faq->answer = $answer;
@@ -581,6 +586,8 @@ class AdminController extends Controller
             $destinationPath = 'public/dump_images/';   // upload path
             $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
             $image->move($destinationPath, $fileName); // uploading file to given path 
+            $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+            $img->save('public/app_images/'.$img->basename);
         }
         $faq = Faq::find($id);
         if ($faq) {
@@ -819,6 +826,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             if ($isDataExists->save()) {
                 return redirect()->route('getCmsDryClean')->with('success', 'Successfully Updated');
@@ -847,6 +856,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $new_data->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             else
             {
@@ -886,6 +897,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             if ($isDataExists->save()) {
                 return redirect()->route('getCmsWashNFold')->with('success', 'Successfully Updated');
@@ -914,6 +927,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $new_data->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             else
             {
@@ -954,6 +969,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             if ($isDataExists->save()) {
                 return redirect()->route('getCorporate')->with('success', 'Successfully Updated');
@@ -982,6 +999,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $new_data->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             else
             {
@@ -1021,6 +1040,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             if ($isDataExists->save()) {
                 return redirect()->route('getTailoring')->with('success', 'Successfully Updated');
@@ -1049,6 +1070,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $new_data->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             else
             {
@@ -1088,6 +1111,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             if ($isDataExists->save()) {
                 return redirect()->route('getWetCleaning')->with('success', 'Successfully Updated');
@@ -1116,6 +1141,8 @@ class AdminController extends Controller
                 $image->move($destinationPath, $fileName); // uploading file to given path 
                 //return $fileName;
                 $new_data->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             else
             {
@@ -1234,6 +1261,8 @@ class AdminController extends Controller
         $fileName = rand(111111111,999999999).'.'.$extension;
         $image->move($destinationPath, $fileName);
         $school_data->image = $fileName;
+        $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+        $img->save('public/app_images/'.$img->basename);
         $school_data->pending_money = 0.00;
         $school_data->total_money_gained = 0.00;
         if ($school_data->save()) {
@@ -1257,6 +1286,8 @@ class AdminController extends Controller
                 $fileName = rand(111111111,999999999).'.'.$extension;
                 $image->move($destinationPath, $fileName);
                 $search->image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);
             }
             $search->pending_money = $request->pending_money;
             $search->total_money_gained = $request->total_money_gained;

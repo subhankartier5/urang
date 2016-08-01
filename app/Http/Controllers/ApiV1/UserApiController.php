@@ -24,6 +24,7 @@ use App\OrderDetails;
 use Illuminate\Support\Facades\Validator;
 use App\Categories;
 use App\SchoolDonations;
+use App\Cms;
 
 class UserApiController extends Controller
 {
@@ -578,6 +579,107 @@ class UserApiController extends Controller
                 'status_code' => 400,
                 'message' => 'No School exists!'
             ));
+        }
+    }
+    public function postServicesApi(Request $request) {
+        switch ($request->id) {
+            case '0':
+                $services = Cms::where('identifier', 0)->first();
+                if ($services) {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => $services
+                    ));
+                }
+                else
+                {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => 'admin has not added any details yet!'
+                    ));
+                }
+                break;
+            case '1':
+                $services = Cms::where('identifier', 1)->first();
+                if ($services) {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => $services
+                    ));
+                }
+                else
+                {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => 'admin has not added any details yet!'
+                    ));
+                }
+                break;
+            case '2':
+                $services = Cms::where('identifier', 2)->first();
+                if ($services) {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => $services
+                    ));
+                }
+                else
+                {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => 'admin has not added any details yet!'
+                    ));
+                }
+                break;
+            case '3':
+                $services = Cms::where('identifier', 3)->first();
+                if ($services) {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => $services
+                    ));
+                }
+                else
+                {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => 'admin has not added any details yet!'
+                    ));
+                }
+                break;
+            case '4':
+                $services = Cms::where('identifier', 4)->first();
+                if ($services) {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => $services
+                    ));
+                }
+                else
+                {
+                    return Response::json(array(
+                        'status' => 'true',
+                        'status_code' => 200,
+                        'response' => 'admin has not added any details yet!'
+                    ));
+                }
+                break;
+            default:
+                return  Response::json(array(
+                    'status' => false ,
+                    'status_code' => 400,
+                    'message' => 'Bad request!'
+                ));
+                break;
         }
     } 
 }

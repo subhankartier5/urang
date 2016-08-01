@@ -5,6 +5,7 @@ status.sh
 /node_modules
 /public/storage
 /public/dump_images
+/public/app_images
 Homestead.yaml
 Homestead.json
 composer.lock
