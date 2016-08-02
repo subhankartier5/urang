@@ -366,8 +366,9 @@ class MainController extends Controller
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
         }
         $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
-        if($request->school_donation_id != null)
+        if($request->isDonate)
         {
+            //dd($total_price);
             $percentage = SchoolDonationPercentage::first();
             $new_percentage = $percentage->percentage/100;
             $pick_up_req->school_donation_id = $request->school_donation_id;

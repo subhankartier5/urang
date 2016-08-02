@@ -95,16 +95,16 @@
             <div class="custom-table">
             <table>
                 <tr class="heading">
-                <td style="width: 30%">
-                    Item
-                </td>
-                <td style="width: 30%">
-                    Quantity
-                </td>
-                <td style="width: 30%">
-                    Price 
-                </td>
-            </tr>
+                    <td style="width: 30%">
+                        Item
+                    </td>
+                    <td style="width: 30%">
+                        Quantity
+                    </td>
+                    <td style="width: 30%">
+                        Price 
+                    </td>
+                </tr>
             <div style="display: none;">
                 {{$total_price = 0.00}}
             </div>
@@ -122,10 +122,25 @@
             </div>
             </td>    
             </tr>
+            @if(count($school_details) > 0)
+                <tr class="heading">
+                    <td>
+                        School Name
+                    </td>
+                    <td>
+                        Donated Money 
+                    </td>
+                </tr>
+                <tr class="details">
+                    <td>{{$school_details->school_name}}</td>
+                    <td>{{($total_price*$school_donation_per->percentage)/100}}</td>
+                </tr>
+            @endif
             <tr class="total">
                 <td></td>
                 
                 <td>
+                    <?php $school_donation_money = $total_price;  ?>
                    Total: {{$total_price}}
                 </td>
             </tr>

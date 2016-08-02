@@ -22,4 +22,7 @@ class Pickupreq extends Model
     public function invoice() {
         return $this->hasMany('App\Invoice', 'pick_up_req_id', 'id');
     }
+    public function school_donations() {
+        return $this->hasOne('App\SchoolDonations', 'id', 'school_donation_id');
+    }
 }

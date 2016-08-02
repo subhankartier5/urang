@@ -632,7 +632,8 @@ class AdminController extends Controller
         $site_details = SiteConfig::first();
         $pickups = Pickupreq::orderBy('id','desc')->with('user_detail','user','order_detail', 'invoice')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
         //dd($pickups);
-        return view('admin.customerorders', compact('user_data', 'site_details','pickups'));
+        $donate_money_percentage = SchoolDonationPercentage::first();
+        return view('admin.customerorders', compact('user_data', 'site_details','pickups', 'donate_money_percentage'));
     }
 
     public function changeOrderStatusAdmin(Request $req)
@@ -1163,7 +1164,6 @@ class AdminController extends Controller
         //dd($request);
         $data = json_decode($request->list_items_json);
         $user = Pickupreq::find($request->row_id);
-        //dd($user->school_donation_id);
         $previous_price = $user->total_price;
         $price_to_add = 0.00;
         $new_total_price = 0.00 ;
@@ -1180,36 +1180,20 @@ class AdminController extends Controller
             $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
             $order_details->save();
         }
-        //dd($);
-        //if ($request->identifier_modal != null && $request->identifier_modal == 'redo_inv') {
-            for ($j=0; $j< count($data); $j++) 
-            {
-                $invoice = new Invoice();
-                $invoice->pick_up_req_id = $request->row_id;
-                $invoice->user_id = $request->row_user_id;
-                $invoice->invoice_id = $request->invoice_updt;
-                $invoice->price = $data[$j]->item_price;
-                $invoice->item = $data[$j]->item_name;
-                $invoice->quantity = $data[$j]->number_of_item;
-                $price_to_add = $price_to_add;
-                $invoice->save();
-            }
-        //}
+        for ($j=0; $j< count($data); $j++) 
+        {
+            $invoice = new Invoice();
+            $invoice->pick_up_req_id = $request->row_id;
+            $invoice->user_id = $request->row_user_id;
+            $invoice->invoice_id = $request->invoice_updt;
+            $invoice->price = $data[$j]->item_price;
+            $invoice->item = $data[$j]->item_name;
+            $invoice->quantity = $data[$j]->number_of_item;
+            $price_to_add = $price_to_add;
+            $invoice->save();
+        }
         $user->total_price = $previous_price+$price_to_add;
         $new_total_price = $price_to_add;
-        //$donate = Pickupreq::find()
-        //dd($user->school_donation_id);
-        //dd("im here");
-        /*if ($user->school_donation_id != null) {
-            dd(1);
-        }
-        else
-        {
-            dd(0);
-        }
-        exit;*/
-        //if ($user->school_donation_id != null) {
-        //$user_info = UserDetails::where('user_id', $request->row_user_id)->first();
         if ($user->school_donation_id != null) {
             $fetch_percentage = SchoolDonationPercentage::first();
             $new_percentage = $fetch_percentage->percentage/100;
