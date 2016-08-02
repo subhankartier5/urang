@@ -73,6 +73,7 @@
                            <th>Total Amount</th>
                            <th>More Info</th>
                            <th>Mark As</th>
+                           <th>School Donation</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -164,6 +165,11 @@
                                  </select>
                                  @endif    
                               </td>
+                              <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
+                              @if($pickup->school_donations != null)
+                                <b>Donated Money :</b>
+                              @endif 
+                              {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}</td>
                               <td>
                                  <input type="hidden" name="pickup_id" value="{{ $pickup->id }}">
                                  <input type="hidden" name="_token" value="{{ Session::token() }}">

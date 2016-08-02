@@ -12,12 +12,12 @@ use App\SchoolDonationPercentage;
 use App\UserDetails;
 class InvoiceController extends Controller
 {
-    public function index() {
+    /*public function index() {
     	dd($data);
     	return view('invoices.invoice');
-    }
+    }*/
     public function postInvoice(Request $request) {
-        //dd($request);
+        //dd("here");
         if ($request->list_item != null) {
             $total_price = 0.00;
             $itemList=explode(',',$request->list_item);
@@ -43,11 +43,14 @@ class InvoiceController extends Controller
                     $save_invoice->save();
                 }
              }
-             $user_info = UserDetails::where('user_id', $request->req_user_id)->first();
-             if ($user_info->school_id != null) {
+             //dd($request->pick_up_req_id);
+             $payOrNot= Pickupreq::find($request->pick_up_req_id);
+             //dd();
+             //$user_info = UserDetails::where('user_id', $request->req_user_id)->first();
+             if ($payOrNot->school_donation_id != null) {
                 $fetch_percentage = SchoolDonationPercentage::first();
                 $new_percentage = $fetch_percentage->percentage/100;
-                $school = SchoolDonations::find($user_info->school_id);
+                $school = SchoolDonations::find($payOrNot->school_donation_id);
                 $present_pending_money = $school->pending_money;
                 $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
                 $school->pending_money = $updated_pending_money;
@@ -95,10 +98,15 @@ class InvoiceController extends Controller
     	return 1;
     }
     public function showInvoiceUser(Request $request) {
-    	//return $request; Full texts	
     	$search_invoice = Invoice::where('pick_up_req_id', $request->id)->with('user', 'user_details', 'pick_up_req')->get();
+        $school_details_id = 0;
     	if (count($search_invoice) > 0) {
-    		return view('invoices.invoice', compact('search_invoice'));
+            for ($i=0; $i < 1; $i++) { 
+                $school_details_id = $search_invoice[$i]->pick_up_req->school_donation_id;
+            }
+            $school_details = SchoolDonations::find($school_details_id);
+            $school_donation_per = SchoolDonationPercentage::first();
+    		return view('invoices.invoice', compact('search_invoice', 'school_details', 'school_donation_per'));
     	}
     	else
     	{

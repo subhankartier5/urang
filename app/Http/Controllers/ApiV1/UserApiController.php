@@ -587,7 +587,7 @@ class UserApiController extends Controller
         $school_list = SchoolDonations::all();
         if ($school_list) {
            return Response::json(array(
-                'status' => 'true',
+                'status' => true,
                 'status_code' => 200,
                 'response' => $school_list
             ));
@@ -607,7 +607,7 @@ class UserApiController extends Controller
                 $services = Cms::where('identifier', 0)->first();
                 if ($services) {
                     return Response::json(array(
-                        'status' => 'true',
+                        'status' => true,
                         'status_code' => 200,
                         'response' => $services
                     ));
@@ -615,9 +615,9 @@ class UserApiController extends Controller
                 else
                 {
                     return Response::json(array(
-                        'status' => 'true',
-                        'status_code' => 200,
-                        'response' => 'admin has not added any details yet!'
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => 'admin has not added any details yet!'
                     ));
                 }
                 break;
@@ -625,7 +625,7 @@ class UserApiController extends Controller
                 $services = Cms::where('identifier', 1)->first();
                 if ($services) {
                     return Response::json(array(
-                        'status' => 'true',
+                        'status' => true,
                         'status_code' => 200,
                         'response' => $services
                     ));
@@ -633,9 +633,9 @@ class UserApiController extends Controller
                 else
                 {
                     return Response::json(array(
-                        'status' => 'true',
-                        'status_code' => 200,
-                        'response' => 'admin has not added any details yet!'
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => 'admin has not added any details yet!'
                     ));
                 }
                 break;
@@ -643,7 +643,7 @@ class UserApiController extends Controller
                 $services = Cms::where('identifier', 2)->first();
                 if ($services) {
                     return Response::json(array(
-                        'status' => 'true',
+                        'status' => true,
                         'status_code' => 200,
                         'response' => $services
                     ));
@@ -651,9 +651,9 @@ class UserApiController extends Controller
                 else
                 {
                     return Response::json(array(
-                        'status' => 'true',
-                        'status_code' => 200,
-                        'response' => 'admin has not added any details yet!'
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => 'admin has not added any details yet!'
                     ));
                 }
                 break;
@@ -661,7 +661,7 @@ class UserApiController extends Controller
                 $services = Cms::where('identifier', 3)->first();
                 if ($services) {
                     return Response::json(array(
-                        'status' => 'true',
+                        'status' => true,
                         'status_code' => 200,
                         'response' => $services
                     ));
@@ -669,9 +669,9 @@ class UserApiController extends Controller
                 else
                 {
                     return Response::json(array(
-                        'status' => 'true',
-                        'status_code' => 200,
-                        'response' => 'admin has not added any details yet!'
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => 'admin has not added any details yet!'
                     ));
                 }
                 break;
@@ -679,7 +679,7 @@ class UserApiController extends Controller
                 $services = Cms::where('identifier', 4)->first();
                 if ($services) {
                     return Response::json(array(
-                        'status' => 'true',
+                        'status' => true,
                         'status_code' => 200,
                         'response' => $services
                     ));
@@ -687,9 +687,9 @@ class UserApiController extends Controller
                 else
                 {
                     return Response::json(array(
-                        'status' => 'true',
-                        'status_code' => 200,
-                        'response' => 'admin has not added any details yet!'
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => 'admin has not added any details yet!'
                     ));
                 }
                 break;
@@ -700,6 +700,27 @@ class UserApiController extends Controller
                     'message' => 'Bad request!'
                 ));
                 break;
+        }
+    }
+
+    public function userDetails(Request $request)
+    {
+        $user_details = User::where('id',$request->user_id)->with('user_details','card_details')->first();
+        if($user_details)
+        {
+            return  Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $user_details
+                ));
+        }
+        else
+        {
+            return  Response::json(array(
+                    'status' => false ,
+                    'status_code' => 400,
+                    'message' => 'User does not exists! Please try to login again.'
+                ));
         }
     } 
 }

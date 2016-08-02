@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/setSundayToZero',['uses' => 'AdminController@setSundayToZero','as' => 'setSundayToZero']);
     Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
     Route::post('/save-school-donation-percentage', ['uses' => 'AdminController@savePercentage', 'as' => 'savePercentage']);
-    //Route::post
+    Route::get('/expenses', ['uses' => 'AdminController@getExpenses', 'as' => 'getExpenses']);
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);
@@ -161,4 +161,5 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/school-lists', ['uses' => 'ApiV1\UserApiController@postSchoolLists', 'as' => 'postSchoolLists']);
     Route::post('/get-services', ['uses' => 'ApiV1\UserApiController@postServicesApi', 'as' => 'postServicesApi']);
     Route::post('/check-email', ['uses' => 'ApiV1\UserApiController@checkEmail', 'as' => 'checkEmail']);
+    Route::post('/get-user-details',['uses' => 'ApiV1\UserApiController@userDetails','as' => 'userDetails']);
 }); 

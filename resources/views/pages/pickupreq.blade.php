@@ -161,7 +161,7 @@
                 <input type="checkbox" name="isEmergency"></input>
               </div>
               <div class="col-xs-6">
-                <label>Do you have a coupon code ?<p style="color: red;">Please left the field blank if you dont hav any.</p></label>
+                <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont hav any.</p></label>
                 <input type="text" name="coupon" id="coupon" class="form-control" />
               </div>
               <div class="col-xs-6">
@@ -169,7 +169,7 @@
               <div class="col-xs-4">
                 <span>
                   <label>Donate to a school in your neighborhood ?</label>
-                  <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isEmergency"></input>
+                  <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate"></input>
                 </span>
               </div>
               <div class="col-xs-4">
