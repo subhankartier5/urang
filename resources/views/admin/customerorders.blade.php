@@ -35,6 +35,8 @@
                               <option value="created_at">Order Date</option>
                               <option value="total_price">Price</option>
                               <option value="is_Emergency">Emergency</option>
+                              <option value="paid">Paid Pick ups</option>
+                              <option value="unpaid">Unpaid Pick ups</option>
                            </select>
                         </div>
                         <div class="col-md-3"></div>
