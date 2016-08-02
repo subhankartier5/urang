@@ -25,6 +25,7 @@
 	               <input type="text" id="datepicker" style="float: right;" value="{{date('m/Y')}}" onchange="showMonth()"></input>
 	               <p>Monthly Expenses</p>
 	            </div>
+	            <?php $i=0;?>
 	            <div class="panel-body">
 	               <div class="table-responsive table-bordered">
 	                  <table class="table">
@@ -90,52 +91,40 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 1)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[1];
 	                        						break;
 	                        					case '2':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 2)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[2];
 	                        						break;
 	                        					case '3':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 3)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[3];
 	                        						break;
 	                        					case '4':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 4)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[4];
 	                        						break;
 	                        					case '5':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 5)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[5];
 	                        						break;
 	                        					case '6':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 6)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[6];
 	                        						break;
 	                        					case '7':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 7)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[7];
 	                        						break;
 	                        					case '8':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 8)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[8];
 	                        						break;
 	                        					case '9':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 9)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[9];
 	                        						break;
 	                        					case '10':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 10)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[10];
 	                        						break;
 	                        					case '11':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 11)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[11];
 	                        						break;
 	                        					case '12':
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 12)->count();
-	                        						echo $no_of_orders;
+	                        						echo $orders[12];
 	                        						break;
 	                        					default:
 	                        						echo "Something went wrong";
@@ -147,100 +136,40 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						$total_price_monthly = 0.00;	
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 1)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[1];
 	                        						break;
 	                        					case '2':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 2)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[2];
 	                        						break;
 	                        					case '3':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 3)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[3];
 	                        						break;
 	                        					case '4':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 4)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[4];
 	                        						break;
 	                        					case '5':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 5)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[5];
 	                        						break;
 	                        					case '6':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 6)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[6];
 	                        						break;
 	                        					case '7':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 7)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[7];
 	                        						break;
 	                        					case '8':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 8)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[8];
 	                        						break;
 	                        					case '9':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 9)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[9];
 	                        						break;
 	                        					case '10':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 10)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[10];
 	                        						break;
 	                        					case '11':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 11)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[11];
 	                        						break;
 	                        					case '12':
-	                        						$total_price_monthly = 0.00;
-	                        						$no_of_orders = \App\Pickupreq::where( DB::raw('MONTH(created_at)'), '=', 12)->get();
-	                        						foreach ($no_of_orders as $order) {
-	                        							$total_price_monthly +=$order->total_price;
-	                        						}
-	                        						echo $total_price_monthly;
+	                        						echo $total_money_gained[12];
 	                        						break;
 	                        					default:
 	                        						echo "Something went wrong";
@@ -252,103 +181,40 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						//echo "january";
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 1)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
-	                        						//echo ($total_price_monthly*22)/100;
+	                        						echo $school_donation_monthly[1];
 	                        						break;
 	                        					case '2':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 2)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[2];
 	                        						break;
 	                        					case '3':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 3)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[3];
 	                        						break;
 	                        					case '4':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 4)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[4];
 	                        						break;
 	                        					case '5':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 5)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[5];
 	                        						break;
 	                        					case '6':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 6)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[6];
 	                        						break;
 	                        					case '7':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 7)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[7];
 	                        						break;
 	                        					case '8':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 8)->get();
-	                        						//echo $school_donations;
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[8];
 	                        						break;
 	                        					case '9':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 9)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[9];
 	                        						break;
 	                        					case '10':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 10)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[10];
 	                        						break;
 	                        					case '11':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 11)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[11];
 	                        						break;
 	                        					case '12':
-	                        						$total_price_monthly_school_donations = 0.00;
-	                        						$school_donations = \App\SchoolDonations::where( DB::raw('MONTH(updated_at)'), '=', 12)->get();
-	                        						foreach ($school_donations as $school) {
-	                        							$total_price_monthly_school_donations +=$school->total_money_gained;
-	                        						}
-	                        						echo $total_price_monthly_school_donations;
+	                        						echo $school_donation_monthly[12];
 	                        						break;
 	                        					default:
 	                        						echo "Something went wrong";
@@ -360,92 +226,92 @@
 	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						//echo "january";
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[1]*22)/100;
 	                        						break;
 	                        					case '2':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[2]*22)/100;
 	                        						break;
 	                        					case '3':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[3]*22)/100;
 	                        						break;
 	                        					case '4':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[4]*22)/100;
 	                        						break;
 	                        					case '5':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[5]*22)/100;
 	                        						break;
 	                        					case '6':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[6]*22)/100;
 	                        						break;
 	                        					case '7':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[7]*22)/100;
 	                        						break;
 	                        					case '8':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[8]*22)/100;
 	                        						break;
 	                        					case '9':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[9]*22)/100;
 	                        						break;
 	                        					case '10':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[10]*22)/100;
 	                        						break;
 	                        					case '11':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[11]*22)/100;
 	                        						break;
 	                        					case '12':
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo ($total_money_gained[12]*22)/100;
 	                        						break;
 	                        					default:
-	                        						echo ($total_price_monthly*22)/100;
+	                        						echo "Something went wrong";
 	                        						break;
 	                        				}
 	                        			?>
 	                        		</td>
-	                        		<td><?php
+	                        		<td>
+	                        			<?php
 	                        				switch ($i) {
 	                        					case '1':
-	                        						//echo "january";
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[1]-($school_donation_monthly[1]+($total_money_gained[1]*22)/100);
 	                        						break;
 	                        					case '2':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[2]-($school_donation_monthly[2]+($total_money_gained[2]*22)/100);
 	                        						break;
 	                        					case '3':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[3]-($school_donation_monthly[3]+($total_money_gained[3]*22)/100);
 	                        						break;
 	                        					case '4':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[4]-($school_donation_monthly[4]+($total_money_gained[4]*22)/100);
 	                        						break;
 	                        					case '5':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[5]-($school_donation_monthly[5]+($total_money_gained[5]*22)/100);
 	                        						break;
 	                        					case '6':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[6]-($school_donation_monthly[6]+($total_money_gained[6]*22)/100);
 	                        						break;
 	                        					case '7':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[7]-($school_donation_monthly[7]+($total_money_gained[7]*22)/100);
 	                        						break;
 	                        					case '8':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[8]-($school_donation_monthly[8]+($total_money_gained[8]*22)/100);
 	                        						break;
 	                        					case '9':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[9]-($school_donation_monthly[9]+($total_money_gained[9]*22)/100);
 	                        						break;
 	                        					case '10':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[10]-($school_donation_monthly[10]+($total_money_gained[10]*22)/100);
 	                        						break;
 	                        					case '11':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[11]-($school_donation_monthly[11]+($total_money_gained[11]*22)/100);
 	                        						break;
 	                        					case '12':
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo $total_money_gained[12]-($school_donation_monthly[12]+($total_money_gained[12]*22)/100);
 	                        						break;
 	                        					default:
-	                        						echo $total_price_monthly-($total_price_monthly*22)/100;
+	                        						echo "Something went wrong";
 	                        						break;
 	                        				}
-	                        			?></td>
+	                        			?>
+	                        		</td>
 	                        	</tr>
 	                        @endfor
 	                     </tbody>

@@ -27,7 +27,6 @@ use App\PickUpNumber;
 use App\Invoice;
 use App\SchoolDonationPercentage;
 use Intervention\Image\Facades\Image;
-
 class AdminController extends Controller
 {
     public function index() {
@@ -1400,10 +1399,266 @@ class AdminController extends Controller
             }
         }
     }
+    private function CountOrdersPerMonth() {
+        $orders = Pickupreq::all();
+        $jan_orders=0;
+        $feb_orders=0;
+        $march_orders=0;
+        $april_orders=0;
+        $may_orders=0;
+        $june_orders=0;
+        $july_orders=0;
+        $aug_orders=0;
+        $sep_orders=0;
+        $oct_orders=0;
+        $nov_orders=0;
+        $dec_orders=0;
+        foreach ($orders as $order) {
+            switch ($order->created_at->month) {
+            case '1':
+                $jan_orders++;
+                //echo $jan_orders."jany";
+                break;
+            case '2':
+                $feb_orders++;
+                //echo $feb_orders;
+                break;
+            case '3':
+                $march_orders++;
+                //echo $march_orders;
+                break;
+            case '4':
+                $april_orders++;
+                //echo $april_orders;
+                break;
+            case '5':
+                $may_orders++;
+                //echo $may_orders;
+                break;
+            case '6':
+                $june_orders++;
+                //echo $june_orders;
+                break;
+            case '7':
+                $july_orders++;
+                //echo $july_orders;
+                break;
+            case '8':
+                $aug_orders++;
+                //echo $aug_orders."aug";
+                break;
+            case '9':
+                $sep_orders++;
+                //echo $sep_orders;
+                break;
+            case '10':
+                $oct_orders++;
+                //echo $oct_orders;
+                break;
+            case '11':
+                $nov_orders++;
+                //echo $nov_orders;
+                break;
+            case '12':
+                $dec_orders++;
+                //echo $dec_orders;
+                break;
+            default:
+                echo "Something went wrong";
+                break;
+            }
+        }
+        return array(
+            '1' =>  $jan_orders,
+            '2' => $feb_orders,
+            '3' => $march_orders,
+            '4' => $april_orders,
+            '5' => $may_orders,
+            '6' => $june_orders,
+            '7' => $july_orders,
+            '8' => $aug_orders,
+            '9' => $sep_orders,
+            '10' => $oct_orders,
+            '11' => $nov_orders,
+            '12' => $dec_orders
+        );
+    }
+    private function totalMoneyGained() {
+        $orders = Pickupreq::all();
+        $jan_price=0.00;
+        $feb_price=0.00;
+        $march_price=0.00;
+        $april_price=0.00;
+        $may_price=0.00;
+        $june_price=0.00;
+        $july_price=0.00;
+        $aug_price=0.00;
+        $sep_price=0.00;
+        $oct_price=0.00;
+        $nov_price=0.00;
+        $dec_price=0.00;
+        foreach ($orders as $order) {
+            switch ($order->created_at->month) {
+            case '1':
+                $jan_price +=$order->total_price; 
+                break;
+            case '2':
+                $feb_price +=$order->total_price;
+                break;
+            case '3':
+                $march_price +=$order->total_price;
+                break;
+            case '4':
+                $april_price +=$order->total_price;
+                break;
+            case '5':
+                $may_price +=$order->total_price;
+                break;
+            case '6':
+                $june_price +=$order->total_price;
+                break;
+            case '7':
+                $july_price +=$order->total_price;
+                break;
+            case '8':
+                $aug_price +=$order->total_price;
+                break;
+            case '9':
+                $sep_price +=$order->total_price;
+                break;
+            case '10':
+                $oct_price +=$order->total_price;
+                break;
+            case '11':
+                $nov_price +=$order->total_price;
+                break;
+            case '12':
+                $dec_price +=$order->total_price;
+                break;
+            default:
+                echo "Something went wrong";
+                break;
+            }
+        }
+        return array(
+            '1' =>  $jan_price,
+            '2' => $feb_price,
+            '3' => $march_price,
+            '4' => $april_price,
+            '5' => $may_price,
+            '6' => $june_price,
+            '7' => $july_price,
+            '8' => $aug_price,
+            '9' => $sep_price,
+            '10' => $oct_price,
+            '11' => $nov_price,
+            '12' => $dec_price
+        );
+    }
+    private function totalSchoolDonation() {
+        $schools = SchoolDonations::all();
+        $total_money_jan = 0.00;
+        $total_money_feb=0.00;
+        $total_money_march=0.00;
+        $total_money_april=0.00;
+        $total_money_may=0.00;
+        $total_money_june=0.00;
+        $total_money_july=0.00;
+        $total_money_aug=0.00;
+        $total_money_sep=0.00;
+        $total_money_oct=0.00;
+        $total_money_nov=0.00;
+        $total_money_dec=0.00;
+        foreach ($schools as $school) {
+            switch ($school->updated_at->month) {
+            case '1':
+                $total_money_jan += $school->total_money_gained;
+                //$jan_schl++;
+                //echo $jan_orders."jany";
+                break;
+            case '2':
+                $total_money_feb += $school->total_money_gained;
+                //$feb_schl++;
+                //echo $feb_orders;
+                break;
+            case '3':
+                $total_money_march += $school->total_money_gained;
+                //$march_schl++;
+                //echo $march_orders;
+                break;
+            case '4':
+                $total_money_april += $school->total_money_gained;
+                //$april_schl++;
+                //echo $april_orders;
+                break;
+            case '5':
+                $total_money_may += $school->total_money_gained;
+                //$may_schl++;
+                //echo $may_orders;
+                break;
+            case '6':
+                $total_money_june += $school->total_money_gained;
+                //$june_schl++;
+                //echo $june_orders;
+                break;
+            case '7':
+                $total_money_july += $school->total_money_gained;
+                //$july_schl++;
+                //echo $july_orders;
+                break;
+            case '8':
+                $total_money_aug += $school->total_money_gained;
+                //$aug_schl++;
+                //echo $aug_orders."aug";
+                break;
+            case '9':
+                $total_money_sep += $school->total_money_gained;
+                //$sep_schl++;
+                //echo $sep_orders;
+                break;
+            case '10':
+                $total_money_oct += $school->total_money_gained;
+                //$oct_schl++;
+                //echo $oct_orders;
+                break;
+            case '11':
+                $total_money_nov += $school->total_money_gained;
+                //$nov_schl++;
+                //echo $nov_orders;
+                break;
+            case '12':
+                $total_money_dec += $school->total_money_gained;
+                //$dec_schl++;
+                //echo $dec_orders;
+                break;
+            default:
+                echo "Something went wrong";
+                break;
+            }
+        }
+        return array(
+            '1' =>  $total_money_jan,
+            '2' => $total_money_feb,
+            '3' => $total_money_march,
+            '4' => $total_money_april,
+            '5' => $total_money_may,
+            '6' => $total_money_june,
+            '7' => $total_money_july,
+            '8' => $total_money_aug,
+            '9' => $total_money_sep,
+            '10' => $total_money_oct,
+            '11' => $total_money_nov,
+            '12' => $total_money_dec
+        );
+    }
     public function getExpenses() {
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
-        $site_details = $obj->siteData();   
-        return view('admin.monthly-expenses', compact('user_data', 'site_details'));
+        $site_details = $obj->siteData();
+        $orders = $this->CountOrdersPerMonth();
+        $total_money_gained = $this->totalMoneyGained();
+        $school_donation_monthly = $this->totalSchoolDonation();
+        //dd($school_donation_monthly);
+        return view('admin.monthly-expenses', compact('user_data', 'site_details', 'orders', 'total_money_gained', 'school_donation_monthly'));
     }
 }
