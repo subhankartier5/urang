@@ -638,34 +638,46 @@ class AdminController extends Controller
 
     public function changeOrderStatusAdmin(Request $req)
     {
-            $total_price = isset($req->total_price)? $req->total_price : false;
-            if($total_price)
+        //dd($req);
+        $total_price = isset($req->total_price)? $req->total_price : false;
+        if($total_price)
+        {
+            $data['order_status'] = $req->order_status;
+            $data['total_price'] = $total_price;
+            //print_r($data);
+            //dd('he');
+            if ($req->order_status == '4') {
+                //dd("here");
+                $data['payment_status'] = 1;
+            }
+            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+            if($result)
             {
-                $data['order_status'] = $req->order_status;
-                $data['total_price'] = $total_price;
-                //print_r($data);
-                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-                if($result)
-                {
-                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
-                }
-                else
-                {
-                    return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
-                }
+                return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
             }
             else
             {
-                $result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
-                if($result)
-                {
-                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
-                }
-                else
-                {
-                    return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
-                }
+                return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
             }
+        }
+        else
+        {
+            $data['order_status'] = $req->order_status;
+            if ($req->order_status == '4') {
+                //dd("here");
+                $data['payment_status'] = 1;
+            }
+            //dd($data);
+            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+            if($result)
+            {
+                return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+            }
+            else
+            {
+                return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+            }
+        }
     }
     public function getStaffList() {
         $obj = new NavBarHelper();
