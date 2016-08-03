@@ -1736,4 +1736,11 @@ class AdminController extends Controller
         //dd($school_donation_monthly);
         return view('admin.monthly-expenses', compact('user_data', 'site_details', 'orders', 'total_money_gained', 'school_donation_monthly'));
     }
+    public function getPickUpReqAdmin() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $users = User::with('user_details' , 'card_details')->get();
+        return view('admin.pickupreq', compact('user_data', 'site_details', 'users'));
+    }
 }

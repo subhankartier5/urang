@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/fetch-credit-card', ['uses' => 'PaymentController@postGetCustomerCreditCard', 'as' => 'postGetCustomerCreditCard']);
     Route::post('/save-school-donation-percentage', ['uses' => 'AdminController@savePercentage', 'as' => 'savePercentage']);
     Route::get('/expenses', ['uses' => 'AdminController@getExpenses', 'as' => 'getExpenses']);
+    Route::get('/allocate-pick-up-req', ['uses' => 'AdminController@getPickUpReqAdmin', 'as' =>'getPickUpReqAdmin']);
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);

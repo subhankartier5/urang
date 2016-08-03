@@ -23,6 +23,9 @@
 	                   <a href="{{route('getAddNewCustomers')}}">
 	                   	<button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_cus"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
 						</a>
+						<a href="{{route('getPickUpReqAdmin')}}">
+							<button type="submit" class="btn btn-primary btn-xs" style="float: right; margin-right: 1%;"><i class="fa fa-share" aria-hidden="true"></i> Schedule a pickup</button>
+						</a>
 	                </div>
 	                <!-- /.panel-heading -->
 	                <div class="panel-body">
