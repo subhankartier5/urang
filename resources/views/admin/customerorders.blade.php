@@ -22,16 +22,16 @@
               //0->no payment keys, 1->null response check date format or card details , check card details error in card number or amount null
                 switch (Session::get('error_code')) {
                   case '0':
-                      echo "No payment keys";
+                      echo "Payment failed, Hint: Please set the payment keys and mode!";
                     break;
                   case '1':
-                      echo "check date format or card details make sure that amount chargable is not null";
+                      echo "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!";
                     break;
                     case '2':
-                      echo "check card details error in card number or amount null";
+                      echo "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!";
                     break;
                   default:
-                    echo "Something else";
+                    echo "Unknown error occured!";
                     break;
                 }
               ?>
