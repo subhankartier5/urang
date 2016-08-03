@@ -19,6 +19,11 @@
             {{ Session::forget('fail') }}
             {{ Session::forget('success') }}
             <div class="row">
+              <div class="col-md-12">
+                <img src="{{url('/')}}/public/images/red.png" style="height: 10px; width: 10px;" alt="unpaid_red_logo"> <span style="color: red;">Unpaid Orders</span> &nbsp
+                <img src="{{url('/')}}/public/images/green.jpg" style="height: 10px; width: 10px;" alt="unpaid_red_logo"> <span style="color: green;">Paid Orders</span> &nbsp
+                <img src="{{url('/')}}/public/images/yellow.png" style="height: 10px; width: 10px;" alt="unpaid_red_logo"> <span style="color: #999900;">Emergency Orders</span>
+              </div>
                <div class="col-md-3">
                   <h2>Pickup Request Table</h2>
                   <?php
@@ -123,7 +128,7 @@
                            }
                            
                            ?>
-                        <tr>
+                        <tr id="color_{{$pickup->id}}">
                            <td>{{ date("F jS Y",strtotime($pickup->created_at->toDateString())) }}</td>
                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                            <td>{{ $pickup->user->email }}</td>
@@ -636,6 +641,26 @@
       $('#invoice_updt').val($('#invoice_no').text());
       $('#EditItemModal').modal('show');
    });
+    //color the tr of table according to condition
+    @foreach($pickups as $pickup)
+      //console.log('{{$pickup->is_emergency}}');
+      if ('{{$pickup->is_emergency}}' == 1 && '{{$pickup->payment_status}}' == 0) 
+      {
+        $('#color_{{$pickup->id}}').attr('style', 'color: #999900;');
+      }
+      else if ('{{$pickup->payment_status}}' == 1) 
+      {
+        $('#color_{{$pickup->id}}').attr('class', 'success');
+      }
+      else if ('{{$pickup->payment_status}}' == 0)
+      {
+        $('#color_{{$pickup->id}}').attr('class', 'danger');
+      }
+      else
+      {
+        $('#color_{{$pickup->id}}').attr('class', 'active');
+      }
+    @endforeach
   });
    var i = 1;
    function createInvoice(pick_up_id, user_id) {
@@ -837,16 +862,15 @@
    }*/
    //$('')
    function sbmitEditForm()
-   {
-   
-   if($('#list_items_json').val() != '')
-   {
-    $('#edit_item_form').submit();
-   }
-   else
-   {
-    sweetAlert("Oops...", "You have to select at least one item", "error");
-   }
+   {   
+     if($('#list_items_json').val() != '')
+     {
+      $('#edit_item_form').submit();
+     }
+     else
+     {
+      sweetAlert("Oops...", "You have to select at least one item", "error");
+     }
    }
 </script>
 @endsection
