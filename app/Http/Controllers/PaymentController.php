@@ -29,6 +29,7 @@ class PaymentController extends Controller
 		return view('admin.payment', compact('user_data', 'payment_keys', 'user_details', 'site_details'));
 	}
     public function AuthoRizePayment(Request $auth_request) {
+    	//dd($auth_request);
     	if(preg_match('/^([0-9]{4})-([0-9]{2})$/', $auth_request->exp_date)) {
     		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
 	   		$payment_keys = PaymentKeys::first();
@@ -59,12 +60,19 @@ class PaymentController extends Controller
 				{
 					$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
 				}
-				//dd($response);
+				//$re1 = json_decode($response->getTransactionResponse());
+				//dd($response->getTransactionResponse());
 				if ($response != null)
 				{
+					//dd($response);
 				    $tresponse = $response->getTransactionResponse();
 				    if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )   
 				    {
+				    	//dd($tresponse);
+				    	//marking as paid
+				    	$search_pickup_req = Pickupreq::find($auth_request->pick_up_re_id);
+					    $search_pickup_req->payment_status = 1;
+					    $search_pickup_req->save();		    	
 				    	if (isset($auth_request->i_m_staff)) {
 				    		return redirect()->route('getMakePayments')->with('success', "Payment was successfull!");
 				    	} else {
@@ -73,6 +81,7 @@ class PaymentController extends Controller
 				    }
 				    else
 				    {
+				    	//dd($response);
 				    	if (isset($auth_request->i_m_staff)) {
 				    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
 				    	} else {
@@ -82,6 +91,7 @@ class PaymentController extends Controller
 				}
 				else
 				{
+					//dd($response);
 				    if (isset($auth_request->i_m_staff)) {
 			    		return redirect()->route('getMakePayments')->with('fail', "Payment Failed check card details and try again later!");
 			    	} else {
