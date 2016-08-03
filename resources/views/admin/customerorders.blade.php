@@ -16,8 +16,31 @@
             </div>
             @else
             @endif
+            @if(Session::has('error_code'))
+              <div class="alert alert-danger">
+              <?php
+              //0->no payment keys, 1->null response check date format or card details , check card details error in card number or amount null
+                switch (Session::get('error_code')) {
+                  case '0':
+                      echo "No payment keys";
+                    break;
+                  case '1':
+                      echo "check date format or card details make sure that amount chargable is not null";
+                    break;
+                    case '2':
+                      echo "check card details error in card number or amount null";
+                    break;
+                  default:
+                    echo "Something else";
+                    break;
+                }
+              ?>
+               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              </div>
+            @endif
             {{ Session::forget('fail') }}
             {{ Session::forget('success') }}
+            {{Session::forget('error_code')}}
             <div class="row">
               <div class="col-md-12">
                 <img src="{{url('/')}}/public/images/red.png" style="height: 10px; width: 10px;" alt="unpaid_red_logo"> <span style="color: red;">Unpaid Orders</span> &nbsp
@@ -179,6 +202,9 @@
                               {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}</td>
                               <td>
                                  <input type="hidden" name="pickup_id" value="{{ $pickup->id }}">
+                                 <input type="hidden" name="user_id" value="{{$pickup->user_id}}"></input>
+                                 <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}"></input>
+                                 <input type="hidden" name="chargable" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
                                  <input type="hidden" name="_token" value="{{ Session::token() }}">
                                  <button type="submit" class="btn btn-primary">Apply</button>
                               </td>

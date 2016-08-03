@@ -18,6 +18,7 @@ use App\CustomerCreditCardInfo;
 use App\Faq;
 use App\Staff;
 use App\Pickupreq;
+use App\PaymentKeys;
 use Illuminate\Support\Facades\Input;
 use Session;
 use App\Cms;
@@ -27,6 +28,8 @@ use App\PickUpNumber;
 use App\Invoice;
 use App\SchoolDonationPercentage;
 use Intervention\Image\Facades\Image;
+use net\authorize\api\contract\v1 as AnetAPI;
+use net\authorize\api\controller as AnetController;
 class AdminController extends Controller
 {
     public function index() {
@@ -644,11 +647,16 @@ class AdminController extends Controller
         {
             $data['order_status'] = $req->order_status;
             $data['total_price'] = $total_price;
-            //print_r($data);
-            //dd('he');
-            if ($req->order_status == '4') {
-                //dd("here");
-                $data['payment_status'] = 1;
+            if ($req->order_status == 4 && $req->payment_type == 1) {
+                $response = $this->ChargeCard($req->user_id, $req->chargable);
+                //dd($response);
+                if ($response == "I00001") {
+                    $data['payment_status'] = 1;
+                }
+                else
+                {
+                    Session::put("error_code", $response);
+                }
             }
             $result = Pickupreq::where('id', $req->pickup_id)->update($data);
             if($result)
@@ -663,9 +671,16 @@ class AdminController extends Controller
         else
         {
             $data['order_status'] = $req->order_status;
-            if ($req->order_status == '4') {
-                //dd("here");
-                $data['payment_status'] = 1;
+            if ($req->order_status == 4 && $req->payment_type == 1) {
+                $response = $this->ChargeCard($req->user_id, $req->chargable);
+                //dd($response);
+                if ($response == "I00001") {
+                    $data['payment_status'] = 1;
+                } 
+                else
+                {
+                    Session::put("error_code", $response);
+                }
             }
             //dd($data);
             $result = Pickupreq::where('id', $req->pickup_id)->update($data);
@@ -677,6 +692,57 @@ class AdminController extends Controller
             {
                 return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
             }
+        }
+    }
+    private function ChargeCard($id, $amount) {
+        //fetch the record from databse
+        $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+        $customer_credit_card = CustomerCreditCardInfo::where('user_id', $id)->first();
+        $payment_keys = PaymentKeys::first();
+        if ($payment_keys != null) {
+            $merchantAuthentication->setName($payment_keys->login_id);
+            $merchantAuthentication->setTransactionKey($payment_keys->transaction_key);
+            // Create the payment data for a credit card
+            $creditCard = new AnetAPI\CreditCardType();
+            $creditCard->setCardNumber($customer_credit_card->card_no);
+            $creditCard->setExpirationDate("20".$customer_credit_card->exp_year."-".$customer_credit_card->exp_month);
+            $paymentOne = new AnetAPI\PaymentType();
+            $paymentOne->setCreditCard($creditCard);
+            $transactionRequestType = new AnetAPI\TransactionRequestType();
+            $transactionRequestType->setTransactionType( "authCaptureTransaction"); 
+            $transactionRequestType->setAmount($amount);
+            $transactionRequestType->setPayment($paymentOne);
+            $request = new AnetAPI\CreateTransactionRequest();
+            $request->setMerchantAuthentication($merchantAuthentication);
+            $request->setTransactionRequest( $transactionRequestType);
+            $controller = new AnetController\CreateTransactionController($request);
+            if ($payment_keys->mode == 1) {
+                $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+            }
+            else
+            {
+                $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+            }
+            //dd($response);
+            if ($response != null) {
+                $tresponse = $response->getTransactionResponse();
+                if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )   
+                {
+                    return "I00001";
+                }
+                else
+                {
+                    return 2;
+                }
+            } 
+            else
+            {
+                return 1;
+            }
+        } 
+        else 
+        {
+            return 0;
         }
     }
     public function getStaffList() {
