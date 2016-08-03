@@ -100,13 +100,13 @@ class UserApiController extends Controller
         $pick_up_req->schedule = $request->schedule;
         $pick_up_req->delivary_type = $request->boxed_or_hung;
         $pick_up_req->starch_type = $request->strach_type;
-        $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
+        $pick_up_req->need_bag = isset($request->urang_bag) ? $request->urang_bag : 0;
         $pick_up_req->door_man = $request->doorman;
         $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
         $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
         $pick_up_req->payment_type = $request->pay_method;
         $pick_up_req->order_status = 1;
-        $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
+        $pick_up_req->is_emergency = isset($request->isEmergency) ? $request->isEmergency : 0;
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = NULL;
         $pick_up_req->wash_n_fold = $request->wash_n_fold;
