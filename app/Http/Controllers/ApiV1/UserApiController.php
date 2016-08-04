@@ -138,7 +138,7 @@ class UserApiController extends Controller
                 for ($i=0; $i< count($data); $i++) {
                     $order_details = new OrderDetails();
                     $order_details->pick_up_req_id = $pick_up_req->id;
-                    $order_details->user_id = auth()->guard('users')->user()->id;
+                    $order_details->user_id = $request->user_id;
                     $order_details->price = $data[$i]->item_price;
                     $order_details->items = $data[$i]->item_name;
                     $order_details->quantity = $data[$i]->number_of_item;
