@@ -1741,6 +1741,8 @@ class AdminController extends Controller
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
         $users = User::with('user_details' , 'card_details')->get();
-        return view('admin.pickupreq', compact('user_data', 'site_details', 'users'));
+        $price_list = PriceList::all();
+        $school_list = SchoolDonations::all();
+        return view('admin.pickupreq', compact('user_data', 'site_details', 'users', 'price_list', 'school_list'));
     }
 }

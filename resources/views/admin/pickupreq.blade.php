@@ -21,10 +21,10 @@
 		        <div class="panel-body">
 		        	<div class="row">
 		                <div class="col-lg-12">
-		                	<form role="form" action="#" method="post">
+		                	<form role="form" action="{{route('postPickUpReq')}}" method="post">
 								<div class="form-group">
 								    <label>Select a Customer</label>
-								    <select name="user_email" class="form-control" required="" id="cus_email">
+								    <select name="user_id" class="form-control" required="" id="cus_email">
 								    	@if(count($users) > 0)
 								    		<option value="">Select a customer</option>
 									    	@foreach($users as $user)
@@ -37,11 +37,11 @@
 								</div>
 								<div class="form-group">
 								    <label>Pick Up Address</label>
-								    <textarea class="form-control" name="address" required=""></textarea>
+								    <textarea class="form-control" name="address" id="user_add" required=""></textarea>
 								</div>
 								<div class="form-group">
 								    <label>Pick up date</label>
-								    <input class="form-control" name="pick_up_date" type="text" required="">
+								    <input class="form-control" name="pick_up_date" type="text" required="" id='datepicker'>
 								</div>
 								<div class="form-group">
 								    <label for="schedule">Schedule</label>
@@ -153,8 +153,67 @@
 					            	<label>Donate to a school in your neighborhood ?</label>
                   					<input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate"></input>
               					</div>
+              					<div class="form-group">
+				                <span>
+				                  <select name="school_donation_id" id="schoolNameDropDown" class="form-control">
+				                    <option value="">Select School</option>
+				                    @foreach($school_list as $school)
+				                    <option value="{{$school->id}}">{{$school->school_name}}</option>
+				                    @endforeach
+				                  </select>
+				                </span>
+				              </div>
               					<button type="submit" class="btn btn-primary btn-lg btn-block">Schedule Pick up</button>
 								<input type="hidden" name="_token" value="{{Session::token()}}"></input>
+								<input type="hidden" name="identifier" value="admin"></input>
+								<div id="myModal" class="modal fade" role="dialog">
+						        <div class="modal-dialog">
+						          <!-- Modal content-->
+						          <div class="modal-content">
+						            <div class="modal-header">
+						              <button type="button" class="close" data-dismiss="modal">&times;</button>
+						              <h2>Select items you want</h2>
+						            </div>
+						            <div class="modal-body">
+						              <table class = "table table-striped">
+						                <thead>
+						                  <tr>
+						                    <th>No of Items</th>
+						                    <th>Item Name</th>
+						                    <th>Item Price</th>
+						                    <th>Action</th>
+						                  </tr>
+						                </thead>
+						                <tbody> 
+						              @if(count($price_list) > 0)
+						                @foreach($price_list as $list)
+						                  <tr>
+						                    <td>
+						                      <select name="number_of_item" id="number_{{$list->id}}">
+						                        @for($i=0; $i<=10; $i++)
+						                          <option value="{{$i}}">{{$i}}</option>
+						                        @endfor
+						                      </select>
+						                    </td>
+						                    <td id="item_{{$list->id}}">{{$list->item}}</td>
+						                    <td id="price_{{$list->id}}">{{$list->price}}</td>
+						                    <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn_{{$list->id}}">Add</button></td>
+						                  </tr>
+						                @endforeach
+						              @else
+						                <tr><td>No Data</td></tr>
+						              @endif
+						                </tbody>
+						              </table>
+						            </div>
+						            <div class="modal-footer">
+						              <button type="button" class="btn btn-default" id="modal-close">Save Changes</button>
+						            </div>
+						          </div>
+
+						        </div>
+						      </div>
+						      <input type="hidden" name="list_items_json" id="list_items_json"></input>
 		                	</form>
 		                </div>
 		            </div>
@@ -164,7 +223,129 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
-		//alert('jhd')
-	});
+		$('#order_type').change(function(){
+	      if ($('#order_type').val() == 0) 
+	      {
+	        $('#myModal').modal('show');
+	      }
+	      else
+	      {
+	        $('#myModal').modal('hide');
+	      }
+	     });
+		//generating address of user and school
+		$('#cus_email').change(function(){
+			if ($.trim($('#cus_email').val()) != null) 
+			{
+				//console.log($('#cus_email').val());
+				//return;
+				if('{{count($users)}}' > 0) {
+					//console.log('{{count($users)}}')
+					@foreach($users as $user)
+						while ('{{$user->user_details->user_id}}' == $('#cus_email').val()) {
+							//console.log('{{$user->user_details->address}}');
+							//console.log('{{$user->user_details->school_id}}');
+							//populatingg address field
+							if ($.trim('{{$user->user_details->address}}') != null) 
+							{
+								$('#user_add').val('{{$user->user_details->address}}');
+							}
+							else
+							{
+								return;
+							}
+							//populate school donation
+							if ($.trim('{{$user->user_details->school_id}}') != null) 
+							{
+
+								$('#schoolNameDropDown').val('{{$user->user_details->school_id}}');
+							}
+							else
+							{
+								return;
+							}
+							return;
+						}
+					@endforeach
+				}		    		
+				else {
+					return;
+				}
+									    	
+			}
+			else
+			{
+				return;
+			}
+		});
+		var todays_date=  $.datepicker.formatDate('mm/dd/yy', new Date());
+     	$('#datepicker').val(todays_date);
+     	$( "#datepicker" ).datepicker();
+     	$('#modal-close').click(function(){
+	        if($('#list_items_json').val() == '')
+	        {
+	          sweetAlert("Oops...", "You can't request a Detailed Pickup without selecting any item", "warning");
+	          $('#myModal').modal('hide');
+	          $('#order_type>option:eq(0)').prop('selected', true);
+	          return;
+	        }
+        	$('#myModal').modal('hide');
+        	swal("Success!", "Your items are select now please place an order", "success");
+     	});
+  	});
+
+  jsonArray = [];
+
+  function add_id(id) {
+     if ($('#number_'+id).val() > 0) 
+     {
+        if ($('#btn_'+id).text() == "Add") 
+        {
+          $('#btn_'+id).text("Remove");
+          $('#number_'+id).prop('disabled', true);
+          list_item = {};
+          list_item['id'] = id;
+          list_item['number_of_item'] = $('#number_'+id).val();
+          list_item['item_name'] = $('#item_'+id).text();
+          list_item['item_price'] = $('#price_'+id).text();
+          jsonArray.push(list_item);
+          jsonString = JSON.stringify(jsonArray);
+          $('#list_items_json').val(jsonString);
+        }
+        else
+        {
+          $('#btn_'+id).text("Add");
+          $('#number_'+id).prop('disabled', false);
+          for(var j=0; j< jsonArray.length; j++) {
+            if (jsonArray.length > 1) 
+            {
+              if (jsonArray[j].id == id) 
+              {
+                jsonArray.splice(j,j);
+                jsonString = JSON.stringify(jsonArray);
+              }
+            }
+            else
+            {
+              jsonArray = [];
+              $('#list_items_json').val('');
+            }
+            
+          }
+          //jsonString = JSON.stringify(jsonArray);
+          $('#list_items_json').val(jsonString);
+        }
+     }
+     else
+     {
+        sweetAlert("Oops...", "Please select atleast one item", "error");
+     }
+  }
+  $('#schoolNameDropDown').hide();
+  $('#schoolDonationAmount').hide();
+  function openCheckBoxSchool()
+  {
+    $('#schoolNameDropDown').toggle();
+  }
 </script>
 @endsection
