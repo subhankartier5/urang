@@ -116,6 +116,31 @@ class UserApiController extends Controller
         }
         $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
 
+        if($request->isDonate)
+        {
+            //dd($total_price);
+            $percentage = SchoolDonationPercentage::first();
+            $new_percentage = $percentage->percentage/100;
+            $pick_up_req->school_donation_id = $request->school_donation_id;
+            //$pick_up_req->school_donation_amount = $request->school_donation_amount;
+            $search = SchoolDonations::find($request->school_donation_id);
+            $present_pending_money = $search->pending_money;
+            $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+            $search->pending_money = $updated_pending_money;
+            $search->save();
+            //save the school in user details for future ref
+            if ($request->identifier == "admin") {
+                $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
+            }
+            else
+            {
+                $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
+            }
+            
+            $update_user_details->school_id = $request->school_donation_id;
+            $update_user_details->save();
+        }
+
         if ($pick_up_req->save()) 
         {
             if ($request->order_type == 1) {
