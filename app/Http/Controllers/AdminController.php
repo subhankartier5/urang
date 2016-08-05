@@ -1760,7 +1760,7 @@ class AdminController extends Controller
         }
         else
         {
-            $start_time = $request->strt_tym;
+            /*$start_time = $request->strt_tym;
             $end_time  = $request->end_tym;
             $start = new DateTime($start_time);
             $end = new DateTime($end_time);
@@ -1768,7 +1768,7 @@ class AdminController extends Controller
                 return redirect()->route('manageReqNo')->with('error', 'Sorry! Start time cannot be greater than end time');
             }
             else
-            {
+            {*/
                 $search_first = PickUpTime::where('day', $request->day)->first();
                 if ($search_first != null) {
                     $search_first->opening_time = $request->strt_tym;
@@ -1790,7 +1790,7 @@ class AdminController extends Controller
                         return redirect()->route('manageReqNo')->with('error', 'Sorry! could not save your details some error occurred');
                     }
                 }
-            }
+            //}
             
         }
     }

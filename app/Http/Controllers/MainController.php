@@ -21,9 +21,7 @@ use App\SchoolDonations;
 use App\Cms;
 use App\Invoice;
 use App\SchoolDonationPercentage;
-//use Event;
-//use App\Events\SomeEvent;
-//use App\Jobs\SendReminderEmail;
+use App\PickUpTime;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -340,6 +338,90 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         return view('pages.pickupreq', compact('site_details'));
     }
+    //================================================================
+    private function SayMeTheDate($pick_up_date, $created_at) {
+        $date = $pick_up_date;
+        $time = $created_at->toTimeString();
+        $data = $this->returnData(date('l', strtotime($date)));
+        if ($data != "E500" && $data != null) {
+            if ($data->closedOrNot !=1) {
+                if (strtotime($data->opening_time) <= strtotime($time) && strtotime($data->closing_time) >= strtotime($time)) {
+                    $show_expected = "pick up day ". $date."\n"."before ".date("h:i a", strtotime($data->closing_time));
+                    return $show_expected;
+                }
+                else
+                {
+                    return $this->SayMeTheDate(date('Y-m-d',strtotime($date)+86400), $created_at);
+                }
+            }
+            else
+            {
+                $new_pickup_date = date('Y-m-d',strtotime($date)+86400);
+                return $this->SayMeTheDate($new_pickup_date, $created_at);
+            }
+        }
+        else
+        {
+            return "500 Bad request";
+        }
+    }
+    //==============================================
+    /*private function convertNumberToString($number) {
+        switch ($number) {
+            case '1':
+                return "Monday";
+                break;
+            case '2':
+                return "Tuesday";
+                break;
+            case '3':
+                return "Wednesday";
+                break;
+            case '4':
+                return "Thrusday";
+                break;
+            case '5':
+                return "Friday";
+                break;
+            case '6':
+                return "Saturday";
+                break;
+            case '7':
+                return "Sunday";
+                break;
+            default:
+                return "Bad Input";
+                break;
+        }
+    }*/
+    private function returnData($day) {
+        switch ($day) {
+            case 'Monday':
+                return  PickUpTime::where('day', 1)->first();
+                break;
+            case 'Tuesday':
+                return  PickUpTime::where('day', 2)->first();
+                break;
+            case 'Wednesday':
+                return  PickUpTime::where('day', 3)->first();
+                break;
+            case 'Thursday':
+                return  PickUpTime::where('day', 4)->first();
+                break;
+            case 'Friday':
+                return  PickUpTime::where('day', 5)->first();
+                break;
+            case 'Saturday':
+                return  PickUpTime::where('day', 6)->first();
+                break;
+            case 'Sunday':
+                return  PickUpTime::where('day', 7)->first();
+                break;
+            default:
+                return "E500";
+                break;
+        }
+    }
     public function postPickUp (Request $request) {
         //dd($request);
         $total_price = 0.00;
@@ -399,17 +481,20 @@ class MainController extends Controller
         if ($pick_up_req->save()) {
             if ($request->order_type == 1) {
                 //fast pick up
+                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                dd($expected_time);
                 if ($request->identifier == "admin") {
-                    return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+                    return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                 }
                 else
                 {
-                    return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+                    return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                 }
                 
             }
             else
             {
+                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
@@ -447,11 +532,11 @@ class MainController extends Controller
                     $invoice->save();
                 }
                 if ($request->identifier == "admin") {
-                    return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+                    return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                 }
                 else
                 {
-                    return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+                    return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                 }
             }
         }
