@@ -482,7 +482,7 @@ class MainController extends Controller
             if ($request->order_type == 1) {
                 //fast pick up
                 $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
-                dd($expected_time);
+                //dd($expected_time);
                 if ($request->identifier == "admin") {
                     return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                 }
