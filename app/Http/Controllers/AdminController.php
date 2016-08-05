@@ -30,6 +30,9 @@ use App\SchoolDonationPercentage;
 use Intervention\Image\Facades\Image;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
+use App\PickUpTime;
+use DateTime;
+
 class AdminController extends Controller
 {
     public function index() {
@@ -1422,12 +1425,17 @@ class AdminController extends Controller
         $obj = new NavBarHelper();
         $user_data = $obj->getUserData();
         $site_details = $obj->siteData();
-        $list_school = SchoolDonations::with('neighborhood')->paginate(10);
-        $neighborhood = Neighborhood::all();
-        $pick_up_number = PickUpNumber::first();
-
-        return view('admin.manage-request-numbers', compact('user_data', 'site_details', 'list_school', 'neighborhood','pick_up_number'));
+        $pick_up_schedule = $this->callBackPickUpTimes();
+        return view('admin.manage-request-numbers', compact('user_data', 'site_details', 'pick_up_schedule'));
         
+    }
+    private function callBackPickUpTimes() {
+        $return = array();
+        for ($i=1; $i <=7 ; $i++) { 
+            ${'day'.$i} = PickUpTime::where('day', $i)->first();
+            $return[] = ${'day'.$i};
+        }
+        return $return;
     }
     public function changeWeekDayNumber(Request $req)
     {
@@ -1744,5 +1752,65 @@ class AdminController extends Controller
         $price_list = PriceList::all();
         $school_list = SchoolDonations::all();
         return view('admin.pickupreq', compact('user_data', 'site_details', 'users', 'price_list', 'school_list'));
+    }
+    public function postSetTime(Request $request) {
+        //dd($request);
+        if (strcmp($request->strt_tym, $request->end_tym) == 0) {
+            return redirect()->route('manageReqNo')->with('error', 'Sorry! Start time and end time could not be same!');
+        }
+        else
+        {
+            $start_time = $request->strt_tym;
+            $end_time  = $request->end_tym;
+            $start = new DateTime($start_time);
+            $end = new DateTime($end_time);
+            if($start->getTimestamp() > $end->getTimestamp()) {
+                return redirect()->route('manageReqNo')->with('error', 'Sorry! Start time cannot be greater than end time');
+            }
+            else
+            {
+                $search_first = PickUpTime::where('day', $request->day)->first();
+                if ($search_first != null) {
+                    $search_first->opening_time = $request->strt_tym;
+                    $search_first->closing_time = $request->end_tym;
+                    if ($search_first->save()) {
+                        return redirect()->route('manageReqNo')->with('success', 'Time successfully saved!');
+                    } else {
+                        return redirect()->route('manageReqNo')->with('error', 'Sorry! could not update your details some error occurred');
+                    }
+                } else {
+                    $pick_up_time = new PickUpTime();
+                    $pick_up_time->day = $request->day;
+                    $pick_up_time->opening_time = $request->strt_tym;
+                    $pick_up_time->closing_time = $request->end_tym;
+                    $pick_up_time->closedOrNot = 0;
+                    if ($pick_up_time->save()) {
+                        return redirect()->route('manageReqNo')->with('success', 'Time successfully saved!');
+                    } else {
+                        return redirect()->route('manageReqNo')->with('error', 'Sorry! could not save your details some error occurred');
+                    }
+                }
+            }
+            
+        }
+    }
+    public function setToClose(Request $request) {
+        //return $request->value;
+        $find = PickUpTime::where('day', $request->day)->first();
+        //return $find;
+        if ($find) {
+            $find->closedOrNot = $request->value;
+            if ($find->save()) {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
