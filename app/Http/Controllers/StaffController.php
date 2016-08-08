@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Helper\NavBarHelper;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Staff;
@@ -16,6 +16,11 @@ use App\SchoolDonations;
 use App\Neighborhood;
 use App\PaymentKeys;
 use App\Invoice;
+use App\SchoolDonationPercentage;
+use net\authorize\api\contract\v1 as AnetAPI;
+use net\authorize\api\controller as AnetController;
+use App\CustomerCreditCardInfo;
+
 class StaffController extends Controller
 {
     public function __construct()
@@ -93,13 +98,64 @@ class StaffController extends Controller
         }
         
     }
-
+    private function ChargeCard($id, $amount) {
+        //fetch the record from databse
+        $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+        $customer_credit_card = CustomerCreditCardInfo::where('user_id', $id)->first();
+        $payment_keys = PaymentKeys::first();
+        if ($payment_keys != null) {
+            $merchantAuthentication->setName($payment_keys->login_id);
+            $merchantAuthentication->setTransactionKey($payment_keys->transaction_key);
+            // Create the payment data for a credit card
+            $creditCard = new AnetAPI\CreditCardType();
+            $creditCard->setCardNumber($customer_credit_card->card_no);
+            $creditCard->setExpirationDate("20".$customer_credit_card->exp_year."-".$customer_credit_card->exp_month);
+            $paymentOne = new AnetAPI\PaymentType();
+            $paymentOne->setCreditCard($creditCard);
+            $transactionRequestType = new AnetAPI\TransactionRequestType();
+            $transactionRequestType->setTransactionType( "authCaptureTransaction"); 
+            $transactionRequestType->setAmount($amount);
+            $transactionRequestType->setPayment($paymentOne);
+            $request = new AnetAPI\CreateTransactionRequest();
+            $request->setMerchantAuthentication($merchantAuthentication);
+            $request->setTransactionRequest( $transactionRequestType);
+            $controller = new AnetController\CreateTransactionController($request);
+            if ($payment_keys->mode == 1) {
+                $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+            }
+            else
+            {
+                $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+            }
+            //dd($response);
+            if ($response != null) {
+                $tresponse = $response->getTransactionResponse();
+                if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )   
+                {
+                    return "I00001";
+                }
+                else
+                {
+                    return 2;
+                }
+            } 
+            else
+            {
+                return 1;
+            }
+        } 
+        else 
+        {
+            return 0;
+        }
+    }
     public function changeOrderStatus(Request $req)
     {
+        //dd($req);
         $staff = auth()->guard('staffs')->user();
         if($staff)
         {
-            //dd($req);
+            /*//dd($req);
             $total_price = isset($req->total_price)? $req->total_price : false;
             if($total_price)
             {
@@ -119,6 +175,57 @@ class StaffController extends Controller
             else
             {
                 $result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
+                if($result)
+                {
+                    return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
+                }
+            }*/
+            $total_price = isset($req->total_price)? $req->total_price : false;
+            if($total_price)
+            {
+                $data['order_status'] = $req->order_status;
+                $data['total_price'] = $total_price;
+                if ($req->order_status == 4 && $req->payment_type == 1) {
+                    $response = $this->ChargeCard($req->user_id, $req->chargable);
+                    //dd($response);
+                    if ($response == "I00001") {
+                        $data['payment_status'] = 1;
+                    }
+                    else
+                    {
+                        Session::put("error_code", $response);
+                    }
+                }
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                if($result)
+                {
+                    return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
+                }
+            }
+            else
+            {
+                $data['order_status'] = $req->order_status;
+                if ($req->order_status == 4 && $req->payment_type == 1) {
+                    $response = $this->ChargeCard($req->user_id, $req->chargable);
+                    //dd($response);
+                    if ($response == "I00001") {
+                        $data['payment_status'] = 1;
+                    } 
+                    else
+                    {
+                        Session::put("error_code", $response);
+                    }
+                }
+                //dd($data);
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                 if($result)
                 {
                     return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
@@ -166,13 +273,27 @@ class StaffController extends Controller
     }
     public function getSort()
     {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
         $input = Input::get('sort');
         $sort = isset($input) ? $input : false;
 
         if($sort)
         {
-            $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
-            return view('staff.orders',compact('pickups'));
+            if ($sort == 'paid') {
+                $pickups = Pickupreq::where('payment_status', 1)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+            } else if($sort == 'unpaid') {
+                $pickups = Pickupreq::where('payment_status', 0)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+            } else {
+                $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+            }
         }
         else
         {
