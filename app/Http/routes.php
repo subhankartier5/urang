@@ -25,6 +25,7 @@ Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getC
 Route::post('/postContactForm',['uses' => 'MainController@postContactForm', 'as' => 'postContactForm']);
 Route::get('/school-donations', ['uses' => 'MainController@getSchoolDonations', 'as' => 'getSchoolDonations']);
 Route::get('/services', ['uses' => 'MainController@getServices', 'as' => 'getServices']);
+Route::get('/service/{slug}', ['uses' => 'MainController@getStandAloneService', 'as' => 'getStandAloneService']);
 Route::get('/dry-clean',['uses' => 'MainController@getDryClean', 'as' => 'getDryClean']);
 Route::get('/wash-n-fold', ['uses' => 'MainController@getWashNFold', 'as' => 'getWashNFold']);
 Route::get('/corporate', ['uses' => 'MainController@getCorporate', 'as' => 'getCorporateFront']);

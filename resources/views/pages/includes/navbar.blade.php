@@ -41,11 +41,11 @@
               <li>
                 <a href="{{route('getServices')}}">Services <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
                 <ul style="width: 160%">
-                  <li class="dryclean"><a href="{{route('getServices')}}#dry-clean">DRY CLEAN ONLY</a></li>
-                  <li class="washnfold"><a href="{{route('getServices')}}#wash-n-fold">WASH & FOLD</a></li>
-                  <li><a href="{{route('getServices')}}#corporate">CORPOARTE</a></li>
-                  <li><a href="{{route('getServices')}}#tailoring">TAILORING</a></li>
-                  <li><a href="{{route('getServices')}}#wet-cleaning">WET CLEANING</a></li>
+                  <li class="dryclean"><a target="_blank" href="{{route('getStandAloneService', 'dry-clean')}}">DRY CLEAN ONLY</a></li>
+                  <li class="washnfold"><a target="_blank" href="{{route('getStandAloneService', 'washNfold')}}">WASH & FOLD</a></li>
+                  <li><a target="_blank" href="{{route('getStandAloneService', 'corporate')}}">CORPOARTE</a></li>
+                  <li><a target="_blank" href="{{route('getStandAloneService', 'tailoring')}}">TAILORING</a></li>
+                  <li><a target="_blank" href="{{route('getStandAloneService', 'wet-cleaning')}}">WET CLEANING</a></li>
                 </ul>
               </li>
               <li>

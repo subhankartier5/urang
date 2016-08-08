@@ -406,130 +406,143 @@ class MainController extends Controller
     }
     public function postPickUp (Request $request) {
         //dd($request);
-        $total_price = 0.00;
-        $pick_up_req = new Pickupreq();
-        if ($request->identifier == "admin") {
-           $pick_up_req->user_id = $request->user_id;
-        }
-        else
-        {
-            $pick_up_req->user_id = auth()->guard('users')->user()->id;
-        }
-        $pick_up_req->address = $request->address;
-        $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
-        $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
-        $pick_up_req->schedule = $request->schedule;
-        $pick_up_req->delivary_type = $request->boxed_or_hung;
-        $pick_up_req->starch_type = $request->strach_type;
-        $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
-        $pick_up_req->door_man = $request->doorman;
-        $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
-        $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
-        $pick_up_req->payment_type = $request->pay_method;
-        $pick_up_req->order_status = 1;
-        $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
-        $pick_up_req->client_type = $request->client_type;
-        $pick_up_req->coupon = NULL;
-        $pick_up_req->wash_n_fold = $request->wash_n_fold;
-        $data_table = json_decode($request->list_items_json);
-        for ($i=0; $i< count($data_table); $i++) {
-            $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
-        }
-        $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
-        if($request->isDonate)
-        {
-            //dd($total_price);
-            $percentage = SchoolDonationPercentage::first();
-            $new_percentage = $percentage->percentage/100;
-            $pick_up_req->school_donation_id = $request->school_donation_id;
-            //$pick_up_req->school_donation_amount = $request->school_donation_amount;
-            $search = SchoolDonations::find($request->school_donation_id);
-            $present_pending_money = $search->pending_money;
-            $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
-            $search->pending_money = $updated_pending_money;
-            $search->save();
-            //save the school in user details for future ref
+        if ($request->schedule && $request->client_type && $request->order_type && $request->pay_method) {
+            $total_price = 0.00;
+            $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
-                $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
+               $pick_up_req->user_id = $request->user_id;
             }
             else
             {
-                $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
+                $pick_up_req->user_id = auth()->guard('users')->user()->id;
             }
-            
-            $update_user_details->school_id = $request->school_donation_id;
-            $update_user_details->save();
-        }
-        if ($pick_up_req->save()) {
-            if ($request->order_type == 1) {
-                //fast pick up
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
-                //dd($expected_time);
+            $pick_up_req->address = $request->address;
+            $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
+            $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
+            $pick_up_req->schedule = $request->schedule;
+            $pick_up_req->delivary_type = $request->boxed_or_hung;
+            $pick_up_req->starch_type = $request->strach_type;
+            $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
+            $pick_up_req->door_man = $request->doorman;
+            $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
+            $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
+            $pick_up_req->payment_type = $request->pay_method;
+            $pick_up_req->order_status = 1;
+            $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
+            $pick_up_req->client_type = $request->client_type;
+            $pick_up_req->coupon = NULL;
+            $pick_up_req->wash_n_fold = $request->wash_n_fold;
+            $data_table = json_decode($request->list_items_json);
+            for ($i=0; $i< count($data_table); $i++) {
+                $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
+            }
+            $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
+            if($request->isDonate)
+            {
+                //dd($total_price);
+                $percentage = SchoolDonationPercentage::first();
+                $new_percentage = $percentage->percentage/100;
+                $pick_up_req->school_donation_id = $request->school_donation_id;
+                //$pick_up_req->school_donation_amount = $request->school_donation_amount;
+                $search = SchoolDonations::find($request->school_donation_id);
+                $present_pending_money = $search->pending_money;
+                $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
+                $search->pending_money = $updated_pending_money;
+                $search->save();
+                //save the school in user details for future ref
                 if ($request->identifier == "admin") {
-                    return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                    $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
                 }
                 else
                 {
-                    return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                    $update_user_details = UserDetails::where('user_id', auth()->guard('users')->user()->id)->first();
                 }
                 
+                $update_user_details->school_id = $request->school_donation_id;
+                $update_user_details->save();
             }
-            else
-            {
-                $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
-                //detailed pick up
-                $data = json_decode($request->list_items_json);
-                for ($i=0; $i< count($data); $i++) {
-                    $order_details = new OrderDetails();
-                    $order_details->pick_up_req_id = $pick_up_req->id;
+            if ($pick_up_req->save()) {
+                if ($request->order_type == 1) {
+                    //fast pick up
+                    $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                    //dd($expected_time);
                     if ($request->identifier == "admin") {
-                        $order_details->user_id = $request->user_id;
+                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                     }
                     else
                     {
-                        $order_details->user_id = auth()->guard('users')->user()->id;
+                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
                     }
-                    $order_details->price = $data[$i]->item_price;
-                    $order_details->items = $data[$i]->item_name;
-                    $order_details->quantity = $data[$i]->number_of_item;
-                    $order_details->payment_status = 0;
-                    $order_details->save();
-                }
-                //create invoice
-                for ($j=0; $j < count($data) ; $j++) { 
-                    $invoice = new Invoice();
-                    if ($request->identifier == "admin") {
-                        $invoice->user_id = $request->user_id;
-                    }
-                    else
-                    {
-                        $invoice->user_id = auth()->guard('users')->user()->id;
-                    }
-                    //$invoice->user_id = auth()->guard('users')->user()->id;
-                    $invoice->pick_up_req_id = $pick_up_req->id;
-                    $invoice->invoice_id = time();
-                    $invoice->item = $data[$j]->item_name;
-                    $invoice->quantity = $data[$j]->number_of_item;
-                    $invoice->price = $data[$j]->item_price;
-                    $invoice->save();
-                }
-                if ($request->identifier == "admin") {
-                    return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                    
                 }
                 else
                 {
-                    return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                    $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
+                    //detailed pick up
+                    $data = json_decode($request->list_items_json);
+                    for ($i=0; $i< count($data); $i++) {
+                        $order_details = new OrderDetails();
+                        $order_details->pick_up_req_id = $pick_up_req->id;
+                        if ($request->identifier == "admin") {
+                            $order_details->user_id = $request->user_id;
+                        }
+                        else
+                        {
+                            $order_details->user_id = auth()->guard('users')->user()->id;
+                        }
+                        $order_details->price = $data[$i]->item_price;
+                        $order_details->items = $data[$i]->item_name;
+                        $order_details->quantity = $data[$i]->number_of_item;
+                        $order_details->payment_status = 0;
+                        $order_details->save();
+                    }
+                    //create invoice
+                    for ($j=0; $j < count($data) ; $j++) { 
+                        $invoice = new Invoice();
+                        if ($request->identifier == "admin") {
+                            $invoice->user_id = $request->user_id;
+                        }
+                        else
+                        {
+                            $invoice->user_id = auth()->guard('users')->user()->id;
+                        }
+                        //$invoice->user_id = auth()->guard('users')->user()->id;
+                        $invoice->pick_up_req_id = $pick_up_req->id;
+                        $invoice->invoice_id = time();
+                        $invoice->item = $data[$j]->item_name;
+                        $invoice->quantity = $data[$j]->number_of_item;
+                        $invoice->price = $data[$j]->item_price;
+                        $invoice->save();
+                    }
+                    if ($request->identifier == "admin") {
+                        return redirect()->route('getPickUpReqAdmin')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                    }
+                    else
+                    {
+                        return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order expected ".$expected_time);
+                    }
                 }
-            }
-        }
-        else
-        {
-            if ($request->identifier == "admin") {
-                return redirect()->route('getPickUpReqAdmin')->with('fail', "Could Not Save Your Details Now!");
             }
             else
             {
-                return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
+                if ($request->identifier == "admin") {
+                    return redirect()->route('getPickUpReqAdmin')->with('fail', "Could Not Save Your Details Now!");
+                }
+                else
+                {
+                    return redirect()->route('getPickUpReq')->with('fail', "Could Not Save Your Details Now!");
+                }
+            }
+        }
+
+        else
+        {
+            if ($request->identifier == "admin") {
+                return redirect()->route('getPickUpReqAdmin')->with('fail', "Cannot be able to save pick up request make sure schedule, client type, order type or payment method is filled up correctly");
+            }
+            else
+            {
+                return redirect()->route('getPickUpReq')->with('fail', "Cannot be able to save pick up request make sure schedule, client type, order type or payment method is filled up correctly");
             }
         }
     }
@@ -598,6 +611,32 @@ class MainController extends Controller
         $login_check = $obj->getCustomerData();
         $site_details = $obj->siteData();
         return view('pages.services', compact('login_check', 'site_details'));
+    }
+    public function getStandAloneService($slug) {
+        $obj = new NavBarHelper();
+        $login_check = $obj->getCustomerData();
+        $site_details = $obj->siteData();
+        switch ($slug) {
+            case 'dry-clean':
+                $data = Cms::where('identifier', 0)->first();
+                break;
+            case 'washNfold':
+                $data = Cms::where('identifier', 1)->first();
+                break;
+            case 'corporate':
+                $data = Cms::where('identifier', 2)->first();
+                break;
+            case 'tailoring':
+                $data = Cms::where('identifier', 3)->first();
+                break;
+            case 'wet-cleaning':
+                $data = Cms::where('identifier', 4)->first();
+                break;
+            default:
+                # code...
+                break;
+        }
+        return view('pages.servicesSingle', compact('login_check', 'site_details', 'data'));
     }
     public function getStandAloneNeighbor($slug) {
         $find = Neighborhood::find(base64_decode($slug));
