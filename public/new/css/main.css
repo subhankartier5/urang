@@ -138,6 +138,7 @@ body.fixed-header .scrolling-header .navbar .navbar-search .input-group .search-
     padding: 15px;
     background: #fff;
     box-shadow: 0 1px 5px 0 #CCC;
+    z-index: 99;
 }
 .header .navbar .navbar-nav  li  ul li a {
 	color: #333;
@@ -612,7 +613,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 
 /****** SECTION ICON ******/
 .with-icon { position: relative; }
-.with-icon .section-icon { position: absolute; top: -25px; left: 50%; margin-left: -25px; z-index: 11; width: 50px; height: 50px; -webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; background: #eff2f7; text-align: center; }
+.with-icon .section-icon { position: absolute; top: -25px; left: 50%; margin-left: -25px; width: 50px; height: 50px; -webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; background: #eff2f7; text-align: center; }
 .with-icon .section-icon .icon, .with-icon .section-icon .fa { line-height: 50px; font-size: 16px; color: #666666; position: relative; z-index: 3; }
 .with-icon .section-icon:after { content: ""; -webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; display: block; background: #fff; border: 1px solid #dcdfe4; }
 
@@ -627,7 +628,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 .with-top-effect .section-icon { top: 17px; }
 
 /******  BOTTOM EFFECT  ******/
-.with-bottom-effect { position: relative; overflow: hidden; }
+.with-bottom-effect { position: relative; overflow: hidden; z-index: 1;}
 .with-bottom-effect.transparent-effect .bottom-effect {position: absolute;z-index: 10;bottom: -50px;width: 2500px;height: 148px;left: -100px;background: #eff2f7;-webkit-transform: rotate(-3deg);-moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);-o-transform: rotate(-3deg);transform: rotate(-3deg);padding-top: 10px;}
 .with-bottom-effect.transparent-effect .bottom-effect:after { content: ''; display: block; background: rgba(255, 255, 255, 0.9); height: 148px; -webkit-box-shadow: inset 0px -12px 13px -2px white; -moz-box-shadow: inset 0px -12px 13px -2px white; box-shadow: inset 0px -12px 13px -2px white; }
 .with-bottom-effect:before { content: ""; -webkit-box-shadow: inset 0px -12px 13px -2px white; -moz-box-shadow: inset 0px -12px 13px -2px white; box-shadow: inset 0px -12px 13px -2px white; display: block; width: 100%; position: absolute; z-index: 11; bottom: 0; height: 30px; }

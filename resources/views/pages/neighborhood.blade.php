@@ -27,10 +27,10 @@
       <div class="scroll-content">
          @if(count($neighborhood) > 0)
          @foreach($neighborhood as $n)
-         <div class="scroll-content-item  ">
-            <img src="{{url('/')}}/public/dump_images/{{$n->image}}" alt="image" />
+         <div class="scroll-content-item">
+            <img src="{{url('/')}}/public/dump_images/{{$n->image}}" alt="image" style="height: 350px; width: 520px;" />
             <div class="scroll-content-body">
-               <div class="name"></div>
+               <div class="name" style="color: #ff6400;">{{$n->name}}</div>
             </div>
          </div>
          @endforeach

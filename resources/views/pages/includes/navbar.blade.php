@@ -29,7 +29,7 @@
                 <ul>
                 <div style="display:none;">{{$navber_data = (new \App\Helper\NavBarHelper)->getNeighborhood()}}</div>
                   @foreach($navber_data as $hood)
-                    <li> <a href="{{route('getNeiborhoodPage')}}">{{$hood->name}}</a></li>
+                    <li> <a href="{{route('getStandAloneNeighbor', [base64_encode($hood->id)])}}" target="_blank">{{$hood->name}}</a></li>
                   @endforeach
                   
                 </ul>

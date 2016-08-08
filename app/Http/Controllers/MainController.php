@@ -599,6 +599,21 @@ class MainController extends Controller
         $site_details = $obj->siteData();
         return view('pages.services', compact('login_check', 'site_details'));
     }
+    public function getStandAloneNeighbor($slug) {
+        $find = Neighborhood::find(base64_decode($slug));
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        $neighborhood = $obj->getNeighborhood();
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'logged_user', 'neighborhood'));
+        } else {
+            return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'neighborhood'));
+        }
+    }
+
+
    /* public function getDryClean() {
         $obj = new NavBarHelper();
         $login_check = $obj->getCustomerData();

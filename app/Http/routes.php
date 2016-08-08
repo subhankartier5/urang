@@ -18,6 +18,7 @@ Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 
 Route::get('/user-logout', ['uses' => 'MainController@getLogout', 'as' => 'getLogout']);
 Route::get('/prices', ['uses' => 'MainController@getPrices', 'as' => 'getPrices']);
 Route::get('/neighborhoods', ['uses' => 'MainController@getNeiborhoodPage', 'as' => 'getNeiborhoodPage']);
+Route::get('/neighborhood/{slug}', ['uses' => 'MainController@getStandAloneNeighbor', 'as' => 'getStandAloneNeighbor']);
 Route::get('/faqs', ['uses' => 'MainController@getFaqList', 'as' => 'getFaqList']);
 Route::post('/email-checker', ['uses' => 'MainController@emailChecker', 'as' => 'postEmailChecker']);
 Route::get('/contact-us',['uses' => 'MainController@getContactUs', 'as' => 'getContactUs']);
