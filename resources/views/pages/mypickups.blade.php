@@ -31,10 +31,15 @@
 			   <table class = "table table-bordered">
 			      <thead>
 			         <tr>
-			            <th>Pick Up ID</th>
-			            <th>Issue Date</th>
-			            <th>Order Status</th>
-			            <th>Pickup Type</th>
+			            <th>Order ID</th>
+			            <th>Date Order Placed</th>
+			            <th>Pickup Date</th>
+			            <th>Processing</th>
+			            <th>Expected Return Date</th>
+			            <th>Date Returned</th>
+			            <th>Original Invoice</th>
+			            <th>Final Invoice</th>
+			            <th>Payment Status</th>
 			            <th>Delete</th>
 			            <th>Invoice</th>
 			         </tr>
@@ -44,34 +49,14 @@
 			      		@foreach($pick_up_req as $req)
 			      			<tr>
 					            <td>{{$req->id}}</td>
-					            <td>{{ date("F jS Y",strtotime($req->created_at->toDateString())) }}</td>
-					            <td>
-					            	<?php
-					            		$order_status = $req->order_status;
-					                    switch ($order_status) {
-					                      case '1':
-					                        echo "Order Placed";
-					                        break;
-					                      case '2':
-					                         echo "Order Picked up";
-					                        break;
-					                      case '3':
-					                         echo "Order Processed";
-					                        break;
-					                      case '4':
-					                         echo "Order Delivered";
-					                        break;
-					                      default:
-					                        echo "Something went wrong error!";
-					                        break;
-					                    }
-					            	?>
-					            </td>
-					            @if($req->pick_up_type == 1)
-					            	<td>Fast Pickup</td>
-					            @else
-					            	<td>Detail Pickup<button class="btn btn-link" type="button" id="btn1_{{$req->id}}" onclick="openModal('{{$req->id}}')">See Details</button></td>
-					            @endif
+					            <td>{{ date("F jS Y",strtotime($req->OrderTrack->order_placed)) }}</td>
+					            <td>{{$req->OrderTrack->picked_up_date == null ? "Yet not picked up" : date("F jS Y",strtotime($req->OrderTrack->picked_up_date))}}</td>
+					            <td>Yes</td>
+					            <td>{{$req->OrderTrack->expected_return_date == null ? '2 , 3 business days' : date("F jS Y",strtotime($req->OrderTrack->expected_return_date))}}</td>
+					            <td>{{$req->OrderTrack->return_date == null ? 'Pending' :date("F jS Y",strtotime($req->OrderTrack->return_date)) }}</td>
+					            <td>{{$req->OrderTrack->original_invoice}}</td>
+					            <td>{{$req->OrderTrack->final_invoice == null ? "Pending" : number_format((float)$req->OrderTrack->final_invoice, 2, '.', '') }}</td>
+					            <td>{{$req->payment_status == 0 ? "Pending" : "Paid"}}</td>
 				          		<td>
 				          			@if($req->order_status == 1)
 				          				<button type="button" id="btn_{{$req->id}}" class="btn btn-danger btn-xs" onclick="DeleteOrder('{{$req->id}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>

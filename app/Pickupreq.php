@@ -25,4 +25,7 @@ class Pickupreq extends Model
     public function school_donations() {
         return $this->hasOne('App\SchoolDonations', 'id', 'school_donation_id');
     }
+    public function OrderTrack() {
+        return $this->hasOne('App\OrderTracker', 'pick_up_req_id', 'id');
+    }
 }

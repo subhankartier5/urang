@@ -706,7 +706,7 @@ class AdminController extends Controller
             //picked up
             $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
             if ($find_tracker) {
-                $find_tracker->picked_up_date = $pickupreq->updated_at;
+                $find_tracker->picked_up_date = $pickupreq->updated_at->toDateString();
                 $find_tracker->order_status = 2;
                 $find_tracker->expected_return_date = date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
                 $find_tracker->save();

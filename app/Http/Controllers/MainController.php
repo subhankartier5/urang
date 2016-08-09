@@ -467,7 +467,7 @@ class MainController extends Controller
                 $tracker = new OrderTracker();
                 $tracker->pick_up_req_id = $pick_up_req->id;
                 $tracker->user_id = $pick_up_req->user_id;
-                $tracker->order_placed = $pick_up_req->created_at;
+                $tracker->order_placed = $pick_up_req->created_at->toDateString();
                 $tracker->order_status = 1;
                 $tracker->original_invoice = $pick_up_req->total_price;
                 $tracker->save();
@@ -556,7 +556,7 @@ class MainController extends Controller
         }
     }
     public function getMyPickUps() {
-        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail')->orderBy('created_at','desc')->get();
+        $pick_up_req = Pickupreq::where('user_id',auth()->guard('users')->user()->id)->with('order_detail', 'OrderTrack')->orderBy('created_at','desc')->get();
         //dd($pick_up_req);
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
