@@ -32,7 +32,7 @@
                @for($j=0 ; $j< count($price_list); $j++)
                   @if($price_list[$j]->categories->name == 'Residential Services')
                         <li class="plan highlight">
-                           <span class="price price-green">{{$price_list[$j]->price}}</span>
+                           <span class="price price-green">${{$price_list[$j]->price}}</span>
                            <div class="details">
                               <h1 class="plan-title" style="margin-top: 14px;">
                                  <?php
@@ -66,7 +66,7 @@
                @foreach($price_list as $price)
                   @if($price->categories->name == 'Household Items: Dry Clean')
                      <li class="plan highlight">
-                        <span class="price price-green">{{$price->price}}</span>
+                        <span class="price price-green">${{$price->price}}</span>
                         <div class="details">
                            <h1 class="plan-title" style="margin-top: 14px;">
                               <?php
@@ -97,7 +97,7 @@
                @foreach($price_list as $price)
                   @if($price->categories->name == 'Bedding')
                      <li class="plan highlight">
-                        <span class="price price-green">{{$price->price}}</span>
+                        <span class="price price-green">${{$price->price}}</span>
                         <div class="details">
                            <h1 class="plan-title" style="margin-top: 14px;">
                               <?php

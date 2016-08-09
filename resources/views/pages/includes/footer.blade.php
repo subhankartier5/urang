@@ -39,7 +39,7 @@
                   <div class="col-md-6">
                      <ul class="footer-nav">
                         <li><a href="{{route('index')}}">Home</a></li>
-                        <li><a href="{{route('getCustomerDahsboard')}}">About Us</a></li>
+                        <li><a href="{{route('index')}}">About Us</a></li>
                         <li><a href="{{route('getLogin')}}">Login</a></li>
                         <li><a href="{{route('getSignUp')}}">Sign-Up</a></li>
                      </ul>

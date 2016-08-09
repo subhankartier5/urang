@@ -167,13 +167,7 @@
                            <td>{{ $payment_type }}</td>
                            <td>{{ $pickup->client_type }} </td>
                            <form action="{{ route('changeOrderStatusAdmin') }}" method="post">
-                              @if(count($pickup->order_detail)>0)
-                              <td>{{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
-                              @else
-                              <td contenteditable>
-                                 <input style="width: 70px" type="number" name="total_price" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}" required>
-                              </td>
-                              @endif
+                              <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                               <td>
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
