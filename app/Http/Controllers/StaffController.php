@@ -280,7 +280,6 @@ class StaffController extends Controller
         //$site_details = $obj->siteData();
         $input = Input::get('sort');
         $sort = isset($input) ? $input : false;
-
         if($sort)
         {
             if ($sort == 'paid') {
@@ -291,7 +290,12 @@ class StaffController extends Controller
                 $pickups = Pickupreq::where('payment_status', 0)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
                 $donate_money_percentage = SchoolDonationPercentage::first();
                 return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
-            } else {
+            } else if ($sort == 'delivered') {
+                $pickups = Pickupreq::where('order_status', 4)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
+                $donate_money_percentage = SchoolDonationPercentage::first();
+                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
+            }
+             else {
                 $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
                 $donate_money_percentage = SchoolDonationPercentage::first();
                 return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));

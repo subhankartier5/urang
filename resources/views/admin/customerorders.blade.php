@@ -65,6 +65,7 @@
                               <option value="is_Emergency">Emergency</option>
                               <option value="paid">Paid Pick ups</option>
                               <option value="unpaid">Unpaid Pick ups</option>
+                              <option value="delivered">Delivered Orders</option>
                            </select>
                         </div>
                         <div class="col-md-3"></div>
