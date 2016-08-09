@@ -5,6 +5,9 @@
     $obj = new \App\Helper\NavBarHelper();
     $site_details = $obj->siteData();
 ?>
+<meta http-equiv="cache-control" content="private, max-age=0, no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
 <meta name="description" content="{{ isset($site_details) && $site_details!=null && $site_details->meta_description!= null ? $site_details->meta_description : 'U-rang is the #1 dry cleaning services in New York'}}">
 <meta name="author" content="">
 <meta name="keyword" content="{{ isset($site_details) && $site_details!=null && $site_details->meta_keywords!= null ? $site_details->meta_keywords : 'U-rang'}}">
