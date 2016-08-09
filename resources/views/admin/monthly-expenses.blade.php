@@ -368,7 +368,7 @@
   		function showMonth() {
   			var myDate = $('#datepicker').val().split('/');
   			for (var j = 0; j< myDate[0].length; j++) {
-  				if (myDate[0][j] == 0) 
+  				if (myDate[0][0] == 0) 
   				{
   					myDate[0] = myDate[0][j+1];
   				}
