@@ -406,7 +406,7 @@ class MainController extends Controller
     }
     public function postPickUp (Request $request) {
         //dd($request);
-        if ($request->schedule && $request->client_type && $request->order_type && $request->pay_method) {
+        if ($request->address && $request->pick_up_date && $request->schedule && $request->client_type && isset($request->order_type) && $request->pay_method) {
             $total_price = 0.00;
             $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
