@@ -273,9 +273,9 @@ class StaffController extends Controller
     }
     public function getSort()
     {
-        $obj = new NavBarHelper();
-        $user_data = $obj->getUserData();
-        $site_details = $obj->siteData();
+        //$obj = new NavBarHelper();
+        //$user_data = $obj->getUserData();
+        //$site_details = $obj->siteData();
         $input = Input::get('sort');
         $sort = isset($input) ? $input : false;
 
@@ -284,15 +284,15 @@ class StaffController extends Controller
             if ($sort == 'paid') {
                 $pickups = Pickupreq::where('payment_status', 1)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
                 $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
             } else if($sort == 'unpaid') {
                 $pickups = Pickupreq::where('payment_status', 0)->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
                 $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
             } else {
                 $pickups = Pickupreq::orderBy($sort,'desc')->with('user_detail','user','order_detail')->paginate((new \App\Helper\ConstantsHelper)->getPagination());
                 $donate_money_percentage = SchoolDonationPercentage::first();
-                return view('admin.customerorders',compact('pickups','user_data', 'donate_money_percentage', 'user_data', 'site_details'));
+                return view('staff.orders',compact('pickups','user_data', 'donate_money_percentage'));
             }
         }
         else
