@@ -20,7 +20,7 @@ use App\SchoolDonationPercentage;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use App\CustomerCreditCardInfo;
-
+use App\Http\Controllers\AdminController;
 class StaffController extends Controller
 {
     public function __construct()
@@ -203,6 +203,7 @@ class StaffController extends Controller
                 $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                 if($result)
                 {
+                    (new AdminController)->TrackOrder($req);
                     return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
                 }
                 else
@@ -228,6 +229,7 @@ class StaffController extends Controller
                 $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                 if($result)
                 {
+                    (new AdminController)->TrackOrder($req);
                     return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
                 }
                 else

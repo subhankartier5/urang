@@ -18,7 +18,7 @@ class CreateOrderTrackersTable extends Migration
             $table->integer('user_id')->nullable();
             $table->string('order_placed')->nullable();
             $table->string('picked_up_date')->nullable();
-            $table->string('order_status')->nullable();
+            $table->string('order_status')->nullable()->comment= "1->order placed, 2->picked up, 3->processed, 4->delivered";
             $table->string('expected_return_date')->nullable();
             $table->string('return_date')->nullable();
             $table->string('original_invoice')->nullable();

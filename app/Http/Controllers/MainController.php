@@ -22,6 +22,7 @@ use App\Cms;
 use App\Invoice;
 use App\SchoolDonationPercentage;
 use App\PickUpTime;
+use App\OrderTracker;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -462,6 +463,14 @@ class MainController extends Controller
                 $update_user_details->save();
             }
             if ($pick_up_req->save()) {
+                //save in order tracker table
+                $tracker = new OrderTracker();
+                $tracker->pick_up_req_id = $pick_up_req->id;
+                $tracker->user_id = $pick_up_req->user_id;
+                $tracker->order_placed = $pick_up_req->created_at;
+                $tracker->order_status = 1;
+                $tracker->original_invoice = $pick_up_req->total_price;
+                $tracker->save();
                 if ($request->order_type == 1) {
                     //fast pick up
                     $expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);

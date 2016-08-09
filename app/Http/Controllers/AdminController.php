@@ -32,7 +32,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use App\PickUpTime;
 use DateTime;
-
+use App\OrderTracker;
 class AdminController extends Controller
 {
     public function index() {
@@ -644,7 +644,6 @@ class AdminController extends Controller
 
     public function changeOrderStatusAdmin(Request $req)
     {
-        //dd($req);
         $total_price = isset($req->total_price)? $req->total_price : false;
         if($total_price)
         {
@@ -664,6 +663,7 @@ class AdminController extends Controller
             $result = Pickupreq::where('id', $req->pickup_id)->update($data);
             if($result)
             {
+                $this->TrackOrder($req);
                 return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
             }
             else
@@ -689,11 +689,45 @@ class AdminController extends Controller
             $result = Pickupreq::where('id', $req->pickup_id)->update($data);
             if($result)
             {
+                $this->TrackOrder($req);
                 return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
             }
             else
             {
                 return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+            }
+        }
+    }
+    //order tracker function
+    public function TrackOrder($req) {
+        //update order tracker
+        $pickupreq = Pickupreq::find($req->pickup_id);
+        if ($req->order_status == 2) {
+            //picked up
+            $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
+            if ($find_tracker) {
+                $find_tracker->picked_up_date = $pickupreq->updated_at;
+                $find_tracker->order_status = 2;
+                $find_tracker->expected_return_date = date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
+                $find_tracker->save();
+            }
+        }
+        else if ($req->order_status == 3) {
+            //process pickup
+            $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
+            if ($find_tracker) {
+                $find_tracker->order_status = 3;
+                $find_tracker->final_invoice = $pickupreq->total_price;
+                $find_tracker->save();
+            }
+        }
+        else
+        {
+            $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
+            if ($find_tracker) {
+                $find_tracker->order_status = 4;
+                $find_tracker->return_date = $pickupreq->updated_at->toDateString();
+                $find_tracker->save();
             }
         }
     }
