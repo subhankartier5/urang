@@ -12,6 +12,7 @@
             @endif
             @if(Session::has('success'))
             <div class="alert alert-success">{{Session::get('success')}}
+              {{Session::has('error_code') ? 'But Payment Failed': "And Paid also!"}}
                <a href="{{ route('getStaffOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
             @else
@@ -76,13 +77,13 @@
                            </form>
                         </div>
                      </div>
-                     <div class="col-md-1">
+                     <!-- <div class="col-md-1">
                         <div id="wrap">
                            <form action="{{ route('getSearch') }}" method="get">
                               <input id="search" name="search" type="text" placeholder="Search by order id"><input id="search_submit" value="Rechercher" type="submit" required="true">
                            </form>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
                </div>
                <table class="table table-bordered table-responsive">
@@ -163,35 +164,30 @@
                         <td>{{ $is_emargency }}</td>
                         <td>{{ $payment_type }}</td>
                         <td>{{ $pickup->client_type }} </td>
-                        <form action="{{ route('changeOrderStatus') }}" method="post">
-                           @if(count($pickup->order_detail)>0)
-                           <td>{{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
-                           @else
-                           <td contenteditable>
-                              <input style="width: 70px" type="number" name="total_price" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}" required>
-                           </td>
-                           @endif
+                        <form action="{{ route('changeOrderStatus') }}" method="post" id="change_status_form_staff">
+                           <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                            <td>
                               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                               <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                            </td>
                            <td>
-                              @if($pickup->order_status == 1)
-                              <select name="order_status" class="form-control">
-                                 <option value="2">Picked Up</option>
-                                 <option value="3">Processed</option>
-                                 <option value="4">Delivered</option>
-                              </select>
-                              @elseif($pickup->order_status == 2)
-                              <select name="order_status" class="form-control">
-                                 <option value="3">Processed</option>
-                                 <option value="4">Delivered</option>
-                              </select>
-                              @else
-                              <select name="order_status" class="form-control">
-                                 <option value="4">Delivered</option>
-                              </select>
-                              @endif    
+                            <select name="order_status" class="form-control" id="order_status_staff">
+                                @if($pickup->order_status == 1)
+                                  <option value="1" selected="true" disabled="true">Order Placed</option>
+                                  <option value="2">Picked Up</option>
+                                  <option value="3">Processed</option>
+                                  <option value="4">Delivered</option>
+                                @elseif($pickup->order_status == 2)
+                                  <option value="2" selected="true" disabled="true">Picked Up</option>
+                                  <option value="3">Processed</option>
+                                  <option value="4">Delivered</option>
+                                @elseif($pickup->order_status == 3)
+                                  <option value="3" selected="true" disabled="true">Processed</option>
+                                  <option value="4">Delivered</option>
+                                @else
+                                  <option value="4" selected="true" disabled="true">Delivered</option>
+                                @endif
+                            </select>  
                            </td>
                            <td>
                               <input type="hidden" name="pickup_id" value="{{ $pickup->id }}">
@@ -199,7 +195,7 @@
                               <input type="hidden" name="chargable" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
                               <input type="hidden" name="user_id" value="{{$pickup->user_id}}"></input>
                               <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}"></input>
-                              <button type="submit" class="btn btn-primary">Apply</button>
+                              <button type="button" class="btn btn-primary" onclick="AskForInvoice();">Apply</button>
                            </td>
                         </form>
                         @if(count($pickup->invoice) > 0)
@@ -874,5 +870,25 @@
            }
        });
      }
+     function AskForInvoice() {
+      if ($('#order_status_staff').val() == 4) 
+      {
+        swal({   
+          title: "Are you sure?",   
+          text: "You Don't Want to Update the Invoice?",   
+          type: "warning",   
+          showCancelButton: true, 
+          cancelButtonText: "Yes, Update Invoice",  
+          confirmButtonColor: "#DD6B55",   
+          confirmButtonText: "No, Let's Deliver",   
+          closeOnConfirm: false }, 
+          function(){
+            
+            $('#change_status_form_staff').submit();
+        });
+      } else {
+        $('#change_status_form_staff').submit();
+      }
+  }
 </script>
 @endsection

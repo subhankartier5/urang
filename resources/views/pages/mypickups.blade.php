@@ -51,7 +51,17 @@
 					            <td>{{$req->id}}</td>
 					            <td>{{ date("F jS Y",strtotime($req->OrderTrack->order_placed)) }}</td>
 					            <td>{{$req->OrderTrack->picked_up_date == null ? "Yet not picked up" : date("F jS Y",strtotime($req->OrderTrack->picked_up_date))}}</td>
-					            <td>Yes</td>
+					            <td>
+					            	@if($req->order_status == 1)
+					            		Order Placed
+					            	@elseif($req->order_status == 2)
+					            		Yes
+					            	@elseif($req->order_status == 3)
+					            		Done & Ready to Dispatch
+					            	@else
+					            		Delivered
+					            	@endif
+					            </td>
 					            <td>{{$req->OrderTrack->expected_return_date == null ? '2 , 3 business days' : date("F jS Y",strtotime($req->OrderTrack->expected_return_date))}}</td>
 					            <td>{{$req->OrderTrack->return_date == null ? 'Pending' :date("F jS Y",strtotime($req->OrderTrack->return_date)) }}</td>
 					            <td>{{$req->OrderTrack->original_invoice}}</td>

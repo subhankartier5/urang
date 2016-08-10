@@ -11,7 +11,7 @@
             @else
             @endif
             @if(Session::has('success'))
-            <div class="alert alert-success">{{Session::get('success')}}
+            <div class="alert alert-success">{{Session::get('success')}} {{Session::has('error_code') ? 'But Payment Failed': "And Paid also!"}}
                <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
             @else
@@ -166,29 +166,30 @@
                            <td>{{ $is_emargency }}</td>
                            <td>{{ $payment_type }}</td>
                            <td>{{ $pickup->client_type }} </td>
-                           <form action="{{ route('changeOrderStatusAdmin') }}" method="post">
+                           <form action="{{ route('changeOrderStatusAdmin') }}" method="post" id="change_status_form">
                               <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                               <td>
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                               </td>
                               <td>
-                                 @if($pickup->order_status == 1)
-                                 <select name="order_status" class="form-control">
+                              <select name="order_status" class="form-control" id="order_status">
+                                  @if($pickup->order_status == 1)
+                                    <option value="1" selected="true" disabled="true">Order Placed</option>
                                     <option value="2">Picked Up</option>
                                     <option value="3">Processed</option>
                                     <option value="4">Delivered</option>
-                                 </select>
-                                 @elseif($pickup->order_status == 2)
-                                 <select name="order_status" class="form-control">
+                                  @elseif($pickup->order_status == 2)
+                                    <option value="2" selected="true" disabled="true">Picked Up</option>
                                     <option value="3">Processed</option>
                                     <option value="4">Delivered</option>
-                                 </select>
-                                 @else
-                                 <select name="order_status" class="form-control">
+                                  @elseif($pickup->order_status == 3)
+                                    <option value="3" selected="true" disabled="true">Processed</option>
                                     <option value="4">Delivered</option>
-                                 </select>
-                                 @endif    
+                                  @else
+                                    <option value="4" selected="true" disabled="true">Delivered</option>
+                                  @endif
+                              </select>  
                               </td>
                               <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
                               @if($pickup->school_donations != null)
@@ -201,7 +202,7 @@
                                  <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}"></input>
                                  <input type="hidden" name="chargable" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
                                  <input type="hidden" name="_token" value="{{ Session::token() }}">
-                                 <button type="submit" class="btn btn-primary">Apply</button>
+                                 <button type="button" class="btn btn-primary" onclick="AskForInvoice();">Apply</button>
                               </td>
                            </form>
                            @if(count($pickup->invoice) > 0)
@@ -893,5 +894,25 @@
       sweetAlert("Oops...", "You have to select at least one item", "error");
      }
    }
+  function AskForInvoice() {
+    if ($('#order_status').val() == 4) 
+    {
+      swal({   
+        title: "Are you sure?",   
+        text: "You Don't Want to Update the Invoice?",   
+        type: "warning",   
+        showCancelButton: true, 
+        cancelButtonText: "Yes, Update Invoice",  
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "No, Let's Deliver",   
+        closeOnConfirm: false }, 
+        function(){
+          
+          $('#change_status_form').submit();
+      });
+    } else {
+      $('#change_status_form').submit();
+    }
+  }
 </script>
 @endsection

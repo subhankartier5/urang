@@ -702,9 +702,9 @@ class AdminController extends Controller
     public function TrackOrder($req) {
         //update order tracker
         $pickupreq = Pickupreq::find($req->pickup_id);
+        $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
         if ($req->order_status == 2) {
             //picked up
-            $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
             if ($find_tracker) {
                 $find_tracker->picked_up_date = $pickupreq->updated_at->toDateString();
                 $find_tracker->order_status = 2;
@@ -713,9 +713,10 @@ class AdminController extends Controller
             }
         }
         else if ($req->order_status == 3) {
-            //process pickup
-            $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
             if ($find_tracker) {
+                $find_tracker->picked_up_date = $pickupreq->updated_at->toDateString();
+                //$find_tracker->order_status = 2;
+                $find_tracker->expected_return_date = date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
                 $find_tracker->order_status = 3;
                 $find_tracker->final_invoice = $pickupreq->total_price;
                 $find_tracker->save();
@@ -723,8 +724,12 @@ class AdminController extends Controller
         }
         else
         {
-            $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
+            //$find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
             if ($find_tracker) {
+                $find_tracker->picked_up_date = $pickupreq->updated_at->toDateString();
+                //$find_tracker->order_status = 2;
+                $find_tracker->expected_return_date = date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
+                $find_tracker->final_invoice = $pickupreq->total_price;
                 $find_tracker->order_status = 4;
                 $find_tracker->return_date = $pickupreq->updated_at->toDateString();
                 $find_tracker->save();
