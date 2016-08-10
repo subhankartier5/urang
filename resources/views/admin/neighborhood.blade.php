@@ -105,7 +105,7 @@
 			  <div class="form-group">
 				<input type="file" name="image" class="form-control" required="" />			  
 			  </div>
-			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postneighbor">Add Neighborhood</button>
+			  <button type="button" class="btn btn-primary btn-lg btn-block" id="postneighbor">Add Neighborhood</button>
 			  <input type="hidden" name="_token" value="{{Session::token()}}"></input>
 			</form>
 	      </div>
@@ -241,7 +241,7 @@
 			if (string_edit.indexOf(' ') === -1 && /^[a-zA-Z0-9- ]*$/.test(string_edit)) 
 			{
 				//ajax
-				/*$.ajax({
+				$.ajax({
 					url: "{{route('checkSlugNeighborhood')}}",
 					type:"POST",
 					data: {slug: string_edit, _token:"{{Session::token()}}"},
@@ -261,10 +261,10 @@
 							return false;
 						}
 					}
-				});*/
-				$('#postEditneighbor_'+id).attr('type', 'submit');
+				});
+				/*$('#postEditneighbor_'+id).attr('type', 'submit');
 				$('#errorJsSlugEdit'+id).hide();
-				return true;
+				return true;*/
 			}
 			else
 			{
