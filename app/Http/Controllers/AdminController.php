@@ -178,9 +178,18 @@ class AdminController extends Controller
         //dd($neighborhood);
         return view('admin.neighborhood', compact('user_data', 'site_details', 'neighborhood'));
     }
+    public function checkSlugNeighborhood(Request $request) {
+        $find = Neighborhood::where('url_slug',$request->slug)->first();
+        if ($find) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
     public function postNeighborhood(Request $request) {
         $name = $request->name;
         $description = $request->description;
+        $slug = $request->url_slug;
         $admin_id = Auth::user()->id;
         $image = $request->image;
         $extension =$image->getClientOriginalExtension();
@@ -194,6 +203,7 @@ class AdminController extends Controller
         $data->name = $name;
         $data->description = $description;
         $data->image = $fileName;
+        $data->url_slug = $slug;
         if ($data->save()) {
            //return 1;
             return redirect()->route('get-neighborhood')->with('success', 'Neighborhood added Successfully');
@@ -221,6 +231,7 @@ class AdminController extends Controller
                 $img->save('public/app_images/'.$img->basename);
                 $search->image = $fileName;
             }
+            $search->url_slug = $request->url_slug_edit;
             if ($search->save()) {
                 return redirect()->route('get-neighborhood')->with('success', 'Neighborhood updated Successfully');
             }

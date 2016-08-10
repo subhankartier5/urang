@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/allocate-pick-up-req', ['uses' => 'AdminController@getPickUpReqAdmin', 'as' =>'getPickUpReqAdmin']);
     Route::post('/set-times', ['uses' => 'AdminController@postSetTime', 'as' => 'postSetTime']);
     Route::post('/set-day-as-close', ['uses' => 'AdminController@setToClose', 'as' => 'setToClose']);
+    Route::post('/check-slug-exists', ['uses' => 'AdminController@checkSlugNeighborhood', 'as' => 'checkSlugNeighborhood']);
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);

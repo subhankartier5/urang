@@ -648,7 +648,7 @@ class MainController extends Controller
         return view('pages.servicesSingle', compact('login_check', 'site_details', 'data'));
     }
     public function getStandAloneNeighbor($slug) {
-        $find = Neighborhood::find(base64_decode($slug));
+        $find = Neighborhood::where('url_slug', $slug)->first();
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
         $login_check = $obj->getCustomerData();
