@@ -655,58 +655,97 @@ class AdminController extends Controller
 
     public function changeOrderStatusAdmin(Request $req)
     {
-        $total_price = isset($req->total_price)? $req->total_price : false;
-        if($total_price)
-        {
-            $data['order_status'] = $req->order_status;
-            $data['total_price'] = $total_price;
-            if ($req->order_status == 4 && $req->payment_type == 1) {
-                $response = $this->ChargeCard($req->user_id, $req->chargable);
-                //dd($response);
-                if ($response == "I00001") {
-                    $data['payment_status'] = 1;
+        if (isset($req->order_status)) {
+            if ($req->order_status == 1) {
+                $data['order_status'] = $req->order_status;
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                if($result)
+                {
+                    $this->TrackOrder($req);
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
                 }
                 else
                 {
-                    Session::put("error_code", $response);
+                    return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
                 }
-            }
-            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-            if($result)
-            {
-                $this->TrackOrder($req);
-                return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
-            }
-            else
-            {
-                return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
+            } elseif ($req->order_status == 2) {
+                $data['order_status'] = $req->order_status;
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                if($result)
+                {
+                    $this->TrackOrder($req);
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                }
+            } elseif ($req->order_status == 3) {
+                $data['order_status'] = $req->order_status;
+                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                if($result)
+                {
+                    $this->TrackOrder($req);
+                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                }
+                else
+                {
+                    return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                }
+            } else {
+                //dd('here');
+                $data['order_status'] = $req->order_status;
+                if ($req->payment_type == 1) {
+                    //charge this card
+                    $response = $this->ChargeCard($req->user_id, $req->chargable);
+                    //dd($response);
+                    if ($response == "I00001") {
+                        $data['payment_status'] = 1;
+                        $this->TrackOrder($req);
+                    }
+                    else
+                    {
+                        Session::put("error_code", $response);
+                    }
+                    if ($response == "I00001") {
+                        $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                    }
+                    else
+                    {
+                        return redirect()->route('getCustomerOrders')->with('fail', 'Failed to pay!');
+                    }
+                    if($result)
+                    {
+                        return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    }
+                    else
+                    {
+                        return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    }
+                } else {
+                    //do not charge
+                    $paidOrNOt = Pickupreq::where('id',$req->pickup_id)->first(); 
+                    //dd($paidOrNOt);
+                    if ($paidOrNOt->payment_status == 1) {
+                        $this->TrackOrder($req);
+                        $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                        if($result)
+                        {
+                            return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                        }
+                        else
+                        {
+                            return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                        }
+                    } else {
+                        return redirect()->route('getCustomerOrders')->with('fail', 'at first make sure payment is done!');
+                    }
+                }
             }
         }
         else
         {
-            $data['order_status'] = $req->order_status;
-            if ($req->order_status == 4 && $req->payment_type == 1) {
-                $response = $this->ChargeCard($req->user_id, $req->chargable);
-                //dd($response);
-                if ($response == "I00001") {
-                    $data['payment_status'] = 1;
-                } 
-                else
-                {
-                    Session::put("error_code", $response);
-                }
-            }
-            //dd($data);
-            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-            if($result)
-            {
-                $this->TrackOrder($req);
-                return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
-            }
-            else
-            {
-                return redirect()->route('getCustomerOrders')->with('error', 'Failed to update Order Status!');
-            }
+            return redirect()->route('getCustomerOrders')->with('fail', 'Select the status from dropdown you want to update');
         }
     }
     //order tracker function

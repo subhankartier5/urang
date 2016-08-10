@@ -11,7 +11,7 @@
             @else
             @endif
             @if(Session::has('success'))
-            <div class="alert alert-success">{{Session::get('success')}} {{Session::has('error_code') ? 'But Payment Failed': "And Paid also!"}}
+            <div class="alert alert-success">{{Session::get('success')}}
                <a href="{{ route('getCustomerOrders') }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
             @else
@@ -187,7 +187,11 @@
                                     <option value="3" selected="true" disabled="true">Processed</option>
                                     <option value="4">Delivered</option>
                                   @else
-                                    <option value="4" selected="true" disabled="true">Delivered</option>
+                                    @if($pickup->payment_status == 1)
+                                      <option value="4" selected="true" disabled="true">Delivered</option>
+                                    @else
+                                      <option value="4" selected="true">Delivered</option>
+                                    @endif
                                   @endif
                               </select>  
                               </td>
@@ -202,13 +206,17 @@
                                  <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}"></input>
                                  <input type="hidden" name="chargable" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
                                  <input type="hidden" name="_token" value="{{ Session::token() }}">
-                                 <button type="button" class="btn btn-primary" onclick="AskForInvoice();">Apply</button>
+                                 <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
                               </td>
                            </form>
                            @if(count($pickup->invoice) > 0)
-                           <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
+                            <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
                            @else
-                           <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
+                            @if($pickup->order_status == 4 && $pickup->payment_status == 1)
+                              <td>Cannot Recreate Invoice already delivered</td>
+                            @else
+                              <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
+                            @endif
                            @endif
                         </tr>
                         @endforeach
@@ -252,7 +260,11 @@
                   @endforeach  
                </tbody>
             </table>
-            <button class="btn btn-default" id="edit_itms" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button></td>
+            @if($pickup->order_status == 4)
+              <td><button class="btn btn-default" id="edit_itms" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})" disabled="true">Edit Items</button></td>
+            @else
+              <td><button class="btn btn-default" id="edit_itms" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button></td>
+            @endif
          </div>
          <div class="modal-footer">
          </div>
@@ -322,11 +334,11 @@
          <div class="modal-body">
             <div class="row">
                <div class="col-md-6 col-sm-6 col-sm-offset-3">
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>User Id</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span>{{ $pickup->user->id }}</span></div>
-                  </div>
+                  </div> -->
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Name</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
@@ -386,11 +398,11 @@
          <div class="modal-body">
             <div class="row">
                <div class="col-md-6 col-sm-6 col-sm-offset-3">
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Pickup Id</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->id }}</span></div>
-                  </div>
+                  </div> -->
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Created At</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
@@ -690,39 +702,6 @@
     $('#pick_up_req_id').val(pick_up_id);
     $('#req_user_id').val(user_id);
    }
-   /*function addItem() {
-    $('#invoice_div').append('<br><button type="button" class="btn btn-danger btn-xs" id="del_'+i+'" style="float: right;" onclick="delListItem('+i+')"><i class="fa fa-times" aria-hidden="true"></i></button><label id="nameL_'+i+'">Item Name:</label><input type="text" name="items[]" id="items_'+i+'" class="form-control" required="" placeholder="item name"></input><br/><label id="qtyL_'+i+'">Quantity:</label><input type="number" name="qty[]" id="qty_'+i+'" class="form-control" required="" placeholder="quantity"></input><br/><label id="priceL_'+i+'">Price (per quantity):</label><input type="text" name="price[]" id="price_'+i+'" class="form-control" required="" placeholder="price/quantity"></input><br/>');
-    i++;
-   }
-   function delListItem(id) {
-    $('#items_'+id+'').remove();
-    $('#qty_'+id+'').remove();
-    $('#price_'+id+'').remove();
-    $('#nameL_'+id+'').remove();
-    $('#priceL_'+id+'').remove();
-    $('#qtyL_'+id+'').remove();
-    $('#del_'+id+'').remove();
-    $("br").remove();
-    i--;
-   }
-   $(document).ready(function(){
-    $('#submit_inv').click(function(){
-        $('#loop_limit').val(i);
-    });
-   });*/
-   /*$(document).ready(function() {
-    $('#btn_create_inv').click(function() {
-      if($('#list_items_json').val() == '')
-        {
-          sweetAlert("Oops...", "You can't request a Detailed Pickup without selecting any item", "warning");
-          $('#myModal').modal('hide');
-          $('#order_type>option:eq(0)').prop('selected', true);
-          return;
-        }
-        $('#myModal').modal('hide');
-        swal("Success!", "Your items are select now please place an order", "success");
-    });
-   });*/
    function showDetails(id) {
     var div = "";
     var total_price = 0;
@@ -731,6 +710,11 @@
             $('#user_name').text('{{$pickup->user_detail->name}}');
             $('#user_email').text('{{$pickup->user->email}}');
             $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
+            @if ($pickup->order_status == 4) 
+            {
+              $('#show_modal_items').attr('disabled', 'true');
+            }
+            @endif
             @foreach($pickup->invoice as $invoice)
                 if ('{{$invoice->pick_up_req_id}}' == id) 
                 {
@@ -848,8 +832,6 @@
    }
    function openEditItemModal(pickup_id,user_id)
    {
-    //alert($('#invoice_no').text())
-    //return;
     $.ajax({
       url:"{{route('postPickUpId')}}",
       type: "POST",
@@ -871,18 +853,6 @@
       }
     });
    }
-   
-   /*function recreateInv(pick_req_id_inv, user_id_inv) {
-    //alert();
-    //alert($('#invoice_no').text())
-    //return;
-    $('#row_id').val(pick_req_id_inv);
-    $('#row_user_id').val(user_id_inv);
-    //$('#identifier_modal').val(identifier);
-    $('#invoice_updt').val($('#invoice_no').text());
-    $('#EditItemModal').modal('show');
-   }*/
-   //$('')
    function sbmitEditForm()
    {   
      if($('#list_items_json').val() != '')
@@ -894,7 +864,8 @@
       sweetAlert("Oops...", "You have to select at least one item", "error");
      }
    }
-  function AskForInvoice() {
+  function AskForInvoice(pick_up_id1, user_id1, count) {
+    var invoice_id_updt= 0;
     if ($('#order_status').val() == 4) 
     {
       swal({   
@@ -906,9 +877,35 @@
         confirmButtonColor: "#DD6B55",   
         confirmButtonText: "No, Let's Deliver",   
         closeOnConfirm: false }, 
-        function(){
+        function(isConfirm){
+          if (isConfirm) 
+          {
+            $('#change_status_form').submit();
+          } else {
+            if (count > 0) {
+              //open edit invoice
+              $('#row_id').val(pick_up_id1);
+              $('#row_user_id').val(user_id1);
+              @foreach($pickups as $pickup)
+                @foreach($pickup->invoice as $inv)
+                  if ('{{$inv->pick_up_req_id}}' == pick_up_id1) 
+                  {
+                    invoice_id_updt = '{{$inv->invoice_id}}';
+                  }
+                @endforeach
+              @endforeach
+              console.log(invoice_id_updt);
+              $('#invoice_updt').val(invoice_id_updt);
+              $('#EditItemModal').modal('show');
+            } else {
+              //open create invoice
+              $('#ModalInvoice').modal('show');
+              $('#pick_up_req_id').val(pick_up_id1);
+              $('#req_user_id').val(user_id1);
+            }
+            
+          }
           
-          $('#change_status_form').submit();
       });
     } else {
       $('#change_status_form').submit();
