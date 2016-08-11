@@ -151,91 +151,108 @@ class StaffController extends Controller
     }
     public function changeOrderStatus(Request $req)
     {
-        //dd($req);
         $staff = auth()->guard('staffs')->user();
-        if($staff)
-        {
-            /*//dd($req);
-            $total_price = isset($req->total_price)? $req->total_price : false;
-            if($total_price)
-            {
-                $data['order_status'] = $req->order_status;
-                $data['total_price'] = $total_price;
-                //print_r($data);
-                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-                if($result)
-                {
-                    return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
-                }
-                else
-                {
-                    return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
-                }
-            }
-            else
-            {
-                $result = Pickupreq::where('id', $req->pickup_id)->update(['order_status' => $req->order_status]);
-                if($result)
-                {
-                    return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
-                }
-                else
-                {
-                    return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
-                }
-            }*/
-            $total_price = isset($req->total_price)? $req->total_price : false;
-            if($total_price)
-            {
-                $data['order_status'] = $req->order_status;
-                $data['total_price'] = $total_price;
-                if ($req->order_status == 4 && $req->payment_type == 1) {
-                    $response = $this->ChargeCard($req->user_id, $req->chargable);
-                    //dd($response);
-                    if ($response == "I00001") {
-                        $data['payment_status'] = 1;
+        if($staff) {
+            //dd($req);
+            //for login authntication its here
+            if (isset($req->order_status)) {
+                //order status selected or not
+                if ($req->order_status == 1) {
+                    //order placed
+                    $data['order_status'] = $req->order_status;
+                    $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                    if($result)
+                    {
+                        (new AdminController)->TrackOrder($req);
+                        return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
                     }
                     else
                     {
-                        Session::put("error_code", $response);
+                        return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
                     }
                 }
-                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-                if($result)
-                {
-                    (new AdminController)->TrackOrder($req);
-                    return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
-                }
-                else
-                {
-                    return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
-                }
-            }
-            else
-            {
-                $data['order_status'] = $req->order_status;
-                if ($req->order_status == 4 && $req->payment_type == 1) {
-                    $response = $this->ChargeCard($req->user_id, $req->chargable);
-                    //dd($response);
-                    if ($response == "I00001") {
-                        $data['payment_status'] = 1;
-                    } 
+                elseif ($req->order_status == 2) {
+                    //picked up
+                    $data['order_status'] = $req->order_status;
+                    $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                    if($result)
+                    {
+                        (new AdminController)->TrackOrder($req);
+                        return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                    }
                     else
                     {
-                        Session::put("error_code", $response);
+                        return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
                     }
                 }
-                //dd($data);
-                $result = Pickupreq::where('id', $req->pickup_id)->update($data);
-                if($result)
-                {
-                    (new AdminController)->TrackOrder($req);
-                    return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                elseif ($req->order_status == 3) {
+                    //processed
+                    $data['order_status'] = $req->order_status;
+                    $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                    if($result)
+                    {
+                        (new AdminController)->TrackOrder($req);
+                        return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                    }
+                    else
+                    {
+                        return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                    }
                 }
-                else
-                {
-                    return redirect()->route('getStaffOrders')->with('error', 'Failed to update Order Status!');
+                else {
+                    //delivered
+                    $data['order_status'] = $req->order_status;
+                    if ($req->payment_type == 1) {
+                        //charge this card
+                        $response = $this->ChargeCard($req->user_id, $req->chargable);
+                        //dd($response);
+                        if ($response == "I00001") {
+                            $data['payment_status'] = 1;
+                            (new AdminController)->TrackOrder($req);
+                            //Session::put("success_code", "Payment Successfull!");
+                        }
+                        else
+                        {
+                            Session::put("error_code", $response);
+                        }
+                        if ($response == "I00001") {
+                            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                        }
+                        else
+                        {
+                            return redirect()->route('getStaffOrders')->with('fail', 'Failed to pay!');
+                        }
+                        if($result)
+                        {
+                            return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated and paid also!');
+                        }
+                        else
+                        {
+                            return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        }
+                    } else {
+                        //do not charge
+                        $paidOrNOt = Pickupreq::where('id',$req->pickup_id)->first(); 
+                        //dd($paidOrNOt);
+                        if ($paidOrNOt->payment_status == 1) {
+                            (new AdminController)->TrackOrder($req);
+                            $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                            if($result)
+                            {
+                                return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                            }
+                            else
+                            {
+                                return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                            }
+                        } else {
+                            return redirect()->route('getStaffOrders')->with('fail', 'at first make sure payment is done!');
+                        }
+                    }
                 }
+            } 
+            else {
+                return redirect()->route('getStaffOrders')->with('fail', 'Select the status from dropdown you want to update');
             }
         }
         else

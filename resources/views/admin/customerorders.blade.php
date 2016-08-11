@@ -894,7 +894,7 @@
                   }
                 @endforeach
               @endforeach
-              console.log(invoice_id_updt);
+              //console.log(invoice_id_updt);
               $('#invoice_updt').val(invoice_id_updt);
               $('#EditItemModal').modal('show');
             } else {
