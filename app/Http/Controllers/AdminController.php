@@ -655,6 +655,7 @@ class AdminController extends Controller
 
     public function changeOrderStatusAdmin(Request $req)
     {
+        //dd($req);
         if (isset($req->order_status)) {
             if ($req->order_status == 1) {
                 $data['order_status'] = $req->order_status;
@@ -1383,6 +1384,7 @@ class AdminController extends Controller
             $invoice->price = $data[$j]->item_price;
             $invoice->item = $data[$j]->item_name;
             $invoice->quantity = $data[$j]->number_of_item;
+            $invoice->list_item_id = $data[$j]->id;
             $price_to_add = $price_to_add;
             $invoice->save();
         }
@@ -1409,7 +1411,7 @@ class AdminController extends Controller
     }
     public function fetchInvoice(Request $request) {
         //return $request;
-        $find_invoice = Invoice::where('pick_up_req_id', $request->id)->first();
+        $find_invoice = Invoice::where('pick_up_req_id', $request->id)->get();
         if ($find_invoice) {
             return $find_invoice;
         }

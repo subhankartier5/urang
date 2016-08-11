@@ -506,6 +506,7 @@ class MainController extends Controller
                         $order_details->save();
                     }
                     //create invoice
+                    //dd($data);
                     for ($j=0; $j < count($data) ; $j++) { 
                         $invoice = new Invoice();
                         if ($request->identifier == "admin") {
@@ -521,6 +522,7 @@ class MainController extends Controller
                         $invoice->item = $data[$j]->item_name;
                         $invoice->quantity = $data[$j]->number_of_item;
                         $invoice->price = $data[$j]->item_price;
+                        $invoice->list_item_id = $data[$j]->id;
                         $invoice->save();
                     }
                     if ($request->identifier == "admin") {

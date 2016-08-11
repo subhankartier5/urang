@@ -166,34 +166,34 @@
                            <td>{{ $is_emargency }}</td>
                            <td>{{ $payment_type }}</td>
                            <td>{{ $pickup->client_type }} </td>
-                           <form action="{{ route('changeOrderStatusAdmin') }}" method="post" id="change_status_form">
+                           <form id="change_status_form">
                               <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                               <td>
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                               </td>
                               <td>
-                              <select name="order_status" class="form-control" id="order_status">
+                                <select class="form-control" id="order_status_{{$pickup->id}}"> 
                                   @if($pickup->order_status == 1)
-                                    <option value="1" selected="true" disabled="true">Order Placed</option>
+                                    <option value="1"  disabled="true">Order Placed</option>
                                     <option value="2">Picked Up</option>
                                     <option value="3">Processed</option>
                                     <option value="4">Delivered</option>
                                   @elseif($pickup->order_status == 2)
-                                    <option value="2" selected="true" disabled="true">Picked Up</option>
+                                    <option value="2"  disabled="true">Picked Up</option>
                                     <option value="3">Processed</option>
                                     <option value="4">Delivered</option>
                                   @elseif($pickup->order_status == 3)
-                                    <option value="3" selected="true" disabled="true">Processed</option>
+                                    <option value="3"  disabled="true">Processed</option>
                                     <option value="4">Delivered</option>
                                   @else
                                     @if($pickup->payment_status == 1)
-                                      <option value="4" selected="true" disabled="true">Delivered</option>
+                                      <option value="4"  disabled="true">Delivered</option>
                                     @else
-                                      <option value="4" selected="true">Delivered</option>
+                                      <option value="4" >Delivered</option>
                                     @endif
                                   @endif
-                              </select>  
+                                </select>  
                               </td>
                               <td>{{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
                               @if($pickup->school_donations != null)
@@ -201,11 +201,11 @@
                               @endif 
                               {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}</td>
                               <td>
-                                 <input type="hidden" name="pickup_id" value="{{ $pickup->id }}">
-                                 <input type="hidden" name="user_id" value="{{$pickup->user_id}}"></input>
-                                 <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}"></input>
-                                 <input type="hidden" name="chargable" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
-                                 <input type="hidden" name="_token" value="{{ Session::token() }}">
+                                 <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
+                                 <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>
+                                 <input type="hidden" name="payment_type" id="payment_type_{{$pickup->id}}" value="{{ $pickup->payment_type }}"></input>
+                                 <input type="hidden" name="chargable" id
+                                 ="chargable_{{$pickup->id}}" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
                                  <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
                               </td>
                            </form>
@@ -261,7 +261,7 @@
                </tbody>
             </table>
             @if($pickup->order_status == 4)
-              <td><button class="btn btn-default" id="edit_itms" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})" disabled="true">Edit Items</button></td>
+              <td><button class="btn btn-default" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})" disabled="true">Edit Items</button></td>
             @else
               <td><button class="btn btn-default" id="edit_itms" onclick="openEditItemModal({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button></td>
             @endif
@@ -605,6 +605,8 @@
             <!--as we are using same modal again and again we need to show up some identifier-->
             <input type="hidden" id="pick_up_req_id_alter" name="pick_up_req_id_alter"></input>
             <input type="hidden" id="user_id" name="user_id"></input>
+            <input type="hidden" id="pickupid"></input>
+            <input type="hidden" id="userid"></input>
             <button class="btn btn-default" id="show_modal_items">Edit Items</button>
            </div>
         </div>
@@ -631,20 +633,20 @@
                </thead>
                <tbody>
                   @if(count($price_list) > 0)
-                  @foreach($price_list as $list)
-                  <tr>
-                     <td>
-                        <select name="number_of_item" id="number2_{{$list->id}}">
-                           @for($i=0; $i<=10; $i++)
-                           <option value="{{$i}}">{{$i}}</option>
-                           @endfor
-                        </select>
-                     </td>
-                     <td id="item2_{{$list->id}}">{{$list->item}}</td>
-                     <td id="price2_{{$list->id}}">{{$list->price}}</td>
-                     <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
-                  </tr>
-                  @endforeach
+                    @foreach($price_list as $list)
+                      <tr>
+                         <td>
+                            <select name="number_of_item" id="number2_{{$list->id}}">
+                              @for($i=0;$i<=10;$i++)
+                                  <option value="{{$i}}">{{$i}}</option>
+                              @endfor
+                            </select>
+                         </td>
+                         <td id="item2_{{$list->id}}">{{$list->item}}</td>
+                         <td id="price2_{{$list->id}}">{{$list->price}}</td>
+                         <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
+                      </tr>
+                    @endforeach
                   @else
                   <tr>
                      <td>No Data</td>
@@ -657,6 +659,7 @@
             <form action="{{ route('addItemCustomAdmin') }}" method="post" id="edit_item_form">
                <input type="hidden" id="row_id" name="row_id">
                <input type="hidden" id="list_items_json" name="list_items_json" required="">
+               <input type="hidden" id="old_items_selected"></input>
                <input type="hidden" id="row_user_id" name="row_user_id">
                <input type="hidden" name="_token" value="{{Session::token()}}">
                <!-- <input type="hidden" name="identifier_modal" id="identifier_modal"></input> -->
@@ -673,7 +676,8 @@
       $('#row_id').val($('#pick_up_req_id_alter').val());
       $('#row_user_id').val($('#user_id').val());
       $('#invoice_updt').val($('#invoice_no').text());
-      $('#EditItemModal').modal('show');
+      //$('#EditItemModal').modal('show');
+      openEditItemModal($('#pickupid').val(), $('#userid').val());
    });
     //color the tr of table according to condition
     @foreach($pickups as $pickup)
@@ -726,6 +730,8 @@
                     $('#inv').html(div);
                     $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
                     $('#user_id').val('{{$invoice->user_id}}');
+                    $('#pickupid').val('{{$pickup->id}}');
+                    $('#userid').val('{{$pickup->user_id}}');
                     //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
                     $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
                 }
@@ -830,8 +836,11 @@
     }
      
    }
+   //mywork
    function openEditItemModal(pickup_id,user_id)
    {
+    jsonObj = [];
+    var setJson= '';
     $.ajax({
       url:"{{route('postPickUpId')}}",
       type: "POST",
@@ -840,10 +849,30 @@
         //console.log(data);
         if (data != 0) 
         {
-          //console.log(data.invoice_id);
+          //console.log(data.length);
+          //return;
+          
+          for (var i = 0; i < data.length; i++) {
+            //console.log(data[i].item);
+            search_item ={};
+            //array_search[i] = data[i]data[i].item;
+            //search_item['pick_up_req_id'] = pickup_id;
+            //search_item['user_id'] = user_id;
+            search_item['id'] = data[i].list_item_id;
+            search_item['number_of_item'] = data[i].quantity;
+            search_item['item_name'] = data[i].item;
+            search_item['item_price'] = data[i].price;
+            //console.log(data[i].quantity);
+            jsonObj.push(search_item);
+          }
+          setJson = JSON.stringify(jsonObj);
+          if ($.trim(setJson) != '') 
+          {
+            $('#old_items_selected').val(setJson);
+          }
           $('#row_id').val(pickup_id);
           $('#row_user_id').val(user_id);
-          $('#invoice_updt').val(data.invoice_id);
+          $('#invoice_updt').val(data[0].invoice_id);
           $('#EditItemModal').modal('show');
         }
         else
@@ -853,6 +882,17 @@
       }
     });
    }
+   //==================================
+   $('#EditItemModal').on('shown.bs.modal',function(e){
+      e.preventDefault();
+      var data = $.parseJSON($('#old_items_selected').val());
+      //console.log(data);
+      for (var i = 0; i < data.length; i++) {
+        //console.log(data[i]);
+        $('#number2_'+data[i].id).val(data[i].number_of_item);
+        $('#btn2_'+data[i].id).text('Remove');
+      }
+   });
    function sbmitEditForm()
    {   
      if($('#list_items_json').val() != '')
@@ -864,9 +904,35 @@
       sweetAlert("Oops...", "You have to select at least one item", "error");
      }
    }
+   function submitMyForm(idpickup) {
+      //console.log(idpickup);
+      var selectvalue = $('#order_status_'+idpickup).val();
+      var pickupid = $('#pickup_id_'+idpickup).val();
+      var userid = $('#user_id_'+idpickup).val();
+      var paymenttype = $('#payment_type_'+idpickup).val();
+      var chargable = $('#chargable_'+idpickup).val();
+      if ($.trim(selectvalue) != null) 
+      {
+        $.ajax({
+          url: "{{ route('changeOrderStatusAdmin') }}",
+          type: "POST",
+          data: {order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
+          success: function(data) {
+            if (data != null) 
+            {
+              location.reload();
+            }
+          }
+        });
+      }
+      else
+      {
+        sweetAlert("Oops...", "You have to select at least one item", "error");
+      }
+   }
   function AskForInvoice(pick_up_id1, user_id1, count) {
     var invoice_id_updt= 0;
-    if ($('#order_status').val() == 4) 
+    if ($('#order_status_'+pick_up_id1).val() == 4) 
     {
       swal({   
         title: "Are you sure?",   
@@ -880,7 +946,9 @@
         function(isConfirm){
           if (isConfirm) 
           {
-            $('#change_status_form').submit();
+            //submit the form
+            submitMyForm(pick_up_id1);
+            //$('#change_status_form').submit();
           } else {
             if (count > 0) {
               //open edit invoice
@@ -908,7 +976,7 @@
           
       });
     } else {
-      $('#change_status_form').submit();
+      submitMyForm(pick_up_id1);
     }
   }
 </script>

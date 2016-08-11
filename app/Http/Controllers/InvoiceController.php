@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     	return view('invoices.invoice');
     }*/
     public function postInvoice(Request $request) {
-        //dd("here");
+        //dd($request);
         if ($request->list_item != null) {
             $total_price = 0.00;
             $itemList=explode(',',$request->list_item);
@@ -28,6 +28,7 @@ class InvoiceController extends Controller
                 {
                     $item_each = explode('^%', $items);
                     for ($j=0; $j <count($item_each) ; $j++) { 
+                        $id =  $item_each[0];
                         $item_name = $item_each[2];
                         $qty = $item_each[1];
                         $price =$item_each[3];
@@ -40,6 +41,7 @@ class InvoiceController extends Controller
                     $save_invoice->quantity = $qty;
                     $save_invoice->price = $price;
                     $total_price += $qty*$price;
+                    $save_invoice->list_item_id = $id;
                     $save_invoice->save();
                 }
              }
