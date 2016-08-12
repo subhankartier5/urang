@@ -747,5 +747,74 @@ class UserApiController extends Controller
                     'message' => 'User does not exists! Please try to login again.'
                 ));
         }
+    }
+
+    public function social_Login(Request $request)
+    {
+        //dd($request->user_id);
+            if(User::where('email',$request->email)->first()) 
+            {
+                $user_data = User::where('email',$request->email)->first();
+                if($user_data->block_status == 0)
+                {
+                    return Response::json(array(
+                            'status' => true,
+                            'status_code' => 200,
+                            'response' => $user_data,
+                            'message' => "Loging In..!"        
+                        ));
+                }
+                else
+                {
+                    return Response::json(array(
+                            'status' => false,
+                            'status_code' => 400,
+                            'message' => "You are blocked by the admin!"        
+                        ));
+                }
+                
+            }
+            else
+            {
+                $user = new User();
+                $user->email = $request->email;
+                $user->password = bcrypt($request->password);
+                $user->block_status = 0;
+                if ($user->save()) 
+                {
+                    $user_details = new UserDetails();
+                    $user_details->user_id = $user->id;
+                    $user_details->name = $request->name;
+                    $user_details->social_network = 1;
+                    $user_details->social_network_name = $request->social_network_name;
+                    $user_details->social_id = $request->social_id;
+                    if($user_details->save())
+                    {
+                        $user_data = User::where('email',$request->email)->first();
+                        return Response::json(array(
+                            'status' => true,
+                            'status_code' => 200,
+                            'response' => $user_data,
+                            'message' => "Registered and Loging In..!"        
+                        ));
+                    }
+                    else
+                    {
+                        return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot save your user details!"        
+                            ));
+                    }
+                }
+                else
+                {
+                    return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot register you now!"        
+                            ));
+                }
+            }
     } 
 }
