@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Categories;
 use App\SchoolDonations;
 use App\Cms;
+use App\OrderTracker;
 
 class UserApiController extends Controller
 {
@@ -46,11 +47,14 @@ class UserApiController extends Controller
     		}
     		else
     		{
-    			$user_details = User::where('id',$userdata->id)->with('user_details')->get();
+    			$user_details = User::where('id',$userdata->id)->with('user_details')->first();
+                $alldetails = $this->getAllRecordsWhileLogin($userdata->id);
 	        	return Response::json(array(
 		            'status' => true,
 		            'status_code' => 200,
-		            'response' => $user_details        
+		            'response' => $user_details,
+                    'alldetails' => $alldetails,
+                    'message' => 'Loging in...'        
 	        	));
     		}
     		
@@ -757,10 +761,12 @@ class UserApiController extends Controller
                 $user_data = User::where('email',$request->email)->first();
                 if($user_data->block_status == 0)
                 {
+                    $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
                     return Response::json(array(
                             'status' => true,
                             'status_code' => 200,
                             'response' => $user_data,
+                            'alldetails' => $alldetails,
                             'message' => "Loging In..!"        
                         ));
                 }
@@ -791,10 +797,12 @@ class UserApiController extends Controller
                     if($user_details->save())
                     {
                         $user_data = User::where('email',$request->email)->first();
+                        $alldetails = $this->getAllRecordsWhileLogin($user_data->id);
                         return Response::json(array(
                             'status' => true,
                             'status_code' => 200,
                             'response' => $user_data,
+                            'alldetails' => $alldetails,
                             'message' => "Registered and Loging In..!"        
                         ));
                     }
@@ -816,5 +824,35 @@ class UserApiController extends Controller
                             ));
                 }
             }
+    }
+
+    public function getAllRecordsWhileLogin($user_id)
+    {
+        $pick_up_req = Pickupreq::where('user_id',$user_id)->orderBy('id', 'desc')->with('OrderTrack')->get();
+
+        return $pick_up_req;
+    }
+
+    public function getOrderTracker(Request $request)
+    {
+        $order_track = OrderTracker::where('user_id',$request->user_id)->orderBy('id','desc')->get();
+
+        if($order_track)
+        {
+            return Response::json(array(
+                            'status' => true,
+                            'status_code' => 200,
+                            'response' => $order_track,      
+                        ));
+        }
+        else
+        {
+            return Response::json(array(
+                                'status' => false,
+                                'status_code' => 400,
+                                'message' => "No order to show!"        
+                            ));
+        }
+        
     } 
 }
