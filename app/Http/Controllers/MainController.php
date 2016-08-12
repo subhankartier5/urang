@@ -23,6 +23,7 @@ use App\Invoice;
 use App\SchoolDonationPercentage;
 use App\PickUpTime;
 use App\OrderTracker;
+use App\SchoolPreferences;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -440,6 +441,15 @@ class MainController extends Controller
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
             if($request->isDonate)
             {
+                //save in android school prefrences table
+                if ($request->identifier == "admin") {
+                   $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
+                }
+                else
+                {
+                    //$pick_up_req->user_id = auth()->guard('users')->user()->id;
+                    $this->SavePreferncesSchool(auth()->guard('users')->user()->id, $request->school_donation_id);
+                }
                 //dd($total_price);
                 $percentage = SchoolDonationPercentage::first();
                 $new_percentage = $percentage->percentage/100;
@@ -554,6 +564,22 @@ class MainController extends Controller
             else
             {
                 return redirect()->route('getPickUpReq')->with('fail', "Cannot be able to save pick up request make sure schedule, client type, order type or payment method is filled up correctly");
+            }
+        }
+    }
+    public function SavePreferncesSchool($userId, $schoolId) {
+        //dd($userId."\n".$schoolId);
+        $find_school = SchoolPreferences::where('user_id', $userId)->where('school_id', $schoolId)->first();
+        if ($find_school) {
+            return 0;
+        } else {
+            $new_rec = new SchoolPreferences();
+            $new_rec->user_id = $userId;
+            $new_rec->school_id = $schoolId;
+            if ($new_rec->save()) {
+                return 1;
+            } else {
+                return "500";
             }
         }
     }
