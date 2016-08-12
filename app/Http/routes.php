@@ -168,4 +168,5 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/check-email', ['uses' => 'ApiV1\UserApiController@checkEmail', 'as' => 'checkEmail']);
     Route::post('/get-user-details',['uses' => 'ApiV1\UserApiController@userDetails','as' => 'userDetails']);
     Route::post('/social-login',['uses' => 'ApiV1\UserApiController@social_Login','as' => 'social_Login']);
+    Route::post('/order-tracker',['uses' => 'ApiV1\UserApiController@getOrderTracker','as' => 'getOrderTracker']);
 }); 

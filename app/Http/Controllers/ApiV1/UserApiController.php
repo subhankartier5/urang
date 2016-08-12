@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Categories;
 use App\SchoolDonations;
 use App\Cms;
+use App\OrderTracker;
 
 class UserApiController extends Controller
 {
@@ -830,5 +831,28 @@ class UserApiController extends Controller
         $pick_up_req = Pickupreq::where('user_id',$user_id)->orderBy('id', 'desc')->with('OrderTrack')->get();
 
         return $pick_up_req;
+    }
+
+    public function getOrderTracker(Request $request)
+    {
+        $order_track = OrderTracker::where('user_id',$request->user_id)->orderBy('id','desc')->get();
+
+        if($order_track)
+        {
+            return Response::json(array(
+                            'status' => true,
+                            'status_code' => 200,
+                            'response' => $order_track,      
+                        ));
+        }
+        else
+        {
+            return Response::json(array(
+                                'status' => false,
+                                'status_code' => 400,
+                                'message' => "No order to show!"        
+                            ));
+        }
+        
     } 
 }
