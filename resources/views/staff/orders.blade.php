@@ -178,22 +178,22 @@
                            <td>
                             <select name="order_status" class="form-control" id="order_status_staff_{{$pickup->id}}">
                                 @if($pickup->order_status == 1)
-                                  <option value="1" disabled="true">Order Placed</option>
+                                  <option value="1" selected="true" disabled="true">Order Placed</option>
                                   <option value="2">Picked Up</option>
                                   <option value="3">Processed</option>
                                   <option value="4">Delivered</option>
                                 @elseif($pickup->order_status == 2)
-                                  <option value="2"  disabled="true">Picked Up</option>
+                                  <option value="2" selected="true" disabled="true">Picked Up</option>
                                   <option value="3">Processed</option>
                                   <option value="4">Delivered</option>
                                 @elseif($pickup->order_status == 3)
-                                  <option value="3" disabled="true">Processed</option>
+                                  <option value="3" selected="true" disabled="true">Processed</option>
                                   <option value="4">Delivered</option>
                                 @else
                                   @if($pickup->payment_status == 1)
-                                      <option value="4" disabled="true">Delivered</option>
+                                      <option value="4" selected="true" disabled="true">Delivered</option>
                                   @else
-                                      <option value="4">Delivered</option>
+                                      <option value="4" selected="true">Delivered</option>
                                   @endif
                                 @endif
                             </select>  
@@ -1016,14 +1016,14 @@
       }
       else
       {
-        $('#loaderBodyOrder').hide();
+        $('#loaderBodyOrderStaff').hide();
         $('.table').show();
         sweetAlert("Oops...", "You have to select at least one item", "error");
       }
    }
      function AskForInvoice(pick_up_id2, user_id2, count1) {
       var invoice_id_updt= 0;
-      if ($('#order_status_staff').val() == 4) 
+      if ($('#order_status_staff_'+pick_up_id2).val() == 4) 
       {
         swal({   
           title: "Are you sure?",   
@@ -1033,7 +1033,7 @@
           cancelButtonText: "Yes, Update Invoice",  
           confirmButtonColor: "#DD6B55",   
           confirmButtonText: "No, Let's Deliver",   
-          closeOnConfirm: false }, 
+          closeOnConfirm: true }, 
           function(isConfirm){
             if (isConfirm) 
             {
@@ -1053,7 +1053,8 @@
                 @endforeach
                 //console.log(invoice_id_updt);
                 $('#invoice_update_staff').val(invoice_id_updt);
-                $('#EditItemModal').modal('show');
+                //$('#EditItemModal').modal('show');
+                openEditItemModal(pick_up_id2, user_id2);
               } else {
                 //open create invoice
                 $('#ModalInvoice').modal('show');

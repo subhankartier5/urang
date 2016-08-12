@@ -656,6 +656,7 @@ class AdminController extends Controller
     public function changeOrderStatusAdmin(Request $req)
     {
         //dd($req);
+        //return $req->order_status;
         if (isset($req->order_status)) {
             if ($req->order_status == 1) {
                 $data['order_status'] = $req->order_status;
@@ -777,6 +778,7 @@ class AdminController extends Controller
     }
     //order tracker function
     public function TrackOrder($req) {
+        //return $req->order_status;
         //update order tracker
         $pickupreq = Pickupreq::find($req->pickup_id);
         $find_tracker = OrderTracker::where('pick_up_req_id', $req->pickup_id)->first();
@@ -790,12 +792,13 @@ class AdminController extends Controller
             }
         }
         else if ($req->order_status == 3) {
+            //dd("algo goes");
             if ($find_tracker) {
-                if ($find_tracker->picked_up_date == null) {
+                if (!$find_tracker->picked_up_date) {
                     $find_tracker->picked_up_date = $pickupreq->updated_at->toDateString();
                 }
-                if ($find_tracker->expected_return_date == null) {
-                    $find_tracker->expected_return_date == date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
+                if (!$find_tracker->expected_return_date) {
+                    $find_tracker->expected_return_date = date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
                 }
                 $find_tracker->order_status = 3;
                 $find_tracker->final_invoice = $pickupreq->total_price;
@@ -805,10 +808,10 @@ class AdminController extends Controller
         else
         {
             if ($find_tracker) {
-                if ($find_tracker->picked_up_date == null) {
+                if (!$find_tracker->picked_up_date) {
                     $find_tracker->picked_up_date = $pickupreq->updated_at->toDateString();
                 }
-                if ($find_tracker->expected_return_date == null) {
+                if (!$find_tracker->expected_return_date) {
                     $find_tracker->expected_return_date = date('Y-m-d',strtotime($pickupreq->updated_at->toDateString())+172800);
                 }
                 $find_tracker->final_invoice = $pickupreq->total_price;
