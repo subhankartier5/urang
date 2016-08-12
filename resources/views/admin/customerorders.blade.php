@@ -923,13 +923,9 @@
             else if (data == 0) 
             {
               $('#errorUpdateJs').html("<div class='alert alert-danger'>Failed to update order status<a class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>");
-              //console.log("Failed to update order status");
             }
             else if (data == "I00001") 
             {
-              //location.reload();
-              //sweetAlert("Oops...", "You have to select at least one item", "error");
-              //$('#errorUpdateJs').html("<div class='alert alert-success'>Order Updated and paid also!<a class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>");
               swal({
                   title: "Successful!",   
                   text: "Order status successfully updated and paid also!",   
@@ -943,31 +939,37 @@
             }
             else if (data == "403") 
             {
-              //$('#errorUpdateJs').html("<div class='alert alert-danger'>At first make sure payment is done!<a class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>");
               $('#loaderBodyOrder').hide();
               $('.table').show();
               sweetAlert("Oops...", "At first make sure payment is done!", "error");
-              //console.log("make sure that paid first then update as delivered");
             }
             else if (data == "444") 
             {
-              //$('#errorUpdateJs').html("<div class='alert alert-danger'>select atleast one item from dropdown!<a class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>");
+              $('#loaderBodyOrder').hide();
+              $('.table').show();
               sweetAlert("Oops...", "select atleast one item from dropdown!", "error");
-              //console.log("select list item from dropdown");
             }
             else
             {
               switch (data) {
                   case '0':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
                       sweetAlert("Oops...", "Payment failed, Hint: Please set the payment keys and mode!", "error");
                     break;
                   case '1':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
                       sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
                     break;
                     case '2':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
                       sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
                     break;
                   default:
+                    $('#loaderBodyOrder').hide();
+                    $('.table').show();
                     sweetAlert("Oops...", "Unknown error occured!", "error")
                     break;
                 }
