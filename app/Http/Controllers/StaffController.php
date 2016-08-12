@@ -164,11 +164,13 @@ class StaffController extends Controller
                     if($result)
                     {
                         (new AdminController)->TrackOrder($req);
-                        return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                        //return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                        return 1;
                     }
                     else
                     {
-                        return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        //return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        return 0;
                     }
                 }
                 elseif ($req->order_status == 2) {
@@ -178,11 +180,13 @@ class StaffController extends Controller
                     if($result)
                     {
                         (new AdminController)->TrackOrder($req);
-                        return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                        //return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                        return 1;
                     }
                     else
                     {
-                        return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        //return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        return 0;
                     }
                 }
                 elseif ($req->order_status == 3) {
@@ -192,11 +196,13 @@ class StaffController extends Controller
                     if($result)
                     {
                         (new AdminController)->TrackOrder($req);
-                        return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                        //return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                        return 1;
                     }
                     else
                     {
-                        return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        //return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                        return 0;
                     }
                 }
                 else {
@@ -210,25 +216,21 @@ class StaffController extends Controller
                             $data['payment_status'] = 1;
                             (new AdminController)->TrackOrder($req);
                             //Session::put("success_code", "Payment Successfull!");
-                        }
-                        else
-                        {
-                            Session::put("error_code", $response);
-                        }
-                        if ($response == "I00001") {
                             $result = Pickupreq::where('id', $req->pickup_id)->update($data);
+                            if($result)
+                            {
+                                //return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated and paid also!');
+                                return "I00001";
+                            }
+                            else
+                            {
+                                //return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                                return 0;
+                            }
                         }
                         else
                         {
-                            return redirect()->route('getStaffOrders')->with('fail', 'Failed to pay!');
-                        }
-                        if($result)
-                        {
-                            return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated and paid also!');
-                        }
-                        else
-                        {
-                            return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                            return $response;
                         }
                     } else {
                         //do not charge
@@ -239,20 +241,24 @@ class StaffController extends Controller
                             $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                             if($result)
                             {
-                                return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                                //return redirect()->route('getStaffOrders')->with('success', 'Order Status successfully updated!');
+                                return 1;
                             }
                             else
                             {
-                                return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                                //return redirect()->route('getStaffOrders')->with('fail', 'Failed to update Order Status!');
+                                return 0;
                             }
                         } else {
-                            return redirect()->route('getStaffOrders')->with('fail', 'at first make sure payment is done!');
+                            //return redirect()->route('getStaffOrders')->with('fail', 'at first make sure payment is done!');
+                            return "403";
                         }
                     }
                 }
             } 
             else {
-                return redirect()->route('getStaffOrders')->with('fail', 'Select the status from dropdown you want to update');
+                //return redirect()->route('getStaffOrders')->with('fail', 'Select the status from dropdown you want to update');
+                return "444";
             }
         }
         else
@@ -327,9 +333,8 @@ class StaffController extends Controller
 
     public function addItemCustom(Request $request)
     {
-        //dd($request);
         $data = json_decode($request->list_items_json);
-
+        //dd($data);
         $user = Pickupreq::find($request->row_id);
         $previous_price = $user->total_price;
         $price_to_add = 0.00;
@@ -357,6 +362,7 @@ class StaffController extends Controller
             $invoice->price = $data[$j]->item_price;
             $invoice->item = $data[$j]->item_name;
             $invoice->quantity = $data[$j]->number_of_item;
+            $invoice->list_item_id = $data[$j]->id;
             $invoice->save();
         }
         $user->total_price = $previous_price+$price_to_add;

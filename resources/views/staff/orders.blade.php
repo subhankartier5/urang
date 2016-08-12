@@ -85,6 +85,12 @@
                      </div> -->
                   </div>
                </div>
+               <div class="col-lg-12">
+                <div style="display: none;" id="loaderBodyOrderStaff" align="center">
+                <p>Please wait...</p>
+                <img src="{{url('/')}}/public/images/loading.gif" style="height: 150px;">
+              </div>
+              </div>
                <table class="table table-bordered table-responsive">
                   <thead>
                      <tr>
@@ -163,41 +169,42 @@
                         <td>{{ $is_emargency }}</td>
                         <td>{{ $payment_type }}</td>
                         <td>{{ $pickup->client_type }} </td>
-                        <form action="{{ route('changeOrderStatus') }}" method="post" id="change_status_form_staff">
+                        <form id="change_status_form_staff">
                            <td>${{number_format((float)$pickup->total_price, 2, '.', '')}}</td>
                            <td>
                               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                               <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                            </td>
                            <td>
-                            <select name="order_status" class="form-control" id="order_status_staff">
+                            <select name="order_status" class="form-control" id="order_status_staff_{{$pickup->id}}">
                                 @if($pickup->order_status == 1)
-                                  <option value="1" selected="true" disabled="true">Order Placed</option>
+                                  <option value="1" disabled="true">Order Placed</option>
                                   <option value="2">Picked Up</option>
                                   <option value="3">Processed</option>
                                   <option value="4">Delivered</option>
                                 @elseif($pickup->order_status == 2)
-                                  <option value="2" selected="true" disabled="true">Picked Up</option>
+                                  <option value="2"  disabled="true">Picked Up</option>
                                   <option value="3">Processed</option>
                                   <option value="4">Delivered</option>
                                 @elseif($pickup->order_status == 3)
-                                  <option value="3" selected="true" disabled="true">Processed</option>
+                                  <option value="3" disabled="true">Processed</option>
                                   <option value="4">Delivered</option>
                                 @else
                                   @if($pickup->payment_status == 1)
-                                      <option value="4" selected="true" disabled="true">Delivered</option>
+                                      <option value="4" disabled="true">Delivered</option>
                                   @else
-                                      <option value="4" selected="true">Delivered</option>
+                                      <option value="4">Delivered</option>
                                   @endif
                                 @endif
                             </select>  
                            </td>
                            <td>
-                              <input type="hidden" name="pickup_id" value="{{ $pickup->id }}">
+                              <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
                               <input type="hidden" name="_token" value="{{ Session::token() }}">
-                              <input type="hidden" name="chargable" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
-                              <input type="hidden" name="user_id" value="{{$pickup->user_id}}"></input>
-                              <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}"></input>
+                              <input type="hidden" name="chargable" id
+                                 ="chargable_{{$pickup->id}}" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
+                              <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>
+                              <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}" id="payment_type_{{$pickup->id}}"></input>
                               <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
                            </td>
                         </form>
@@ -491,8 +498,6 @@
    </div>
 </div>
 @endforeach
-@if(count($pickups)>0)
-@foreach($pickups as $pickup)
 <!-- Modal -->
 <div id="ModalShowInvoice" class="modal fade" role="dialog">
    <div class="modal-dialog">
@@ -541,13 +546,13 @@
             </table>
          </div>
          <div class="modal-footer">
-            <button class="btn btn-default" id="show_modal_items" onclick="recreateInv({{$pickup->id}},{{$pickup->user->id}})">Edit Items</button>
+            <input type="hidden" id="pick_up_req_id_alter" name="pick_up_req_id_alter"></input>
+            <input type="hidden" id="user_id" name="user_id"></input>
+            <button type="button" class="btn btn-default" id="show_modal_items">Edit Items</button>
          </div>
       </div>
    </div>
 </div>
-@endforeach
-@endif
 <!-- Modal -->
 <div id="EditItemModal" class="modal fade" role="dialog">
    <div class="modal-dialog">
@@ -596,8 +601,9 @@
                <input type="hidden" id="row_id" name="row_id">
                <input type="hidden" id="list_items_json" name="list_items_json" required="">
                <input type="hidden" id="row_user_id" name="row_user_id">
-               <input type="hidden" name="invoice_updt" id="invoice_updt"></input>
+               <input type="hidden" name="invoice_updt" id="invoice_update_staff"></input>
                <input type="hidden" name="_token" value="{{Session::token()}}">
+               <input type="hidden" id="old_items_selected"></input>
                <button type="button" onclick="sbmitEditForm()" class="btn btn-default" id="modal-close">Save Changes</button>
             </form>
          </div>
@@ -665,6 +671,14 @@
        $('#infoButton').click(function(){
            $('#infoModal').modal('show');
        });
+       $('#show_modal_items').click(function(){
+          $('#row_id').val($('#pick_up_req_id_alter').val());
+          $('#row_user_id').val($('#user_id').val());
+          $('#invoice_update_staff').val($('#invoice_no').text());
+          openEditItemModal($('#pick_up_req_id_alter').val(), $('#user_id').val());
+       });
+
+
         //color the tr of table according to condition
         @foreach($pickups as $pickup)
           //console.log('{{$pickup->is_emergency}}');
@@ -731,21 +745,36 @@
    }
    function openEditItemModal(pickup_id,user_id)
    {
-   //$('#row_id').val(pickup_id);
-   //$('#row_user_id').val(user_id);
-   //$('#EditItemModal').modal('show');
-   $.ajax({
+    jsonObj = [];
+    var setJson= '';
+    $.ajax({
      url:"{{route('postPickUpId')}}",
      type: "POST",
      data: {id: pickup_id, _token:"{{Session::token()}}"},
      success: function(data) {
        //console.log(data);
+       //return;
        if (data != 0) 
        {
-         //console.log(data.invoice_id);
+          for (var i = 0; i < data.length; i++) {
+            search_item ={};
+            search_item['id'] = data[i].list_item_id;
+            search_item['number_of_item'] = data[i].quantity;
+            search_item['item_name'] = data[i].item;
+            search_item['item_price'] = data[i].price;
+            //console.log(data[i].quantity);
+            jsonObj.push(search_item);
+          }
+          setJson = JSON.stringify(jsonObj);
+          //console.log(setJson);
+          if ($.trim(setJson) != '') 
+          {
+            $('#old_items_selected').val(setJson);
+          }
+         //console.log(data);
          $('#row_id').val(pickup_id);
          $('#row_user_id').val(user_id);
-         $('#invoice_updt').val(data.invoice_id);
+         $('#invoice_update_staff').val(data[0].invoice_id);
          $('#EditItemModal').modal('show');
        }
        else
@@ -756,7 +785,17 @@
    });
    
    }
-   function recreateInv(pick_req_id_inv, user_id_inv) {
+   $('#EditItemModal').on('shown.bs.modal',function(e){
+      e.preventDefault();
+      var data = $.parseJSON($('#old_items_selected').val());
+      //console.log(data);
+      for (var i = 0; i < data.length; i++) {
+        //console.log(data[i]);
+        $('#number_'+data[i].id).val(data[i].number_of_item);
+        $('#btn_'+data[i].id).text('Remove');
+      }
+   });
+  /* function recreateInv(pick_req_id_inv, user_id_inv) {
    //alert();
    //alert($('#invoice_no').text())
    //return;
@@ -765,7 +804,7 @@
    //$('#identifier_modal').val(identifier);
    $('#invoice_updt').val($('#invoice_no').text());
    $('#EditItemModal').modal('show');
-   }
+   }*/
    function sbmitEditForm()
    {
    
@@ -830,27 +869,35 @@
        var total_price = 0;
        $('#ModalShowInvoice').modal('show');
            @foreach ($pickups as $pickup)
-               $('#user_name').text('{{$pickup->user_detail->name}}');
-               $('#user_email').text('{{$pickup->user->email}}');
-               $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
-               @if ($pickup->order_status == 4) 
-                {
-                  $('#show_modal_items').attr('disabled', 'true');
-                }
-                @endif
-               @foreach($pickup->invoice as $invoice)
-                   if ('{{$invoice->pick_up_req_id}}' == id) 
-                   {
-                       $('#invoice_no').text('#{{$invoice->invoice_id}}');
-                       $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
-                       div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
-                       total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
-                       $('#total_price').text(total_price);
-                       $('#inv').html(div);
-                       //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
-                       $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
-                   }
-               @endforeach
+            if ('{{$pickup->id}}' == id) 
+            {
+              $('#user_name').text('{{$pickup->user_detail->name}}');
+              $('#user_email').text('{{$pickup->user->email}}');
+              $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
+              if ('{{$pickup->order_status}}' == 4) 
+              {
+                $('#show_modal_items').attr('disabled', 'true');
+              }
+              else
+              {
+                $('#show_modal_items').removeAttr('disabled');
+              }
+              @foreach($pickup->invoice as $invoice)
+                 if ('{{$invoice->pick_up_req_id}}' == id) 
+                 {
+                     $('#invoice_no').text('{{$invoice->invoice_id}}');
+                     $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
+                     div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
+                     total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
+                     $('#total_price').text(total_price);
+                     $('#inv').html(div);
+                     //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
+                     $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
+                     $('#user_id').val('{{$invoice->user_id}}');
+                     $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
+                 }
+             @endforeach
+            }
            @endforeach
      }
      function delInvoice(id) {
@@ -871,6 +918,109 @@
            }
        });
      }
+     function submitMyForm(idpickup) {
+      //console.log(idpickup);
+      var selectvalue = $('#order_status_staff_'+idpickup).val();
+      var pickupid = $('#pickup_id_'+idpickup).val();
+      var userid = $('#user_id_'+idpickup).val();
+      var paymenttype = $('#payment_type_'+idpickup).val();
+      var chargable = $('#chargable_'+idpickup).val();
+      /*console.log(selectvalue);
+      console.log(pickupid);
+      console.log(userid);
+      console.log(paymenttype);
+      console.log(chargable);
+      return;*/
+      $('#loaderBodyOrderStaff').show();
+      $('.table').hide();
+      if ($.trim(selectvalue)) 
+      {
+        $.ajax({
+          url: "{{ route('changeOrderStatus') }}",
+          type: "POST",
+          data: {order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
+          success: function(data) {
+            /*console.log(data);
+            return;*/
+            if (data == 1) 
+            {
+              swal({
+                  title: "Successful!",   
+                  text: "Order status successfully updated!",   
+                  type: "success",   
+                  confirmButtonColor: "#8CD4F5",   
+                  confirmButtonText: "Ok"
+                  }, function(){
+                    location.reload();
+                  }               
+                );
+            }
+            else if (data == 0) 
+            {
+              $('#loaderBodyOrderStaff').hide();
+              $('.table').show();
+              sweetAlert("Oops...", "Failed to update order status!", "error");
+            }
+            else if (data == "I00001") 
+            {
+              swal({
+                  title: "Successful!",   
+                  text: "Order status successfully updated and paid also!",   
+                  type: "success",   
+                  confirmButtonColor: "#8CD4F5",   
+                  confirmButtonText: "Ok"
+                  }, function(){
+                    location.reload();
+                  }               
+                );
+            }
+            else if (data == "403") 
+            {
+              $('#loaderBodyOrderStaff').hide();
+              $('.table').show();
+              sweetAlert("Oops...", "At first make sure payment is done!", "error");
+            }
+            else if (data == "444") 
+            {
+              $('#loaderBodyOrderStaff').hide();
+              $('.table').show();
+              sweetAlert("Oops...", "select atleast one item from dropdown!", "error");
+            }
+            else
+            {
+              switch (data) {
+                  case '0':
+                      $('#loaderBodyOrderStaff').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment failed, Hint: Please set the payment keys and mode!", "error");
+                    break;
+                  case '1':
+                      $('#loaderBodyOrderStaff').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
+                    break;
+                    case '2':
+                      $('#loaderBodyOrderStaff').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
+                    break;
+                  default:
+                    $('#loaderBodyOrderStaff').hide();
+                    $('.table').show();
+                    sweetAlert("Oops...", "Unknown error occured!", "error")
+                    break;
+                }
+            }
+          }
+        });
+      }
+      else
+      {
+        $('#loaderBodyOrder').hide();
+        $('.table').show();
+        sweetAlert("Oops...", "You have to select at least one item", "error");
+      }
+   }
      function AskForInvoice(pick_up_id2, user_id2, count1) {
       var invoice_id_updt= 0;
       if ($('#order_status_staff').val() == 4) 
@@ -887,7 +1037,7 @@
           function(isConfirm){
             if (isConfirm) 
             {
-              $('#change_status_form_staff').submit();
+              submitMyForm(pick_up_id2);
             } else {
               if (count1 > 0) {
                 //open edit invoice
@@ -902,7 +1052,7 @@
                   @endforeach
                 @endforeach
                 //console.log(invoice_id_updt);
-                $('#invoice_updt').val(invoice_id_updt);
+                $('#invoice_update_staff').val(invoice_id_updt);
                 $('#EditItemModal').modal('show');
               } else {
                 //open create invoice
@@ -916,7 +1066,7 @@
             //$('#change_status_form_staff').submit();
         });
       } else {
-        $('#change_status_form_staff').submit();
+        submitMyForm(pick_up_id2);
       }
   }
 </script>

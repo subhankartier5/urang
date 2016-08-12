@@ -922,7 +922,9 @@
             }
             else if (data == 0) 
             {
-              $('#errorUpdateJs').html("<div class='alert alert-danger'>Failed to update order status<a class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>");
+              $('#loaderBodyOrder').hide();
+              $('.table').show();
+              sweetAlert("Oops...", "Failed to update order status!", "error");
             }
             else if (data == "I00001") 
             {
