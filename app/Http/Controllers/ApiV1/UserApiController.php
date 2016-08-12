@@ -46,7 +46,7 @@ class UserApiController extends Controller
     		}
     		else
     		{
-    			$user_details = User::where('id',$userdata->id)->with('user_details')->get();
+    			$user_details = User::where('id',$userdata->id)->with('user_details')->first();
 	        	return Response::json(array(
 		            'status' => true,
 		            'status_code' => 200,

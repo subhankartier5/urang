@@ -663,11 +663,13 @@ class AdminController extends Controller
                 if($result)
                 {
                     $this->TrackOrder($req);
-                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    return 1;
                 }
                 else
                 {
-                    return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    return 0;
                 }
             } elseif ($req->order_status == 2) {
                 $data['order_status'] = $req->order_status;
@@ -675,11 +677,13 @@ class AdminController extends Controller
                 if($result)
                 {
                     $this->TrackOrder($req);
-                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    return 1;
                 }
                 else
                 {
-                    return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    return 0;
                 }
             } elseif ($req->order_status == 3) {
                 $data['order_status'] = $req->order_status;
@@ -687,11 +691,13 @@ class AdminController extends Controller
                 if($result)
                 {
                     $this->TrackOrder($req);
-                    return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                    return 1;
                 }
                 else
                 {
-                    return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                    return 0;
                 }
             } else {
                 //dd('here');
@@ -703,27 +709,42 @@ class AdminController extends Controller
                     if ($response == "I00001") {
                         $data['payment_status'] = 1;
                         $this->TrackOrder($req);
+                        $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                         //Session::put("success_code", "Payment Successfull!");
+                        if($result)
+                        {
+                            //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated and paid also!');
+                            return "I00001";
+                        }
+                        else
+                        {
+                            //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                            return 0;
+                        }
                     }
                     else
                     {
-                        Session::put("error_code", $response);
+                        //Session::put("error_code", $response);
+                        return $response;
                     }
-                    if ($response == "I00001") {
+                    /*if ($response == "I00001") {
                         $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                     }
                     else
                     {
-                        return redirect()->route('getCustomerOrders')->with('fail', 'Failed to pay!');
-                    }
-                    if($result)
+                        //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to pay!');
+                        return "error in payment";
+                    }*/
+                    /*if($result)
                     {
-                        return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated and paid also!');
+                        //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated and paid also!');
+                        return "I00001";
                     }
                     else
                     {
-                        return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
-                    }
+                        //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                        return 0;
+                    }*/
                 } else {
                     //do not charge
                     $paidOrNOt = Pickupreq::where('id',$req->pickup_id)->first(); 
@@ -733,21 +754,25 @@ class AdminController extends Controller
                         $result = Pickupreq::where('id', $req->pickup_id)->update($data);
                         if($result)
                         {
-                            return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                            //return redirect()->route('getCustomerOrders')->with('success', 'Order Status successfully updated!');
+                            return 1;
                         }
                         else
                         {
-                            return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                            //return redirect()->route('getCustomerOrders')->with('fail', 'Failed to update Order Status!');
+                            return 0;
                         }
                     } else {
-                        return redirect()->route('getCustomerOrders')->with('fail', 'at first make sure payment is done!');
+                        //return redirect()->route('getCustomerOrders')->with('fail', 'at first make sure payment is done!');
+                        return "403";
                     }
                 }
             }
         }
         else
         {
-            return redirect()->route('getCustomerOrders')->with('fail', 'Select the status from dropdown you want to update');
+            //return redirect()->route('getCustomerOrders')->with('fail', 'Select the status from dropdown you want to update');
+            return "444";
         }
     }
     //order tracker function

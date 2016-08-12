@@ -16,28 +16,7 @@
             </div>
             @else
             @endif
-            @if(Session::has('error_code'))
-              <div class="alert alert-danger">
-              <?php
-              //0->no payment keys, 1->null response check date format or card details , check card details error in card number or amount null
-                switch (Session::get('error_code')) {
-                  case '0':
-                      echo "Payment failed, Hint: Please set the payment keys and mode!";
-                    break;
-                  case '1':
-                      echo "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!";
-                    break;
-                    case '2':
-                      echo "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!";
-                    break;
-                  default:
-                    echo "Unknown error occured!";
-                    break;
-                }
-              ?>
-               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              </div>
-            @endif
+            <div id="errorUpdateJs"></div>
             {{ Session::forget('fail') }}
             {{ Session::forget('success') }}
             {{Session::forget('error_code')}}
@@ -89,6 +68,10 @@
          <div class="panel-body">
             <div class="row">
                <div class="col-lg-12">
+                <div style="display: none;" id="loaderBodyOrder" align="center">
+                <p>Please wait...</p>
+                <img src="{{url('/')}}/public/images/loading.gif" style="height: 150px;">
+              </div>
                   <table class="table table-bordered">
                      <thead>
                         <tr>
@@ -175,7 +158,7 @@
                               <td>
                                 <select class="form-control" id="order_status_{{$pickup->id}}"> 
                                   @if($pickup->order_status == 1)
-                                    <option value="1"  disabled="true">Order Placed</option>
+                                    <option value="1" disabled="true">Order Placed</option>
                                     <option value="2">Picked Up</option>
                                     <option value="3">Processed</option>
                                     <option value="4">Delivered</option>
@@ -707,36 +690,40 @@
     $('#req_user_id').val(user_id);
    }
    function showDetails(id) {
-    var div = "";
-    var total_price = 0;
-    $('#ModalShowInvoice').modal('show');
-        @foreach ($pickups as $pickup)
+      var div = "";
+      var total_price = 0;
+      $('#ModalShowInvoice').modal('show');
+      @foreach ($pickups as $pickup)
+        if('{{$pickup->id}}' == id) 
+        {
+          //console.log('{{$pickup->order_status}}');
+          if ('{{$pickup->order_status}}' == 4) 
+          {
+            $('#show_modal_items').attr('disabled', 'true');
+          }
+          else
+          {
+            $('#show_modal_items').removeAttr('disabled');
+          }
+          @foreach($pickup->invoice as $invoice)
             $('#user_name').text('{{$pickup->user_detail->name}}');
             $('#user_email').text('{{$pickup->user->email}}');
             $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
-            @if ($pickup->order_status == 4) 
-            {
-              $('#show_modal_items').attr('disabled', 'true');
-            }
-            @endif
-            @foreach($pickup->invoice as $invoice)
-                if ('{{$invoice->pick_up_req_id}}' == id) 
-                {
-                    $('#invoice_no').text('{{$invoice->invoice_id}}');
-                    $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
-                    div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
-                    total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
-                    $('#total_price').text(total_price);
-                    $('#inv').html(div);
-                    $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
-                    $('#user_id').val('{{$invoice->user_id}}');
-                    $('#pickupid').val('{{$pickup->id}}');
-                    $('#userid').val('{{$pickup->user_id}}');
-                    //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
-                    $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
-                }
-            @endforeach
-        @endforeach
+            $('#invoice_no').text('{{$invoice->invoice_id}}');
+            $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
+            div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
+            total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
+            $('#total_price').text(total_price);
+            $('#inv').html(div);
+            $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
+            $('#user_id').val('{{$invoice->user_id}}');
+            $('#pickupid').val('{{$pickup->id}}');
+            $('#userid').val('{{$pickup->user_id}}');
+            //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
+            $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
+          @endforeach
+        }
+      @endforeach
    }
    function delInvoice(id) {
     //alert(id);
@@ -911,22 +898,89 @@
       var userid = $('#user_id_'+idpickup).val();
       var paymenttype = $('#payment_type_'+idpickup).val();
       var chargable = $('#chargable_'+idpickup).val();
-      if ($.trim(selectvalue) != null) 
+      $('#loaderBodyOrder').show();
+      $('.table').hide();
+      if ($.trim(selectvalue)) 
       {
         $.ajax({
           url: "{{ route('changeOrderStatusAdmin') }}",
           type: "POST",
           data: {order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
           success: function(data) {
-            if (data != null) 
+            if (data == 1) 
             {
-              location.reload();
+              swal({
+                  title: "Successful!",   
+                  text: "Order status successfully updated!",   
+                  type: "success",   
+                  confirmButtonColor: "#8CD4F5",   
+                  confirmButtonText: "Ok"
+                  }, function(){
+                    location.reload();
+                  }               
+                );
+            }
+            else if (data == 0) 
+            {
+              $('#errorUpdateJs').html("<div class='alert alert-danger'>Failed to update order status<a class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>");
+            }
+            else if (data == "I00001") 
+            {
+              swal({
+                  title: "Successful!",   
+                  text: "Order status successfully updated and paid also!",   
+                  type: "success",   
+                  confirmButtonColor: "#8CD4F5",   
+                  confirmButtonText: "Ok"
+                  }, function(){
+                    location.reload();
+                  }               
+                );
+            }
+            else if (data == "403") 
+            {
+              $('#loaderBodyOrder').hide();
+              $('.table').show();
+              sweetAlert("Oops...", "At first make sure payment is done!", "error");
+            }
+            else if (data == "444") 
+            {
+              $('#loaderBodyOrder').hide();
+              $('.table').show();
+              sweetAlert("Oops...", "select atleast one item from dropdown!", "error");
+            }
+            else
+            {
+              switch (data) {
+                  case '0':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment failed, Hint: Please set the payment keys and mode!", "error");
+                    break;
+                  case '1':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
+                    break;
+                    case '2':
+                      $('#loaderBodyOrder').hide();
+                      $('.table').show();
+                      sweetAlert("Oops...", "Payment Failed, Wrong Details. Hint : Plase make sure amount is more than 0 or wrong credit card number or keys are wrong!", "error");
+                    break;
+                  default:
+                    $('#loaderBodyOrder').hide();
+                    $('.table').show();
+                    sweetAlert("Oops...", "Unknown error occured!", "error")
+                    break;
+                }
             }
           }
         });
       }
       else
       {
+        $('#loaderBodyOrder').hide();
+        $('.table').show();
         sweetAlert("Oops...", "You have to select at least one item", "error");
       }
    }
@@ -942,7 +996,7 @@
         cancelButtonText: "Yes, Update Invoice",  
         confirmButtonColor: "#DD6B55",   
         confirmButtonText: "No, Let's Deliver",   
-        closeOnConfirm: false }, 
+        closeOnConfirm: true }, 
         function(isConfirm){
           if (isConfirm) 
           {
@@ -964,7 +1018,9 @@
               @endforeach
               //console.log(invoice_id_updt);
               $('#invoice_updt').val(invoice_id_updt);
-              $('#EditItemModal').modal('show');
+              //$('#EditItemModal').modal('show');
+              //call the function
+              openEditItemModal(pick_up_id1, user_id1);
             } else {
               //open create invoice
               $('#ModalInvoice').modal('show');
