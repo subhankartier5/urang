@@ -33,6 +33,7 @@ use net\authorize\api\controller as AnetController;
 use App\PickUpTime;
 use DateTime;
 use App\OrderTracker;
+use App\Coupon;
 class AdminController extends Controller
 {
     public function index() {
@@ -1941,6 +1942,69 @@ class AdminController extends Controller
         else
         {
             return 0;
+        }
+    }
+    public function getCoupon() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $coupon_list = Coupon::orderBy('created_at', 'DESC')->get();
+        return view('admin.coupon', compact('user_data', 'site_details', 'coupon_list'));
+    }
+    public function postSaveCoupon(Request $request) {
+        $this->validate($request, [
+            'coupon_code' => "required",
+            'discount' => 'required|numeric'
+        ]);
+        $isDuplicate = Coupon::where('coupon_code', $request->coupon_code)->count();
+        if ($isDuplicate > 0) {
+            return redirect()->route('getCoupon')->with('fail', 'coupon code already exists try another one !');
+        }
+        else
+        {
+            $new_coupon = new Coupon();
+            $new_coupon->coupon_code = $request->coupon_code;
+            $new_coupon->discount = $request->discount;
+            $new_coupon->isActive = 1;
+            if ($new_coupon->save()) {
+                return redirect()->route('getCoupon')->with('success', 'coupon code successfully saved!');
+            } else {
+               return redirect()->route('getCoupon')->with('fail', 'Something went wrong failed to save coupon !'); 
+            }
+        }
+    }
+    public function ChangeStatusCoupon(Request $request) {
+        //return $request;
+        $find_coupon = Coupon::find($request->id);
+        if ($find_coupon) {
+            $find_coupon->isActive == 0 ? $find_coupon->isActive = 1 : $find_coupon->isActive = 0;
+            if ($find_coupon->save()) {
+                return 1;
+            }
+            else
+            {
+                return "Could not Save Data";
+            }
+        }
+        else
+        {
+            return "could not find any data associated with that id";
+        }
+    }
+    public function postDeleteCoupon(Request $request) {
+        $find_coupon = Coupon::find($request->id);
+        if ($find_coupon) {
+            if ($find_coupon->delete()) {
+                return 1;
+            }
+            else
+            {
+                return "Unable to delete please try again later!";
+            }
+        }
+        else
+        {
+            return "could not find any data associated with that id";
         }
     }
 }

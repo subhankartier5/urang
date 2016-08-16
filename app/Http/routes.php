@@ -121,6 +121,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/set-times', ['uses' => 'AdminController@postSetTime', 'as' => 'postSetTime']);
     Route::post('/set-day-as-close', ['uses' => 'AdminController@setToClose', 'as' => 'setToClose']);
     Route::post('/check-slug-exists', ['uses' => 'AdminController@checkSlugNeighborhood', 'as' => 'checkSlugNeighborhood']);
+    Route::get('/generate-coupon', ['uses' => 'AdminController@getCoupon', 'as' => 'getCoupon']);
+    Route::post('/save-coupon', ['uses' => 'AdminController@postSaveCoupon', 'as' => 'postSaveCoupon']);
+    Route::post('/change-status-coupon', ['uses' => 'AdminController@ChangeStatusCoupon', 'as' => 'ChangeStatusCoupon']);
+    Route::post('/delete-coupon', ['uses' => 'AdminController@postDeleteCoupon', 'as' => 'postDeleteCoupon']);
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);

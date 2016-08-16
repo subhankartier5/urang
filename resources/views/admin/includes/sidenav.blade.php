@@ -91,6 +91,9 @@
                 <li>
                     <a href="{{route('getExpenses')}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Monthly expenses</a>
                 </li>
+                <li>
+                    <a href="{{route('getCoupon')}}"><i class="fa fa-tags" aria-hidden="true"></i> Coupon Generator</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
