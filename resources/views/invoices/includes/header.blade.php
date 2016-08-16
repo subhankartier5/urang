@@ -84,3 +84,6 @@
     }
 }
 </style>
+<!-- Bootstrap Core CSS -->
+<link href="{{url('/')}}/public/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="{{url('/')}}/public/bower_components/jquery/dist/jquery.min.js"></script>

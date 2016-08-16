@@ -141,9 +141,37 @@
                 
                 <td>
                     <?php $school_donation_money = $total_price;  ?>
-                   Total: ${{$total_price}}
+                   <p>Subtotal: ${{$total_price}}</p>
+                   <p id="discount"></p>
+                   <p id="total"></p>
                 </td>
             </tr>
         </table>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var total_inv = 0.00;
+            var final_inv = 0.00;
+            $.ajax({
+            url: "{{route('fetchPercentageCoupon')}}",
+            type: "post",
+            data: {coupon: '{{$one_iteration->pick_up_req->coupon}}', _token: "{{Session::token()}}"},
+            success: function(data) {
+              console.log(data);
+              //return data;
+              if (data > 0) 
+              {
+                total_inv = '{{$total_price}}';
+                final_inv = (total_inv-(total_inv*(data/100)));
+                $('#discount').text('Discount: $'+(total_inv*(data/100)).toFixed(2));
+                $('#total').text('Total: $'+final_inv.toFixed(2));
+              } 
+              else {
+                $('#discount').text('Discount: $0');
+                $('#total').text('Total Price: ${{$total_price}}');
+              } 
+            }
+          });
+        });
+    </script>
 @endsection

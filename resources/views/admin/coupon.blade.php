@@ -178,7 +178,7 @@
 			showCancelButton: true,   
 			confirmButtonColor: "#5cb85c",   
 			confirmButtonText: "Yes, delete it!",   
-			closeOnConfirm: false }, 
+			closeOnConfirm: true }, 
 			function(){ 
 				$('#loaderBodyCoupon').show();
 				$('.table').hide();

@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);
 	Route::post('/save-invoice', ['uses' => 'InvoiceController@postInvoice', 'as' => 'postInvoice']);
 	Route::post('/delete-invoice', ['uses' => 'InvoiceController@postDeleteInvoice', 'as' => 'postDeleteInvoice']);
+    Route::post('/fetch-percentage', ['uses' => 'InvoiceController@fetchPercentageCoupon', 'as' => 'fetchPercentageCoupon']);
 //mark as paid routes
     Route::post('/mark-as-paid', ['uses' => 'PaymentController@postMarkAsPaid', 'as' => 'postMarkAsPaid']);
     Route::post('/post-payment-keys', ['uses' => 'PaymentController@postPaymentKeys', 'as' => 'postPaymentKeys']);

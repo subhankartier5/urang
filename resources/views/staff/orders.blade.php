@@ -106,6 +106,7 @@
                         <th>Total Amount</th>
                         <th>More Info</th>
                         <th>Mark As</th>
+                        <th>Coupon Applied</th>
                         <th></th>
                         <th></th>
                      </tr>
@@ -198,11 +199,12 @@
                                 @endif
                             </select>  
                            </td>
+                           <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
                            <td>
                               <input type="hidden" name="pickup_id" value="{{ $pickup->id }}" id="pickup_id_{{$pickup->id}}">
                               <input type="hidden" name="_token" value="{{ Session::token() }}">
                               <input type="hidden" name="chargable" id
-                                 ="chargable_{{$pickup->id}}" value="{{number_format((float)$pickup->total_price, 2, '.', '')}}"></input>
+                                 ="chargable_{{$pickup->id}}"></input>
                               <input type="hidden" name="user_id" value="{{$pickup->user_id}}" id="user_id_{{$pickup->id}}"></input>
                               <input type="hidden" name="payment_type" value="{{ $pickup->payment_type }}" id="payment_type_{{$pickup->id}}"></input>
                               <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
@@ -214,7 +216,7 @@
                           @if($pickup->order_status == 4 && $pickup->payment_status == 1)
                               <td>Cannot Recreate Invoice already delivered</td>
                           @else
-                            <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
+                            <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}','{{$pickup->coupon}}' )"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
                           @endif
                         @endif
                      </tr>
@@ -529,6 +531,14 @@
                <div id="total_price"></div>
             </div>
             <div class="form-group">
+                <label>Coupon Applied:</label>
+                <div id="app_coupon"></div>
+              </div>
+              <div class="form-group">
+                <label>Gross Price</label>
+                <div id="gross_price"></div>
+              </div>
+            <div class="form-group">
                <label>Take Action:</label>
                <button type="button" class="btn btn-danger btn-xs dynamicBtn"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
             </div>
@@ -661,6 +671,7 @@
          <input type="hidden" name="identifier" value="staff"></input>
          <input type="hidden" name="_token" value="{{Session::token()}}"></input>
          <input type="hidden" name="list_item" id="text_field"></input>
+         <input type="hidden" name="coupon_code" id="set_coupon_code_staff"></input>
          </div>
       </div>
       </form>
@@ -682,6 +693,15 @@
         //color the tr of table according to condition
         @foreach($pickups as $pickup)
           //console.log('{{$pickup->is_emergency}}');
+          //value load chargable
+        if ('{{$pickup->coupon}}') 
+        {
+          $('#chargable_'+'{{$pickup->id}}').val(sayMeThePrice('{{$pickup->total_price}}', '{{$pickup->coupon}}', '{{$pickup->id}}'));
+        }
+        else
+        {
+          $('#chargable_'+'{{$pickup->id}}').val('{{number_format((float)$pickup->total_price, 2, '.', '')}}');
+        }
           if ('{{$pickup->is_emergency}}' == 1 && '{{$pickup->payment_status}}' == 0) 
           {
             $('#color_{{$pickup->id}}').attr('style', 'color: #999900;');
@@ -818,10 +838,11 @@
    }
    }
    var i = 1;
-   function createInvoice(pick_up_id, user_id) {
+   function createInvoice(pick_up_id, user_id, coupon) {
    $('#ModalInvoice').modal('show');
    $('#pick_up_req_id').val(pick_up_id);
    $('#req_user_id').val(user_id);
+   $('#set_coupon_code_staff').val(coupon);
    }
    function add_item(id) {
    arrItems = [];
@@ -889,7 +910,8 @@
                      $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
                      div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
                      total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
-                     $('#total_price').text(total_price);
+                     $('#total_price').text("$"+total_price);
+                     $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
                      $('#inv').html(div);
                      //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
                      $('#pick_up_req_id_alter').val('{{$invoice->pick_up_req_id}}');
@@ -897,8 +919,43 @@
                      $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
                  }
              @endforeach
+             sayMeThePrice(total_price, '{{$pickup->coupon}}');
             }
            @endforeach
+     }
+     function sayMeThePrice(price, coupon, pickUpId = 0) {
+      var final_price = 0.00;
+      if ($.trim(coupon)) 
+      {
+          $.ajax({
+          url: "{{route('fetchPercentageCoupon')}}",
+          type: "post",
+          data: {coupon: coupon, _token: "{{Session::token()}}"},
+          success: function(data) {
+            //console.log(data);
+            //return data;
+            if (data > 0) 
+            {
+              final_price = (price-(price*(data/100)));
+              $('#gross_price').text("$"+final_price.toFixed(2));
+              if (pickUpId != 0) 
+              {
+                $('#chargable_'+pickUpId).val(final_price.toFixed(2));
+              }
+            } else {
+              $('#gross_price').text("$"+price);
+              if (pickUpId != 0) 
+              {
+                $('#chargable_'+pickUpId).val(price);
+              }
+            }
+          }
+        });
+      }
+      else
+      {
+        $('#gross_price').text("$"+price);
+      }
      }
      function delInvoice(id) {
        //alert(id);

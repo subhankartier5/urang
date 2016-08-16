@@ -656,7 +656,6 @@ class AdminController extends Controller
 
     public function changeOrderStatusAdmin(Request $req)
     {
-        //dd($req);
         //return $req->order_status;
         if (isset($req->order_status)) {
             if ($req->order_status == 1) {

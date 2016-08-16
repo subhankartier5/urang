@@ -432,13 +432,15 @@ class MainController extends Controller
             $pick_up_req->order_status = 1;
             $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
             $pick_up_req->client_type = $request->client_type;
-            $pick_up_req->coupon = NULL;
+            $pick_up_req->coupon = $request->coupon;
             $pick_up_req->wash_n_fold = $request->wash_n_fold;
             $data_table = json_decode($request->list_items_json);
             for ($i=0; $i< count($data_table); $i++) {
                 $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
             }
             $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
+            /*//for charging cards after wards
+            $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
             if($request->isDonate)
             {
                 //save in android school prefrences table
@@ -533,6 +535,7 @@ class MainController extends Controller
                         $invoice->quantity = $data[$j]->number_of_item;
                         $invoice->price = $data[$j]->item_price;
                         $invoice->list_item_id = $data[$j]->id;
+                        $invoice->coupon = $request->coupon;
                         $invoice->save();
                     }
                     if ($request->identifier == "admin") {
