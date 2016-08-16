@@ -821,6 +821,8 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 
 .iphone-image img { display: block; margin-left: -280px; }
 
+
+
 /******  SOCIAL LIST ******/
 .social-list { margin-bottom: 15px; text-align: left; }
 .social-list li { display: inline-block; margin: 0 2px; }
@@ -981,3 +983,5 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 .blue-theme .feature-item .title:after, .blue-theme .steps-list .step-item .item-icon:before, .blue-theme .steps-list .step-item.invert .item-icon, .blue-theme .steps-section .results-container .skills li.orange .progress, .blue-theme .team-slider .slick-list .slick-track .slide-item .slide-description .contacts, .blue-theme .buy-section, .blue-theme .plan-item.active .item-footer .btn, .blue-theme h5:after { background: #088cdc; }
 .blue-theme .list-achieve .col-md-3 .achieve-item:after, .blue-theme .latest-works-section .scroll-pane .scroll-content-item .scroll-content-body .name:before, .blue-theme .plan-item.active, .blue-theme .header .navbar .navbar-nav li.active a, .blue-theme .header .navbar .navbar-nav li a:hover, .blue-theme .design-arrow:after, .blue-theme .news-item .image .read-more:before { border-color: #088cdc; }
 .blue-theme .video-section .btn-play, .blue-theme .plan-item .item-body .list-features li.active:before, .blue-theme .plan-item .item-heading .name, .blue-theme .wrap-section-slider .slide-item .slider-title i, .blue-theme .footer-section .footer-nav li a:hover, .blue-theme .footer-section .footer-nav li.active a, .blue-theme .header .navbar .navbar-nav.wrap-user-control li a { color: #088cdc; }
+
+

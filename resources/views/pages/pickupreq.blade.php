@@ -1,12 +1,10 @@
 @extends('pages.layouts.user-master')
 @section('content')
-<div class="main-content">
+<div class="main-content nycpick">
     <div class="container">
       <div class="row signup login">
         <div class="col-md-12">
-        <h2>NYC Pick-up</h2>
-        <h3>Individual Clients</h3>
-        <p class="reg-heading">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery.</p>
+        
         @if(Session::has('fail'))
           <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -19,7 +17,10 @@
           </div>
         @else
         @endif
-          <form class="form-inline" method="post" action="{{route('postPickUpReq')}}">
+          <form class="form-inline form2" method="post" action="{{route('postPickUpReq')}}">
+          <h2>NYC Pick-up</h2>
+          <h3>Individual Clients</h3>
+          <p class="reg-heading">We will pick-up and deliver the entire City, No Doorman, Work late, Your Neighborhood Cleaner closes before you awake on a Saturday? No Problem. U-Rang we answer. You indicate the time, the place, the requested completion day and your clothes will arrive clean and hassle free. We will accommodate your difficult schedules and non-doorman buildings, if no one is home during the day, we can schedule you for a late night delivery.</p>
               <h4>Schedule Pick-up - Regular Customer</h4>
               <div class="form-group">
                 <label for="username">Username</label>
@@ -156,23 +157,26 @@
               </select>
             </div>
             <div class="form-group">
-              <div class="col-xs-6">
-                <label>Is it a emergency service ? <p style="color: red;">$7 extra</p></label>
-                <input type="checkbox" name="isEmergency"></input>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="isEmergency">
+                Is it a emergency service ? <span style="color: red;">$7 extra</span>
+                </label>
               </div>
-              <div class="col-xs-6">
+            </div>
+            <div class="form-group">
                 <label>Do you have a coupon code ?<p style="color: red;">Please leave the field blank if you dont hav any.</p></label>
                 <input type="text" name="coupon" id="coupon" class="form-control" />
-              </div>
-              <div class="col-xs-6">
-              <div class="row">
-              <div class="col-xs-4">
-                <span>
-                  <label>Donate to a school in your neighborhood ?</label>
-                  <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate"></input>
-                </span>
-              </div>
-              <div class="col-xs-4">
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                  <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate">
+                  Donate to a school in your neighborhood ?                  
+                  </label>
+                </div>
+            </div>
+            <div class="form-group">
                   <?php 
                   $school_list = \App\SchoolDonations::all();
                 ?>
@@ -184,19 +188,13 @@
                     @endforeach
                   </select>
                 </span>
-              </div>
-             <!--  <div class="col-xs-4">
-                  <span id="schoolDonationAmount">
-                    <input placeholder="Enter Donation Amount" type="number" name="school_donation_amount">
-                  </span>
-              </div> -->
-
-              </div>
-              </div>
             </div>
-            <button type="submit" class="btn btn-default">Schedule Pick up</button>
-            <input type="hidden" name="_token" value="{{Session::token()}}"></input>
+               <button type="submit" class="btn btn-default">Schedule Pick up</button>
+               <input type="hidden" name="_token" value="{{Session::token()}}"></input>
             <p class="offer">Referrals - 10 percent discount on your next order if you refer a friend.</p>
+            </div>
+           
+            
                   <!-- Modal -->
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">

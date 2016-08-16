@@ -179,6 +179,14 @@ header{
     text-decoration: underline;
 }
 
+/* NYC PICKUP */
+
+.nycpick{
+    background: #000;
+    padding-top: 40px;
+    color: #333;
+}
+
 
 /*
 ================================
@@ -188,45 +196,64 @@ header{
 
 .login h2{
     color: #333;
-    padding: 100px;
+    /*padding: 100px;*/
+    padding: 10px;
     margin-bottom: 0;
     text-align: center;
-    font-size: 40px;
+    /*font-size: 40px;*/
+    font-size: 25px;
     text-transform: uppercase;
 }
 
+.login h3{
+    text-align: center;
+    color: #333;
+}
+
 .login h4{
-	color: #fff;
+	/*color: #fff;
     font-size: 20px;
     border-bottom: 1px solid;
     padding-bottom: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 40px;*/
+    font-weight: normal;
+    font-size: 18px;
 }
 
-.signup h2{
+/*.signup h2{
     padding:50px;
-}
+}*/
 
 .signup .modal-content h2{
     padding:0;
     font-size: 20px;
 }
 .login form{
-	border: 1px solid #68a832;
+	/*border: 1px solid #68a832;
 	padding: 30px 50px;
 	background: rgba(0,0,0,0.5);
 	display: inline-block;
-    width: 100%;
+    width: 100%;*/
+    background: #fff;
+    text-align: left;
 }
 
 .login form label{
     letter-spacing: 1px;
-    color: #fff;
+    /*color: #fff;*/
 }
 
 .login form .form-group {
     margin-bottom: 30px;
     width: 100%;
+}
+
+.login form .form-group .input-group{
+    margin-top: 10px;
+}
+
+.login form .form-control{
+    margin-top: 0;
 }
 
 .login form .form-control{
@@ -241,7 +268,7 @@ header{
     background: none;
     border: none;
     box-shadow: none;
-    color: #fff;
+   /* color: #fff;*/
     font-size: 16px;
     text-transform: capitalize;
     padding: 0;
@@ -259,7 +286,7 @@ header{
     font-size: 16px;
     text-transform: uppercase;
     border-radius: 5px;
-    background: rgba(104,168,50,0.5);
+    background: #4CAF50;
     font-family: 'Montserrat-Bold';
     text-shadow: 1px 1px 1px #333;
     box-shadow: 1px 2px 5px 0 #333;
@@ -319,18 +346,19 @@ header{
 .login form .form-control#date{
 	border: none;
     background: none;
-    color: #fff;
+    /*color: #fff;*/
     font-style: italic;
     box-shadow: none;
 }
 
 .signup form label {
-	width: 230px;
+    width: 200px;
+    line-height: 25px;
 }
 
 .signup form em{
 	display: block;
-    color: #fff;
+    /*color: #fff;*/
 }
 
 .offer{
@@ -338,7 +366,7 @@ header{
 	margin-top: 10px;
 }
 
-.individual-form p, .login h3{
+.individual-form p{
 	color: #68a832;
 	text-align: justify;
 }
@@ -380,7 +408,7 @@ header{
 }
 
 .signup form p{
-    color: #fff;
+    color: #b3b3b3;
 }
 
 .signup form .schedule label{
@@ -388,8 +416,13 @@ header{
 }
 
 .signup form .schedule label.radio{
+    /*width: 100%;
+    margin-bottom: 5px;*/
     width: 100%;
-    margin-bottom: 5px;
+}
+
+.signup form .schedule label.radio input[type=radio], .form-inline .checkbox input[type=checkbox], .form-inline .checkbox input[type=radio]{
+    width: 15%;
 }
 
 .signup form select{
