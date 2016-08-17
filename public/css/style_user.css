@@ -179,6 +179,46 @@ header{
     text-decoration: underline;
 }
 
+.fixed-div{
+    position: fixed;
+    background: #fff;
+    z-index: 9999;
+    padding: 20px;
+    left: -275px;
+    box-shadow: 0 0 10px 0 #999;
+}
+
+.fixed-div h2{
+    line-height: 30px;
+}
+
+.open-square{
+    position: absolute;
+    right: 2px;
+    top: 0;
+    font-size: 14px;
+    color: #fff;
+    writing-mode: tb-rl;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    bottom: 10px;
+    cursor: pointer;
+    background: #ff6400;
+    height: 100%;
+    padding: 10px 5px;
+}
+
+.open-square i{
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
 /* NYC PICKUP */
 
 .nycpick{

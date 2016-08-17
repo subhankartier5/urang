@@ -1,6 +1,11 @@
 @extends('pages.layouts.user-master')
 @section('content')
 <div class="main-content nycpick">
+<div class="fixed-div">
+  <h2><label>Contact Us:</label> 000-000-000-000</h2>
+  <h2><label>Email-Id:</label> abc@gmail.com</h2>
+  <div class="open-square"><i class="fa fa-comments-o" aria-hidden="true"></i> Support</div>
+</div>
     <div class="container">
       <div class="row signup login">
         <div class="col-md-12">
@@ -259,6 +264,26 @@
   </div>
   <script type="text/javascript">
   $(document).ready(function(){
+
+    $(".fixed-div").click(function(){
+
+       $(this).toggleClass("open");
+
+       if($(this).hasClass("open")){
+         $( this ).animate({
+            left: "0"
+          }, 500, function() {
+          });
+        }
+      else{
+        $( this ).animate({
+            left: "-275px"
+          }, 500, function() {
+          });
+      }
+
+    });
+
     //sweetAlert("Oops...", "Something went wrong!", "error");
       $('#schoolNameDropDown').val("{{auth()->guard('users')->user()->user_details->school_id}}");
       $( "#datepicker" ).datepicker();
