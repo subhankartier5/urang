@@ -2,8 +2,8 @@
 @section('content')
 <div class="main-content nycpick">
 <div class="fixed-div">
-  <h2><label>Contact Us:</label> 000-000-000-000</h2>
-  <h2><label>Email-Id:</label> abc@gmail.com</h2>
+  <h2><label>Contact Us:</label> (800)959-5785</h2>
+  <h2><label>Email-Id:</label> support@u-rang.com</h2>
   <div class="open-square"><i class="fa fa-comments-o" aria-hidden="true"></i> Support</div>
 </div>
     <div class="container">
