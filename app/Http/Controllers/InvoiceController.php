@@ -10,6 +10,7 @@ use App\Pickupreq;
 use App\SchoolDonations;
 use App\SchoolDonationPercentage;
 use App\UserDetails;
+use App\Coupon;
 class InvoiceController extends Controller
 {
     /*public function index() {
@@ -114,5 +115,14 @@ class InvoiceController extends Controller
     	{
     		return redirect()->route('getMyPickUp')->with('fail', 'Invoice is not generated yet by admin');
     	}
+    }
+    public function fetchPercentageCoupon(Request $request) {
+        //return $request;
+        $search = Coupon::where('coupon_code', $request->coupon)->where('isActive', 1)->first();
+        if ($search) {
+            return $search->discount;
+        } else {
+            return 0;
+        }
     }
 }

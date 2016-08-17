@@ -534,7 +534,7 @@
          <input type="hidden" name="identifier" value="admin"></input>
          <input type="hidden" name="_token" value="{{Session::token()}}"></input>
          <input type="hidden" name="list_item" id="text_field"></input>
-         <input type="hidden" name="coupon_code" id="set_coupon_code"></input>
+         <input type="text" name="coupon_code" id="set_coupon_code"></input>
          </div>
       </div>
       </form>
@@ -759,7 +759,7 @@
         data: {coupon: coupon, _token: "{{Session::token()}}"},
         success: function(data) {
           //console.log(data);
-          //return data;
+          //return;
           if (data > 0) 
           {
             final_price = (price-(price*(data/100)));
