@@ -471,7 +471,7 @@ class StaffController extends Controller
     public function getManualPayment() {
        $staff = auth()->guard('staffs')->user();
         if ($staff) {
-            $data = Pickupreq::where('payment_status', 0)->where('payment_type', '!=', 1)->with('user')->paginate(10);
+            $data = Pickupreq::where('payment_type', '!=', 1)->with('user')->paginate(10);
             return view('staff.manual_payment', compact('data'));
         }
         else

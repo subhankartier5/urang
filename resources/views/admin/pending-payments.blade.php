@@ -33,7 +33,7 @@
 	                                    <th>Payment Method</th>
 	                                    <th>Order Date</th>
 	                                    <th>Total Cost</th>
-	                                    <th>Mark As Paid</th>
+	                                    <th>Status</th>
 	                                </tr>
 	                            </thead>
 	                            <tbody id="tablePriceList">
@@ -47,7 +47,13 @@
 	                            				<td>{{$items->payment_type == 2 ? "Cash On Delivary" : "Check Payment"}}</td>
 	                            				<td>{{date("F jS Y",strtotime($items->created_at->toDateString()))}}</td>
 	                            				<td>{{number_format((float)$items->total_price, 2, '.', '') ==0.00 ? "Hold On invoice is not ready yet" : number_format((float)$items->total_price, 2, '.', '')}}</td>
-	                            				<td><button type="button" id="paid_{{$items->id}}" class="btn btn-danger btn-xs" onclick="MarkAsPaid('{{$items->id}}')"><i class="fa fa-check" aria-hidden="true"></i> Paid</button></td>
+	                            				<td>
+	                            				@if($items->payment_status == 1)
+	                            					<label style="color: green;"><i class="fa fa-check" aria-hidden="true"></i> Paid</label>
+	                            				@else
+	                            					<button type="button" id="paid_{{$items->id}}" class="btn btn-warning btn-xs" onclick="MarkAsPaid('{{$items->id}}')"> Mark As Paid</button>
+	                            				@endif
+	                            				</td>
 	                            			</tr>
 	                            		@endforeach
 	                            	@else

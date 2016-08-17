@@ -4,19 +4,18 @@
     <div class="container">
       <div class="row signup login">
         <div class="col-md-12">
-        
-        @if(Session::has('fail'))
-          <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          </div>
-        @else
-        @endif
-        @if(Session::has('success'))
-          <div class="alert alert-success">                               {{Session::get('success')}}
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          </div>
-        @else
-        @endif
+          @if(Session::has('fail'))
+            <div class="alert alert-danger"><i class="fa fa-times-circle" aria-hidden="true"></i> {{Session::get('fail')}}
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+          @else
+          @endif
+          @if(Session::has('success'))
+            <div class="alert alert-success">                               {{Session::get('success')}}
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            </div>
+          @else
+          @endif
           <form class="form-inline form2" method="post" action="{{route('postPickUpReq')}}">
           <h2>NYC Pick-up</h2>
           <h3>Individual Clients</h3>
