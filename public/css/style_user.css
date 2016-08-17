@@ -220,6 +220,18 @@ header{
     font-size: 18px;
 }
 
+.form-inline .checkbox, .form-inline .radio {
+    width: 20%;
+}
+
+.form-inline .checkbox.checkbox-large{
+   width: 100%;
+}
+
+.form-inline .checkbox.checkbox-large input[type=checkbox]{
+    width: 2%;
+}
+
 /*.signup h2{
     padding:50px;
 }*/
@@ -239,8 +251,9 @@ header{
 }
 
 .login form label{
-    letter-spacing: 1px;
-    /*color: #fff;*/
+    /*letter-spacing: 1px;
+    color: #fff;*/
+    font-size: 14px;
 }
 
 .login form .form-group {
@@ -352,8 +365,9 @@ header{
 }
 
 .signup form label {
-    width: 200px;
-    line-height: 25px;
+    width: 150px;
+    line-height: 20px;
+    vertical-align: middle;
 }
 
 .signup form em{
@@ -404,7 +418,8 @@ header{
 
 .schedule-radio{
     display: inline-block;
-    width: 52%;
+    /*width: 52%;*/
+    width: 60%;
 }
 
 .signup form p{
@@ -421,7 +436,11 @@ header{
     width: 100%;
 }
 
-.signup form .schedule label.radio input[type=radio], .form-inline .checkbox input[type=checkbox], .form-inline .checkbox input[type=radio]{
+.signup form .schedule label.radio input[type=radio]{
+    width: 5%;
+}
+
+ .form-inline .checkbox input[type=checkbox], .form-inline .checkbox input[type=radio]{
     width: 15%;
 }
 
@@ -1472,7 +1491,30 @@ p.schedule-pick a{
     
     .signup h2, .login h2{
         padding: 0;
-        font-size: 30px;
+        /*font-size: 30px;*/
+        font-size: 20px;
+    }
+
+    .signup form .schedule label.radio input[type=radio], .form-inline .checkbox.checkbox-large input[type=checkbox] {
+        width: auto;
+        margin-top: 5px;
+    }
+
+    .form-inline .checkbox input[type=radio]{
+        width: auto;
+    }
+
+    .form-inline .checkbox, .form-inline .radio {
+    width: 100%;
+}
+
+    .login form .form-group {
+        display: inline-block;
+    }
+
+    .login h3 {
+        font-size: 18px;
+        line-height: 30px;
     }
 
     .logo {

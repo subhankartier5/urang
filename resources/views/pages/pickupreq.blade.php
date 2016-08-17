@@ -32,7 +32,7 @@
               </div>
               <div class="form-group">
                 <label for="address">Pick-Up Address</label>
-                <textarea class="form-control" rows="3" name="address" required="">{{auth()->guard('users')->user()->user_details->address}} </textarea>
+                <textarea class="form-control" rows="3" name="address" required="">   {{auth()->guard('users')->user()->user_details->address}} </textarea>
               </div>
               <div class="form-group">
                 <label for="address">Pick-Up Date</label>
@@ -95,7 +95,7 @@
               </select>
             </div>
              <div class="form-group">
-                <div class="checkbox">
+                <div class="checkbox checkbox-large">
                   <label>
                     <input type="checkbox" name="urang_bag"> Please tick this box if you need U-Rang bag.
                   </label>
@@ -127,7 +127,7 @@
                 </label>
               </div>
             </div>
-            <div class="clear50"></div>
+            <div class="clear"></div>
             <div class="form-group">
                 <select id="order_type" name="order_type" id="order_type" class="col-xs-5" required="">
                   <option value="">Type of order</option>
@@ -157,7 +157,7 @@
               </select>
             </div>
             <div class="form-group">
-              <div class="checkbox">
+              <div class="checkbox checkbox-large">
                 <label>
                   <input type="checkbox" name="isEmergency">
                 Is it a emergency service ? <span style="color: red;">$7 extra</span>
@@ -169,7 +169,7 @@
                 <input type="text" name="coupon" id="coupon" class="form-control" />
             </div>
             <div class="form-group">
-                <div class="checkbox">
+                <div class="checkbox checkbox-large">
                   <label>
                   <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate">
                   Donate to a school in your neighborhood ?                  
