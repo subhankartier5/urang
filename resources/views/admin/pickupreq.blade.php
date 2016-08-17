@@ -40,6 +40,14 @@
 								    <textarea class="form-control" name="address" id="user_add" required=""></textarea>
 								</div>
 								<div class="form-group">
+				                	<label for="address_line_2">Address Line 2 (optional)</label>
+				                	<textarea class="form-control" name="address_line_2"></textarea>
+				              	</div>
+					            <div class="form-group">
+					            	<label for="apt_no">Apartment Number (if any optional)</label>
+					                <input type="text" name="apt_no" id="apt_no" placeholder="eg. 33b" class="form-control"></input>
+					            </div>
+								<div class="form-group">
 								    <label>Pick up date</label>
 								    <input class="form-control" name="pick_up_date" type="text" required="" id='datepicker'>
 								</div>
@@ -47,7 +55,7 @@
 								    <label for="schedule">Schedule</label>
 								    <br>
 								    <label>
-								    	<input type="radio" name="schedule" id="inlineRadio1" value="For the time specified only" required=""> For the time specified only.
+								    	<input type="radio" name="schedule" id="inlineRadio1" value="For the time specified only"> For the time specified only.
 								    </label>
 								    <br>
 								  	<label>
@@ -68,22 +76,22 @@
 								    <label>How Would You Like Your Shirts</label>
 						              <div class="checkbox">
 						                <label>
-						                  <input type="radio" name="boxed_or_hung" value="boxed"> Boxed
+						                  <input type="radio" name="boxed_or_hung" value="Boxed"> Boxed
 						              </label>
 						              </div>
 						              <div class="checkbox">
 						                <label>
-						                  <input type="radio" name="boxed_or_hung" value="hung"> Hung
+						                  <input type="radio" name="boxed_or_hung" value="Hung"> Hung
 						                </label>
 								</div>
 								<div class="form-group">
 									<label>Strach type:</label>
 				                  <select name="strach_type" required="" class="form-control">
-					                <option value="no">No Strach</option>
-					                <option value="very_light_starch">Very Light Starch</option>
-					                <option value="light_starch">Light Starch</option>
-					                <option value="medium_starch">Medium Starch</option>
-					                <option value="heavy_starch">Heavy Starch</option>
+					                <option value="No">No Starch</option>
+					                <option value="Very_light_starch">Very Light Starch</option>
+					                <option value="Light_starch">Light Starch</option>
+					                <option value="Medium_starch">Medium Starch</option>
+					                <option value="Heavy_starch">Heavy Starch</option>
 					              </select>
 								</div>
 								<div class="form-group">
@@ -138,6 +146,7 @@
 					                <option value="">Client Type</option>
 					                <option value="new_client">New Client</option>
 					                <option value="key_client">Key Client</option>
+					                <option value="corporate_client">Corporate Client</option>
 					                <option value="reff">Referral</option>
 					              </select>
 					            </div>

@@ -75,7 +75,6 @@
                   <table class="table table-bordered">
                      <thead>
                         <tr>
-                           <th>Created At</th>
                            <th>Pickup Date</th>
                            <th>Customer Email</th>
                            <th>Pickup Address</th>
@@ -89,6 +88,8 @@
                            <th>Mark As</th>
                            <th>Coupon Applied</th>
                            <th>School Donation</th>
+                           <th></th>
+                           <th></th>
                         </tr>
                      </thead>
                      <tbody>
@@ -137,7 +138,6 @@
                            
                            ?>
                         <tr id="color_{{$pickup->id}}">
-                           <td>{{ date("F jS Y",strtotime($pickup->created_at->toDateString())) }}</td>
                            <td>{{ date("F jS Y",strtotime($pickup->pick_up_date)) }}</td>
                            <td>{{ $pickup->user->email }}</td>
                            <td>{{ $pickup->address }}</td>
@@ -334,11 +334,11 @@
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->user->email }}</span></div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Address</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->address }}</span></div>
-                  </div>
+                  </div> -->
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Personal Phone</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
@@ -347,24 +347,24 @@
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Cell Phone</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->cell_phone }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->cell_phone != 0 ? $pickup->user_detail->cell_phone: "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Office Phone</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->address }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->off_phone !=0 ? $pickup->user_detail->off_phone : "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Special Instruction</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->spcl_instructions }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->spcl_instructions != null ? $pickup->user_detail->spcl_instructions : "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Driving Instruction</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->driving_instructions }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->user_detail->driving_instructions != null ? $pickup->user_detail->driving_instructions : "No Data" }}</span></div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Created At</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->user_detail->created_at->toDateString())) }}</span></div>
@@ -373,7 +373,7 @@
                      <div class="col-md-5 col-sm-5"><strong>Updated At</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->user_detail->updated_at->toDateString())) }}</span></div>
-                  </div>
+                  </div> -->
                </div>
             </div>
          </div>
@@ -388,7 +388,7 @@
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->id }}</span></div>
                   </div> -->
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Created At</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->created_at->toDateString())) }}</span></div>
@@ -402,26 +402,41 @@
                      <div class="col-md-5 col-sm-5"><strong>Pickup Date</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->pick_up_date }}</span></div>
-                  </div>
-                  <div class="row">
+                  </div> -->
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Pickup Type</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5">{{ $pick_up_type }}</div>
+                  </div> -->
+                  <div class="row">
+                     <div class="col-md-5 col-sm-5"><strong>Pickup Address</strong></div>
+                     <div class="col-md-1 col-sm-1">:</div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->address }}</span></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-5 col-sm-5"><strong>Pickup Address 2</strong></div>
+                     <div class="col-md-1 col-sm-1">:</div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->address_line_2 != null ? $pickup->address_line_2 : "No Data" }}</span></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-5 col-sm-5"><strong>Pickup Apartment No</strong></div>
+                     <div class="col-md-1 col-sm-1">:</div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->apt_no != null ? $pickup->apt_no : "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Schedule</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->schedule }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->schedule != null ? $pickup->schedule : "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Delivary Type</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->delivary_type }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->delivary_type != null ? $pickup->delivary_type : "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Starch Type</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->starch_type }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->starch_type != null ? $pickup->starch_type : "No Data"}}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Need Bag</strong></div>
@@ -436,19 +451,19 @@
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Special Instruction:</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->special_instructions }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->special_instructions != null ? $pickup->special_instructions : "No Data" }}</span></div>
                   </div>
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Driving Instruction:</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
-                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->driving_instructions }}</span></div>
+                     <div class="col-md-5 col-sm-5"><span> {{ $pickup->driving_instructions != null ? $pickup->driving_instructions : "No Data" }}</span></div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Payment Type</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $payment_type }}</span></div>
-                  </div>
-                  <div class="row">
+                  </div> -->
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Order Status</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $order_status }}</span></div>
@@ -457,9 +472,9 @@
                      <div class="col-md-5 col-sm-5"><strong>Emergency</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $is_emargency }}</span></div>
-                  </div>
+                  </div> -->
                   <div class="row">
-                     <div class="col-md-5 col-sm-5"><strong>Clint Type</strong></div>
+                     <div class="col-md-5 col-sm-5"><strong>Client Type</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->client_type }}</span></div>
                   </div>
@@ -468,11 +483,11 @@
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $wash_n_fold }}</span></div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Updated At</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ date("F jS Y",strtotime($pickup->updated_at->toDateString())) }}</span></div>
-                  </div>
+                  </div> -->
                </div>
             </div>
          </div>

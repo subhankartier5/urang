@@ -408,7 +408,7 @@ class MainController extends Controller
     }
     public function postPickUp (Request $request) {
         //dd($request);
-        if ($request->address && $request->pick_up_date && $request->schedule && $request->client_type && isset($request->order_type) && $request->pay_method) {
+        if ($request->address && $request->pick_up_date && $request->client_type && isset($request->order_type) && $request->pay_method) {
             $total_price = 0.00;
             $pick_up_req = new Pickupreq();
             if ($request->identifier == "admin") {
@@ -419,6 +419,8 @@ class MainController extends Controller
                 $pick_up_req->user_id = auth()->guard('users')->user()->id;
             }
             $pick_up_req->address = $request->address;
+            $pick_up_req->address_line_2 = $request->address_line_2;
+            $pick_up_req->apt_no = $request->apt_no;
             $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
             $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
             $pick_up_req->schedule = $request->schedule;
