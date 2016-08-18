@@ -56,6 +56,18 @@ class MainController extends Controller
     }
     public function postSignUp(Request $request) {
         //dd($request);
+        $this->validate($request, [
+            'email' => 'required|unique:users',
+            'password' => 'required|min:6',
+            'conf_password' => 'required|min:6|same:password',
+            'name' => 'required',
+            'address' => 'required',
+            'personal_phone' => 'required|numeric',
+            'cardholder_name' => 'required',
+            'card_no' => 'required',
+            'select_month' => 'required',
+            'select_year' => 'required'
+        ]);
         if ($request->password == $request->conf_password) {
             $user = new User();
             $user->email = $request->email;
@@ -71,6 +83,7 @@ class MainController extends Controller
                 $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : NULL;
                 $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
                 $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : NULL;
+                $user_details->referred_by = $request->ref_name;
                 if ($user_details->save()) {
                     $card_info = new CustomerCreditCardInfo();
                     $card_info->user_id = $user_details->user_id;

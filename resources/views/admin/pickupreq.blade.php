@@ -131,9 +131,9 @@
 					                <label>
 					                  <input type="radio" name="pay_method" id="inlineRadio6" value="1" required=""> Charge my credit card this time for amount $ 
 					                </label><br>
-					                <label>
+					                <!-- <label>
 					                  <input type="radio" name="pay_method" id="inlineRadio8" value="2"> COD
-					                </label><br>
+					                </label><br> -->
 					                <label>
 					                  <input type="radio" name="pay_method" id="inlineRadio9" value="3"> Check
 					                </label>

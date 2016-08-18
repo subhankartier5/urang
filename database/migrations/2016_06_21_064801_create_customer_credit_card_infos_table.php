@@ -17,7 +17,7 @@ class CreateCustomerCreditCardInfosTable extends Migration
             $table->integer('user_id');
             $table->string('name');
             $table->string('card_no');
-            $table->string('card_type');
+            $table->string('card_type')->nullable();
             $table->string('cvv');
             $table->string('exp_month');
             $table->string('exp_year');

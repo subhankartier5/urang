@@ -467,6 +467,7 @@ class AdminController extends Controller
                     $searchUserDetails->off_phone = isset($request->oph_no) ? $request->oph_no : NULL;
                     $searchUserDetails->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
                     $searchUserDetails->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
+                    $searchUserDetails->referred_by = $request->ref_name;
                     if ($searchUserDetails->save()) {
                        $credit_info = CustomerCreditCardInfo::where('user_id', $request->id)->first();
                        if ($credit_info) {
@@ -533,6 +534,7 @@ class AdminController extends Controller
             $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
             $user_details->driving_instructions = isset($request->driving_instructions) ? $request->driving_instructions : NULL;
             //$user_details->payment_status = 0;
+            $user_details->referred_by = $request->ref_name;
             if ($user_details->save()) {
                 $credit_info = new CustomerCreditCardInfo();
                 $credit_info->user_id = $user_details->user_id;

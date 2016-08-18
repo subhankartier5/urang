@@ -68,7 +68,7 @@
 								    <label for="name">Name on Card</label>
 								    <input type="text" class="form-control" id="card_name" name="card_name" required="" />
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 								    <label for="name">Card Type</label>
 								    <select class="form-control" id="cardType" name="cardType" required="">
 								    	<option value="">Select Card Type</option>
@@ -76,7 +76,7 @@
 								    	<option value="AmericanExpress">American Express</option>
 								    	<option value="Mastercard">Mastercard</option>
 								    </select>
-								</div>
+								</div> -->
 								<div class="form-group">
 								    <label for="name">Card No</label>
 								    <input type="text" class="form-control" id="card_no" name="card_no" required="" onkeyup="return creditCardValidate();" />
@@ -121,7 +121,11 @@
 								    	</select>
 								   
 								</div>
-								<button type="submit" class="btn btn-primary btn-lg btn-block">Update</button>
+								<div class="form-group">
+								    <label for="name">Reffered By (Optional)</label>
+								    <input type="text" class="form-control" id="ref_name" name="ref_name" />
+								</div>
+								<button type="submit" class="btn btn-primary btn-lg btn-block">Add</button>
 								<input type="hidden" name="_token" value="{{Session::token()}}"></input>
 		                	</form>
 		                </div>

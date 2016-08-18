@@ -106,6 +106,10 @@
 								    	</select>
 								   
 								</div>
+								<div class="form-group">
+								    <label for="name">Reffered By (Optional)</label>
+								    <input type="text" class="form-control" id="ref_name" name="ref_name" value="{{$user->user_details->referred_by}}" />
+								</div>
 								<button type="submit" class="btn btn-primary btn-lg btn-block">Update</button>
 								<input type="hidden" name="_token" value="{{Session::token()}}"></input>
 							@else
