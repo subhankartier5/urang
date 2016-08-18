@@ -96,11 +96,23 @@
 								</div>
 								<div class="form-group">
 								    <label>Doorman</label>
-					              	<select name="doorman" class="form-control">
+					              	<select name="doorman" class="form-control" id="doorman">
 						                <option value="1">Yes</option>
 						                <option value="0">No</option>
 					              	</select>
 								</div>
+								<div class="form-group" id="time_frame" style="display: none;">
+					              <label for="time_frame">Give Us a Time Frame</label>
+					              <div class="row">
+						              <div class="col-md-5 col-sm-5">
+						              	<input type="text" name="time_frame_start" id="time_frame_start" class="form-control" placeholder="Start time">
+						              </div>
+						              <div class="col-md-1 col-sm-1" style="text-align: center;"> To </div>
+						              <div class="col-md-5 col-sm-5">
+						              	<input type="text" name="time_frame_end" id="time_frame_end" class="form-control" placeholder="End time">
+						              </div>
+					              </div>
+					            </div>
 								<div class="form-group">
 									 <label>
                     					<input type="checkbox" name="urang_bag"> Please tick this box if you need U-Rang bag.
@@ -232,6 +244,18 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
+		$('#doorman').on('change', function(){
+	      var value = $(this).val();
+	      //console.log(value);
+	      if (value == 0) {
+	        //sweetAlert("now")
+	        $('#time_frame').show();
+	        $('#time_frame_start').timepicker({'step': 1});
+	        $('#time_frame_end').timepicker({'step': 1});
+	      } else {
+	        $('#time_frame').hide();
+	      }
+	    });
 		$('#order_type').change(function(){
 	      if ($('#order_type').val() == 0) 
 	      {

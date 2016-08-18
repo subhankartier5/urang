@@ -448,6 +448,13 @@
                      <div class="col-md-1 col-sm-1">:</div>
                      <div class="col-md-5 col-sm-5"><span> {{ $door_man }}</span></div>
                   </div>
+                  @if($door_man == "No")
+                    <div class="row">
+                      <div class="col-md-5 col-sm-5"><strong>Timeframe Given:</strong></div>
+                      <div class="col-md-1 col-sm-1">:</div>
+                      <div class="col-md-5 col-sm-5"><span> {{ $pickup->time_frame_start }} To {{ $pickup->time_frame_end }}</span></div>
+                    </div>
+                  @endif
                   <div class="row">
                      <div class="col-md-5 col-sm-5"><strong>Special Instruction:</strong></div>
                      <div class="col-md-1 col-sm-1">:</div>

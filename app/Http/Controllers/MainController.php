@@ -428,6 +428,8 @@ class MainController extends Controller
             $pick_up_req->starch_type = $request->strach_type;
             $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
             $pick_up_req->door_man = $request->doorman;
+            $pick_up_req->time_frame_start = $request->time_frame_start;
+            $pick_up_req->time_frame_end = $request->time_frame_end;
             $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
             $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
             $pick_up_req->payment_type = $request->pay_method;

@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 @section('content')
-<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/js/time-picker/jquery.timepicker.css">
 	<div id="page-wrapper">
 	    <div class="row">
 	        <div class="col-lg-12">
@@ -154,7 +153,6 @@
 	    </div>
 	    <!-- /.row -->
 	</div>
-	<script type="text/javascript" src="{{url('/')}}/public/js/time-picker/jquery.timepicker.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var arrayFromPhp = '{!!json_encode($pick_up_schedule)!!}';

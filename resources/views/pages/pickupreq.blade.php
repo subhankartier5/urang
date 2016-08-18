@@ -100,11 +100,16 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Doorman</label>
-              <select name="doorman">
+              <label for="doorman">Doorman</label>
+              <select name="doorman" id="doorman">
                 <option value="1">Yes</option>
                 <option value="0">No</option>
               </select>
+            </div>
+            <div class="form-group" style="display: none;" id="time_frame">
+              <label for="time_frame">Give Us a Time Frame</label>
+              <input type="text" name="time_frame_start" id="time_frame_start" class="form-control" style="width: 25%" placeholder="Start time"></input> To
+              <input type="text" name="time_frame_end" id="time_frame_end" class="form-control" style="width: 25%" placeholder="End time"></input>
             </div>
              <div class="form-group">
                 <div class="checkbox checkbox-large">
@@ -264,7 +269,18 @@
   </div>
   <script type="text/javascript">
   $(document).ready(function(){
-
+    $('#doorman').on('change', function(){
+      var value = $(this).val();
+      //console.log(value);
+      if (value == 0) {
+        //sweetAlert("now")
+        $('#time_frame').show();
+        $('#time_frame_start').timepicker({'step': 1});
+        $('#time_frame_end').timepicker({'step': 1});
+      } else {
+        $('#time_frame').hide();
+      }
+    });
     $(".fixed-div").click(function(){
 
        $(this).toggleClass("open");

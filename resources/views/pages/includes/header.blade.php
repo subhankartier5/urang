@@ -25,6 +25,7 @@
 <link href="{{url('/')}}/public/new/css/main.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/css/sweetalert.css"/>
 <link type="text/css" href="{{url('/')}}/public/new/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+<link rel="stylesheet" type="text/css" href="{{url('/')}}/public/js/time-picker/jquery.timepicker.css">
 
 <!--js-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -50,3 +51,5 @@
 <script type="text/javascript" src="{{url('/')}}/public/js/sweetalert.min.js"></script>
 <script type="text/javascript" src="{{url('/')}}/public/new/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="{{url('/')}}/public/new/js/jquery.jscrollpane.min.js"></script>
+<!--time js-->
+<script type="text/javascript" src="{{url('/')}}/public/js/time-picker/jquery.timepicker.min.js"></script>
