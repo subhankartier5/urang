@@ -552,7 +552,7 @@ class MainController extends Controller
                         $invoice->quantity = $data[$j]->number_of_item;
                         $invoice->price = $data[$j]->item_price;
                         $invoice->list_item_id = $data[$j]->id;
-                        $invoice->coupon = $request->coupon;
+                        //$invoice->coupon = $request->coupon;
                         $invoice->save();
                     }
                     if ($request->identifier == "admin") {

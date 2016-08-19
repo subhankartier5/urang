@@ -615,6 +615,7 @@
                  </thead>
                  <tbody id="inv">
                  </tbody>
+                 <div id="error_add" style="color: red;"></div>
               </table>
            </div>
            <div class="modal-footer">
@@ -624,6 +625,7 @@
             <input type="hidden" id="pickupid"></input>
             <input type="hidden" id="userid"></input>
             <button class="btn btn-default" id="show_modal_items">Edit Items</button>
+            <button type="button" class="btn btn-default extraItemBtn">Add an extra item</button>
            </div>
         </div>
      </div>
@@ -743,10 +745,12 @@
           if ('{{$pickup->order_status}}' == 4) 
           {
             $('#show_modal_items').attr('disabled', 'true');
+            $('.extraItemBtn').attr('disabled', 'true');
           }
           else
           {
             $('#show_modal_items').removeAttr('disabled');
+            $('.extraItemBtn').removeAttr('disabled');
           }
           @foreach($pickup->invoice as $invoice)
             $('#user_name').text('{{$pickup->user_detail->name}}');
@@ -765,11 +769,50 @@
             $('#userid').val('{{$pickup->user_id}}');
             //$('.dynamicBtn').attr('id', 'delBtn_{{$invoice->invoice_id}}');
             $('.dynamicBtn').attr('onclick', 'delInvoice({{$invoice->invoice_id}})');
+            $('.extraItemBtn').attr('onclick', 'addExtraItemInv("{{$invoice->invoice_id}}", "{{$pickup->id}}", "{{$pickup->user_id}}")');
           @endforeach
           //for setting gross price
           sayMeThePrice(total_price, '{{$pickup->coupon}}');
         }
       @endforeach
+   }
+   //function to add an item in the list of invoice which is not in list
+   function addExtraItemInv(invoice_id, pickup_id, user_id) {
+    if ($('.extraItemBtn').text() == "Add an extra item") {
+      $('.extraItemBtn').text("save");
+      //save in databse here
+      $('#inv').append('<tr><td><input type="text" id="item_'+invoice_id+'" placeholder=" item name"></td><td><input type="number" id="qty_'+invoice_id+'" placeholder=" quantity"></td><td><input type="number" step="any" id="price_'+invoice_id+'" placeholder=" price"></td></tr>');
+    } else {
+      var item_name =  $('#item_'+invoice_id).val();
+      var qty = $('#qty_'+invoice_id).val();
+      var price = $('#price_'+invoice_id).val();
+      if ($.trim(item_name) && $.trim(qty) && $.trim(price)) 
+      {
+        $.ajax({
+          url: "{{route('pushAnItemInVoice')}}",
+          type: "POST",
+          data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}"},
+          success: function(data) {
+            $('.extraItemBtn').text("Add an extra item");
+            //console.log(data);
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else
+            {
+              sweetAlert("Oops!", data, "error");
+            }
+          }
+        });
+      }
+      else {
+        $('#error_add').html('<ul><li>Item name field is mandetory</li><li>Quantity filed is mandetory</li><li>Price field is mandetory</li></ul>');
+        $('#item_'+invoice_id).attr('style', 'border-color: red;');
+        $('#qty_'+invoice_id).attr('style', 'border-color: red;');
+        $('#price_'+invoice_id).attr('style', 'border-color: red;');
+      }
+    }
    }
    function sayMeThePrice(price, coupon, pickUpId = 0) {
     var final_price = 0.00;
@@ -988,6 +1031,8 @@
           type: "POST",
           data: {order_status:selectvalue, payment_type: paymenttype, pickup_id: pickupid, user_id: userid, chargable:chargable, _token: "{{Session::token()}}"  },
           success: function(data) {
+            /*console.log(data);
+            return;*/
             if (data == 1) 
             {
               swal({
@@ -1025,6 +1070,7 @@
               $('#loaderBodyOrder').hide();
               $('.table').show();
               sweetAlert("Oops...", "At first make sure payment is done!", "error");
+              //return false;
             }
             else if (data == "444") 
             {

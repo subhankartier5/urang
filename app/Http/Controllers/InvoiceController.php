@@ -125,4 +125,30 @@ class InvoiceController extends Controller
             return 0;
         }
     }
+    public function pushAnItemInVoice(Request $request) {
+        //return $request;
+        $save_invoice = new Invoice();
+        $save_invoice->user_id = $request->user_id;
+        $save_invoice->pick_up_req_id = $request->pick_up_req_id;
+        $save_invoice->invoice_id = $request->invoice_id;
+        $save_invoice->item = $request->item_name;
+        $save_invoice->quantity = $request->qty;
+        $save_invoice->price = $request->price;
+        $total_price = $request->qty*$request->price;
+        if ($save_invoice->save()) {
+            $find_pickup = Pickupreq::find($request->pick_up_req_id);
+            if ($find_pickup) {
+                $find_pickup->total_price += $total_price;
+                if ($find_pickup->save()) {
+                    return 1;
+                } else {
+                    return "Cannot Update total price";
+                }
+            } else {
+                return "Could NOt find Pick up request related to this id";
+            }
+        } else {
+            return "Could Not Save Your Data";
+        }
+    }
 }
