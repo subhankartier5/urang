@@ -450,7 +450,7 @@ class MainController extends Controller
             $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
             $pick_up_req->client_type = $request->client_type;
             $pick_up_req->coupon = $request->coupon;
-            $pick_up_req->wash_n_fold = $request->wash_n_fold;
+            $pick_up_req->wash_n_fold = isset($request->wash_n_fold) ? 1 : 0;
             $data_table = json_decode($request->list_items_json);
             for ($i=0; $i< count($data_table); $i++) {
                 $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;

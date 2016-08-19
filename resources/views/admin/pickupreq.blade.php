@@ -101,6 +101,9 @@
 						                <option value="0">No</option>
 					              	</select>
 								</div>
+								<div class="form-group">
+              						<input type="checkbox" name="wash_n_fold" id="wash_n_fold"> Wash and fold ? (<span style="color: red;">make sure you put your wash and fold cloths in seperate bag</span>)</input>
+            					</div>
 								<div class="form-group" id="time_frame" style="display: none;">
 					              <label for="time_frame">Give Us a Time Frame</label>
 					              <div class="row">
@@ -145,13 +148,13 @@
 					                  <option value="0">Detailed Pickup</option>
 					                </select>
 					            </div>
-					            <div class="form-group">
+					            <!-- <div class="form-group">
 					              <label for="wash_n_fold">Wash and fold?</label>
 					              <select name="wash_n_fold" id="wash_n_fold" required="" class="form-control">
 					                <option value="1">Yes</option>
 					                <option value="0">No</option>
 					              </select>
-					            </div>
+					            </div> -->
 					            <div class="form-group">
 					              <label for="client_type">What type of client you are ?</label>
 					              <select name="client_type" id="client_type" required="" class="form-control">

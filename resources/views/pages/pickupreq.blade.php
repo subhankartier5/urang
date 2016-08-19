@@ -1,5 +1,8 @@
 @extends('pages.layouts.user-master')
 @section('content')
+<style type="text/css">
+  .custom-checkbox input[type="checkbox"]{width: auto;}
+</style>
 <div class="main-content nycpick">
 <div class="fixed-div">
   <h2><label>Contact Us:</label> (800)959-5785</h2>
@@ -106,6 +109,11 @@
                 <option value="0">No</option>
               </select>
             </div>
+            <div class="form-group custom-checkbox">
+
+              <input type="checkbox" name="wash_n_fold" id="wash_n_fold"> Wash and fold ? (<span style="color: red;">make sure you put your wash and fold cloths in seperate bag</span>)</input>
+
+            </div>
             <div class="form-group" style="display: none;" id="time_frame">
               <label for="time_frame">Give Us a Time Frame</label>
               <input type="text" name="time_frame_start" id="time_frame_start" class="form-control" style="width: 25%" placeholder="Start time"></input> To
@@ -157,13 +165,13 @@
                 $price_list = \App\PriceList::all();
               ?>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="wash_n_fold">Wash and fold?</label>
               <select name="wash_n_fold" id="wash_n_fold" required="">
                 <option value="1">Yes</option>
                 <option value="0">No</option>
               </select>
-            </div>
+            </div> -->
             <div class="form-group">
               <label for="client_type">What type of client you are ?</label>
               <select name="client_type" id="client_type" required="">
