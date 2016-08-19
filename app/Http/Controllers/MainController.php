@@ -24,6 +24,8 @@ use App\SchoolDonationPercentage;
 use App\PickUpTime;
 use App\OrderTracker;
 use App\SchoolPreferences;
+use App\Events\SendEmailOnSignUp;
+use Illuminate\Support\Facades\Event;
 class MainController extends Controller
 {
     public function getIndex() {
@@ -94,6 +96,8 @@ class MainController extends Controller
                     $card_info->exp_month = $request->select_month;
                     $card_info->exp_year = $request->select_year;
                     if ($card_info->save()) {
+                        //confirmation mail event driven approach
+                        Event::fire(new SendEmailOnSignUp($request));
                          return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
                     }
                     else
