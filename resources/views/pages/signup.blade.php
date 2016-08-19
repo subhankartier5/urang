@@ -15,6 +15,7 @@
       @endif
       @if(count($errors) > 0)
         <div class="alert alert-danger">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <ul>
             @foreach($errors->all() as $error)
               <li>{{$error}}</li>
@@ -147,7 +148,7 @@
                         <tr>
                             <td>Card Holder Name: <span style="color: red;">*</span></td>
                             <td>
-                                <input type="text" style="width:270px;" id="cardholder" name="cardholder_name" required="" value="{{ old('cardholder_name') }}" onkeyup="$('#cardholder').attr('style', 'width:270px;'); $('#errorInputCardHolder').html('');" >
+                                <input type="text" style="width:270px;" id="cardholder" name="cardholder_name"  value="{{ old('cardholder_name') }}" onkeyup="$('#cardholder').attr('style', 'width:270px;'); $('#errorInputCardHolder').html('');" >
                                 <div id="errorInputCardHolder" style="color: red;"></div>
                             </td>
                         </tr>
@@ -372,7 +373,6 @@
           return false;
        }
     }
-
     //form submit done by this
     function IsValid(event) {
        event.preventDefault();
@@ -402,42 +402,56 @@
             return false;
          }
        } else {
-        //alert("these fields are req");
-        
-          $('#email').attr('style', 'width: 270px; border-color: red;');
+        if (!email) 
+        {
+          $('#email').attr('style', 'border-color: red;');
           $('#errorInputEmail').html("This Field is Required!");
-        
-        
-          $('#password').attr('style', 'width: 270px; border-color: red;');
+        }
+        if (!password) 
+        {
+          $('#password').attr('style', 'border-color: red;');
           $('#errorInputPassword').html("This Field is Required!");
-        
-        
-          $('#conf_password').attr('style', 'width: 270px; border-color: red;');
+        }
+        if (!conf_password) 
+        {
+          $('#conf_password').attr('style', 'border-color: red;');
           $('#errorInputConfPassword').html("This Field is Required!");
-        
-       
-          $('#name').attr('style', 'width: 270px; border-color: red;');
-          $('#errorInputName').html("This Field is Required!");
-      
-        
-          $('#txtAddress').attr('style', 'width: 270px; border-color: red;');
-          $('#errorInputAddress').html("This Field is Required!");
-        
-        
-          $('#Phone').attr('style', 'width: 270px; border-color: red;');
-          $('#errorInputPhone').html("This Field is Required!");
-        
-        
-          $('#cardholder').attr('style', 'width: 270px; border-color: red;');
-          $('#errorInputCardHolder').html("This Field is Required!");
-        
-        
-          $('#card_no').attr('style', 'width: 270px; border-color: red;');
-          $('#errorInputCardNo').html("This Field is Required!");
-        
-        
+        }  
+        if (!name) 
+        {
+            $('#name').attr('style', 'border-color: red;');
+            $('#errorInputName').html("This Field is Required!");
+        }
+        if (!add) 
+        {
+          $('#txtAddress').attr('style', 'border-color: red;');
+                $('#errorInputAddress').html("This Field is Required!");
+        }   
+        if (!phone) 
+        {
+          $('#Phone').attr('style', 'border-color: red;');
+                $('#errorInputPhone').html("This Field is Required!");
+        }      
+        if (!name_on_card) 
+        {
+          $('#cardholder').attr('style', 'border-color: red;');
+                $('#errorInputCardHolder').html("This Field is Required!");
+        }
+        if (!card_number) 
+        {
+          $('#card_no').attr('style', 'border-color: red;');
+                $('#errorInputCardNo').html("This Field is Required!");
+        }
+        if (!month_val) 
+        {
+          $('#select_month').attr('style', 'border-color:red;');
           $('#errorInputDate').html("This Field is Required!");
-        
+        }
+        if (!year_val) 
+        {
+          $('#select_year').attr('style', 'border-color:red;');
+          $('#errorInputDate').html("This Field is Required!");
+        }
         return false;
        }
     } 

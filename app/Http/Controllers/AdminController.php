@@ -518,6 +518,25 @@ class AdminController extends Controller
     }
     public function postAddNewCustomer(Request $request) {
         //dd($request);
+        $validator = $this->validate($request, [
+            'email' => 'required|unique:users',
+            'password' => 'required|min:6',
+            'conf_password' => 'required|min:6|same:password',
+            'name' => 'required',
+            'address' => 'required',
+            'personal_ph' => 'required|numeric',
+            'card_name' => 'required',
+            'card_no' => 'required',
+            'SelectMonth' => 'required',
+            'selectYear' => 'required'
+        ]);
+
+        /*if ($validator->fails()) {
+            return redirect('/add-new-customer')
+                        ->withErrors($validator)
+                        ->withInput();
+        }*/
+        //dd($request);
         $user = new User();
         $user->email = $request->email;
         $user->password = bcrypt($request->conf_password);
