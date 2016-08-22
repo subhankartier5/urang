@@ -26,7 +26,8 @@ use App\Categories;
 use App\SchoolDonations;
 use App\Cms;
 use App\OrderTracker;
-
+use App\PickUpTime;
+use App\SchoolDonationPercentage;
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
@@ -95,34 +96,39 @@ class UserApiController extends Controller
     }
     public function placeOrder(Request $request)
     {
-    	$total_price = 0.00;
+        $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = $request->user_id;
         $pick_up_req->address = $request->address;
+        $pick_up_req->address_line_2 = $request->address_line_2;
+        $pick_up_req->apt_no = $request->apt_no;
         $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
         $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
         $pick_up_req->schedule = $request->schedule;
         $pick_up_req->delivary_type = $request->boxed_or_hung;
         $pick_up_req->starch_type = $request->strach_type;
-        $pick_up_req->need_bag = isset($request->urang_bag) ? $request->urang_bag : 0;
+        $pick_up_req->need_bag = isset($request->urang_bag) ? 1 : 0;
         $pick_up_req->door_man = $request->doorman;
+        $pick_up_req->time_frame_start = $request->time_frame_start;
+        $pick_up_req->time_frame_end = $request->time_frame_end;
         $pick_up_req->special_instructions = isset($request->spcl_ins) ? $request->spcl_ins: null;
         $pick_up_req->driving_instructions = isset($request->driving_ins) ? $request->driving_ins : null;
         $pick_up_req->payment_type = $request->pay_method;
         $pick_up_req->order_status = 1;
-        $pick_up_req->is_emergency = isset($request->isEmergency) ? $request->isEmergency : 0;
+        $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
         $pick_up_req->client_type = $request->client_type;
-        $pick_up_req->coupon = NULL;
-        $pick_up_req->wash_n_fold = $request->wash_n_fold;
+        $pick_up_req->coupon = $request->coupon;
+        $pick_up_req->wash_n_fold = isset($request->wash_n_fold) ? 1 : 0;
         $data_table = json_decode($request->list_items_json);
         for ($i=0; $i< count($data_table); $i++) {
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
         }
         $pick_up_req->total_price = $request->order_type == 1 ? 0.00 : $total_price;
-
+        /*//for charging cards after wards
+        $pick_up_req->chargeable = $request->order_type == 1 ? 0.00 : $total_price;*/
         if($request->isDonate)
         {
-            //dd($total_price);
+            $this->SavePreferncesSchool($request->user_id, $request->school_donation_id);
             $percentage = SchoolDonationPercentage::first();
             $new_percentage = $percentage->percentage/100;
             $pick_up_req->school_donation_id = $request->school_donation_id;
@@ -132,37 +138,33 @@ class UserApiController extends Controller
             $updated_pending_money = $present_pending_money+($total_price*$new_percentage);
             $search->pending_money = $updated_pending_money;
             $search->save();
-            //save the school in user details for future ref
-            if ($request->identifier == "admin") {
-                $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
-            }
-            else
-            {
-                $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
-            }
-            
+            $update_user_details = UserDetails::where('user_id', $request->user_id)->first();
             $update_user_details->school_id = $request->school_donation_id;
             $update_user_details->save();
         }
-
-        if ($pick_up_req->save()) 
-        {
+        if ($pick_up_req->save()) {
+            //save in order tracker table
+            $tracker = new OrderTracker();
+            $tracker->pick_up_req_id = $pick_up_req->id;
+            $tracker->user_id = $pick_up_req->user_id;
+            $tracker->order_placed = $pick_up_req->created_at->toDateString();
+            $tracker->order_status = 1;
+            $tracker->original_invoice = $pick_up_req->total_price;
+            $tracker->save();
             if ($request->order_type == 1) {
                 //fast pick up
-                //return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
-                $order['order_type'] = 1;
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 return Response::json(array(
-		            'status' => true,
-		            'status_code' => 200,
-		            'response' => $order,
-		            'message' => "Thank You! for submitting the order we will get back to you shortly!"        
-		    	));
-
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $pick_up_req->user_id,
+                    'message' => "Order Placed successfully!"        
+                ));
             }
             else
             {
+                //$expected_time = $this->SayMeTheDate($pick_up_req->pick_up_date, $pick_up_req->created_at);
                 //detailed pick up
-                $order['order_type'] = 0;
                 $data = json_decode($request->list_items_json);
                 for ($i=0; $i< count($data); $i++) {
                     $order_details = new OrderDetails();
@@ -174,25 +176,37 @@ class UserApiController extends Controller
                     $order_details->payment_status = 0;
                     $order_details->save();
                 }
-                //return redirect()->route('getPickUpReq')->with('success', "Thank You! for submitting the order we will get back to you shortly!");
+                //create invoice
+                //dd($data);
+                for ($j=0; $j < count($data) ; $j++) { 
+                    $invoice = new Invoice();
+                    $invoice->user_id = $request->user_id;
+                    $invoice->pick_up_req_id = $pick_up_req->id;
+                    $invoice->invoice_id = time();
+                    $invoice->item = $data[$j]->item_name;
+                    $invoice->quantity = $data[$j]->number_of_item;
+                    $invoice->price = $data[$j]->item_price;
+                    $invoice->list_item_id = $data[$j]->id;
+                    //$invoice->coupon = $request->coupon;
+                    $invoice->save();
+                }
                 return Response::json(array(
-		            'status' => true,
-		            'status_code' => 200,
-		            'response' => $order,
-		            'message' => "Thank You! for submitting the order we will get back to you shortly!"        
-		    	));
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $pick_up_req->user_id,
+                    'message' => "Order Placed successfully!"        
+                ));
             }
         }
         else
         {
-            return Response::json(array(
-		            'status' => false,
-		            'status_code' => 500,
-		            'message' => "Sorry! Cannot save the order now!"        
-		    	));
+           return Response::json(array(
+                    'status' => false,
+                    'status_code' => 500,
+                    'message' => "Sorry! Cannot save the order now!"        
+            ));
         }
     }
-
     public function checkEmail(Request $request)
     {
         if(User::where('email',$request->email)->first()) 
@@ -212,96 +226,109 @@ class UserApiController extends Controller
                     ));
         }
     }
-
     public function userSignUp(Request $request)
     {
-    	if ($request->password == $request->conf_password) {
+        if ($request->password == $request->conf_password) {
 
-			if(User::where('email',$request->email)->first()) 
-			{
-			    return Response::json(array(
-				            'status' => false,
-				            'status_code' => 400,
-				            'message' => "This email already exists!"        
-				    	));
-			}
-			else 
-			{
-				
-			 	$user = new User();
-	            $user->email = $request->email;
-	            $user->password = bcrypt($request->password);
-	            $user->block_status = 0;
-	            if ($user->save()) {
-	                $user_details = new UserDetails();
-	                $user_details->user_id = $user->id;
-	                $user_details->name = $request->name;
-	                $user_details->address = $request->address;
-	                $user_details->personal_ph = $request->personal_phone;
-	                $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : NULL;
-	                $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : NULL;
-	                $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
-	                $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : NULL;
-	                if ($user_details->save()) {
-	                    $card_info = new CustomerCreditCardInfo();
-	                    $card_info->user_id = $user_details->user_id;
-	                    $card_info->name = $request->cardholder_name;
-	                    $card_info->card_no = $request->card_no;
-	                    $card_info->card_type = $request->cardtype;
-	                    $card_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
-	                    $card_info->exp_month = $request->select_month;
-	                    $card_info->exp_year = $request->select_year;
-	                    if ($card_info->save()) {
-	                        
-	                         //return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
-	                    	$data['user_id'] = $card_info->user_id;
-	                    	return Response::json(array(
-					            'status' => true,
-					            'status_code' => 200,
-					            'response' => $data,
-					            'message' => "Registration successfull"        
-					    	));
-	                    }
-	                    else
-	                    {
-	                        return Response::json(array(
-					            'status' => false,
-					            'status_code' => 500,
-					            'message' => "Sorry! Cannot save your card details!"        
-					    	));
-	                    }
-	                }
-	                else
-	                {
-	                	return Response::json(array(
-					            'status' => false,
-					            'status_code' => 500,
-					            'message' => "Sorry! Cannot save your user details!"        
-					    	));
-	                    
-	                }
-	            }
-	            else
-	            {                
-	                	return Response::json(array(
-					            'status' => false,
-					            'status_code' => 500,
-					            'message' => "Sorry! Cannot save your user details!"        
-					    	));
-	            }   
-			}
+            if(User::where('email',$request->email)->first()) 
+            {
+                return Response::json(array(
+                            'status' => false,
+                            'status_code' => 400,
+                            'message' => "This email already exists!"        
+                        ));
+            }
+            else 
+            {
+                
+                $user = new User();
+                $user->email = $request->email;
+                $user->password = bcrypt($request->password);
+                $user->block_status = 0;
+                if ($user->save()) {
+                    $user_details = new UserDetails();
+                    $user_details->user_id = $user->id;
+                    $user_details->name = $request->name;
+                    $user_details->address = $request->address;
+                    $user_details->personal_ph = $request->personal_phone;
+                    $user_details->cell_phone = isset($request->cell_phone) ? $request->cell_phone : NULL;
+                    $user_details->off_phone = isset($request->office_phone) ? $request->office_phone : NULL;
+                    $user_details->spcl_instructions = isset($request->spcl_instruction) ? $request->spcl_instruction : NULL;
+                    $user_details->driving_instructions = isset($request->driving_instruction) ? $request->driving_instruction : NULL;
+                    if ($user_details->save()) {
+                        $card_info = new CustomerCreditCardInfo();
+                        $card_info->user_id = $user_details->user_id;
+                        $card_info->name = $request->cardholder_name;
+                        $card_info->card_no = $request->card_no;
+                        $card_info->card_type = $request->cardtype;
+                        $card_info->cvv = isset($request->cvv) ? $request->cvv : NULL;
+                        $card_info->exp_month = $request->select_month;
+                        $card_info->exp_year = $request->select_year;
+                        if ($card_info->save()) {
+                            
+                             //return redirect()->route('getLogin')->with('success', 'You have successfully registered please login');
+                            $data['user_id'] = $card_info->user_id;
+                            return Response::json(array(
+                                'status' => true,
+                                'status_code' => 200,
+                                'response' => $data,
+                                'message' => "Registration successfull"        
+                            ));
+                        }
+                        else
+                        {
+                            return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot save your card details!"        
+                            ));
+                        }
+                    }
+                    else
+                    {
+                        return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot save your user details!"        
+                            ));
+                        
+                    }
+                }
+                else
+                {                
+                        return Response::json(array(
+                                'status' => false,
+                                'status_code' => 500,
+                                'message' => "Sorry! Cannot save your user details!"        
+                            ));
+                }   
+            }
             
         }
         else
         {
             return Response::json(array(
-				            'status' => false,
-				            'status_code' => 400,
-				            'message' => "Password and Confirm Password did not matched!"        
-				    	));
+                            'status' => false,
+                            'status_code' => 400,
+                            'message' => "Password and Confirm Password did not matched!"        
+                        ));
         }
     }
-
+    public function SavePreferncesSchool($userId, $schoolId) {
+        $find_school = SchoolPreferences::where('user_id', $userId)->where('school_id', $schoolId)->first();
+        if ($find_school) {
+            return 0;
+        } else {
+            $new_rec = new SchoolPreferences();
+            $new_rec->user_id = $userId;
+            $new_rec->school_id = $schoolId;
+            if ($new_rec->save()) {
+                return 1;
+            } else {
+                return "500";
+            }
+        }
+    }
     public function getPrices()
     {
     	$price_list = Categories::with('pricelists')->get();
@@ -832,7 +859,22 @@ class UserApiController extends Controller
 
         return $pick_up_req;
     }
-
+    public function getPickUpTimes(Request $request) {
+        $all_the_times = PickUpTime::all();
+        if ($all_the_times) {
+            return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $all_the_times
+                ));
+        } else {
+            return Response::json(array(
+                        'status' => false,
+                        'status_code' => 400,
+                        'message' => "No Time entered by admin!"        
+                    ));
+        }
+    }
     public function getOrderTracker(Request $request)
     {
         $order_track = OrderTracker::where('user_id',$request->user_id)->orderBy('id','desc')->get();
