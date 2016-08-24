@@ -28,6 +28,7 @@ use App\Cms;
 use App\OrderTracker;
 use App\PickUpTime;
 use App\SchoolDonationPercentage;
+use App\SchoolPreferences;
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
@@ -896,5 +897,11 @@ class UserApiController extends Controller
                             ));
         }
         
+    }
+
+    public function showSchoolPreferences(Request $request)
+    {
+            $school_preferences = SchoolPreferences::where('user_id',$request->user_id)->with('schoolDonation')->get();
+            return $school_preferences;
     } 
 }
