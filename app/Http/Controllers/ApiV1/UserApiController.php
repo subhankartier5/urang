@@ -925,7 +925,7 @@ class UserApiController extends Controller
 
     public function addSchoolToPreference(Request $request)
     {
-        $find_school = SchoolPreferences::where('user_id', $userId)->where('school_id', $schoolId)->first();
+        $find_school = SchoolPreferences::where('user_id', $request->user_id)->where('school_id', $request->school_id)->first();
         if($find_school)
         {
                 return Response::json(array(
