@@ -925,24 +925,37 @@ class UserApiController extends Controller
 
     public function addSchoolToPreference(Request $request)
     {
-        $school_preferences = new SchoolPreferences();
-        $school_preferences->user_id = $request->user_id;
-        $school_preferences->school_id = $request->school_id;
-        if($school_preferences->save())
+        $find_school = SchoolPreferences::where('user_id', $userId)->where('school_id', $schoolId)->first();
+        if($find_school)
         {
                 return Response::json(array(
-                                'status' => true,
-                                'status_code' => 200,
-                                'message' => "School saved!"        
-                            ));
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "This school is already added!"        
+                                ));
         }
         else
         {
-            return Response::json(array(
-                                'status' => false,
-                                'status_code' => 400,
-                                'message' => "Cannot add favourite school!"        
-                            ));
+            $school_preferences = new SchoolPreferences();
+            $school_preferences->user_id = $request->user_id;
+            $school_preferences->school_id = $request->school_id;
+            if($school_preferences->save())
+            {
+                    return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'message' => "School saved!"        
+                                ));
+            }
+            else
+            {
+                return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Cannot add favourite school!"        
+                                ));
+            }
         }
+        
     } 
 }
