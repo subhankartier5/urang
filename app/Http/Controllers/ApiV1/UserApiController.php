@@ -903,5 +903,45 @@ class UserApiController extends Controller
     {
             $school_preferences = SchoolPreferences::where('user_id',$request->user_id)->with('schoolDonation')->get();
             return $school_preferences;
+            if($school_preferences)
+            {
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $school_preferences
+                ));
+            }
+            else
+            {
+                return Response::json(array(
+                                'status' => false,
+                                'status_code' => 400,
+                                'message' => "No favourite schools!"        
+                            ));
+            }
+
+    }
+
+    public function addSchoolToPreference(Request $request)
+    {
+        $school_preferences = new SchoolPreferences();
+        $school_preferences->user_id = $request->user_id;
+        $school_preferences->school_id = $request->school_id;
+        if($school_preferences->save())
+        {
+                return Response::json(array(
+                                'status' => true,
+                                'status_code' => 200,
+                                'message' => "School saved!"        
+                            ));
+        }
+        else
+        {
+            return Response::json(array(
+                                'status' => false,
+                                'status_code' => 400,
+                                'message' => "Cannot add favourite school!"        
+                            ));
+        }
     } 
 }

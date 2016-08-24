@@ -177,4 +177,5 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/order-tracker',['uses' => 'ApiV1\UserApiController@getOrderTracker','as' => 'getOrderTracker']);
     Route::post('/get-pickup-times', ['uses' => 'ApiV1\UserApiController@getPickUpTimes', 'as' => 'getPickUpTimes']);
     Route::post('/get-school-preferences', ['uses' => 'ApiV1\UserApiController@showSchoolPreferences', 'as' => 'showSchoolPreferences']);
+    Route::post('/add-school-preferences', ['uses' => 'ApiV1\UserApiController@addSchoolToPreference', 'as' => 'addSchoolToPreference']);
 }); 
