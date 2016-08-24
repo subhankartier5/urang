@@ -902,7 +902,7 @@ class UserApiController extends Controller
     public function showSchoolPreferences(Request $request)
     {
             $school_preferences = SchoolPreferences::where('user_id',$request->user_id)->with('schoolDonation')->get();
-            return $school_preferences;
+        
             if($school_preferences)
             {
                 return Response::json(array(
