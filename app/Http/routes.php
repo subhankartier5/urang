@@ -178,4 +178,5 @@ Route::group(['prefix' => 'V1'], function () {
     Route::post('/get-pickup-times', ['uses' => 'ApiV1\UserApiController@getPickUpTimes', 'as' => 'getPickUpTimes']);
     Route::post('/get-school-preferences', ['uses' => 'ApiV1\UserApiController@showSchoolPreferences', 'as' => 'showSchoolPreferences']);
     Route::post('/add-school-preferences', ['uses' => 'ApiV1\UserApiController@addSchoolToPreference', 'as' => 'addSchoolToPreference']);
+    Route::post('/get-card-details', ['uses' => 'ApiV1\UserApiController@getCreditCardDetails', 'as' => 'getCreditCardDetails']);
 }); 

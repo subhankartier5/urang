@@ -30,6 +30,8 @@ use App\PickUpTime;
 use App\SchoolDonationPercentage;
 use App\SchoolPreferences;
 use App\Invoice;
+use App\CustomerCreditCardInfo;
+
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
@@ -958,5 +960,28 @@ class UserApiController extends Controller
             }
         }
         
+    }
+
+    public function getCreditCardDetails(Request $request)
+    {
+        $creditCard_info = CustomerCreditCardInfo::where('user_id', $request->user_id)->first();
+
+        if($creditCard_info)
+        {
+            return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'response' => $creditCard_info        
+                                ));
+        }
+        else
+        {
+            return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "no card details found"        
+                                ));
+        }
+
     } 
 }
