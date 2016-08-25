@@ -28,6 +28,8 @@ use App\Cms;
 use App\OrderTracker;
 use App\PickUpTime;
 use App\SchoolDonationPercentage;
+use App\SchoolPreferences;
+use App\Invoice;
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
@@ -103,7 +105,7 @@ class UserApiController extends Controller
         $pick_up_req->address_line_2 = $request->address_line_2;
         $pick_up_req->apt_no = $request->apt_no;
         $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
-        $pick_up_req->pick_up_type = $request->order_type == 1 ? 1 : 0;
+        $pick_up_req->pick_up_type = $request->pick_up_type;
         $pick_up_req->schedule = $request->schedule;
         $pick_up_req->delivary_type = $request->boxed_or_hung;
         $pick_up_req->starch_type = $request->strach_type;
@@ -118,7 +120,7 @@ class UserApiController extends Controller
         $pick_up_req->is_emergency = isset($request->isEmergency) ? 1 : 0;
         $pick_up_req->client_type = $request->client_type;
         $pick_up_req->coupon = $request->coupon;
-        $pick_up_req->wash_n_fold = isset($request->wash_n_fold) ? 1 : 0;
+        $pick_up_req->wash_n_fold = $request->wash_n_fold;
         $data_table = json_decode($request->list_items_json);
         for ($i=0; $i< count($data_table); $i++) {
             $total_price += $data_table[$i]->item_price*$data_table[$i]->number_of_item;
@@ -894,6 +896,66 @@ class UserApiController extends Controller
                                 'status_code' => 400,
                                 'message' => "No order to show!"        
                             ));
+        }
+        
+    }
+
+    public function showSchoolPreferences(Request $request)
+    {
+            $school_preferences = SchoolPreferences::where('user_id',$request->user_id)->with('schoolDonation')->get();
+            $school_list = SchoolDonations::all();
+            if($school_preferences)
+            {
+                return Response::json(array(
+                    'status' => true,
+                    'status_code' => 200,
+                    'response' => $school_preferences,
+                    'school_list' => $school_list
+                ));
+            }
+            else
+            {
+                return Response::json(array(
+                                'status' => false,
+                                'status_code' => 400,
+                                'message' => "No favourite schools!"        
+                            ));
+            }
+
+    }
+
+    public function addSchoolToPreference(Request $request)
+    {
+        $find_school = SchoolPreferences::where('user_id', $request->user_id)->where('school_id', $request->school_id)->first();
+        if($find_school)
+        {
+                return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "This school is already added!"        
+                                ));
+        }
+        else
+        {
+            $school_preferences = new SchoolPreferences();
+            $school_preferences->user_id = $request->user_id;
+            $school_preferences->school_id = $request->school_id;
+            if($school_preferences->save())
+            {
+                    return Response::json(array(
+                                    'status' => true,
+                                    'status_code' => 200,
+                                    'message' => "School saved!"        
+                                ));
+            }
+            else
+            {
+                return Response::json(array(
+                                    'status' => false,
+                                    'status_code' => 400,
+                                    'message' => "Cannot add favourite school!"        
+                                ));
+            }
         }
         
     } 
