@@ -29,7 +29,7 @@ use App\OrderTracker;
 use App\PickUpTime;
 use App\SchoolDonationPercentage;
 use App\SchoolPreferences;
-use Invoice;
+use App\Invoice;
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
