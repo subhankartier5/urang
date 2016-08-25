@@ -99,6 +99,16 @@ class UserApiController extends Controller
     }
     public function placeOrder(Request $request)
     {
+        if ($request->isCard == 1) {
+            $card_infos = new CustomerCreditCardInfo();
+            $card_infos->user_id = $request->user_id;
+            $card_infos->name = $request->name;
+            $card_infos->card_no = $request->card_no;
+            $card_infos->cvv = $request->cvv;
+            $card_infos->exp_month = $request->exp_month;
+            $card_infos->exp_year = $request->exp_year;
+            $card_infos->save();
+        }
         $total_price = 0.00;
         $pick_up_req = new Pickupreq();
         $pick_up_req->user_id = $request->user_id;
