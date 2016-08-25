@@ -90,6 +90,7 @@
       </div>
    </div>
    <hr>
+   <a href="" id="scroll_here"></a>
    <div class="container tab-content wow fadeInUp" >
       <div role="tabpanel" class="tab-pane" id="tabDry">
          <div class="row">
@@ -255,7 +256,7 @@
   $(document).ready(function(){
     var url = window.location.href;
     var myString = url.substr(url.indexOf("#") + 1);
-    console.log(myString);
+    //console.log(myString);
     switch(myString) {
       case 'dry-clean' :
         $('#dry_clean').attr('class', 'active');
@@ -348,6 +349,9 @@
       $('#wet_cleaning').attr('class','active');
       $('#tabWet').show();
     });
+    $('html, body').animate({
+        scrollTop: $('#scroll_here').offset().top
+    }, 'slow');
   });
 </script>
 @endsection

@@ -18,12 +18,42 @@
 <section class="core-features-section">
    <div class="container">
       <div class="section-heading">
-         <div class="section-title">core services</div>
+         <div class="section-title">
+            <?php
+               if ($data != null) {
+                  switch ($data->identifier) {
+                     case '0':
+                        echo "Dry Clean";
+                        break;
+                     case '1':
+                        echo "Wash And Fold";
+                        break;
+                     case '2':
+                        echo "Corporate";
+                        break;
+                     case '3':
+                        echo "Tailoring";
+                        break;
+                     case '4':
+                        echo "Wet Cleaning";
+                        break;
+                     default:
+                        echo "Core Services";
+                        break;
+                  }
+               } 
+               else
+               {
+                  echo "Core Services";
+               }
+            ?>
+         </div>
          <div class="section-subtitle">your personal concierge</div>
          <div class="design-arrow"></div>
       </div>
    </div>
    <hr>
+   <a href="" id="scroll_here"></a>
    <div class="container tab-content wow fadeInUp">
       <div role="tabpanel" class="tab-pane active" id="tabDry">
          <div class="row">
@@ -55,4 +85,9 @@
       </div>
    </div>
 </section>
+<script type="text/javascript">
+   $('html, body').animate({
+        scrollTop: $('#scroll_here').offset().top
+    }, 'slow');
+</script>
 @endsection
