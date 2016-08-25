@@ -30,7 +30,6 @@ use App\PickUpTime;
 use App\SchoolDonationPercentage;
 use App\SchoolPreferences;
 use App\Invoice;
-use App\CustomerCreditCardInfo;
 
 class UserApiController extends Controller
 {
