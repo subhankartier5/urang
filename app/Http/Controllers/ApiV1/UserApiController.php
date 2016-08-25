@@ -29,6 +29,7 @@ use App\OrderTracker;
 use App\PickUpTime;
 use App\SchoolDonationPercentage;
 use App\SchoolPreferences;
+use Invoice;
 class UserApiController extends Controller
 {
     public function LoginAttempt(Request $req)
@@ -104,7 +105,7 @@ class UserApiController extends Controller
         $pick_up_req->address_line_2 = $request->address_line_2;
         $pick_up_req->apt_no = $request->apt_no;
         $pick_up_req->pick_up_date = date("Y-m-d", strtotime($request->pick_up_date));
-        $pick_up_req->pick_up_type = $request->pick_up_type == 1 ? 1 : 0;
+        $pick_up_req->pick_up_type = $request->pick_up_type;
         $pick_up_req->schedule = $request->schedule;
         $pick_up_req->delivary_type = $request->boxed_or_hung;
         $pick_up_req->starch_type = $request->strach_type;
