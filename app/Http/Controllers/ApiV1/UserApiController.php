@@ -99,7 +99,7 @@ class UserApiController extends Controller
     }
     public function placeOrder(Request $request)
     {
-        if ($request->isCard == 1) {
+        if ($request->isCard == "yes") {
             $card_infos = new CustomerCreditCardInfo();
             $card_infos->user_id = $request->user_id;
             $card_infos->name = $request->name;
