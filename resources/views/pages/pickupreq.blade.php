@@ -198,7 +198,8 @@
                 <div class="checkbox checkbox-large">
                   <label>
                   <input onclick="openCheckBoxSchool()" id="school_checkbox" type="checkbox" name="isDonate">
-                  Donate to a school in your neighborhood ?                  
+                  Donate to a school in your neighborhood ?
+                  <p style="color: red;">We believe in investing in our community. We will donate 10% of our profit to the school of your choice. Please send us an email if you do not see the school listed. our email support@u-rang.com</p>                
                   </label>
                 </div>
             </div>
