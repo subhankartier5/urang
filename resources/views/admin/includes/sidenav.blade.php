@@ -94,6 +94,9 @@
                 <li>
                     <a href="{{route('getCoupon')}}"><i class="fa fa-tags" aria-hidden="true"></i> Coupon Generator</a>
                 </li>
+                <li>
+                    <a href="{{route('getPaymentLog')}}"><i class="fa fa-history" aria-hidden="true"></i> Payment Log</a>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

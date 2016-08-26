@@ -125,6 +125,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/save-coupon', ['uses' => 'AdminController@postSaveCoupon', 'as' => 'postSaveCoupon']);
     Route::post('/change-status-coupon', ['uses' => 'AdminController@ChangeStatusCoupon', 'as' => 'ChangeStatusCoupon']);
     Route::post('/delete-coupon', ['uses' => 'AdminController@postDeleteCoupon', 'as' => 'postDeleteCoupon']);
+    Route::get('/payment-history', ['uses' => 'AdminController@getPaymentLog', 'as' => 'getPaymentLog']);
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);

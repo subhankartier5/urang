@@ -2050,4 +2050,12 @@ class AdminController extends Controller
             return "could not find any data associated with that id";
         }
     }
+    public function getPaymentLog() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        $payment_log = Pickupreq::where('payment_status', 1)->with('user_detail', 'user')->paginate(10);
+        //$coupon_list = Coupon::orderBy('created_at', 'DESC')->get();
+        return view('admin.payment-log', compact('user_data', 'site_details', 'payment_log'));
+    }
 }
