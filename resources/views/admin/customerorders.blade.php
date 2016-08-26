@@ -236,10 +236,10 @@
                   </tr>
                </thead>
                <tbody>
-                  @foreach($pickup->order_detail as $order)
+                  @foreach($pickup->invoice as $order)
                   <tr>
                      <td>{{ $order->quantity }}</td>
-                     <td>{{ $order->items }}</td>
+                     <td>{{ $order->item }}</td>
                      <td>${{ number_format((float)$order->price, 2, '.', '') }}</td>
                   </tr>
                   @endforeach  
@@ -564,7 +564,7 @@
 </div>
 <!-- Modal -->
   <div id="ModalShowInvoice" class="modal fade" role="dialog">
-     <div class="modal-dialog">
+     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
            <div class="modal-header">
@@ -611,6 +611,7 @@
                        <td>Item</td>
                        <td>Quantity</td>
                        <td>Price</td>
+                       <td>Edit</td>
                     </tr>
                  </thead>
                  <tbody id="inv">
@@ -653,16 +654,16 @@
                   @if(count($price_list) > 0)
                     @foreach($price_list as $list)
                       <tr>
-                         <td>
+                         <td id="nos_{{$list->id}}" style="display: none;">
                             <select name="number_of_item" id="number2_{{$list->id}}">
                               @for($i=0;$i<=10;$i++)
                                   <option value="{{$i}}">{{$i}}</option>
                               @endfor
                             </select>
                          </td>
-                         <td id="item2_{{$list->id}}">{{$list->item}}</td>
-                         <td id="price2_{{$list->id}}">{{$list->price}}</td>
-                         <td><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
+                         <td id="item2_{{$list->id}}" style="display: none;">{{$list->item}}</td>
+                         <td id="price2_{{$list->id}}" style="display: none;">{{$list->price}}</td>
+                         <td id="btn_action_{{$list->id}}" style="display: none;"><button type="button" class="btn btn-primary btn-xs" onclick="add_id({{$list->id}})" id="btn2_{{$list->id}}">Add</button></td>
                       </tr>
                     @endforeach
                   @else
@@ -757,8 +758,8 @@
             $('#user_email').text('{{$pickup->user->email}}');
             $('#pickup_type').text('{{$pickup->pick_up_type == 1 ? "Fast Pickup" : "Detailed Pickup"}}');
             $('#invoice_no').text('{{$invoice->invoice_id}}');
-            $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}')
-            div += "<tr><td>{{$invoice->item}}</td><td>{{$invoice->quantity}}</td><td>{{number_format((float)$invoice->price, 2, '.', '')}}</td></tr>";
+            $('#invoice_date').text('{{date("F jS Y",strtotime($invoice->created_at->toDateString()))}}');
+            div += "<tr><td id='tbl_item_{{$invoice->custom_item_add_id}}'>{{$invoice->item}}</td><td id='tbl_qty_{{$invoice->custom_item_add_id}}'>{{$invoice->quantity}}</td><td id='tbl_price_{{$invoice->custom_item_add_id}}'>{{number_format((float)$invoice->price, 2, '.', '')}}</td><td>@if($invoice->list_item_id == null)<button type='button' class='btn btn-xs btn-warning' name='edit_btn' id='edit_btn_{{$invoice->custom_item_add_id}}' onclick='editManualItems({{$invoice->custom_item_add_id}}, {{$invoice->user_id}}, {{$invoice->pick_up_req_id}}, {{$invoice->invoice_id}});'>Edit</button>@else click on the edit items @endif</td></tr>";
             total_price += parseFloat("{{$invoice->quantity*$invoice->price}}");
             $('#total_price').text("$"+total_price);
             $('#app_coupon').text('{{$pickup->coupon == null ? "No Coupon" : $pickup->coupon}}');
@@ -776,22 +777,83 @@
         }
       @endforeach
    }
+   //function to edit manually edited items
+   function editManualItems(id, usr_id, pickupid, invoiceid) {
+    if ($('#edit_btn_'+id).text() == "Edit") 
+    {
+      var editableText1 = $("<input type='text' id='new_item_"+id+"'/>"); //for item name
+      var editableText2 = $("<input type='number' style='width: 20%; margin-left: 3%;' id='qty_"+id+"'/>"); // for qty
+      var editableText3 = $("<input type='number' style='width: 24%; margin-left: 3%;' step='any' id='price_"+id+"'/>"); //for price
+      var item_name_val = $('#tbl_item_'+id).text(); // get value item name
+      var qty_val = $("#tbl_qty_"+id).text(); //get value item qty
+      var price_val = $("#tbl_price_"+id).text(); //get value price
+      $('#tbl_item_'+id).replaceWith(editableText1);
+      $('#tbl_qty_'+id).replaceWith(editableText2);
+      $('#tbl_price_'+id).replaceWith(editableText3);
+      editableText1.val(item_name_val); //set values to proper field
+      editableText2.val(qty_val);
+      editableText3.val(price_val);
+      $('#edit_btn_'+id).text('Save chnages');
+    } 
+    else
+    {
+      //console.log(id);
+      //console.log(usr_id);
+      //console.log(pickupid);
+      //console.log(invoiceid);
+      //save or update into database 
+      //userid, //pickupreqid, //invoiceid
+      //ajax post from here to save
+      if ($.trim($('#new_item_'+id).val()) && $.trim($('#qty_'+id).val()) && $.trim($('#price_'+id).val())) 
+      {
+        $.ajax({
+          url: "{{route('UpDateExtraItem')}}",
+          type: "POST",
+           data: {user_id: usr_id, pick_up_req_id: pickupid, invoice_id: invoiceid, item_name:$('#new_item_'+id).val(), qty: $('#qty_'+id).val(), price: $('#price_'+id).val() , _token: "{{Session::token()}}", custom_item_add_id: id},
+           success: function(data) {
+            if (data == 1) 
+            {
+              location.reload();
+            }
+            else if(data == 2)
+            {
+              sweetAlert("Oops!", "Cannot update data", "error");
+              return false;
+            }
+            else
+            {
+              sweetAlert("Oops!", "Could not be able to find the item related to this id", "error");
+              return false;
+            }
+           }
+        });
+      }
+      else
+      {
+        $('#error_add').html('<p style="color:red;">All fields are mandetory !</p>');
+        return false;
+      }
+      
+    }
+    
+   }
    //function to add an item in the list of invoice which is not in list
    function addExtraItemInv(invoice_id, pickup_id, user_id) {
     if ($('.extraItemBtn').text() == "Add an extra item") {
       $('.extraItemBtn').text("save");
-      //save in databse here
       $('#inv').append('<tr><td><input type="text" id="item_'+invoice_id+'" placeholder=" item name"></td><td><input type="number" id="qty_'+invoice_id+'" placeholder=" quantity"></td><td><input type="number" step="any" id="price_'+invoice_id+'" placeholder=" price"></td></tr>');
     } else {
+      //save in databse here
       var item_name =  $('#item_'+invoice_id).val();
       var qty = $('#qty_'+invoice_id).val();
       var price = $('#price_'+invoice_id).val();
-      if ($.trim(item_name) && $.trim(qty) && $.trim(price)) 
+      var custom_item_add_id = Math.floor(Math.random()*45956)+1
+      if ($.trim(item_name) && $.trim(qty) && $.trim(price) && $.trim(custom_item_add_id)) 
       {
         $.ajax({
           url: "{{route('pushAnItemInVoice')}}",
           type: "POST",
-          data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}"},
+          data: {user_id: user_id, pick_up_req_id: pickup_id, invoice_id: invoice_id, item_name:item_name, qty: qty, price: price , _token: "{{Session::token()}}", custom_item_add_id: custom_item_add_id},
           success: function(data) {
             $('.extraItemBtn').text("Add an extra item");
             //console.log(data);
@@ -958,6 +1020,7 @@
       data: {id: pickup_id, _token:"{{Session::token()}}"},
       success: function(data) {
         //console.log(data);
+        //return;
         if (data != 0) 
         {
           //console.log(data.length);
@@ -977,6 +1040,8 @@
             jsonObj.push(search_item);
           }
           setJson = JSON.stringify(jsonObj);
+          /*console.log(setJson);
+          return;*/
           if ($.trim(setJson) != '') 
           {
             $('#old_items_selected').val(setJson);
@@ -999,9 +1064,22 @@
       var data = $.parseJSON($('#old_items_selected').val());
       //console.log(data);
       for (var i = 0; i < data.length; i++) {
-        //console.log(data[i]);
+        /*console.log(data[i]);
+        return;*/
         $('#number2_'+data[i].id).val(data[i].number_of_item);
         $('#btn2_'+data[i].id).text('Remove');
+        $('#nos_'+data[i].id).show();
+        $('#item2_'+data[i].id).show();
+        $('#price2_'+data[i].id).show();
+        $('#btn_action_'+data[i].id).show();
+        if ($('#btn2_'+data[i].id).text() == "Remove") 
+        {
+          $('#number2_'+data[i].id).attr('disabled', 'true');
+        }
+        else
+        {
+          $('#number2_'+data[i].id).attr('disabled', 'false');
+        }
       }
    });
    function sbmitEditForm()

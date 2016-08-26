@@ -125,6 +125,45 @@ class InvoiceController extends Controller
             return 0;
         }
     }
+    public function UpDateExtraItem(Request $request) {
+        //return $request;
+        $find_update = Invoice::where('custom_item_add_id', $request->custom_item_add_id)->first();
+        $total_price = 0.00;
+        if ($find_update) {
+            $find_update->user_id = $request->user_id;
+            $find_update->pick_up_req_id = $request->pick_up_req_id;
+            $find_update->invoice_id = $request->invoice_id;
+            $find_update->item = $request->item_name;
+            $find_update->quantity = $request->qty;
+            $find_update->price = $request->price;
+            $find_update->custom_item_add_id = $request->custom_item_add_id;
+            //$total_price = $request->qty*$request->price;
+            if ($find_update->save()) {
+                //reset total price in pickupreq table
+                $getPickUpReq= Invoice::where('pick_up_req_id', $request->pick_up_req_id)->get();
+                if ($getPickUpReq) {
+                    foreach ($getPickUpReq as $pickup) {
+                        $total_price += ($pickup->quantity*$pickup->price);    
+                    }
+                    return $total_price;
+                    $find_pickup = Pickupreq::find($request->pick_up_req_id);
+                    if ($find_pickup) {
+                        $find_pickup->total_price = $total_price;
+                        $find_pickup->save();
+                    }
+                }
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
     public function pushAnItemInVoice(Request $request) {
         //return $request;
         $save_invoice = new Invoice();
@@ -134,6 +173,7 @@ class InvoiceController extends Controller
         $save_invoice->item = $request->item_name;
         $save_invoice->quantity = $request->qty;
         $save_invoice->price = $request->price;
+        $save_invoice->custom_item_add_id = $request->custom_item_add_id;
         $total_price = $request->qty*$request->price;
         if ($save_invoice->save()) {
             $find_pickup = Pickupreq::find($request->pick_up_req_id);

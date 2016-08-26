@@ -1408,9 +1408,10 @@ class AdminController extends Controller
         //dd($request);
         $data = json_decode($request->list_items_json);
         $user = Pickupreq::find($request->row_id);
-        $previous_price = $user->total_price;
+        //$previous_price = $user->total_price;
         $price_to_add = 0.00;
         $new_total_price = 0.00 ;
+        //$total_price_table_pickup = 0.00;
         for ($i=0; $i< count($data); $i++) 
         {
             $order_details = new OrderDetails();
@@ -1420,25 +1421,38 @@ class AdminController extends Controller
             $order_details->items = $data[$i]->item_name;
             $order_details->quantity = $data[$i]->number_of_item;
             $order_details->payment_status = 0;
-
-            $price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
+            //$total_price_table_pickup = $data[$i]->item_price*$data[$i]->number_of_item;
+            //$price_to_add = ($price_to_add+($data[$i]->item_price*$data[$i]->number_of_item));
             $order_details->save();
         }
+        //check for item
+
         for ($j=0; $j< count($data); $j++) 
         {
-            $invoice = new Invoice();
-            $invoice->pick_up_req_id = $request->row_id;
-            $invoice->user_id = $request->row_user_id;
-            $invoice->invoice_id = $request->invoice_updt;
-            $invoice->price = $data[$j]->item_price;
-            $invoice->item = $data[$j]->item_name;
-            $invoice->quantity = $data[$j]->number_of_item;
-            $invoice->list_item_id = $data[$j]->id;
-            $price_to_add = $price_to_add;
-            $invoice->save();
+            $invoice_find = Invoice::where('pick_up_req_id', $request->row_id)->where('user_id', $request->row_user_id)->where('invoice_id', $request->invoice_updt)->where('list_item_id',$data[$j]->id)->first();
+            if ($invoice_find) {
+                $invoice_find->quantity = $data[$j]->number_of_item;
+                //$user->total_price = $data[$j]->number_of_item * $data[$j]->item_price;
+                $invoice_find->save();
+            }
+            else
+            {
+                $invoice = new Invoice();
+                $invoice->pick_up_req_id = $request->row_id;
+                $invoice->user_id = $request->row_user_id;
+                $invoice->invoice_id = $request->invoice_updt;
+                $invoice->price = $data[$j]->item_price;
+                $invoice->item = $data[$j]->item_name;
+                $invoice->quantity = $data[$j]->number_of_item;
+                $invoice->list_item_id = $data[$j]->id;
+                $price_to_add = $price_to_add;
+                //$user->total_price = $data[$j]->number_of_item * $data[$j]->item_price;
+                $invoice->save();
+            }
+            
         }
-        $user->total_price = $previous_price+$price_to_add;
-        $new_total_price = $price_to_add;
+        //$user->total_price = $previous_price+$price_to_add;
+        //$new_total_price = $price_to_add;
         if ($user->school_donation_id != null) {
             $fetch_percentage = SchoolDonationPercentage::first();
             $new_percentage = $fetch_percentage->percentage/100;
@@ -1449,6 +1463,15 @@ class AdminController extends Controller
             $school->save();
         }
         //}
+        //upadte total price here
+        $user = Pickupreq::find($request->row_id);
+        if ($user) {
+            $user->total_price = 0;
+            $last_inv = Invoice::where('invoice_id', $request->invoice_updt)->get();
+            foreach ($last_inv as $inv) {
+                $user->total_price += $inv->quantity*$inv->price;
+            }
+        }
         if($user->save())
         {
             return redirect()->route('getCustomerOrders')->with('success', 'Order successfully updated!');
