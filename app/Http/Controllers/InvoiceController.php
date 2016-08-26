@@ -145,7 +145,6 @@ class InvoiceController extends Controller
                     foreach ($getPickUpReq as $pickup) {
                         $total_price += ($pickup->quantity*$pickup->price);    
                     }
-                    return $total_price;
                     $find_pickup = Pickupreq::find($request->pick_up_req_id);
                     if ($find_pickup) {
                         $find_pickup->total_price = $total_price;
