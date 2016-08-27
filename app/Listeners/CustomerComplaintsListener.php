@@ -27,10 +27,10 @@ class CustomerComplaintsListener
      */
     public function handle(SendCustomerComplaints $event)
     {
-        Mail::send('email.complaints', array('first_name'=> $event->req->firstName,'last_name'=> $event->req->lastName, 'phone' => $event->req->phone, ' ,'=>$event->req->email, 'subject' => $event->req->subject, 'complaint' => $event->req->message), 
+        Mail::send('email.complaints', array('first_name'=> $event->req->firstName,'last_name'=> $event->req->lastName, 'phone' => $event->req->phone, 'email'=>$event->req->email, 'subject' => $event->req->subject, 'complaint' => $event->req->message), 
             function($message) use ($event)
             {
-            $message->from($event->req->email);
+            $message->from($event->req->firstName." ". $event->req->lastName);
             $message->to("work@tier5.us", $event->req->firstName)->subject($event->req->subject);
         });
         //dd($event->req);

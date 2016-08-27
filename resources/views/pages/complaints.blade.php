@@ -83,7 +83,7 @@
                             <div class="form-heading">
                                 <h5>send a message</h5>
                             </div>
-                            <form method="post" action="{{ route('postComplaints') }}" name="contact-form" id="contact-form" onsubmit="return IsValidEmail();">
+                            <form method="post" action="{{ route('postComplaints') }}" name="contact-form" id="contact-form">
                                 <div id="response"></div>
                                 <div class="row"> 
                                     <div class="col-md-6">

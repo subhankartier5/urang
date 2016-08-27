@@ -12,6 +12,9 @@
 */
 
 /*landing page routes*/
+/*Route::get('/email', function(){
+    return view('email.complaints');
+});*/
 Route::get('/',['uses' => 'MainController@getIndex', 'as' => 'index']);
 Route::get('/sign-up', ['uses' => 'MainController@getSignUp', 'as' => 'getSignUp']);
 Route::post('/attmept-sign-up', ['uses' => 'MainController@postSignUp', 'as' => 'postSignUp']);

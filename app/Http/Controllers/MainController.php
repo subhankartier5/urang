@@ -728,8 +728,8 @@ class MainController extends Controller
         }
     }
     public function postComplaints(Request $request) {
-        //dd($request);
         Event::fire(new SendCustomerComplaints($request));
+        return redirect()->route('getComplaints')->with('success', 'Thank You, for contacting us we will get back to you shortly!');
     }
 
    /* public function getDryClean() {
