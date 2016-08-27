@@ -260,6 +260,7 @@ body.fixed-header .scrolling-header .navbar .wrap-inside-nav { /*top: 64px;*/ }
 /*************************/
 .top-header { background: url(../img/sections/home-top-background.jpg) top center no-repeat; background-size: cover; min-height: 475px; }
 .top-header.countact-us-header { background: url(../img/sections/section-6.jpg) top center no-repeat; background-size: cover; }
+.complaints-us-header {background: url(../img/sections/complaints.jpg) top center no-repeat; background-size: cover;}
 .top-header.portfolio-header { background: url(../img/sections/section-7.jpg) top center no-repeat; background-size: cover; }
 .top-header.home-header { min-height: 800px; }
 .top-header .header-container { position: relative; z-index: 2; }

@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SendEmailOnSignUp' => [
         'App\Listeners\SendEmailListener',
         ],
+        'App\Events\SendCustomerComplaints' => [
+        'App\Listeners\CustomerComplaintsListener',
+        ],
     ];
 
     /**

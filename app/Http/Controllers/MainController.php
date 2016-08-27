@@ -25,6 +25,7 @@ use App\PickUpTime;
 use App\OrderTracker;
 use App\SchoolPreferences;
 use App\Events\SendEmailOnSignUp;
+use App\Events\SendCustomerComplaints;
 use Illuminate\Support\Facades\Event;
 class MainController extends Controller
 {
@@ -712,7 +713,24 @@ class MainController extends Controller
             return view('pages.neighborhoodSingle', compact('find', 'site_details', 'login_check', 'neighborhood'));
         }
     }
-
+    public function getComplaints() {
+        //echo "some";
+        $obj = new NavBarHelper();
+        $site_details = $obj->siteData();
+        $login_check = $obj->getCustomerData();
+        if ($login_check != null) {
+            $logged_user= $obj->getCustomerData();
+            return view('pages.complaints', compact('site_details', 'login_check','logged_user'));
+        }
+        else
+        {
+            return view('pages.complaints', compact('site_details', 'login_check'));
+        }
+    }
+    public function postComplaints(Request $request) {
+        //dd($request);
+        Event::fire(new SendCustomerComplaints($request));
+    }
 
    /* public function getDryClean() {
         $obj = new NavBarHelper();

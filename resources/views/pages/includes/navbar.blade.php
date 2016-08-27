@@ -64,6 +64,9 @@
                   @else
                   @endif
               </li>
+              <li>
+                <a href="{{route('getComplaints')}}">Complaints</a>
+              </li>
           </ul>
       </div>
     </div>
