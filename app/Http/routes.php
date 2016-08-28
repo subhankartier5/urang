@@ -132,6 +132,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/change-status-coupon', ['uses' => 'AdminController@ChangeStatusCoupon', 'as' => 'ChangeStatusCoupon']);
     Route::post('/delete-coupon', ['uses' => 'AdminController@postDeleteCoupon', 'as' => 'postDeleteCoupon']);
     Route::get('/payment-history', ['uses' => 'AdminController@getPaymentLog', 'as' => 'getPaymentLog']);
+    Route::post('/search-by-item', ['uses' => 'AdminController@postSearchSchool', 'as' => 'postSearchSchool']);
+    Route::get('/search-of-button', ['uses' => 'AdminController@postSearchByButton', 'as' => 'postSearchByButton']);
 });
 //invoice routes
     Route::post('/fetch-invoice', ['uses' => 'AdminController@fetchInvoice', 'as' => 'postPickUpId']);

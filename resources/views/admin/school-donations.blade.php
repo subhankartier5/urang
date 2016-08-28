@@ -21,6 +21,11 @@
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%;" id="add_percentage" onclick="OpenTextBox()">Add Money Percentage</button>
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;margin-left: 1%; display: none;" id="reset">close</button>
 	               <button type="button" class="btn btn-primary btn-xs" style="float: right;" id="add_school" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Add School</button>
+	               <form role="form" method="get" action="{{route('postSearchByButton')}}" style="margin-left: 55%;">
+	               		<input type="text" name="search_school" id="search_school" onkeypress ="return SearchRes();"  placeholder="school name" />
+	               		<button type="submit" id="search_school" class="btn btn-xs btn-primary"><i class="fa fa-search" aria-hidden="true"></i> search</button>
+	               		<div id="res_temp"></div>
+	               </form>
 	               <div id="errorjs"></div>
 	               <p>School List (School Donation Percentage {{$percentage != null ? $percentage->percentage: '0'}}%)</p>
 	            </div>
@@ -289,5 +294,41 @@
 			$('#errorjs').hide();
 			$('#reset').hide();
 		});
+		function SearchRes() {
+			//console.log($('#search_school').val());
+			var j = 0;
+			$.ajax({
+				url: "{{route('postSearchSchool')}}",
+				type: "POST",
+				data: {search: $('#search_school').val(), _token: "{{Session::token()}}"},
+				success: function(data) {
+					/*console.log(data.length);
+					return;*/
+					if (data.length > 0) 
+					{
+						for(var i=0 ; i<= data.length; i++)
+						{
+							if (data[i]) 
+							{
+								$('#res_temp').append('<a href="#" onclick="return setvalue(\''+data[i].school_name+'\');">'+data[i].school_name+'</a><br>');
+							}	
+						}
+					}
+					else
+					{
+						return false;
+					}
+				}
+			});
+		}
+		function setvalue(name) {
+			//alert('test')
+			$('#search_school').val(name);
+		}
+		/*$(document).ready(function(){
+			$('.click_me').click(function(){
+				alert('hi');
+			});
+		});*/
 	</script>
 @endsection

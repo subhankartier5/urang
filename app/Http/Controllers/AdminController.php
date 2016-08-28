@@ -2058,4 +2058,20 @@ class AdminController extends Controller
         //$coupon_list = Coupon::orderBy('created_at', 'DESC')->get();
         return view('admin.payment-log', compact('user_data', 'site_details', 'payment_log'));
     }
+    public function postSearchSchool(Request $request) {
+        $search_result = SchoolDonations::where('school_name', 'LIKE', '%'.$request->search.'%')->groupBy('school_name')->get();
+        return $search_result;
+    }
+    public function postSearchByButton() {
+        $search = Input::get('search_school');
+        $list_school = SchoolDonations::where('school_name', 'LIKE', '%'.$search.'%')->groupBy('school_name')->paginate(10);
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $site_details = $obj->siteData();
+        //$list_school = SchoolDonations::with('neighborhood')->paginate(10);
+        $neighborhood = Neighborhood::all();
+        $percentage = SchoolDonationPercentage::first();
+        //return view('admin.school-donations', compact('user_data', 'site_details', 'list_school', 'neighborhood', 'percentage'));
+        return view('admin.school-donations')->with('list_school', $list_school)->with('user_data', $user_data)->with('site_details', $site_details)->with('neighborhood', $neighborhood)->with('percentage', $percentage);
+    }
 }
