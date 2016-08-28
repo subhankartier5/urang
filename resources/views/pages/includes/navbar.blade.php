@@ -5,13 +5,13 @@
           <i class="fa fa-navicon"></i>
       </a>
       <a class="navbar-brand scroll" href="{{route('index')}}">
-          <img class="normal-logo hidden-xs" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" />
+          <img class="normal-logo hidden-xs" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" style="height: 51px; width: 132px; margin-left: -40px;" />
           <img class="scroll-logo hidden-xs" src="{{url('/')}}/public/new/img/logo.png" alt="logo" />
           <img class="scroll-logo visible-xs-block" src="{{url('/')}}/public/new/img/logo-white.png" alt="logo" />
       </a>
 
       
-      <div class="navbar-collapse collapse floated" id="navbar-collapse">
+      <div class="navbar-collapse collapse floated" id="navbar-collapse" style="margin-left: 115px;">
           <ul class="nav navbar-nav navbar-with-inside clearfix navbar-right with-border"> 
               <li class="active">
                   @if(auth()->guard('users')->user() == null)
