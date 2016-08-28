@@ -26,7 +26,7 @@ class CreatePickupreqsTable extends Migration
             $table->longText('special_instructions')->nullable();
             $table->longText('driving_instructions')->nullable();
             $table->integer('payment_type')->comment = "1-> card, 2->cod, 3->check_payment";
-            $table->integer('order_status')->comment= "1->order placed, 2->picked up, 3->processed, 4->delivered";
+            $table->integer('order_status')->comment= "1->order placed, 2->picked up, 3->processed, 4->delivered, 5->order_cancelled";
             $table->integer('is_emergency')->comment = "1-> yes , 0-> no";
             $table->string('client_type');
             $table->string('coupon')->nullable();

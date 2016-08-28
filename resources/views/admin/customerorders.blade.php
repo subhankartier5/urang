@@ -111,7 +111,9 @@
                                case '4':
                                    $order_status = "Delivered";
                                    break;
-                               
+                               case '5':
+                                 $order_status ="Cancelled";
+                                 break;
                                default:
                                    $order_status = "Default";
                                    break;
@@ -156,6 +158,7 @@
                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ $pickup->id }}"><i class="fa fa-info" aria-hidden="true"></i></button>
                                  <!-- <button type="button" id="infoButton" data-target="#yyy" class="btn btn-info"><i class="fa fa-info" aria-hidden="true"></i></button> -->
                               </td>
+                              @if($pickup->order_status != 5)
                               <td>
                                 <select class="form-control" id="order_status_{{$pickup->id}}"> 
                                   @if($pickup->order_status == 1)
@@ -194,14 +197,27 @@
                                  <button type="button" class="btn btn-primary" onclick="AskForInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{count($pickup->invoice)}}');">Apply</button>
                               </td>
                            </form>
-                           @if(count($pickup->invoice) > 0)
-                            <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
-                           @else
-                            @if($pickup->order_status == 4 && $pickup->payment_status == 1)
-                              <td>Cannot Recreate Invoice already delivered</td>
+                            @if(count($pickup->invoice) > 0)
+                              <td><button type="button" class="btn btn-primary btn-xs" id="showInv_{{$pickup->id}}" onclick="showDetails('{{$pickup->id}}')"><i class="fa fa-info-circle" aria-hidden="true"></i> Show Details</button></td>
                             @else
-                              <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{$pickup->coupon}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
-                            @endif
+                              @if($pickup->order_status == 4 && $pickup->payment_status == 1)
+                                <td>Cannot Recreate Invoice already delivered</td>
+                              @else
+                                <td><button type="button" class="btn btn-primary btn-xs" id="create_invoice_{{$pickup->id}}" onclick="createInvoice('{{$pickup->id}}', '{{$pickup->user_id}}', '{{$pickup->coupon}}')"><i class="fa fa-plus" aria-hidden="true"></i> Create Invoice</button></td>
+                              @endif
+                           @endif
+                           @else
+                              <td>order cancelled</td>
+                              <td>{{$pickup->coupon == null ? "No Coupon" :$pickup->coupon}}</td>
+                              <td>
+                                {{$pickup->school_donations != null ? $pickup->school_donations->school_name : "No money donated" }}<br> 
+                              @if($pickup->school_donations != null)
+                                <b>Donated Money :</b>
+                              @endif 
+                              {{$pickup->school_donations != null ? '$'.($pickup->total_price*$donate_money_percentage->percentage)/100 : ''}}
+                              </td>
+                              <td>order cancelled</td>
+                              <!-- <td>order cancelled</td> -->
                            @endif
                         </tr>
                         @endforeach

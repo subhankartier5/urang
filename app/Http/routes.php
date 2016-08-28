@@ -51,6 +51,7 @@ Route::group(['middleware' => ['user']], function () {
     Route::get('/my-pickups', ['uses' => 'MainController@getMyPickUps', 'as' => 'getMyPickUp']);
     Route::post('/delete-pickup', ['uses' => 'MainController@postDeletePickUp', 'as' => 'postDeletePickup']);
     Route::post('/show-invoice', ['uses' => 'InvoiceController@showInvoiceUser', 'as' => 'showInvoiceUser']);
+    Route::post('/cancel-order', ['uses' => 'MainController@postCancelOrder', 'as' => 'postCancelOrder']);
 });
 
 

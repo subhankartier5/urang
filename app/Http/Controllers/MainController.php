@@ -762,4 +762,29 @@ class MainController extends Controller
         $page_data = Cms::where('identifier', 4)->first(); 
         return view('stand_alone_pages.wet-cleaning', compact('login_check', 'page_data'));
     }*/
+    public function postCancelOrder(Request $request) {
+        //return $request;
+        $getPickup = Pickupreq::find($request->id);
+        if ($getPickup) {
+            if ($request->flag == 'cancel') {
+                $getPickup->order_status = 5;
+            }
+            else
+            {
+                $getPickup->order_status = 1;
+            }
+            //$getPickup->cancel_order =1;
+            if ($getPickup->save()) {
+                return 1;
+            }
+            else
+            {
+                return "could not save your data";
+            }
+        }
+        else
+        {
+            return "could not find a pickup related to this id";
+        }
+    }
 }
