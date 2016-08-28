@@ -31,7 +31,7 @@
 		    <div class = "table-responsive">
 			   <table class = "table table-bordered">
 			      <thead>
-			         <tr>
+			         <tr id="a_id_to_refresh">
 			            <th>Order ID</th>
 			            <th>Date Order Placed</th>
 			            <th>Pickup Date</th>
@@ -44,20 +44,20 @@
 			            <th>Delete</th>
 			            @if(count($pick_up_req) > 0)
 			      			@foreach($pick_up_req as $req)
-			      				<th id="head_{{$req->id}}">{{$req->order_status != 5 ? "cancel order" : "undo"}}</th>
+			      				<th>{{$req->order_status != 5 ? "cancel order" : "undo"}}</th>
 			      			@endforeach
 			      		@endif
 			            <th>Invoice</th>
 			         </tr>
 			      </thead>
-			      <tbody>
+			      <tbody id="a_id_to_refresh1">
 		      		@if(count($pick_up_req) > 0)
 			      		@foreach($pick_up_req as $req)
 			      			<tr>
 					            <td>{{$req->id}}</td>
 					            <td>{{ date("F jS Y",strtotime($req->OrderTrack->order_placed)) }}</td>
 					            <td>{{$req->OrderTrack->picked_up_date == null ? "Yet not picked up" : date("F jS Y",strtotime($req->OrderTrack->picked_up_date))}}</td>
-					            <td id="status_div">
+					            <td>
 					            	@if($req->order_status == 1)
 					            		Order Placed
 					            	@elseif($req->order_status == 2)
@@ -82,7 +82,7 @@
 				          				<button type="button" id="btn_{{$req->id}}" class="btn btn-danger btn-xs" disabled="true"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				          			@endif
 				          		</td>
-				          		<td id="cancel_div">
+				          		<td>
 				          			@if($req->order_status == 1)
 				          				<button type="button" class="btn btn-xs btn-warning" onclick="return CancelReq('{{$req->id}}', 'cancel');"><i class="fa fa-times" aria-hidden="true"></i></button>
 				          			@elseif($req->order_status == 5)
@@ -184,7 +184,7 @@ function CancelReq(pickup_id , flag) {
 		type: "post",
 		data: {id: pickup_id, flag: flag,  _token: "{{Session::token()}}"},
 		success: function(data) {
-			//console.log(data);
+			console.log(data);
 			if (data == 1) 
 			{	
 				if (flag == 'cancel') 
@@ -195,9 +195,7 @@ function CancelReq(pickup_id , flag) {
 				{
 					$('#jqstatus').html('<div class="alert alert-success">Order Successfully placed again!</div>');
 				}
-				$('#head_'+pickup_id).load(document.URL +  ' #head_'+pickup_id);
-				$('#status_div').load(document.URL +  ' #status_div');
-				$('#cancel_div').load(document.URL +  ' #cancel_div');
+				location.reload();
 			}
 			else
 			{

@@ -164,7 +164,7 @@
 			  </div>
 			  <div class="form-group">
 			    <label for="price" id="pricelbl_0">Price</label>
-			    <input type="number" class="form-control" name="price[]" id="price_0" required=""></input>
+			    <input type="number" step="any" class="form-control" name="price[]" id="price_0" required=""></input>
 			  </div>
 			  <div id="jq_append"></div>
 			  <button type="submit" class="btn btn-primary btn-lg btn-block" id="postItem">Add Item</button>
