@@ -15,7 +15,7 @@
 <!-- ========================== -->
 <!-- HOME - LATEST WORKS -->
 <!-- ========================== -->
-<section class="latest-works-section clearfix">
+<!-- <section class="latest-works-section clearfix">
    <div class="container">
       <div class="section-heading">
          <div class="section-title">Neighborhoods We Service</div>
@@ -41,8 +41,9 @@
       <div class="scroll-bar-wrap ">
          <div class="scroll-bar"></div>
       </div>
-   </div>
+   </div> -->
 </section>
+<a href="" id="scroll_here_n"></a>
 <section class="areas-section with-icon with-top-effect">
 <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
 	<div class="container">
@@ -64,4 +65,11 @@
 	  </div>
 	</div>
 </section>
+<script type="text/javascript">
+   $(document).ready(function(){
+      $('html, body').animate({
+         scrollTop: $('#scroll_here_n').offset().top
+      }, 'slow');
+   });
+</script>
 @endsection

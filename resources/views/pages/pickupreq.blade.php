@@ -6,7 +6,7 @@
 <div class="main-content nycpick">
 <div class="fixed-div">
   <h2><label>Contact Us:</label> (800)959-5785</h2>
-  <h2><label>Email-Id:</label> support@u-rang.com</h2>
+  <h2><label>Email-Id:</label> lisa@u-rang.com</h2>
   <div class="open-square"><i class="fa fa-comments-o" aria-hidden="true"></i> Support</div>
 </div>
     <div class="container">
@@ -19,7 +19,7 @@
           @else
           @endif
           @if(Session::has('success'))
-            <div class="alert alert-success">                               {{Session::get('success')}}
+            <div class="alert alert-success"> {{Session::get('success')}}
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
           @else

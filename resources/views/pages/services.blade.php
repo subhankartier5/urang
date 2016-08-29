@@ -15,6 +15,7 @@
 <!-- ========================== -->
 <!-- SERVICES - STEPS  -->
 <!-- ========================== -->
+<a href="" id="scroll_here"></a>
 <section class="core-features-section">
    <div class="container">
       <div class="section-heading">
@@ -90,7 +91,6 @@
       </div>
    </div>
    <hr>
-   <a href="" id="scroll_here"></a>
    <div class="container tab-content wow fadeInUp" >
       <div role="tabpanel" class="tab-pane" id="tabDry">
          <div class="row">

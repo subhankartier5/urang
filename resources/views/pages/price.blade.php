@@ -21,7 +21,7 @@
       <div class="section-heading " >
          <div class="section-title">Our Prices</div>
          <div class="section-subtitle">
-            Our Master Craftsmen can do miracles--you will be amazed! <br>We offer full service Dry Cleaning & shirt Laundry, We also professionally clean Leather & Suede
+            Our Master Craftsmen can do miracles--you will be amazed! <br>we offer full service Dry Cleaning, Green Cleaning (chemical free) and Wash & Fold , We also professionally clean Leather & Suede
          </div>
          <div class="design-arrow"></div>
       </div>

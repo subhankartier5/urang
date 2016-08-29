@@ -58,7 +58,7 @@
                <h5>Contact info</h5>
                <ul class="contacts-list">
                   <li>
-                     <p><i class="icon icon-House"></i>150 Broad Street<br/>
+                     <p><i class="icon icon-House"></i>15 Broad Street<br/>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New York, NY 10005
                      </p>
                   </li>
@@ -66,7 +66,7 @@
                      <p><i class="icon icon-Phone2"></i>(800)959-5785</p>
                   </li>
                   <li>
-                     <p><i class="icon icon-Mail"></i><a href="mailto:support@oscend.com">support@u-rang.com</a> </p>
+                     <p><i class="icon icon-Mail"></i><a href="mailto:lisa@u-rang.com">lisa@u-rang.com</a> </p>
                   </li>
                </ul>
             </div>

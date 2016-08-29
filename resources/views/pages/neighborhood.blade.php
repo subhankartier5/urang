@@ -5,6 +5,7 @@
    <div class="header-container wow fadeInUp">
       <div class="header-title">
          <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
+         <a href="" id="scroll_here_n"></a>
          <div class="title">neighborhoods</div>
          <em>Concierge Dry Cleaning Service<br>
          Owned and Operated Facility in Manhattan</em>
@@ -93,4 +94,11 @@
    No Data
    @endif
 </section>
+<script type="text/javascript">
+   $(document).ready(function(){
+      $('html, body').animate({
+         scrollTop: $('#scroll_here_n').offset().top
+      }, 'slow');
+   });
+</script>
 @endsection

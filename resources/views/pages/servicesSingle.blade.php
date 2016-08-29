@@ -6,6 +6,7 @@
       <div class="header-title">
          <div class="header-icon"><span class="icon icon-Wheelbarrow"></span></div>
          <div class="title">our services</div>
+         <a href="" id="scroll_here"></a>
          <em>Concierge Dry Cleaning Service<br>
          Owned and Operated Facility in Manhattan</em>
       </div>
@@ -53,7 +54,6 @@
       </div>
    </div>
    <hr>
-   <a href="" id="scroll_here"></a>
    <div class="container tab-content wow fadeInUp">
       <div role="tabpanel" class="tab-pane active" id="tabDry">
          <div class="row">

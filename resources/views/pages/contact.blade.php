@@ -29,7 +29,7 @@
                                                 address
                                             </div>
                                             <div class="info pull-right text-right">
-                                                <p class="no-margin">150 Broad Steet New York, NY 10005</p>
+                                                <p class="no-margin">15 Broad Steet New York, NY 10005</p>
                                                 <p class="no-margin">355 E 23rd Street New York, NY 10010</p>
                                             </div>
                                         </div>
@@ -48,10 +48,10 @@
                                                 email
                                             </div>
                                             <div class="info pull-right text-right">
-                                                <p class="no-margin">support@u-rang.com</p>
+                                                <p class="no-margin">lisa@u-rang.com</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 clearfix">
+                                        <!-- <div class="col-md-12 clearfix">
                                             <div class="type-info pull-left">
                                                 <i class="icon icon-Mouse"></i>
                                                 Skype Chat
@@ -59,7 +59,7 @@
                                             <div class="info pull-right text-right">
                                                 <p class="no-margin">u-rang</p>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
