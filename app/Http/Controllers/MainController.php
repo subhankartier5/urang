@@ -27,15 +27,14 @@ use App\SchoolPreferences;
 use App\Events\SendEmailOnSignUp;
 use App\Events\SendCustomerComplaints;
 use Illuminate\Support\Facades\Event;
+use App\IndexContent;
 class MainController extends Controller
 {
     public function getIndex() {
-        //dd(1);
         $obj = new NavBarHelper();
         $site_details = $obj->siteData();
-        //$neighborhood = $obj->getNeighborhood();
-        //dd($neighborhood);
-        return view('pages.index', compact('site_details'));
+        $cms =  IndexContent::first();
+        return view('pages.index', compact('site_details', 'cms'));
     }
     public function getLogin() {
         $user = auth()->guard('users');

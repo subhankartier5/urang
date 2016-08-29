@@ -34,6 +34,7 @@ use App\PickUpTime;
 use DateTime;
 use App\OrderTracker;
 use App\Coupon;
+use App\IndexContent;
 class AdminController extends Controller
 {
     public function index() {
@@ -1042,6 +1043,79 @@ class AdminController extends Controller
             return redirect()->route('getCustomerOrders');
         }
 
+    }
+    public function getCmsIndexPage() {
+        $obj = new NavBarHelper();
+        $user_data = $obj->getUserData();
+        $cms_data = IndexContent::first();
+        return view('admin.cms-index', compact('user_data', 'cms_data'));
+    }
+    public function postSaveCmsIndex(Request $request) {
+        //dd($request);
+        $search = IndexContent::first();
+        if ($search) {
+            $search->tag_line = $request->tag;
+            $search->header = $request->header;
+            $search->tag_line_2 = $request->tag_2;
+            $search->tag_line_3 = $request->tag_3;
+            $search->tag_line_4 = $request->tag_4;
+            $search->head_setion = $request->head_section;
+            $search->contents = $request->content;
+            $search->head_section_2 = $request->head_section_2;
+            $search->contents_2 = $request->content_2;
+            if ($request->image) {
+                $image = $request->image;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';   // upload path
+                $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+                $image->move($destinationPath, $fileName); // uploading file to given path 
+                //return $fileName;
+                /*$isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);*/
+            }
+            $search->image = $fileName;
+            if ($search->save()) {
+                return redirect()->route('getCmsIndexPage')->with('success', 'Data Saved Successfully!');
+            }
+            else
+            {
+                return redirect()->route('getCmsIndexPage')->with('fail', 'Data Saved Successfully!');
+            }
+        }
+        else
+        {
+            //new record first time
+            $new_rec = new IndexContent();
+            $new_rec->tag_line = $request->tag;
+            $new_rec->header = $request->header;
+            $new_rec->tag_line_2 = $request->tag_2;
+            $new_rec->tag_line_3 = $request->tag_3;
+            $new_rec->tag_line_4 = $request->tag_4;
+            $new_rec->head_setion = $request->head_section;
+            $new_rec->contents = $request->content;
+            $new_rec->head_section_2 = $request->head_section_2;
+            $new_rec->contents_2 = $request->content_2;
+            if ($request->image) {
+                $image = $request->image;
+                $extension =$image->getClientOriginalExtension();
+                $destinationPath = 'public/dump_images/';   // upload path
+                $fileName = rand(111111111,999999999).'.'.$extension; // renameing image
+                $image->move($destinationPath, $fileName); // uploading file to given path 
+                //return $fileName;
+                /*$isDataExists->background_image = $fileName;
+                $img = Image::make('public/dump_images/'.$fileName)->resize(250, 150);
+                $img->save('public/app_images/'.$img->basename);*/
+            }
+            $new_rec->image = $fileName;
+            if ($new_rec->save()) {
+                return redirect()->route('getCmsIndexPage')->with('success', 'Data Saved Successfully!');
+            }
+            else
+            {
+                return redirect()->route('getCmsIndexPage')->with('fail', 'Data Saved Successfully!');
+            }
+        }
     }
     public function getCmsDryClean() {
         //echo "text";

@@ -178,34 +178,24 @@
       <div class="row">
           <div class="col-md-7 col-sm-7 text-right">
               <div class="clearfix " style="padding-right: 3px;">
-                  <div class="above-title">We think, We Listen, We Care</div>
-                  <h4>Areas of expertise</h4>
+                  <div class="above-title">{!!$cms->tag_line!!}</div>
+                  <h4>{!! $cms->header !!}</h4>
               </div>
-              <div><em>We cover every aspect of a domestic concierge servcice.</em></div>
-              <p>Serving NYC online for over 10 years.</p>
+              <div><em>{!!$cms->tag_line_2!!}</em></div>
+              <p>{!! $cms->tag_line_3 !!}</p>
               <div class="design-arrow inline-arrow"></div>
-              <p class="large">Fine Dry Cleaning and Laundry Service in New York City - Straight to Your Door</p>
-              <p>Owned and Operated facility in Manhattan</p>
+              <p class="large">{!!$cms->tag_line_4!!}</p>
+              <p>{!!$cms->head_setion!!}</p>
               <p>
               <ul style="font-size: 12px; font-weight: 100; line-height: 16px; font-family: 'Raleway', sans-serif; margin: 0 0 2.14em;">
-                  <li>Organic cleaning, offering our clients wet cleaning service in New York City (NYC), true Eco-friendly cleaning.</li>
-                  <li>Free pick-up and delivery on all dry cleaning and wash and fold service in NYC.</li> 
-                  <li>The finest Wash & Fold, laundry Service in New York City. </li>
-                  <li>Expert stain removal and restoration for your fine garments.</li> 
-                  <li>Each garment is personally inspected and treated for the highest quality.</li>
-                  <li>We clean the finest leather and suede.</li>
-                  <li>We offer you full storage on all your clothes including a fur vault.</li>
+                  {!! $cms->contents !!}
               <br />
-                  <p class="large">Corporate</p>
-                  <p>All Coporate Events from Catering and Uniforms to Large Sports Events</p>
-                  <li>Dry Cleaning service for staff and buildings</li>
-                  <li>Work directly with property management companies and property mangers</li>
-                  <li>Laundry and dry cleaning service for corporate events and special events</li>
-                  <li>Executive Wash & Fold service for nursery schools, Hedge funds, Executive gyms and corporate companies.</li>
+                  <p class="large">{!! $cms->head_section_2 !!}</p>
+                  {!! $cms->contents_2 !!}
               </ul>
           </div>
           <div class="col-md-5 col-sm-5 text-center">
-              <img src="{{url('/')}}/public/new/img/areas.png" alt="" class="img-responsive" />
+              <img src="{{url('/')}}/public/dump_images/{{$cms->image}}" alt="image" class="img-responsive" />
           </div>
       </div>
   </div>

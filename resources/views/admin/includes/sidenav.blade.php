@@ -65,6 +65,9 @@
                     <a href="#"><i class="fa fa-files-o fa-fw"></i> Cms<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
+                            <a href="{{route('getCmsIndexPage')}}">Index Page</a>
+                        </li>
+                        <li>
                             <a href="{{route('getCmsDryClean')}}">Dry Clean Page</a>
                         </li>
                         <li>

@@ -109,6 +109,8 @@ Route::group(['middleware' => ['auth']], function () {
     	Route::post('/save-tailoring', ['uses' => 'AdminController@postTailoring', 'as' => 'postTailoring']);
     	Route::get('/wet-cleaning', ['uses' => 'AdminController@getWetCleaning', 'as' => 'getWetCleaning']);
     	Route::post('/save-wet-cleaning',['uses' => 'AdminController@postWetCleaning', 'as' => 'postWetCleaning']);
+        Route::get('/index-page-control', ['uses' => 'AdminController@getCmsIndexPage', 'as' => 'getCmsIndexPage']);
+        Route::post('/save-index-content', ['uses' => 'AdminController@postSaveCmsIndex', 'as' => 'postSaveCmsIndex']);
     });
     Route::post('/add-item-custom-Admin',['uses' => 'AdminController@addItemCustomAdmin','as'=>'addItemCustomAdmin']);
     Route::get('/pending-payments', ['uses' => 'PaymentController@getManageClientPayment', 'as' => 'getManageClientPayment']);
